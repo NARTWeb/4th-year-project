@@ -41,5 +41,13 @@ export default{
     findSthNew: {
         search: "add new friend",
         create: "create new group",
+    },
+    createGroup: {
+        avatarLabel: "avatar",
+        addAvatar: "add Avatar",
+        groupName: "Group Name",
+        groupNameHolder: "Please Input",
+        addMember: "Add Member",
+        create: 'Create Group',
     }
 }

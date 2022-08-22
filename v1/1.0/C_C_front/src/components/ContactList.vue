@@ -433,7 +433,7 @@ onMounted(()=> {
   }
 })
 </script>
-<style>
+<style scoped>
 .main-scroll {
   display: -webkit-flex; /* Safari */
   display: flex;

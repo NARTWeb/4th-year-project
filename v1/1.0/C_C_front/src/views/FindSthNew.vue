@@ -4,7 +4,7 @@
       <el-header>
         <div class="flex">
           <div class="input">
-            <el-input v-model="input" size="large" placeholder="search" />
+            <el-input v-model="input" size="large" placeholder="search"/>
           </div>
           <div class="btn1">
             <el-button type="primary" size="large" 
@@ -29,6 +29,8 @@
 </template>
 <script setup>
 import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const page = {
   loading: false,
   nodata: false,
@@ -46,10 +48,10 @@ function searchNew() {
   });
 }
 function createGroup() {
-  router.push({ name });
+  router.push({ path: '/findSthNew/createGroup' });
 }
 </script>
-<style>
+<style scoped>
 .flex {
   display: -webkit-flex; /* Safari */
   display: flex;

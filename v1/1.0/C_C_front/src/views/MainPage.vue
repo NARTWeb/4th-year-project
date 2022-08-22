@@ -194,7 +194,7 @@ function toSearch() {
   alert(t("contactList.friend.ListError"));
 }
 </script>
-<style>
+<style scoped>
 .header-row {
   display: -webkit-flex; /* Safari */
   display: flex;
