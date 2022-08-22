@@ -1,0 +1,66 @@
+<template>
+  <div class="common-layout">
+    <el-container>
+      <el-header>
+        <div class="flex">
+          <div class="input">
+            <el-input v-model="input" size="large" placeholder="search" />
+          </div>
+          <div class="btn1">
+            <el-button type="primary" size="large" 
+                round @click="searchNew">{{
+              $t("findSthNew.search")
+            }}</el-button>
+          </div>
+          <div class="btn2">
+            <el-button type="primary" size="large" 
+                round @click="createGroup">{{
+              $t("findSthNew.create")
+            }}</el-button>
+          </div>
+        </div>
+        <el-divider />
+      </el-header>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
+  </div>
+</template>
+<script setup>
+import { reactive, ref } from "vue";
+const page = {
+  loading: false,
+  nodata: false,
+  pageSize: 6,
+  pageNum: 0,
+};
+var input = ref("");
+function searchNew() {
+  router.push({
+    name,
+    params: {
+      input: input.value,
+      page,
+    },
+  });
+}
+function createGroup() {
+  router.push({ name });
+}
+</script>
+<style>
+.flex {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+}
+.input {
+  -webkit-flex: initial;
+  flex: initial;
+  width: 50vw;
+  min-width: 200px;
+}
+</style>

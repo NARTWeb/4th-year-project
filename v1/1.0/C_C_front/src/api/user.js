@@ -1,0 +1,69 @@
+import req from "@/request";
+
+export function signin(uname, pwd) {
+    const data = {
+        uname,
+        pwd
+    }
+  return req({
+    method: "put",
+    url: "/user/login",
+    data
+  });
+}
+
+export function signout(token) {
+    return req({
+        headers: {'Authorization': token},
+        url: '/user/logout',
+        method: 'put'
+    });
+}
+
+export function register(uname, pwd, email) {
+    const data = {
+        uname,
+        pwd,
+        email
+    }
+    return req({
+        method: 'post',
+        url: '/user/register',
+        data
+    });
+}
+
+export function showAvatarUname(token) {
+    return req({
+        headers: {'Authorization':token},
+        method: 'get',
+        url: '/user'
+    });
+}
+
+export function showUserInfo(token) {
+    return req({
+        headers: {'Authorization':token},
+        method: 'get',
+        url: '/user/info'
+    });
+}
+
+export function changeUserInfo(token, userInfo) {
+    return req({
+        headers: {'Authorization':token},
+        method: 'put',
+        url: '/user/changeInfo',
+        data: {
+            avatar: userInfo.avatar,
+            uname: userInfo.uname,
+            oldPwd: userInfo.oldPwd,
+            pwd: userInfo.pwd,
+            email: userInfo.email,
+            birthday: userInfo.birthday,
+            phone: userInfo.phone,
+            address: userInfo.address
+        }
+    });
+}
+
