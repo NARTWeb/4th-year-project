@@ -1,0 +1,9 @@
+
+
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://132.145.110.184:3306/c_c?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
+        username: nart
+        password: 1234
