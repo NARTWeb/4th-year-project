@@ -105,17 +105,7 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
-                <status-item
-                  statusId="3721893"
-                  avatar="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                  uname="like"
-                  message="hfduaksbfhdjksvafhguvidsalfndjkzfhdsnhajkflb dsufioaehbfjkdlsavf huidhaf dkjslhf jdhsabfs"
-                  :pictures="pics"
-                  :comments="cList"
-                  :heartNum="100"
-                  :date="new Date()"
-                  :key="28901"
-                  ></status-item>
+                <chat-input-box @add-pic="alert('asdfghjk')"></chat-input-box>
                 <router-view></router-view>
               </el-main>
             </el-container>
@@ -138,6 +128,7 @@ import { useI18n } from "vue-i18n";
 import AcceptableItem from "../components/AcceptableItem.vue";
 import ResultItem from "../components/ResultItem.vue";
 import StatusItem from "../components/StatusItem.vue";
+import ChatInputBox from "../components/ChatInputBox.vue";
 
 const pics = [
   'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
