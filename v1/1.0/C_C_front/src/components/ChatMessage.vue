@@ -26,7 +26,7 @@
             </div>
             <div class="wrap">
               <div class="content">
-                <div>{{ message }}</div>
+                <div class="text">{{ message }}</div>
               </div>
               <div>
                 <div>{{ time }}</div>
@@ -53,7 +53,10 @@ function isGroup() {
 }
 
 </script>
-<style>
+<style scoped>
+.text{
+  word-break: 70vw;
+}
 
 .bubble {
       padding: 6px;
