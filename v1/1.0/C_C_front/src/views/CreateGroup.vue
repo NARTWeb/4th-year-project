@@ -96,7 +96,7 @@ function uploadFun() {
   uploadPic(uploadRef)
     .then((res) => {
       if (res.data.success) {
-        img = res.data.data;
+        img.value = res.data.data;
       } else {
         this.$message({
           type: "error",

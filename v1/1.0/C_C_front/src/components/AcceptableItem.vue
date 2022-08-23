@@ -28,61 +28,63 @@
     <el-divider />
   </div>
 </template>
-<script setup>
-const props = defineProps({
-  avatar: String,
-  name: String,
-  senderName: String,
-  message: String,
-  buttonLabel1: String,
-  buttonLabel2: String,
-  key: String,
-});
-const emit = defineEmits(['accept', 'reject']);
 
-function acceptBtn() {
-  emit("accept");
-}
-function rejectBtn() {
-  emit("reject");
-}
+<script setup>
+    const props = defineProps({
+    avatar: String,
+    name: String,
+    senderName: String,
+    message: String,
+    buttonLabel1: String,
+    buttonLabel2: String,
+    key: String,
+    });
+    const emit = defineEmits(['accept', 'reject']);
+
+    function acceptBtn() {
+        emit("accept");
+    }
+    function rejectBtn() {
+        emit("reject");
+    }
 </script>
+
 <style scoped>
-.all {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-#left {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
-}
-.top {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-#right {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-.label {
-  margin-left: 20px;
-}
-span {
-  font-size: x-large;
-}
-#s2 {
-  font-weight: 600;
-}
-.right-btn1 {
-  margin-left: 5vw;
-}
+    .all {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    }
+    #left {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    }
+    .top {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+    #right {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    }
+    .label {
+    margin-left: 20px;
+    }
+    span {
+    font-size: x-large;
+    }
+    #s2 {
+    font-weight: 600;
+    }
+    .right-btn1 {
+    margin-left: 5vw;
+    }
 </style>

@@ -251,7 +251,7 @@ function load() {
           } else {
             nodata.value = false;
             list.push(...res.data.data);
-            pageN += 1;
+            pageN.value += 1;
           }
         } else {
           this.$message({

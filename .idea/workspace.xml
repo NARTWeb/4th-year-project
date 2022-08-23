@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="82f70ce6-e37a-44fe-8495-dc9b5481b67a" name="Changes" comment="" />
+    <list default="true" id="82f70ce6-e37a-44fe-8495-dc9b5481b67a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/v1/1.0/C_C_front/src/components/AcceptableItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/v1/1.0/C_C_front/src/components/AcceptableItem.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +20,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2DaEQEHeZJGmKEnX5P37Or8gaoP" />
   <component name="ProjectViewState">
@@ -40,6 +46,7 @@
       <option name="presentableId" value="Default" />
       <updated>1660928777644</updated>
       <workItem from="1660928779404" duration="888000" />
+      <workItem from="1661204438717" duration="1518000" />
     </task>
     <servers />
   </component>
