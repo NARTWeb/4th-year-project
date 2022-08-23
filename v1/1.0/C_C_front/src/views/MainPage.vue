@@ -220,7 +220,7 @@ function btn() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 0px;
   padding-left: 10px;
 }
 .col2-input {
@@ -243,10 +243,12 @@ function btn() {
 }
 #mainAside {
   min-width: 150px;
+  min-height: 400px;
   z-index: 5;
 }
 .main-bar {
   z-index: 4;
+  min-height: 400px;
 }
 #m1 {
   width: 50%;
@@ -282,8 +284,9 @@ function btn() {
   display: -webkit-flex; /* Safari */
   display: flex;
   justify-content: flex-start;
-  align-items: stretch;
+  align-items: flex-end;
   padding: 0;
+  margin-bottom: -1vh;
 }
 .el-menu-demo {
   height: 7vh;
@@ -298,6 +301,7 @@ function btn() {
 .mainPart {
   z-index: 5;
   min-width: 300px;
+  min-height: 400px;
   height: 78vh;
   overflow: visible;
   margin-top: 0;
@@ -317,6 +321,7 @@ function btn() {
   align-items: flex-start;
   align-content: flex-start;
   min-width: 660px;
+  min-height: 400px;
 }
 .el-dropdown-link {
   margin-left: -5vw;

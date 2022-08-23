@@ -12,7 +12,7 @@
       </template>
     </el-dialog>
     <div class="main-scroll">
-      <el-scrollbar height="77.5vh" class="scroll-bar">
+      <el-scrollbar height="77.5vh" id="scroll-bar">
         <ul v-infinite-scroll="test" class="infinite-list">
           <li
             v-for="member in list"
@@ -463,6 +463,7 @@ watch (
   display: flex;
   flex-flow: column wrap;
   min-width: v-bind(minW);
+  min-height: 400px;
   z-index: 5;
 }
 .colm {
@@ -473,8 +474,10 @@ watch (
   text-align: center;
   margin-left: -25px;
 }
-.scroll-bar {
+#scroll-bar {
   margin-top: 0%;
+  min-height: 400px;
+  overflow-y: visible;
 }
 .infinite-list {
   margin-left: -45%;
@@ -483,6 +486,7 @@ watch (
   flex-flow: column wrap;
   justify-content: center;
   z-index: 4;
+  min-height: 400px;
 }
 .infinite-list-item {
   display: -webkit-flex; /* Safari */
@@ -498,6 +502,7 @@ watch (
 }
 .all {
   overflow: clip;
+  min-height: 400px;
 }
 .popLabel {
   display: inline-block;
