@@ -23,7 +23,11 @@
           <div class="col3">
             <el-dropdown trigger="click">
               <span class="el-dropdown-link">
-                <el-avatar :src="avatar" fit="contain" style="width: 50px; height: 50px;"/>
+                <el-avatar
+                  :src="avatar"
+                  fit="contain"
+                  style="width: 50px; height: 50px"
+                />
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
@@ -58,27 +62,27 @@
             <div class="header-text t2">{{ $t("main.bar.item2") }}</div>
             <div>
               <el-menu
-              class="el-menu-demo"
-              mode="horizontal"
-              background-color="#545c64"
-              text-color="#fff"
-              active-text-color="#ffd04b"
-              :ellipsis="false"
-              router
-            >
-              <el-menu-item index="findSthNew" class="menuItem">{{
-                $t("main.bar.item3")
-              }}</el-menu-item>
-              <el-menu-item index="friendRequests" class="menuItem">{{
-                $t("main.bar.item4")
-              }}</el-menu-item>
-              <el-menu-item index="groupInvites" class="menuItem">{{
-                $t("main.bar.item5")
-              }}</el-menu-item>
-              <el-menu-item index="status" class="menuItem">{{
-                $t("main.bar.item6")
-              }}</el-menu-item>
-            </el-menu>
+                class="el-menu-demo"
+                mode="horizontal"
+                background-color="#545c64"
+                text-color="#fff"
+                active-text-color="#ffd04b"
+                :ellipsis="false"
+                router
+              >
+                <el-menu-item index="findSthNew" class="menuItem">{{
+                  $t("main.bar.item3")
+                }}</el-menu-item>
+                <el-menu-item index="friendRequests" class="menuItem">{{
+                  $t("main.bar.item4")
+                }}</el-menu-item>
+                <el-menu-item index="groupInvites" class="menuItem">{{
+                  $t("main.bar.item5")
+                }}</el-menu-item>
+                <el-menu-item index="status" class="menuItem">{{
+                  $t("main.bar.item6")
+                }}</el-menu-item>
+              </el-menu>
             </div>
           </el-header>
           <el-main class="main-main">
@@ -102,12 +106,30 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
-                <chat-message avatar=""
-                              name="abby"
-                              message="cfgvhjbfghjkljhgfdghyjukjyhtgrthyuytrgtyuiythgrfthyjukjyhgffghjjkhgfdfghjkhjgfhdgfhgjhkgjfhdgknkljhuigyutfyrtyctvybuogvyficdtxrutcgihvoufydcitxgckhvyfditxgjhvlfyodickhyfdoitxcydidyci"
-                              time="11.10"
-                              isMe="false"
-                              id="fghj"></chat-message>
+                <chat-message
+                  avatar="https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
+                  name="abby"
+                  message="cfgvhjbfghjkljhgfdghyjukjyhtgrthyuytrgtyuiythgrfthyjukjyhgffghjjkhgfdfghjkhjgfhdgfhgjhkgjfhdgknkljhuigyutfyrtyctvybuogvyficdtxrutcgihvoufydcitxgckhvyfditxgjhvlfyodickhyfdoitxcydidyci"
+                  time="11.10"
+                  :isMe="false"
+                  id="fghj"
+                ></chat-message>
+                <chat-message
+                  avatar="https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
+                  name="abby"
+                  message="cfgvhjbfghjkljhgfdghyjukjyhtgrthyuytrgtyuiythgrfthyjukjyhgffghjjkhgfdfghjkhjgfhdgfhgjhkgjfhdgknkljhuigyutfyrtyctvybuogvyficdtxrutcgihvoufydcitxgckhvyfditxgjhvlfyodickhyfdoitxcydidyci"
+                  time="11.10"
+                  :isMe="true"
+                  id="fghj"
+                ></chat-message>
+                <chat-message
+                  avatar="https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
+                  name="abby"
+                  message="cfgvhjbfghjkljhgfdghyj"
+                  time="11.10"
+                  :isMe="true"
+                  id="fghj"
+                ></chat-message>
                 <router-view></router-view>
               </el-main>
             </el-container>
@@ -131,27 +153,6 @@ import AcceptableItem from "../components/AcceptableItem.vue";
 import ResultItem from "../components/ResultItem.vue";
 import StatusItem from "../components/StatusItem.vue";
 import ChatMessage from "../components/ChatMessage.vue";
-
-const pics = [
-  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
-  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
-  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
-  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
-  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
-  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
-  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
-  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
-  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
-  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
-];
-const cList = [
-  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
-  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
-  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
-  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
-  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
-  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
-]
 
 const store = useUserStore();
 const { name, avatar, token } = storeToRefs(store);
@@ -218,10 +219,13 @@ function toSearch() {
   alert(t("contactList.friend.ListError"));
 }
 function btn() {
-  alert('djhskadsa');
+  alert("djhskadsa");
 }
 </script>
 <style scoped>
+.el-main {
+  overflow:visible;
+}
 .header-row {
   display: -webkit-flex; /* Safari */
   display: flex;
@@ -281,7 +285,7 @@ function btn() {
   margin-left: 0;
   padding: 0;
 }
-.t1{
+.t1 {
   min-width: 60px;
 }
 .t2 {
@@ -294,6 +298,7 @@ function btn() {
   align-items: flex-end;
   padding: 0;
   margin-bottom: -1vh;
+  min-width: 810px;
 }
 .el-menu-demo {
   height: 7vh;
@@ -307,7 +312,8 @@ function btn() {
 }
 .mainPart {
   z-index: 5;
-  min-width: 300px;
+  flex:auto;
+  min-width: 660px;
   min-height: 400px;
   height: 78vh;
   overflow: visible;
