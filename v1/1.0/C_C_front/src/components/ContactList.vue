@@ -101,7 +101,7 @@
   </div>
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import { useUserStore } from "../stores/userStore";
 import { storeToRefs } from "pinia";
 import { Delete } from "@element-plus/icons-vue";
@@ -122,6 +122,7 @@ import {
 import { UserFilled } from "@element-plus/icons-vue";
 import { useI18n } from "vue-i18n";
 import { onMounted } from 'vue'
+import { min } from "lodash";
 const props = defineProps({
   isFriend: Boolean,
   showAll: Boolean,
@@ -136,7 +137,9 @@ const loading = ref(false);
 const nodata = ref(false);
 const pageN = ref(props.param.page.pageNum);
 const store = useUserStore();
-const { token } = storeToRefs(store);
+const { token} = storeToRefs(store);
+const minW = ref('60px');
+store.logout();
 const btnSize = "default";
 var list = reactive([]);
 var selectMember = reactive({});
@@ -173,7 +176,7 @@ function test() {
       id: "3642178321",
       name: "mike",
       avatar: "hdfsjakdsa",
-      state: 0,
+      state: 1,
     },
     {
       id: "3642178321",
@@ -292,6 +295,7 @@ function hide(id) {
         for (var i = 0; i < list.length; i++) {
           if (list[i].id == id) {
             list.splice(i, 1);
+            break;
           }
         }
       } else {
@@ -441,14 +445,25 @@ onMounted(()=> {
     bgColor.backgroundColor = '#fef0f0';
   } else {
      bgColor.backgroundColor = '#faecd8';
+     minW.value = '90px';
   }
 })
+watch (
+  () => list.length,
+  (length) => {
+    if(length <= props.param.page.pageSize ) {
+      load();
+    }
+  }
+)
 </script>
 <style scoped>
 .main-scroll {
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-flow: column wrap;
+  min-width: v-bind(minW);
+  z-index: 5;
 }
 .colm {
   display: -webkit-flex; /* Safari */
@@ -456,22 +471,30 @@ onMounted(()=> {
   flex-flow: column wrap;
   justify-content: center;
   text-align: center;
+  margin-left: -25px;
 }
 .scroll-bar {
   margin-top: 0%;
 }
 .infinite-list {
   margin-left: -45%;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  z-index: 4;
 }
 .infinite-list-item {
+  display: -webkit-flex; /* Safari */
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 70px;
-  min-width: 70px;
+  min-height: v-bind(minW);
+  min-width: v-bind(minW);
   background-color: v-bind("bgColor.backgroundColor");
   text-align: center;
+  z-index: 4;
 }
 .all {
   overflow: clip;

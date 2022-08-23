@@ -54,6 +54,17 @@ export default{
         commentPlaceHolder: "make a comment",
     },
     reqList: {
-        loadError: "fail to load friend requests"
+        loadError: "fail to load friend requests",
+        acceptError: "fail to accept the request!",
+        rejectError: "fail to reject the request!",
+        reject: "Reject",
+        accept: "Accept",
+    },
+    inviteList: {
+        loadError: "fail to load group invitations",
+        acceptError: "fail to accept the invitation!",
+        rejectError: "fail to reject the invitation!",
+        reject: "Reject",
+        accept: "Accept",
     }
 }

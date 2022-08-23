@@ -56,7 +56,7 @@ const props = defineProps({
   heart: Boolean,
   heartNum: Number,
   date: Date,
-  key: String,
+  id: String,
 });
 const store = useUserStore();
 const { name, avatar, token } = storeToRefs(store);
