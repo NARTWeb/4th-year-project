@@ -14,43 +14,87 @@
         </div>
       </div>
     </div>
-      <div id="down">
-        <div :class="iconClass" @click="test" id="like"></div>
-        <el-button round type="primary" @click="makeComment">...</el-button>
+    <div id="down">
+      <div :class="iconClass" @click="likeS" id="like"></div>
+      <el-button round type="primary" @click="startCom">...</el-button>
+    </div>
+    <div id="bottom">
+      <div id="bt1">
+        <el-input
+          v-model="input"
+          :placeholder="t('statusItem.commentPlaceHolder')"
+          @change="makeCom"
+        />
       </div>
+    </div>
+    <div id="comments">
+      <comment-list
+        :comment-List="commentList"
+        ></comment-list>
+    </div>
   </div>
 </template>
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted } from "vue";
 import { reactive, ref } from "vue";
+import { likeStatus } from "../api/status";
+import { postComment } from "../api/comment";
+import { useI18n } from "vue-i18n";
+import CommentList from "./CommentList.vue";
+import { useUserStore } from "../stores/userStore";
+import { storeToRefs } from "pinia";
 
+const { t } = useI18n();
+const commentDisplay = ref('none');
 const props = defineProps({
   statusId: String,
   avatar: String,
   uname: String,
   message: String,
   pictures: Array,
+  comments: Array,
   heart: Boolean,
   heartNum: Number,
   date: Date,
   key: String,
 });
-
+const store = useUserStore();
+const { name, avatar, token } = storeToRefs(store);
+const commentList = reactive(props.comments);
 const like = ref(props.heart);
 const iconClass = ref("iconfont icon-aixin");
-function test() {
+const input = ref('');
+function likeS() {
   like.value = like.value ? false : true;
-  if(like.value) {
+  if (like.value) {
     iconClass.value = "iconfont icon-aixin_shixin like";
   } else {
     iconClass.value = "iconfont icon-aixin";
   }
 }
 
-function makeComment() {}
+function startCom() {
+  if(commentDisplay.value == 'none') {
+    commentDisplay.value = '';
+  } else {
+    commentDisplay.value = 'none';
+  }
+}
+
+function makeCom() {
+  alert(input.value);
+  let comment = {
+    id:"738291",
+    uname:name,
+    msg:input.value,
+    date:'now'
+  }
+  commentList.unshift(comment);
+  input.value = '';
+}
 
 onMounted(() => {
-  if(like.value) {
+  if (like.value) {
     iconClass.value = "iconfont icon-aixin_shixin like";
   }
 });
@@ -76,7 +120,7 @@ img {
   min-height: 100px;
   margin-left: 5px;
 }
-.name{
+.name {
   text-align: center;
   font-size: 1em;
   font-weight: 500;
@@ -110,5 +154,15 @@ img {
 }
 #like {
   margin-right: 20px;
+}
+#bottom {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+#bt1 {
+  width:80%;
+  display: v-bind(commentDisplay);
 }
 </style>

@@ -49,5 +49,8 @@ export default{
         groupNameHolder: "Please Input",
         addMember: "Add Member",
         create: 'Create Group',
+    },
+    statusItem: {
+        commentPlaceHolder: "make a comment",
     }
 }

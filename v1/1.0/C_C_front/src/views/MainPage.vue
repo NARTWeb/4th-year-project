@@ -23,7 +23,7 @@
           <div class="col3">
             <el-dropdown trigger="click">
               <span class="el-dropdown-link">
-                <el-avatar :src="avatar" />
+                <el-avatar :src="avatar" fit="contain"/>
                 <el-icon class="el-icon--right">
                   <arrow-down />
                 </el-icon>
@@ -105,30 +105,13 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
-                <acceptable-item 
-                  avatar="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                  name="tony"
-                  senderName="mike"
-                  message="come or not?"
-                  button-label1="accept"  
-                  button-label2="reject"
-                  key="3721893"
-                  @accept="btn"
-                  @reject="btn"></acceptable-item>
-                <result-item
-                  avatar="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                  username="Tony"
-                  button-label="invite"
-                  key="37821931"
-                  @btnFunc="btn"
-                  @delItem="btn"
-                  ></result-item>
                 <status-item
                   statusId="3721893"
                   avatar="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
                   uname="like"
                   message="hfduaksbfhdjksvafhguvidsalfndjkzfhdsnhajkflb dsufioaehbfjkdlsavf huidhaf dkjslhf jdhsabfs"
                   :pictures="pics"
+                  :comments="cList"
                   :heartNum="100"
                   :date="new Date()"
                   :key="28901"
@@ -168,6 +151,14 @@ const pics = [
   'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
   'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
 ];
+const cList = [
+  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
+  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
+  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
+  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
+  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
+  {id:'hdjsakd',uname:'testName',msg:'this is a comment',date:'2022/09/03'},
+]
 
 const store = useUserStore();
 const { name, avatar, token } = storeToRefs(store);
