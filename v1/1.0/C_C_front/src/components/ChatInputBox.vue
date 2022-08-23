@@ -15,7 +15,7 @@
         </div>  
 
     </div>
-    <div class="bubble-border">sdfghjllkjhgfdddddddddasrtyukilkutyrtfesadwesrgdthyjukyjtfdhrgsefaddddddddddddd</div>
+    
 </template>
 <script setup>
 
@@ -78,30 +78,5 @@
     color: darkgray;
     }
 
-    .bubble-border {
-    width: 300px;
-    height: 100px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    border: 1px solid red;
-    position: relative;
-    margin-left: 20px;
-  }
-  .bubble-border::before,
-  .bubble-border::after {
-    position: absolute;
-    top: 40px;
-    left: -20px;
-    content: '';
-    width: 0;
-    height: 0;
-    border-right: 10px solid red;
-    border-bottom: 10px solid transparent;
-    border-left: 10px solid transparent;
-    border-top: 10px solid transparent;
-  }
-  .bubble-border::after {
-    left: -19px;
-    border-right: 10px solid #ffffff;
-  }
+    
 </style>
