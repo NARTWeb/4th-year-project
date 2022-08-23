@@ -66,5 +66,9 @@ export default{
         rejectError: "fail to reject the invitation!",
         reject: "Reject",
         accept: "Accept",
+    },
+    statusList: {
+        loadError: "fail to load statuses",
+        toEnd: "This is the End!"
     }
 }
