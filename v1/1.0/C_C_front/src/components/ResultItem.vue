@@ -23,7 +23,7 @@ const props = defineProps({
   avatar: String,
   username: String,
   buttonLabel: String,
-  key: String,
+  id: String,
 });
 const emit = defineEmits(["delItem", "btnFunc"]);
 

@@ -52,5 +52,22 @@ export default{
     },
     statusItem: {
         commentPlaceHolder: "make a comment",
+    },
+    chatInputBox: {
+        placeHolder: 'Please Input'
+    },
+    reqList: {
+        loadError: "fail to load friend requests",
+        acceptError: "fail to accept the request!",
+        rejectError: "fail to reject the request!",
+        reject: "Reject",
+        accept: "Accept",
+    },
+    inviteList: {
+        loadError: "fail to load group invitations",
+        acceptError: "fail to accept the invitation!",
+        rejectError: "fail to reject the invitation!",
+        reject: "Reject",
+        accept: "Accept",
     }
 }

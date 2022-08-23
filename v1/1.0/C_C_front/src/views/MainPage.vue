@@ -23,10 +23,7 @@
           <div class="col3">
             <el-dropdown trigger="click">
               <span class="el-dropdown-link">
-                <el-avatar :src="avatar" fit="contain"/>
-                <el-icon class="el-icon--right">
-                  <arrow-down />
-                </el-icon>
+                <el-avatar :src="avatar" fit="contain" style="width: 50px; height: 50px;"/>
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
@@ -57,8 +54,8 @@
       <el-main>
         <el-container>
           <el-header class="header">
-            <div class="header-text">{{ $t("main.bar.item1") }}</div>
-            <div class="header-text">{{ $t("main.bar.item2") }}</div>
+            <div class="header-text t1">{{ $t("main.bar.item1") }}</div>
+            <div class="header-text t2">{{ $t("main.bar.item2") }}</div>
             <div>
               <el-menu
               class="el-menu-demo"
@@ -72,10 +69,10 @@
               <el-menu-item index="findSthNew" class="menuItem">{{
                 $t("main.bar.item3")
               }}</el-menu-item>
-              <el-menu-item index="2" class="menuItem">{{
+              <el-menu-item index="friendRequests" class="menuItem">{{
                 $t("main.bar.item4")
               }}</el-menu-item>
-              <el-menu-item index="3" class="menuItem">{{
+              <el-menu-item index="groupInvites" class="menuItem">{{
                 $t("main.bar.item5")
               }}</el-menu-item>
               <el-menu-item index="4" class="menuItem">{{
@@ -86,16 +83,16 @@
           </el-header>
           <el-main class="main-main">
             <el-container>
-              <el-aside width="10vw">
+              <el-aside width="10vw" id="mainAside">
                 <div class="aside-main">
-                  <div class="main-bar">
+                  <div class="main-bar" id="m1">
                     <contact-list
                       :isFriend="tr"
                       :showAll="friendShowAll"
                       :param="friendParam"
                     ></contact-list>
                   </div>
-                  <div class="main-bar">
+                  <div class="main-bar" id="m2">
                     <contact-list
                       :isFriend="f"
                       :showAll="groupShowAll"
@@ -105,17 +102,6 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
-                <status-item
-                  statusId="3721893"
-                  avatar="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                  uname="like"
-                  message="hfduaksbfhdjksvafhguvidsalfndjkzfhdsnhajkflb dsufioaehbfjkdlsavf huidhaf dkjslhf jdhsabfs"
-                  :pictures="pics"
-                  :comments="cList"
-                  :heartNum="100"
-                  :date="new Date()"
-                  :key="28901"
-                  ></status-item>
                 <router-view></router-view>
               </el-main>
             </el-container>
@@ -255,13 +241,29 @@ function btn() {
   display: flex;
   justify-content: flex-start;
 }
+#mainAside {
+  min-width: 150px;
+  z-index: 5;
+}
+.main-bar {
+  z-index: 4;
+}
+#m1 {
+  width: 50%;
+  min-width: 70px;
+  flex: 1 1 auto;
+}
+#m2 {
+  width: 50%;
+  min-width: 80px;
+  flex: 2 2 auto;
+}
 .header-text {
   color: #fff;
   background-color: #545c64;
   width: 5vw;
   height: 7vh;
   min-height: 40px;
-  min-width: 60px;
   text-align: center;
   display: -webkit-flex; /* Safari */
   display: flex;
@@ -269,6 +271,12 @@ function btn() {
   justify-content: center;
   margin-left: 0;
   padding: 0;
+}
+.t1{
+  min-width: 60px;
+}
+.t2 {
+  min-width: 90px;
 }
 .header {
   display: -webkit-flex; /* Safari */
@@ -281,16 +289,14 @@ function btn() {
   height: 7vh;
   min-height: 40px;
   width: 80vw;
-}
-.main-bar {
-  width: 50%;
-  min-width: 60px;
+  min-width: 660px;
 }
 .menuItem {
   width: 25%;
   min-width: 120px;
 }
 .mainPart {
+  z-index: 5;
   min-width: 300px;
   height: 78vh;
   overflow: visible;
@@ -310,6 +316,12 @@ function btn() {
   justify-content: flex-start;
   align-items: flex-start;
   align-content: flex-start;
+  min-width: 660px;
 }
-
+.el-dropdown-link {
+  margin-left: -5vw;
+}
+.col2 {
+  flex: auto;
+}
 </style>

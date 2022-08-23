@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 const MainPage = () => import('@/views/MainPage.vue')
 const FindSthNew = () => import('@/views/FindSthNew.vue')
 const CreateGroup = () => import ('@/views/createGroup.vue')
+const ReqList = () => import('@/views/RequestList.vue')
+const InviteList = () => import('@/views/InviteList.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +25,16 @@ const router = createRouter({
               component: CreateGroup
             }
           ]
+        },
+        {
+          path: '/friendRequests',
+          name: 'reqList',
+          component: ReqList
+        },
+        {
+          path: '/groupInvites',
+          name: 'inviteList',
+          component: InviteList
         }
       ]
     }
