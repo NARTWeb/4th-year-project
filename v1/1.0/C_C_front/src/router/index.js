@@ -5,6 +5,7 @@ const FindSthNew = () => import('@/views/FindSthNew.vue')
 const CreateGroup = () => import ('@/views/createGroup.vue')
 const ReqList = () => import('@/views/RequestList.vue')
 const InviteList = () => import('@/views/InviteList.vue')
+const StatusList = () => import('@/views/StatusList.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,11 @@ const router = createRouter({
           path: '/groupInvites',
           name: 'inviteList',
           component: InviteList
+        },
+        {
+          path: '/status',
+          name: 'statusList',
+          component: StatusList
         }
       ]
     }

@@ -23,7 +23,7 @@
 #date {
     font-size: medium;
     font-weight: 200;
-    color:  #faecd8;
+    color:  #606266;
     margin-left: 30px;
 }
 .each {

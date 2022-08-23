@@ -75,7 +75,7 @@
               <el-menu-item index="groupInvites" class="menuItem">{{
                 $t("main.bar.item5")
               }}</el-menu-item>
-              <el-menu-item index="4" class="menuItem">{{
+              <el-menu-item index="status" class="menuItem">{{
                 $t("main.bar.item6")
               }}</el-menu-item>
             </el-menu>
