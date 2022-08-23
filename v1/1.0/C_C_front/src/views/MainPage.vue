@@ -105,6 +105,34 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
+                <acceptable-item 
+                  avatar="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                  name="tony"
+                  senderName="mike"
+                  message="come or not?"
+                  button-label1="accept"  
+                  button-label2="reject"
+                  key="3721893"
+                  @accept="btn"
+                  @reject="btn"></acceptable-item>
+                <result-item
+                  avatar="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                  username="Tony"
+                  button-label="invite"
+                  key="37821931"
+                  @btnFunc="btn"
+                  @delItem="btn"
+                  ></result-item>
+                <status-item
+                  statusId="3721893"
+                  avatar="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                  uname="like"
+                  message="hfduaksbfhdjksvafhguvidsalfndjkzfhdsnhajkflb dsufioaehbfjkdlsavf huidhaf dkjslhf jdhsabfs"
+                  :pictures="pics"
+                  :heartNum="100"
+                  :date="new Date()"
+                  :key="28901"
+                  ></status-item>
                 <router-view></router-view>
               </el-main>
             </el-container>
@@ -124,6 +152,22 @@ import ContactList from "../components/ContactList.vue";
 import router from "../router";
 import { RouterLink, RouterView } from "vue-router";
 import { useI18n } from "vue-i18n";
+import AcceptableItem from "../components/AcceptableItem.vue";
+import ResultItem from "../components/ResultItem.vue";
+import StatusItem from "../components/StatusItem.vue";
+
+const pics = [
+  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
+  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
+  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
+  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
+  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
+  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
+  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
+  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
+  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
+  'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
+];
 
 const store = useUserStore();
 const { name, avatar, token } = storeToRefs(store);
@@ -131,16 +175,12 @@ const tr = true;
 const f = false;
 var searchInput = ref("");
 var friendParam = reactive({
-  loading: false,
-  nodata: false,
   page: {
     pageSize: 10,
     pageNum: 1,
   },
 });
 var groupParam = reactive({
-  loading: false,
-  nodata: false,
   page: {
     pageSize: 10,
     pageNum: 1,
@@ -192,6 +232,9 @@ function editInfo() {
 }
 function toSearch() {
   alert(t("contactList.friend.ListError"));
+}
+function btn() {
+  alert('djhskadsa');
 }
 </script>
 <style scoped>

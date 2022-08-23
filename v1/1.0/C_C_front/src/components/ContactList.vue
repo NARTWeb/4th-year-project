@@ -23,7 +23,7 @@
               <el-popover placement="right" :width="30" trigger="click">
                 <template #reference>
                   <div class="colm">
-                    <el-badge is-dot class="item" type="success">
+                    <el-badge is-dot class="item" :type="checkType(member.state)">
                       <el-avatar
                         v-if="props.isFriend"
                         :icon="UserFilled"
@@ -52,46 +52,42 @@
                     @click="dialogVisible = true"
                   />
                   <div id="bt">
-                    <el-button-group>
+                    <el-button-group size="large">
                       <el-button
                         v-if="member.state == 1"
                         class="button"
-                        id="b2"
                         round
                         type="primary"
                         :size="btnSize"
                         @click="unset(member.id)"
-                        >{{ $t("contactList.unset") }}</el-button
+                        >&nbsp;{{ $t("contactList.unset") }}&nbsp;</el-button
                       >
                       <el-button
                         v-else
                         class="button"
-                        id="b2"
                         round
                         type="success"
                         :size="btnSize"
                         @click="hide(member.id)"
-                        >{{ $t("contactList.hide") }}</el-button
+                        >&nbsp;{{ $t("contactList.hide") }}&nbsp;</el-button
                       >
                       <el-button
                         v-if="member.state == 2"
                         class="button"
-                        id="b3"
                         round
                         type="primary"
                         :size="btnSize"
                         @click="unset(member.id)"
-                        >{{ $t("contactList.unset") }}</el-button
+                        >&nbsp;{{ $t("contactList.unset") }}&nbsp;</el-button
                       >
                       <el-button
                         v-else
                         class="button"
-                        id="b3"
                         round
                         type="info"
                         :size="btnSize"
                         @click="mute(member.id)"
-                        >{{ $t("contactList.mute") }}</el-button
+                        >&nbsp;{{ $t("contactList.mute") }}&nbsp;</el-button
                       >
                     </el-button-group>
                   </div>
@@ -130,14 +126,15 @@ const props = defineProps({
   isFriend: Boolean,
   showAll: Boolean,
   param: {
-    loading: Boolean,
-    nodata: Boolean,
     page: {
       pageSize: Number,
       pageNum: Number,
     },
   },
 });
+const loading = ref(false);
+const nodata = ref(false);
+const pageN = ref(props.param.page.pageNum);
 const store = useUserStore();
 const { token } = storeToRefs(store);
 const btnSize = "default";
@@ -148,13 +145,23 @@ const bgColor = reactive({
   backgroundColor:'#fef0f0'
 });
 const { t } = useI18n();
+function checkType(state) {
+  if(state == 2) {
+    return "info";
+  } else if(state == 1) {
+    return "success";
+  } else if(state == 0) {
+    return "danger";
+  }
+  return "success";
+}
 function test() {
   const testList = [
     {
       id: "3642178321",
       name: "mike",
       avatar: "hdfsjakdsa",
-      state: 0,
+      state: 2,
     },
     {
       id: "3642178321",
@@ -214,33 +221,37 @@ function test() {
   if (props.param.page.pageNum == 10) {
     return;
   }
-  if (!props.param.loading) {
-    props.param.loading = true;
+  if (!loading.value) {
+    loading.value = true;
     console.log("load");
     list.push(...testList);
     console.log("list.length: " + list.length);
     props.param.page.pageNum += 1;
   }
-  props.param.loading = false;
+  loading.value = false;
 }
 function load() {
-  if (!props.param.loading) {
-    props.param.loading = true;
+  if (!loading.value && !nodata) {
+    loading.value = true;
     let result;
+    let page = {
+      pageSize: props.param.page.pageSize,
+      pageNum: pageN.value
+    };
     if (props.isFriend) {
-      result = showFriendList(token, id, props.showAll);
+      result = showFriendList(token, page, props.showAll);
     } else {
-      result = showGroupList(token, id, props.showAll);
+      result = showGroupList(token, page, props.showAll);
     }
     result
       .then((res) => {
         if (res.data.success) {
           if (res.data.data.length <= 0) {
-            props.param.nodata = true;
+            nodata.value = true;
           } else {
-            props.param.nodata = false;
-            list = list.concat(res.data.data);
-            props.param.page.pageNum += 1;
+            nodata.value = false;
+            list.push(...res.data.data);
+            pageN += 1;
           }
         } else {
           this.$message({
@@ -264,7 +275,7 @@ function load() {
         console.log(err);
       })
       .finally(() => {
-        this.loading = false;
+        this.loading.value = false;
       });
   }
 }
@@ -459,7 +470,7 @@ onMounted(()=> {
   width: 100%;
   min-height: 70px;
   min-width: 70px;
-  background-color: v-bind('bgColor.backgroundColor');
+  background-color: v-bind("bgColor.backgroundColor");
   text-align: center;
 }
 .all {
@@ -483,5 +494,9 @@ onMounted(()=> {
 #b1 {
   float: right;
   margin-top: 3px;
+}
+.el-button:not(#b1) {
+  min-width: 40px;
+  width: 60px;
 }
 </style>
