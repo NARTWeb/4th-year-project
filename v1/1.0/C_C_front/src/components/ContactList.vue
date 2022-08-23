@@ -139,7 +139,6 @@ const pageN = ref(props.param.page.pageNum);
 const store = useUserStore();
 const { token} = storeToRefs(store);
 const minW = ref('60px');
-store.logout();
 const btnSize = "default";
 var list = reactive([]);
 var selectMember = reactive({});

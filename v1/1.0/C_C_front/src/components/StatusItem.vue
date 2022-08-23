@@ -16,6 +16,7 @@
     </div>
     <div id="down">
       <div :class="iconClass" @click="likeS" id="like"></div>
+      <span v-show="like" style="font-weight:100">{{props.heartNum}}</span>
       <el-button round type="primary" @click="startCom">...</el-button>
     </div>
     <div id="bottom">
@@ -56,7 +57,7 @@ const props = defineProps({
   heart: Boolean,
   heartNum: Number,
   date: Date,
-  id: String,
+  uid: String,
 });
 const store = useUserStore();
 const { name, avatar, token } = storeToRefs(store);
