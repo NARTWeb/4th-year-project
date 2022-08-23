@@ -1,42 +1,6 @@
 <template>
   <div>
-
-      <div>
-          <div v-if="isMe" id="right">
-
-            <div>
-              <span>{{ name }}</span>
-              <img :src="avatar" />
-            </div>
-
-            <div>
-              <span>{{ message }}</span>
-            </div>
-
-            <div>
-              <span>{{ time }}</span>
-            </div> 
-
-          </div>
-
-          <div v-else id="left">
-
-            <div @click="popInfo">
-              <span>{{ name }}</span>
-              <img :src="avatar" />
-            </div>
-
-            <div>
-              <span>{{ message }}</span>
-            </div>
-
-            <div>
-              <span>{{ time }}</span>
-            </div> 
-
-          </div>
-
-
+        <div>
 
           <div v-if="isMe" class="bubble right">
             <div v-show="isGroup==false" @click="popInfo">
@@ -47,12 +11,14 @@
             <div class="wrap">
               <div class="content">
                 <div>{{ message }}</div>
+              </div>
+              <div>
                 <div>{{ time }}</div>
               </div>
             </div>
           </div>
 
-          <div class="bubble left">
+          <div v-else class="bubble left">
             <div v-show="isGroup==false" @click="popInfo">
               <div class="avatar">
                 <img :src="avatar"/>
@@ -61,11 +27,13 @@
             <div class="wrap">
               <div class="content">
                 <div>{{ message }}</div>
+              </div>
+              <div>
                 <div>{{ time }}</div>
               </div>
             </div>
           </div>
-            
+
       </div>
   </div>
 </template>
@@ -76,25 +44,22 @@ const props = defineProps({
   message: String,
   time: Date,
   isMe: Boolean,
-  key: String,
+  id: String,
 });
 
 function popInfo(){}
-function isGroup() {}
+function isGroup() {
+  alert("cgvhbnjkm");
+}
 
 </script>
 <style>
-#left{
-
-}
-#right{
-
-}
 
 .bubble {
       padding: 6px;
       overflow: hidden;
       position: relative;
+      max-width: 70vw;
     }
     .bubble:after {
       clear: both;

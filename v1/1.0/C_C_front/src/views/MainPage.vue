@@ -102,6 +102,12 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
+                <chat-message avatar=""
+                              name="abby"
+                              message="cfgvhjbfghjkljhgfdghyjukjyhtgrthyuytrgtyuiythgrfthyjukjyhgffghjjkhgfdfghjkhjgfhdgfhgjhkgjfhdgknkljhuigyutfyrtyctvybuogvyficdtxrutcgihvoufydcitxgckhvyfditxgjhvlfyodickhyfdoitxcydidyci"
+                              time="11.10"
+                              isMe="false"
+                              id="fghj"></chat-message>
                 <router-view></router-view>
               </el-main>
             </el-container>
@@ -124,6 +130,7 @@ import { useI18n } from "vue-i18n";
 import AcceptableItem from "../components/AcceptableItem.vue";
 import ResultItem from "../components/ResultItem.vue";
 import StatusItem from "../components/StatusItem.vue";
+import ChatMessage from "../components/ChatMessage.vue";
 
 const pics = [
   'https://s1.ax1x.com/2022/07/28/vpOEEq.jpg',
