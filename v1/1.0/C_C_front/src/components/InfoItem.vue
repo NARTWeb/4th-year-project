@@ -113,14 +113,6 @@ const error3Display = ref('none');
         align-items: center;
         width: 100%;
     }
-    .avae {
-        display: -webkit-flex; /* Safari */
-        display: flex;
-        justify-content: space-between;
-        flex-flow: row nowrap;
-        align-items: center;
-        width: 100%;
-    }
     .elements {
         display: -webkit-flex; /* Safari */
         display: flex;

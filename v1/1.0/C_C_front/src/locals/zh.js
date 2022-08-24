@@ -71,6 +71,10 @@ export default{
         loadError: "fail to load statuses",
         toEnd: "This is the End!"
     },
+    myStatusList: {
+        loadError: "fail to load statuses",
+        toEnd: "This is the End!"
+    },
     infoItem: {
         title: "Changing Password",
         oldPwd: "Input Old Password",
