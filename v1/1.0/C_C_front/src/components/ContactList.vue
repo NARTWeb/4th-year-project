@@ -105,6 +105,7 @@ import { reactive, ref, watch } from "vue";
 import { useUserStore } from "../stores/userStore";
 import { storeToRefs } from "pinia";
 import { Delete } from "@element-plus/icons-vue";
+import { ElMessage } from 'element-plus'
 import {
   showFriendList,
   hideFriend,
@@ -256,23 +257,26 @@ function load() {
             pageN.value += 1;
           }
         } else {
-          this.$message({
+          ElMessage({
             type: "error",
             message: res.data.msg,
             showClose: true,
+            grouping: true,
           });
         }
       })
       .catch((err) => {
+        let msg
         if (props.isFriend) {
-          let msg = t("contactList.friend.ListError");
+          msg = t("contactList.friend.ListError");
         } else {
-          let msg = t("contactList.group.ListError");
+          msg = t("contactList.group.ListError");
         }
-        this.$message({
+        ElMessage({
           type: "error",
           message: msg,
           showClose: true,
+          grouping: true,
         });
         console.log(err);
       })
@@ -298,23 +302,26 @@ function hide(id) {
           }
         }
       } else {
-        this.$message({
+        ElMessage({
           type: "error",
           message: res.data.msg,
           showClose: true,
+          grouping: true,
         });
       }
     })
     .catch((err) => {
+      let msg
       if (props.isFriend) {
-        let msg = t("contactList.friend.hideError");
+        msg = t("contactList.friend.hideError");
       } else {
-        let msg = t("contactList.group.hideError");
+        msg = t("contactList.group.hideError");
       }
-      this.$message({
+      ElMessage({
         type: "error",
         message: msg,
         showClose: true,
+        grouping: true,
       });
       console.log(err);
     })
@@ -337,23 +344,26 @@ function mute(id) {
           }
         }
       } else {
-        this.$message({
+        ElMessage({
           type: "error",
           message: res.data.msg,
           showClose: true,
+          grouping: true,
         });
       }
     })
     .catch((err) => {
+      let msg
       if (props.isFriend) {
-        let msg = t("contactList.friend.muteError");
+        msg = t("contactList.friend.muteError");
       } else {
-        let msg = t("contactList.group.muteError");
+        msg = t("contactList.group.muteError");
       }
-      this.$message({
+      ElMessage({
         type: "error",
         message: msg,
         showClose: true,
+        grouping: true,
       });
       console.log(err);
     })
@@ -371,23 +381,26 @@ function unset(id) {
       if (res.data.success) {
         //-------------------------------------------?
       } else {
-        this.$message({
+        ElMessage({
           type: "error",
           message: res.data.msg,
           showClose: true,
+          grouping: true,
         });
       }
     })
     .catch((err) => {
+      let msg
       if (props.isFriend) {
-        let msg = t("contactList.friend.unsetError");
+        msg = t("contactList.friend.unsetError");
       } else {
-        let msg = t("contactList.group.unsetError");
+        msg = t("contactList.group.unsetError");
       }
-      this.$message({
+      ElMessage({
         type: "error",
         message: msg,
         showClose: true,
+        grouping: true,
       });
       console.log(err);
     })
@@ -410,23 +423,26 @@ function del(id) {
           }
         }
       } else {
-        this.$message({
+        ElMessage({
           type: "error",
           message: res.data.msg,
           showClose: true,
+          grouping: true,
         });
       }
     })
     .catch((err) => {
+      let msg
       if (props.isFriend) {
-        let msg = t("contactList.friend.delError");
+        msg = t("contactList.friend.delError");
       } else {
-        let msg = t("contactList.group.delError");
+        msg = t("contactList.group.delError");
       }
-      this.$message({
+      ElMessage({
         type: "error",
         message: msg,
         showClose: true,
+        grouping: true,
       });
       console.log(err);
     })

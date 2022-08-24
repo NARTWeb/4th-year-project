@@ -6,7 +6,7 @@
       </div>
       <div id="mid">
         <div v-for="pic in props.pictures" :key="pic">
-          <img :src="pic" />
+          <el-image class="img" :src="img" :preview-src-list="props.pictures"/>
         </div>
       </div>
     </div>
@@ -44,17 +44,6 @@ function delStatus() {
   flex-flow: row wrap;
   align-items: center;
   width: 100%;
-}
-img {
-  width: 150px;
-  min-width: 100px;
-  height: 150px;
-  min-height: 100px;
-  margin-left: 5px;
-}
-.text {
-  font-size: 1.5em;
-  font-weight: 300;
 }
 #icon {
     color: red;

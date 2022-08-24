@@ -6,6 +6,8 @@ const CreateGroup = () => import ('@/views/createGroup.vue')
 const ReqList = () => import('@/views/RequestList.vue')
 const InviteList = () => import('@/views/InviteList.vue')
 const StatusList = () => import('@/views/StatusList.vue')
+const AddNewFriend = () => import('@/views/AddNewFriend.vue')
+const SearchFriend = () => import('@/views/SearchFriendIHave.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,6 +26,11 @@ const router = createRouter({
               path: '/findSthNew/createGroup',
               name: 'createGroup',
               component: CreateGroup
+            },
+            {
+              path: '/findSthNew/searchNew',
+              name: 'addNewFriend',
+              component: AddNewFriend
             }
           ]
         },
@@ -38,10 +45,11 @@ const router = createRouter({
           component: InviteList
         },
         {
-          path: '/status',
-          name: 'statusList',
-          component: StatusList
-        }
+          path: '/searchMyFriend',
+          name: 'searchFriend',
+          component: SearchFriend
+        },
+
       ]
     }
   ]

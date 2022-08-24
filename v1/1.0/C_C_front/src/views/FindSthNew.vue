@@ -4,17 +4,15 @@
       <el-header>
         <div class="flex">
           <div class="input">
-            <el-input v-model="input" size="large" placeholder="search"/>
+            <el-input v-model="input" size="large" placeholder="search" />
           </div>
           <div class="btn1">
-            <el-button type="primary" size="large" 
-                round @click="searchNew">{{
+            <el-button type="primary" size="large" round @click="searchNew">{{
               $t("findSthNew.search")
             }}</el-button>
           </div>
           <div class="btn2">
-            <el-button type="primary" size="large" 
-                round @click="createGroup">{{
+            <el-button type="primary" size="large" round @click="createGroup">{{
               $t("findSthNew.create")
             }}</el-button>
           </div>
@@ -30,6 +28,9 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
+import { useNewStore } from "../stores/newStore";
+
+const store = useNewStore();
 const router = useRouter();
 const page = {
   loading: false,
@@ -39,16 +40,21 @@ const page = {
 };
 var input = ref("");
 function searchNew() {
+  let temp = input.value;
+
+    if (temp == "") {
+      temp = "_[all]_";
+    }
+  if (store.searchHistory != temp) {
+    store.searchHistory = temp;
+    store.loadFirstList();
+  }
   router.push({
-    name,
-    params: {
-      input: input.value,
-      page,
-    },
+    name: "addNewFriend"
   });
 }
 function createGroup() {
-  router.push({ path: '/findSthNew/createGroup' });
+  router.push({ path: "/findSthNew/createGroup" });
 }
 </script>
 <style scoped>

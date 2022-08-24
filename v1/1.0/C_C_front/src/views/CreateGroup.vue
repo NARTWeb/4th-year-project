@@ -80,6 +80,8 @@ import { uploadPic } from "../api/upload";
 import { createNewGroup, sendGroupInvite } from "../api/group";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/userStore";
+import { ElMessage } from 'element-plus'
+
 const store = useUserStore();
 const { token } = storeToRefs(store);
 const { t } = useI18n();
@@ -98,18 +100,20 @@ function uploadFun() {
       if (res.data.success) {
         img.value = res.data.data;
       } else {
-        this.$message({
+        ElMessage({
           type: "error",
           message: res.data.msg,
           showClose: true,
+          grouping: true,
         });
       }
     })
     .catch((err) => {
-      this.$message({
+      ElMessage({
         type: "error",
         message: err.data.msg,
         showClose: true,
+        grouping: true,
       });
       console.log(err);
     });
@@ -137,18 +141,20 @@ function create() {
         if(res.data.success) {
             groupId.value = res.data.data;
         } else {
-            this.$message({
+            ElMessage({
           type: "error",
           message: res.data.msg,
           showClose: true,
+          grouping: true,
         });
         }
     })
     .catch((err) => {
-      this.$message({
+      ElMessage({
         type: "error",
         message: err.data.msg,
         showClose: true,
+        grouping: true,
       });
       console.log(err);
     });
@@ -162,18 +168,20 @@ function create() {
         sendGroupInvite(token, inviteInfo)
         .then((res)=> {
             if(!res.data.success) {
-                this.$message({
+                ElMessage({
                     type: "error",
                     message: res.data.msg,
                     showClose: true,
+                    grouping: true,
                 })
             }
         })
         .catch((err)=> {
-            this.$message({
+            ElMessage({
                 type: "error",
                 message: err.data.msg,
                 showClose: true,
+                grouping: true,
             });
             console.log(err);
         })

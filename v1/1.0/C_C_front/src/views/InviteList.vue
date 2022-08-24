@@ -26,6 +26,7 @@ import { useUserStore } from "../stores/userStore";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { showGroupInvitions, responseGroupInvite } from "../api/group";
+import { ElMessage } from "element-plus";
 
 const store = useUserStore();
 const { token } = storeToRefs(store);
@@ -39,7 +40,6 @@ const { t } = useI18n();
 const inviteList = reactive([]);
 const counter = ref(0);
 
-
 function testList() {
   const test = [
     {
@@ -48,7 +48,7 @@ function testList() {
       senderName: "tony",
       groupName: "groupName",
       msg: "respond me!!",
-      id: (1+counter.value).toString(),
+      id: (1 + counter.value).toString(),
     },
     {
       groupAvatar:
@@ -56,7 +56,7 @@ function testList() {
       senderName: "tony",
       groupName: "groupName",
       msg: "respond me!!",
-      id: (2+counter.value).toString(),
+      id: (2 + counter.value).toString(),
     },
     {
       groupAvatar:
@@ -64,7 +64,7 @@ function testList() {
       senderName: "tony",
       groupName: "groupName",
       msg: "respond me!!",
-      id: (3+counter.value).toString(),
+      id: (3 + counter.value).toString(),
     },
     {
       groupAvatar:
@@ -72,7 +72,7 @@ function testList() {
       senderName: "tony",
       groupName: "groupName",
       msg: "respond me!!",
-      id: (4+counter.value).toString(),
+      id: (4 + counter.value).toString(),
     },
     {
       groupAvatar:
@@ -80,13 +80,13 @@ function testList() {
       senderName: "tony",
       groupName: "groupName",
       msg: "respond me!!",
-      id: (5+counter.value).toString(),
+      id: (5 + counter.value).toString(),
     },
   ];
   if (counter.value < 30) {
     inviteList.push(...test);
     counter.value += 5;
-  } 
+  }
 }
 function acceptf(id) {
   for (let i = 0; i < inviteList.length; i++) {
@@ -97,7 +97,7 @@ function acceptf(id) {
   }
 }
 function rejectf(id) {
-  for (let i = 0; i <  inviteList.length; i++) {
+  for (let i = 0; i < inviteList.length; i++) {
     if (id == inviteList[i].id) {
       inviteList.splice(i, 1);
       return;
@@ -117,18 +117,20 @@ function searchReqList() {
             nodata.value = true;
           }
         } else {
-          this.$message({
+          ElMessage({
             type: "error",
             message: res.data.msg,
             showClose: true,
+            grouping: true,
           });
         }
       })
       .catch((err) => {
-        this.$message({
+        ElMessage({
           type: "error",
           message: t("inviteList.loadError"),
           showClose: true,
+          grouping: true,
         });
         console.log(err);
       })
@@ -145,18 +147,20 @@ function acceptFun(id) {
           if (res.data.success) {
             inviteList.splice(i, 1);
           } else {
-            this.$message({
+            ElMessage({
               type: "error",
               message: res.data.msg,
               showClose: true,
+              grouping: true,
             });
           }
         })
         .catch((err) => {
-          this.$message({
+          ElMessage({
             type: "error",
             message: t("inviteList.acceptError"),
             showClose: true,
+            grouping: true,
           });
           console.log(err);
         })
@@ -174,18 +178,20 @@ function rejectFun(id) {
           if (res.data.success) {
             inviteList.splice(i, 1);
           } else {
-            this.$message({
+            ElMessage({
               type: "error",
               message: res.data.msg,
               showClose: true,
+              grouping: true,
             });
           }
         })
         .catch((err) => {
-          this.$message({
+          ElMessage({
             type: "error",
             message: t("inviteList.rejectError"),
             showClose: true,
+            grouping: true,
           });
           console.log(err);
         })
@@ -195,21 +201,18 @@ function rejectFun(id) {
     }
   }
 }
-watch (
+watch(
   () => inviteList.length,
   (length) => {
-    if(length <=5 ) {
+    if (length <= 5) {
       testList();
     }
   }
-)
+);
 </script>
 <style scoped>
-.infinite-list {
-  list-style: none;
-}
 #all {
-  padding:0;
-  margin:-10px 0;
+  padding: 0;
+  margin: -10px 0;
 }
 </style>

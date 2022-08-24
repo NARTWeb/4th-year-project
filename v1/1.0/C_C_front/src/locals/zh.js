@@ -76,5 +76,13 @@ export default{
         oldPwd: "Input Old Password",
         newPwd: "Input New Password",
         newPwd2: "Input New Password Again"
+    },
+    newFriendList: {
+        loadError: "fail to load new friend search result",
+        addSuccess: "send a request successfully",
+        addError: "fail to send a request",
+        add: "Add",
+        inputMsg: "Input Invite Message",
+        msg: "Message"
     }
 }

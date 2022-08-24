@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { getToken, setToken, removeToken } from "@/request/token";
 import { signin, signout, register, showUserInfo, showAvatarUname, changeUserInfo} from "@/api/user.js";
+import { ElMessage } from 'element-plus'
 
 export const useUserStore = defineStore("user", {
   state: () => {
