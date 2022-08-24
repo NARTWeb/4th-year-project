@@ -7,3 +7,9 @@ spring:
         url: jdbc:mysql://132.145.110.184:3306/c_c?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
         username: nart
         password: 1234
+
+
+#        关闭驼峰转换，因为使用@TableField()
+mybatis-plus:
+    configuration:
+        map-underscore-to-camel-case: false
