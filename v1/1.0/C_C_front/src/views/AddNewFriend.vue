@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="all">
     <el-dialog
       v-model="dialogVisible"
       :title="t('newFriendList.inputMsg')"
@@ -103,4 +103,8 @@ function load() {
   newStore.loadNewFriends();
 }
 </script>
-<style scoped></style>
+<style scoped>
+#all {
+    margin-left: -1em;
+}
+</style>

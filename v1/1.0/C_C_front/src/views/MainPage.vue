@@ -117,7 +117,7 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { useUserStore } from "../stores/userStore";
-import { useFriendStore} from "../stores/friendStore.js";
+import { useFriendStore } from "../stores/friendStore.js";
 import { storeToRefs } from "pinia";
 import { Search } from "@element-plus/icons-vue";
 import { searchFriend } from "../api/friend";
@@ -130,19 +130,19 @@ import StatusItem from "../components/StatusItem.vue";
 import ChatMessage from "../components/ChatMessage.vue";
 import MyStatusItem from "../components/MyStatusItem.vue";
 import InfoItem from "../components/InfoItem.vue";
-import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router';
+import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
 
 const pics = reactive([
-"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-])
-
+  "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+  "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+  "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+  "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+  "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+]);
 
 const store = useUserStore();
+const Fstore = useFriendStore();
 const { name, avatar, token } = storeToRefs(store);
 const router = useRouter();
 var searchInput = ref("");
@@ -206,11 +206,10 @@ function editInfo() {
 }
 function toSearch() {
   let temp = searchInput.value;
-  let Fstore = useFriendStore();
 
-    if (temp == "") {
-      temp = "_[all]_";
-    }
+  if (temp == "") {
+    temp = "_[all]_";
+  }
   if (Fstore.searchHistory != temp) {
     Fstore.searchHistory = temp;
     Fstore.loadFirstList();
@@ -224,13 +223,13 @@ function btn() {
 }
 function menuClick(index) {
   router.push({
-    name: index
-  })
+    name: index,
+  });
 }
 </script>
 <style scoped>
 .el-main {
-  overflow:visible;
+  overflow: visible;
 }
 .header-row {
   display: -webkit-flex; /* Safari */
@@ -318,7 +317,7 @@ function menuClick(index) {
 }
 .mainPart {
   z-index: 5;
-  flex:auto;
+  flex: auto;
   min-width: 660px;
   min-height: 400px;
   height: 78vh;

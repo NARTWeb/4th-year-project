@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-scrollbar height="65vh" id="all">
+  <div id="all">
+    <el-scrollbar height="75vh" id="all">
       <ul v-infinite-scroll="load" class="infinite-list">
         <li v-for="f in fList" :key="f.id">
           <result-item
@@ -49,4 +49,8 @@ function load() {
   friendStore.loadNewFriends();
 }
 </script>
-<style scoped></style>
+<style scoped>
+#all {
+    margin-left: -1em;
+}
+</style>
