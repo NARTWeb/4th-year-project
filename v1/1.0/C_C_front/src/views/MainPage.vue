@@ -19,6 +19,7 @@
               @change="toSearch"
               :suffix-icon="Search"
             ></el-input>
+            <el-button :icon="Search" class="col2-btn" @click="toSearch" circle />
           </div>
           <div class="col3">
             <el-dropdown trigger="click">
@@ -163,7 +164,7 @@ var groupShowAll = ref(false);
 const { t } = useI18n();
 
 function searchF() {
-  searchFriend(token, searchInput, friendParam.page)
+  searchFriend(token, searchInput.value, friendParam.page)
     .then((res) => {
       if (res.data.success) {
       } else {
@@ -199,7 +200,7 @@ function postStatus() {
   router.push({ name, params: {} });
 }
 function checkStatus() {
-  router.push({ name, params: {} });
+  router.push({ name: "myStatus"});
 }
 function editInfo() {
   router.push({ name, params: {} });
@@ -346,5 +347,15 @@ function menuClick(index) {
 }
 .col2 {
   flex: auto;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  min-width: 300px;
+}
+.col2-btn {
+  margin-left: -40px;
+  margin-top: 5px;
+}
+.col3 {
+  padding-left: 3.5em;
 }
 </style>

@@ -26,7 +26,7 @@ import { useUserStore } from "../stores/userStore";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { responseFriendReq } from "../api/friend";
-import { ElMessage } from 'element-plus'
+import { ElMessage } from "element-plus";
 
 const store = useUserStore();
 const { token } = storeToRefs(store);
@@ -40,7 +40,6 @@ const { t } = useI18n();
 const reqList = reactive([]);
 const counter = ref(0);
 
-
 function testList() {
   const test = [
     {
@@ -48,41 +47,41 @@ function testList() {
         "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
       friendName: "tony",
       msg: "respond me!!",
-      id: (1+counter.value).toString(),
+      id: (1 + counter.value).toString(),
     },
     {
       friendAvatar:
         "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
       friendName: "tony",
       msg: "respond me!!",
-      id: (2+counter.value).toString(),
+      id: (2 + counter.value).toString(),
     },
     {
       friendAvatar:
         "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
       friendName: "tony",
       msg: "respond me!!",
-      id: (3+counter.value).toString(),
+      id: (3 + counter.value).toString(),
     },
     {
       friendAvatar:
         "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
       friendName: "tony",
       msg: "respond me!!",
-      id: (4+counter.value).toString(),
+      id: (4 + counter.value).toString(),
     },
     {
       friendAvatar:
         "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
       friendName: "tony",
       msg: "respond me!!",
-      id: (5+counter.value).toString(),
+      id: (5 + counter.value).toString(),
     },
   ];
   if (counter.value < 30) {
     reqList.push(...test);
     counter.value += 5;
-  } 
+  }
 }
 function acceptf(id) {
   for (let i = 0; i < reqList.length; i++) {
@@ -93,7 +92,7 @@ function acceptf(id) {
   }
 }
 function rejectf(id) {
-  for (let i = 0; i <  reqList.length; i++) {
+  for (let i = 0; i < reqList.length; i++) {
     if (id == reqList[i].id) {
       reqList.splice(i, 1);
       return;
@@ -136,79 +135,71 @@ function searchReqList() {
   }
 }
 function acceptFun(id) {
-  for (let i = 0; i < reqList.length; i++) {
-    if (id == reqList[i].id) {
-      responseFriendReq(token, id, true)
-        .then((res) => {
-          if (res.data.success) {
-            reqList.splice(i, 1);
-          } else {
-            ElMessage({
-              type: "error",
-              message: res.data.msg,
-              showClose: true,
-              grouping: true,
-            });
-          }
-        })
-        .catch((err) => {
-          ElMessage({
-            type: "error",
-            message: t("reqList.acceptError"),
-            showClose: true,
-            grouping: true,
-          });
-          console.log(err);
-        })
-        .finally(() => {
-          return;
+  responseFriendReq(token, id, true)
+    .then((res) => {
+      if (res.data.success) {
+        reqList.splice(i, 1);
+      } else {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+          showClose: true,
+          grouping: true,
         });
-    }
-  }
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+        type: "error",
+        message: t("reqList.acceptError"),
+        showClose: true,
+        grouping: true,
+      });
+      console.log(err);
+    })
+    .finally(() => {
+      return;
+    });
 }
 function rejectFun(id) {
-  for (let i = 0; i < reqList.length; i++) {
-    if (id == reqList[i].id) {
-      responseFriendReq(token, id, false)
-        .then((res) => {
-          if (res.data.success) {
-            reqList.splice(i, 1);
-          } else {
-            ElMessage({
-              type: "error",
-              message: res.data.msg,
-              showClose: true,
-              grouping: true,
-            });
-          }
-        })
-        .catch((err) => {
-          ElMessage({
-            type: "error",
-            message: t("reqList.rejectError"),
-            showClose: true,
-            grouping: true,
-          });
-          console.log(err);
-        })
-        .finally(() => {
-          return;
+  responseFriendReq(token, id, false)
+    .then((res) => {
+      if (res.data.success) {
+        reqList.splice(i, 1);
+      } else {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+          showClose: true,
+          grouping: true,
         });
-    }
-  }
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+        type: "error",
+        message: t("reqList.rejectError"),
+        showClose: true,
+        grouping: true,
+      });
+      console.log(err);
+    })
+    .finally(() => {
+      return;
+    });
 }
-watch (
+watch(
   () => reqList.length,
   (length) => {
-    if(length <=5 ) {
+    if (length <= 5) {
       testList();
     }
   }
-)
+);
 </script>
 <style scoped>
 #all {
-  padding:0;
-  margin:-10px 0;
+  padding: 0;
+  margin: -10px 0;
 }
 </style>

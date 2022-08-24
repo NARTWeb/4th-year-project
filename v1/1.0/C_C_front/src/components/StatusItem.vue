@@ -8,8 +8,8 @@
       <div id="right">
         <span class="text">{{ message }}</span>
         <div class="img-box">
-          <div v-for="img in props.pictures" :key="img">
-            <el-image class="img" :src="img" :preview-src-list="props.pictures"/>
+          <div v-for="(img, index) in props.pictures" :key="img">
+            <el-image class="img" :src="img" :initial-index="index" :preview-src-list="props.pictures"/>
           </div>
         </div>
       </div>

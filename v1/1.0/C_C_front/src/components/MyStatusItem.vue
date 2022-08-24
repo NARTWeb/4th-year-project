@@ -5,13 +5,20 @@
         <span class="text">{{ message }}</span>
       </div>
       <div id="mid">
-        <div v-for="pic in props.pictures" :key="pic">
-          <el-image class="img" :src="img" :preview-src-list="props.pictures"/>
+        <div v-for="(pic, index) in props.pictures" :key="pic">
+          <el-image
+            class="img"
+            :initial-index="index"
+            :src="pic"
+            :preview-src-list="props.pictures"
+          />
         </div>
       </div>
     </div>
     <div id="right">
-      <el-icon id="icon" v-show="isMine" :size="40" @click="delStatus"><Delete /></el-icon>
+      <el-icon id="icon" v-show="isMine" :size="40" @click="delStatus"
+        ><Delete
+      /></el-icon>
     </div>
   </div>
 </template>
@@ -22,9 +29,10 @@ const props = defineProps({
   pictures: Array,
   id: String,
 });
+const emit = defineEmits(["del"]);
 
 function delStatus() {
-    alert('del');
+  emit("del", props.id);
 }
 </script>
 <style scoped>
@@ -46,9 +54,9 @@ function delStatus() {
   width: 100%;
 }
 #icon {
-    color: red;
+  color: red;
 }
 #icon:hover {
-    color: black;
+  color: black;
 }
 </style>
