@@ -9,7 +9,7 @@
         <span class="text">{{ message }}</span>
         <div class="img-box">
           <div v-for="img in props.pictures" :key="img">
-            <img :src="img" />
+            <el-image class="img" :src="img" :preview-src-list="props.pictures"/>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@ const props = defineProps({
   comments: Array,
   heart: Boolean,
   heartNum: Number,
-  date: Date,
+  date: String,
   uid: String,
 });
 const store = useUserStore();
@@ -114,22 +114,11 @@ onMounted(() => {
   align-items: flex-start;
   align-content: flex-start;
 }
-img {
-  width: 150px;
-  min-width: 100px;
-  height: 150px;
-  min-height: 100px;
-  margin-left: 5px;
-}
 .name {
   text-align: center;
   font-size: 1em;
   font-weight: 500;
-  margin-top: -1.5em;
-}
-.text {
-  font-size: 1.5em;
-  font-weight: 300;
+  margin-top: -0.5em;
 }
 #all {
   margin: 1em 0;

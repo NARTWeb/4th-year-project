@@ -5,9 +5,13 @@
         <div class="ava"><el-avatar :src="props.avatar" :size="80" /></div>
         <div class="label">
           <div class="top">
-            <span id="s2" v-if="props.groupName == undefined">{{ props.senderName }}</span>
-            <span id="s2" v-else>{{ props.groupName}}</span>
-            <span id="s4" v-show="props.groupName != undefined">{{ props.senderName }}</span>
+            <span id="s2" v-if="props.groupName == undefined">{{
+              props.senderName
+            }}</span>
+            <span id="s2" v-else>{{ props.groupName }}</span>
+            <span id="s4" v-show="props.groupName != undefined">{{
+              props.senderName
+            }}</span>
           </div>
           <div class="bottom">
             <span id="s3">{{ props.message }}</span>
@@ -94,7 +98,7 @@ span {
 }
 #s4 {
   margin-left: 20px;
-  color:  #c8c9cc;
+  color: #c8c9cc;
 }
 .right-btn1 {
   margin-left: 5vw;

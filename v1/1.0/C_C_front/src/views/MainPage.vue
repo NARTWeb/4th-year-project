@@ -68,18 +68,18 @@
                 text-color="#fff"
                 active-text-color="#ffd04b"
                 :ellipsis="false"
-                router
+                @select="menuClick"
               >
-                <el-menu-item index="findSthNew" class="menuItem">{{
+                <el-menu-item index="findNew" class="menuItem">{{
                   $t("main.bar.item3")
                 }}</el-menu-item>
-                <el-menu-item index="friendRequests" class="menuItem">{{
+                <el-menu-item index="reqList" class="menuItem">{{
                   $t("main.bar.item4")
                 }}</el-menu-item>
-                <el-menu-item index="groupInvites" class="menuItem">{{
+                <el-menu-item index="inviteList" class="menuItem">{{
                   $t("main.bar.item5")
                 }}</el-menu-item>
-                <el-menu-item index="status" class="menuItem">{{
+                <el-menu-item index="statusList" class="menuItem">{{
                   $t("main.bar.item6")
                 }}</el-menu-item>
               </el-menu>
@@ -91,14 +91,13 @@
                 <div class="aside-main">
                   <div class="main-bar" id="m1">
                     <contact-list
-                      :isFriend="tr"
+                      isFriend
                       :showAll="friendShowAll"
                       :param="friendParam"
                     ></contact-list>
                   </div>
                   <div class="main-bar" id="m2">
                     <contact-list
-                      :isFriend="f"
                       :showAll="groupShowAll"
                       :param="groupParam"
                     ></contact-list>
@@ -106,10 +105,6 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
-                <info-item
-                          isPwd
-                          label="password"
-                          value="123456"></info-item>
                 <router-view></router-view>
               </el-main>
             </el-container>
@@ -122,11 +117,11 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { useUserStore } from "../stores/userStore";
+import { useFriendStore} from "../stores/friendStore.js";
 import { storeToRefs } from "pinia";
 import { Search } from "@element-plus/icons-vue";
 import { searchFriend } from "../api/friend";
 import ContactList from "../components/ContactList.vue";
-import router from "../router";
 import { RouterLink, RouterView } from "vue-router";
 import { useI18n } from "vue-i18n";
 import AcceptableItem from "../components/AcceptableItem.vue";
@@ -135,6 +130,8 @@ import StatusItem from "../components/StatusItem.vue";
 import ChatMessage from "../components/ChatMessage.vue";
 import MyStatusItem from "../components/MyStatusItem.vue";
 import InfoItem from "../components/InfoItem.vue";
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router';
 
 const pics = reactive([
 "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
@@ -147,8 +144,7 @@ const pics = reactive([
 
 const store = useUserStore();
 const { name, avatar, token } = storeToRefs(store);
-const tr = true;
-const f = false;
+const router = useRouter();
 var searchInput = ref("");
 var friendParam = reactive({
   page: {
@@ -171,18 +167,20 @@ function searchF() {
     .then((res) => {
       if (res.data.success) {
       } else {
-        this.$message({
+        ElMessage({
           type: "error",
           message: res.data.msg,
           showClose: true,
+          grouping: true,
         });
       }
     })
     .catch((err) => {
-      this.$message({
+      ElMessage({
         type: "error",
         message: t("contactList.friend.ListError"),
         showClose: true,
+        grouping: true,
       });
       console.log(err);
     })
@@ -207,10 +205,27 @@ function editInfo() {
   router.push({ name, params: {} });
 }
 function toSearch() {
-  alert(t("contactList.friend.ListError"));
+  let temp = searchInput.value;
+  let Fstore = useFriendStore();
+
+    if (temp == "") {
+      temp = "_[all]_";
+    }
+  if (Fstore.searchHistory != temp) {
+    Fstore.searchHistory = temp;
+    Fstore.loadFirstList();
+  }
+  router.push({
+    name: "searchFriend"
+  });
 }
 function btn() {
   alert("djhskadsa");
+}
+function menuClick(index) {
+  router.push({
+    name: index
+  })
 }
 </script>
 <style scoped>

@@ -26,6 +26,7 @@ import { useUserStore } from "../stores/userStore";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { responseFriendReq } from "../api/friend";
+import { ElMessage } from 'element-plus'
 
 const store = useUserStore();
 const { token } = storeToRefs(store);
@@ -112,18 +113,20 @@ function searchReqList() {
             nodata.value = true;
           }
         } else {
-          this.$message({
+          ElMessage({
             type: "error",
             message: res.data.msg,
             showClose: true,
+            grouping: true,
           });
         }
       })
       .catch((err) => {
-        this.$message({
+        ElMessage({
           type: "error",
           message: t("reqList.loadError"),
           showClose: true,
+          grouping: true,
         });
         console.log(err);
       })
@@ -140,18 +143,20 @@ function acceptFun(id) {
           if (res.data.success) {
             reqList.splice(i, 1);
           } else {
-            this.$message({
+            ElMessage({
               type: "error",
               message: res.data.msg,
               showClose: true,
+              grouping: true,
             });
           }
         })
         .catch((err) => {
-          this.$message({
+          ElMessage({
             type: "error",
             message: t("reqList.acceptError"),
             showClose: true,
+            grouping: true,
           });
           console.log(err);
         })
@@ -169,18 +174,20 @@ function rejectFun(id) {
           if (res.data.success) {
             reqList.splice(i, 1);
           } else {
-            this.$message({
+            ElMessage({
               type: "error",
               message: res.data.msg,
               showClose: true,
+              grouping: true,
             });
           }
         })
         .catch((err) => {
-          this.$message({
+          ElMessage({
             type: "error",
             message: t("reqList.rejectError"),
             showClose: true,
+            grouping: true,
           });
           console.log(err);
         })
@@ -200,9 +207,6 @@ watch (
 )
 </script>
 <style scoped>
-.infinite-list {
-  list-style: none;
-}
 #all {
   padding:0;
   margin:-10px 0;

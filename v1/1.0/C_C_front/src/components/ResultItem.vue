@@ -2,7 +2,7 @@
   <div>
     <div class="all">
       <div id="left">
-        <el-avatar :size="80" :src="props.avatar" />
+        <el-avatar :size="80" :src="props.avatar" alt="'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"/>
         <span class="text">{{ props.username }}</span>
       </div>
       <div id="mid">
@@ -28,10 +28,10 @@ const props = defineProps({
 const emit = defineEmits(["delItem", "btnFunc"]);
 
 function deleteItem() {
-  emit("delItem");
+  emit("delItem", props.id);
 }
 function pressBtn() {
-  emit("btnFunc");
+  emit("btnFunc", props.id);
 }
 </script>
 <style scoped>
