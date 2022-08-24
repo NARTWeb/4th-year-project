@@ -101,7 +101,7 @@ onMounted(() => {
 });
 </script>
 
-<style>
+<style scoped>
 @import url("@/assets/css/iconfont.css");
 .like {
   color: red;

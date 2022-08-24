@@ -106,30 +106,6 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
-                <chat-message
-                  avatar="https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-                  name="abby"
-                  message="cfgvhjbfghjkljhgfdghyjukjyhtgrthyuytrgtyuiythgrfthyjukjyhgffghjjkhgfdfghjkhjgfhdgfhgjhkgjfhdgknkljhuigyutfyrtyctvybuogvyficdtxrutcgihvoufydcitxgckhvyfditxgjhvlfyodickhyfdoitxcydidyci"
-                  time="11.10"
-                  :isMe="false"
-                  id="fghj"
-                ></chat-message>
-                <chat-message
-                  avatar="https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-                  name="abby"
-                  message="cfgvhjbfghjkljhgfdghyjukjyhtgrthyuytrgtyuiythgrfthyjukjyhgffghjjkhgfdfghjkhjgfhdgfhgjhkgjfhdgknkljhuigyutfyrtyctvybuogvyficdtxrutcgihvoufydcitxgckhvyfditxgjhvlfyodickhyfdoitxcydidyci"
-                  time="11.10"
-                  :isMe="true"
-                  id="fghj"
-                ></chat-message>
-                <chat-message
-                  avatar="https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-                  name="abby"
-                  message="cfgvhjbfghjkljhgfdghyj"
-                  time="11.10"
-                  :isMe="true"
-                  id="fghj"
-                ></chat-message>
                 <router-view></router-view>
               </el-main>
             </el-container>
@@ -153,6 +129,15 @@ import AcceptableItem from "../components/AcceptableItem.vue";
 import ResultItem from "../components/ResultItem.vue";
 import StatusItem from "../components/StatusItem.vue";
 import ChatMessage from "../components/ChatMessage.vue";
+import MyStatusItem from "../components/MyStatusItem.vue";
+
+const pics = reactive([
+"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+])
 
 const store = useUserStore();
 const { name, avatar, token } = storeToRefs(store);
