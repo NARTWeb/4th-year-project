@@ -106,6 +106,10 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
+                <info-item
+                          isPwd
+                          label="password"
+                          value="123456"></info-item>
                 <router-view></router-view>
               </el-main>
             </el-container>
@@ -130,6 +134,7 @@ import ResultItem from "../components/ResultItem.vue";
 import StatusItem from "../components/StatusItem.vue";
 import ChatMessage from "../components/ChatMessage.vue";
 import MyStatusItem from "../components/MyStatusItem.vue";
+import InfoItem from "../components/InfoItem.vue";
 
 const pics = reactive([
 "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
@@ -138,6 +143,7 @@ const pics = reactive([
 "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
 "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
 ])
+
 
 const store = useUserStore();
 const { name, avatar, token } = storeToRefs(store);
