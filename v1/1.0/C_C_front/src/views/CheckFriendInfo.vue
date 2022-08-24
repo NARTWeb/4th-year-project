@@ -1,9 +1,22 @@
 <template>
-  <div id="all">
+  <div class="all">
     <div class="top">
-        <div>avatar</div>
-        <div>
-            <info-item ></info-item>
+        <div class="avatar">
+            <img :src="avatar">
+        </div>
+        <div class="info">
+            <div class="uname">
+                <info-item 
+                    :label1="info.label"
+                    :value1="info.value"
+                ></info-item>
+            </div>
+            <div class="uemail">
+                <info-item 
+                    :label2="info.label"
+                    :value2="info.value"
+                ></info-item>
+            </div>
         </div>
     </div>
     <div class="bottom">
@@ -14,7 +27,7 @@
                         :isMine="status.isMine"
                         :message="status.msg"
                         :pictures="status.pics"
-                        :id="status.id"
+                        :id="status.statusId"
                     ></my-status-item>
                 </li>
                 <li v-show="nodata" id="end">{{$t('myStatusList.toEnd')}}</li>
@@ -30,6 +43,7 @@ import { useI18n } from "vue-i18n";
 import { useUserStore } from "../stores/userStore";
 import { storeToRefs } from "pinia";
 import MyStatusItem from "../components/MyStatusItem.vue";
+import InfoItem from "../components/InfoItem.vue";
 import { showMyStatusList } from "../api/status";
 
 const store = useUserStore();
@@ -54,7 +68,10 @@ function tList() {
       statusId: counter.value.toString,
       avatar:
         "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-      uname: "testName",
+      label1: "",
+      label2: "",
+      value1: "testName",
+      value2: "testEmail@gmail.com",
       msg: "this is a new Status",
       isMine: false,
       pics: [
@@ -63,23 +80,8 @@ function tList() {
         "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
         "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
       ],
-      id: "hdsjakdhsa",
     },
-    {
-      statusId: counter.value.toString,
-      avatar:
-        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-      uname: "testName",
-      msg: "nono it shouldn't be here",
-      isMine: true,
-      pics: [
-        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-      ],
-      id: "hdsjakdhsa",
-    },
+    
   ];
   for (let i = 0; i < 5; i++) {
     myStatusList.push(...test);
@@ -119,6 +121,22 @@ function load() {
 }
 </script>
 <style scoped>
+.all {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  justify-content: space-between;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 100%;
+}
+.top {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
 .infinite-list {
   list-style: none;
 }
