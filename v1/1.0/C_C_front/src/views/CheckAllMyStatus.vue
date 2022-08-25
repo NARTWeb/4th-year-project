@@ -100,7 +100,7 @@ function load() {
             nodata.value = true;
           }
         } else {
-          this.$message({
+          ElMessage({
             type: "error",
             message: res.data.msg,
             showClose: true,
@@ -108,7 +108,7 @@ function load() {
         }
       })
       .catch((err) => {
-        this.$message({
+        ElMessage({
           type: "error",
           message: t("myStatusList.loadError"),
           showClose: true,

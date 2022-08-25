@@ -197,7 +197,7 @@ function logout() {
   store.logout();
 }
 function postStatus() {
-  router.push({ name, params: {} });
+  router.push({ name: "postStatus", params: {} });
 }
 function checkStatus() {
   router.push({ name: "myStatus"});

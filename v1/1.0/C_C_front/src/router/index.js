@@ -9,6 +9,7 @@ const StatusList = () => import('@/views/StatusList.vue')
 const AddNewFriend = () => import('@/views/AddNewFriend.vue')
 const SearchFriend = () => import('@/views/SearchFriendIHave.vue')
 const CheckAllMyStatus = () => import('@/views/CheckAllMyStatus.vue')
+const PostStatus = () => import('@/views/PostStatus.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,6 +60,11 @@ const router = createRouter({
           path: '/myStatus',
           name: 'myStatus',
           component: CheckAllMyStatus
+        },
+        {
+          path: '/postStatus',
+          name: 'postStatus',
+          component: PostStatus
         }
       ]
     }
