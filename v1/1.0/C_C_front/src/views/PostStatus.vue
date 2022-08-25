@@ -2,7 +2,7 @@
   <div class="all">
     <div class="mainpart">
         <div class="top">
-            <textarea rows="6" style="font-size:16px;color:red;font-family:Arial;font-weight:bold;" placeholder="How's your day?"></textarea>
+            <textarea rows="6" style="font-size:16px;color:red;font-family:Arial;font-weight:bold;outline:none;" placeholder="How's your day?"></textarea>
         </div>
         <div class="mid">
             <span>put photo here...</span>
@@ -118,8 +118,5 @@ textarea:valid {
 }
 .bottom {
   padding: 10px;
-}
-input:focus{
-  border: hidden;
 }
 </style>

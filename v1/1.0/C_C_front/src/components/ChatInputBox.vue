@@ -8,7 +8,7 @@
     </div>
 
     <div id="mid">
-      <textarea rows="6" placeholder="Say something here..."></textarea>
+      <textarea rows="6" style="outline:none;" placeholder="Say something here..."></textarea>
     </div>
 
     <div class="bottom">
