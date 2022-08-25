@@ -8,7 +8,10 @@
       </div>
       <div class="wrap w1">
         <div class="content">
-          <div class="text">{{ message }}</div>
+          <div v-if="props.type == 'text'" class="text">{{ props.message }}</div>
+          <div v-else-if="props.type == 'img'">
+            <el-image class="img" :src="props.message" :preview-src-list="props.message"/>
+          </div>
         </div>
         <div>
           <div>{{ time }}</div>
@@ -24,7 +27,10 @@
       </div>
       <div class="wrap w2">
         <div class="content">
-          <div class="text">{{ message }}</div>
+          <div v-if="props.type == 'text'" class="text">{{ props.message }} {{props.id}}</div>
+          <div v-else-if="props.type == 'img'">
+            <el-image class="img" :src="props.message" :preview-src-list="props.message"/>
+          </div>
         </div>
         <div>
           <div>{{ time }}</div>
@@ -38,23 +44,22 @@ const props = defineProps({
   avatar: String,
   name: String,
   message: String,
-  time: Date,
+  time: String,
   isMe: Boolean,
+  isGroup: Boolean,
+  type: String,
   id: String,
 });
 
 function popInfo() {
-  if (isGroup()) {
+  if (props.isGroup) {
     return;
   }
-}
-function isGroup() {
-  alert("cgvhbnjkm");
 }
 </script>
 <style scoped>
 .content {
-  max-width: 65vw;
+  max-width: 55vw;
 }
 .text {
   word-wrap: break-word;
@@ -62,7 +67,7 @@ function isGroup() {
 .bubble {
   overflow: hidden;
   position: relative;
-  max-width: 85vw;
+  max-width: 75vw;
   width: 100%;
 }
 .bubble:after {

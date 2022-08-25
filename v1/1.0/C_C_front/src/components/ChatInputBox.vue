@@ -17,14 +17,21 @@
   </div>
 </template>
 <script setup>
-const emit = defineEmits(["addPic"]);
+import {ref} from 'vue';
+const emit = defineEmits(["addPic", "sendMsg"]);
+const input = ref('');
 
 function addPhoto() {
   emit("addPic");
 }
-function clearText() {}
+function clearText() {
+  input.value = "";
+}
 function saveToSession(msg) {}
-function sendMsg() {}
+function sendMsg() {
+  emit("sendMsg", input.value);
+  clearText();
+}
 </script>
 <style scoped>
 .all {
@@ -33,7 +40,7 @@ function sendMsg() {}
   justify-content: space-between;
   flex-flow: column nowrap;
   align-items: center;
-  width: 100vw;
+  width: 75vw;
 }
 #mid {
   display: -webkit-flex; /* Safari */
@@ -41,21 +48,21 @@ function sendMsg() {}
   flex-flow: row nowrap;
   justify-content: space-between;
   background-color: transparent;
-  width: 100vw;
+  width: 100%;
 }
 .top {
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
-  width: 100vw;
+  width: 100%;
 }
 .bottom {
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
-  width: 100vw;
+  width: 100%;
 }
 .addp {
   size: 500px;

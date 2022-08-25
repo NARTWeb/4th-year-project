@@ -39,7 +39,7 @@
                   </div>
                 </template>
                 <div>
-                  <el-button class="popLabel" text @click="toChat(member)">{{
+                  <el-button class="popLabel" text @click="toChat(member.id)">{{
                     member.name
                   }}</el-button>
                   <el-button
@@ -124,6 +124,9 @@ import { UserFilled } from "@element-plus/icons-vue";
 import { useI18n } from "vue-i18n";
 import { onMounted } from 'vue'
 import { min } from "lodash";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const props = defineProps({
   isFriend: Boolean,
   showAll: Boolean,
@@ -448,11 +451,11 @@ function del(id) {
     })
     .finally(() => {});
 }
-function toChat(member) {
+function toChat(id) {
   if (props.isFriend) {
-    router.push({ name, params: { member } });
+    router.push({ name:'chatRoom', params: {id: 'f'+id} });
   } else {
-    router.push({ name, params: { member } });
+    router.push({ name:'chatRoom', params: {id: 'g'+id} });
   }
 }
 onMounted(()=> {

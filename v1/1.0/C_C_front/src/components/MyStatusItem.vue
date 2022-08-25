@@ -55,6 +55,7 @@ function delStatus() {
 }
 #icon {
   color: red;
+  margin-right:40px;
 }
 #icon:hover {
   color: black;
