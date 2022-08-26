@@ -13,9 +13,9 @@
         </div>
       </div>
     </div>
-    <div class="bottom">
       <el-divider/>
-      <el-scrollbar height="55vh" id="all">
+    <div class="bottom">
+      <el-scrollbar id="all" wrap-style="height:50vh;">
         <ul v-infinite-scroll="tList" class="infinite-list">
         <el-timeline>
           <el-timeline-item
@@ -140,6 +140,11 @@ function load() {
 <style scoped>
 .all {
   width: 100%;
+  height: 100%;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
 }
 .top {
   display: -webkit-flex; /* Safari */
@@ -147,12 +152,18 @@ function load() {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+   -webkit-flex: none;
+          flex: none;
 }
 .info {
   display: -webkit-flex; /* Safari */
   display: flex;
   justify-content: space-around;
   width: 100%;
+}
+.bottom {
+  -webkit-flex: auto;
+          flex: auto;
 }
 .infinite-list {
   list-style: none;
