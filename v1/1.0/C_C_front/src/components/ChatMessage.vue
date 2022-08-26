@@ -3,14 +3,22 @@
     <div v-if="isMe" class="bubble right">
       <div>
         <div class="avatar">
-          <el-avatar :src="props.avatar"/>
+          <el-avatar :src="props.avatar" />
         </div>
       </div>
       <div class="wrap w1">
         <div class="content">
-          <div v-if="props.type == 'text'" class="text">{{ props.message }}</div>
+          <div v-if="props.type == 'text'" class="text">
+            {{ props.message }}
+          </div>
           <div v-else-if="props.type == 'img'">
-            <el-image class="img" :src="props.message" :preview-src-list="[props.message]"/>
+            <el-image
+              class="img"
+              :src="props.message"
+              :z-index="100"
+              preview-teleported
+              :preview-src-list="[props.message]"
+            />
           </div>
         </div>
         <div>
@@ -22,14 +30,22 @@
     <div v-else class="bubble left">
       <div @click="popInfo">
         <div class="avatar">
-          <el-avatar :src="avatar" @click="popInfo"/>
+          <el-avatar :src="avatar" @click="popInfo" />
         </div>
       </div>
       <div class="wrap w2">
         <div class="content">
-          <div v-if="props.type == 'text'" class="text">{{ props.message }} {{props.id}}</div>
+          <div v-if="props.type == 'text'" class="text">
+            {{ props.message }} {{ props.id }}
+          </div>
           <div v-else-if="props.type == 'img'">
-            <el-image class="img" :src="props.message" :preview-src-list="[props.message]"/>
+            <el-image
+              class="img"
+              :src="props.message"
+              :z-index="100"
+              preview-teleported
+              :preview-src-list="[props.message]"
+            />
           </div>
         </div>
         <div>
@@ -40,7 +56,7 @@
   </div>
 </template>
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 const router = useRouter();
 const props = defineProps({
   avatar: String,
@@ -51,14 +67,14 @@ const props = defineProps({
   isGroup: Boolean,
   type: String,
   id: String,
-  uid: String
+  uid: String,
 });
 
 function popInfo() {
   if (props.isGroup) {
     return;
   } else {
-    router.push({name: "friendInfo", params:{id: props.uid}});
+    router.push({ name: "friendInfo", params: { id: props.uid } });
   }
 }
 </script>
@@ -74,6 +90,7 @@ function popInfo() {
   position: relative;
   max-width: 75vw;
   width: 100%;
+  min-width: 580px;
 }
 .bubble:after {
   clear: both;

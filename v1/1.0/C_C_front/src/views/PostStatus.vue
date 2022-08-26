@@ -4,11 +4,11 @@
         <div class="top">
             <textarea rows="6" style="font-size:16px;color:red;font-family:Arial;font-weight:bold;outline:none;" placeholder="How's your day?"></textarea>
         </div>
+    </div>
+    <div class="pics">
         <div class="mid">
             <span>put photo here...</span>
         </div>
-    </div>
-    <div class="pics">
         <el-upload
             v-model:file-list="fileList"
             action=""
@@ -24,11 +24,11 @@
         </el-upload>
 
         <el-dialog v-model="dialogVisible">
-            <img w-full :src="dialogImageUrl" alt="Preview Image" />
+            <el-image fit="fill" :src="dialogImageUrl" alt="Preview Image" />
         </el-dialog>
     </div>
     <div class="bottom">
-      <el-button round type="primary" @click="post">Post</el-button>
+      <el-button round type="primary" id="post-btn" @click="post">Post</el-button>
     </div>
   </div>
 </template>
@@ -93,18 +93,34 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
 .all {
   display: -webkit-flex; /* Safari */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-flow: column nowrap;
   align-items: center;
   width: 100%;
+  height: 100%;
 }
 .mainpart {
+  flex: 3 3 auto;
+  margin-left: 10%;
   display: -webkit-flex; /* Safari */
   display: flex;
   justify-content: space-between;
   flex-flow: column nowrap;
   align-items: center;
   width: 100%;
+}
+.top {
+  width: 100%;
+}
+.pics {
+  flex: 3 3 auto;
+  margin-left: 10%;
+  width: 100%;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 textarea:valid {
   border: 2px solid transparent;
@@ -117,6 +133,17 @@ textarea:valid {
   color: darkgray;
 }
 .bottom {
+  flex: auto;
   padding: 10px;
+  width: 100%;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  justify-content: center;
+}
+#post-btn {
+  width: 10%;
+  min-width: 60px;
+  height: 50%;
+  min-height: 30px;
 }
 </style>

@@ -12,7 +12,7 @@
       </template>
     </el-dialog>
     <div class="main-scroll">
-      <el-scrollbar height="77.5vh" id="scroll-bar">
+      <el-scrollbar height="77.5vh" id="scroll-bar" wrap-style="min-height:400px;">
         <ul v-infinite-scroll="test" class="infinite-list">
           <li
             v-for="member in list"
