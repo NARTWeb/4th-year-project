@@ -15,7 +15,7 @@
         </div>
         <div class="second">
             <div class="pwd">
-                <info-item :label="tt.label3" :value="tt.value3" can-change></info-item>
+                <info-item :label="tt.label3" :value="tt.value3" can-change is-pwd></info-item>
             </div>
             <div class="phone">
                 <info-item :label="tt.label4" :value="tt.value4" can-change></info-item>

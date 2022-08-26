@@ -38,7 +38,7 @@
       <div v-else class="elements flex fullW">
         <div>
           <el-input v-if="changeValue" v-model="v" @blur="changeValue = false"></el-input>
-          <span v-else class="text">{{ v }}</span>
+          <span v-else class="text cb">{{ v }}</span>
         </div>
         <div class="el-right">
           <el-button round type="primary" v-show="canChange" @click="changeBtn">change</el-button>
@@ -83,7 +83,11 @@ function checkPwd() {
   }
 }
 function changeBtn() {
-  changeValue.value = true;
+  if(props.isPwd) {
+    dialogVisible.value = true;
+  } else {
+    changeValue.value = true;
+  }
 }
 </script>
 <style scoped>
@@ -111,5 +115,8 @@ function changeBtn() {
 }
 .elements {
   flex-flow: row nowrap;
+}
+.cb {
+  font-size: large;
 }
 </style>
