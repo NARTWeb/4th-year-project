@@ -12,6 +12,7 @@ const CheckAllMyStatus = () => import('@/views/CheckAllMyStatus.vue')
 const PostStatus = () => import('@/views/PostStatus.vue')
 const ChatRoom = () => import('@/views/ChatRoom.vue')
 const CheckFriendInfo = () => import('@/views/CheckFriendInfo.vue')
+const EditMyInfo = () => import('@/views/EditMyInfo.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -77,6 +78,11 @@ const router = createRouter({
           path: '/friendInfo/:id',
           name: 'friendInfo',
           component: CheckFriendInfo
+        },
+        {
+          path: '/editMyInfo',
+          name: 'editMyInfo',
+          component: EditMyInfo
         }
       ]
     }

@@ -203,7 +203,7 @@ function checkStatus() {
   router.push({ name: "myStatus"});
 }
 function editInfo() {
-  router.push({ name, params: {} });
+  router.push({ name: "editMyInfo", params: {} });
 }
 function toSearch() {
   let temp = searchInput.value;
