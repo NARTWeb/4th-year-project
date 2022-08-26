@@ -1,4 +1,5 @@
 function ymd(date) {
+    return hm(date, true);
     return date.year + "/" + date.month + "/" + date.day;
 }
 function ymdh(date) {

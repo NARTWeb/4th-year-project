@@ -11,6 +11,7 @@ const SearchFriend = () => import('@/views/SearchFriendIHave.vue')
 const CheckAllMyStatus = () => import('@/views/CheckAllMyStatus.vue')
 const PostStatus = () => import('@/views/PostStatus.vue')
 const ChatRoom = () => import('@/views/ChatRoom.vue')
+const CheckFriendInfo = () => import('@/views/CheckFriendInfo.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,6 +72,11 @@ const router = createRouter({
           path: '/chatRoom/:id',
           name: 'chatRoom',
           component: ChatRoom
+        },
+        {
+          path: '/friendInfo/:id',
+          name: 'friendInfo',
+          component: CheckFriendInfo
         }
       ]
     }

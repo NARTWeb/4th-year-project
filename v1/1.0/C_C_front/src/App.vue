@@ -23,4 +23,7 @@ import { RouterLink, RouterView } from 'vue-router'
 .infinite-list {
   list-style: none;
 }
+.title {
+  font-weight: 500;
+}
 </style>

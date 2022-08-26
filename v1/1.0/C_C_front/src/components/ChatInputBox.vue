@@ -8,7 +8,7 @@
     </div>
 
     <div id="mid">
-      <textarea rows="6" style="outline:none;" placeholder="Say something here..."></textarea>
+      <textarea rows="6" v-model="input" style="outline:none;" placeholder="Say something here..."></textarea>
     </div>
 
     <div class="bottom">
@@ -29,7 +29,7 @@ function clearText() {
 }
 function saveToSession(msg) {}
 function sendMsg() {
-  emit("sendMsg", input.value);
+  emit("sendMsg", input.value, "text");
   clearText();
 }
 </script>
