@@ -15,7 +15,7 @@
     </div>
     <div class="bottom">
       <el-divider/>
-      <el-scrollbar height="55vh" id="all">
+      <el-scrollbar height="50vh" id="all">
         <ul v-infinite-scroll="tList" class="infinite-list">
         <el-timeline>
           <el-timeline-item
