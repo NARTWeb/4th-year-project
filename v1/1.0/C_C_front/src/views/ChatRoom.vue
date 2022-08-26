@@ -197,7 +197,7 @@ onMounted(() => {
 .flex {
 display: -webkit-flex; /* Safari */
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   justify-content: flex-start;
 }
 #all {
