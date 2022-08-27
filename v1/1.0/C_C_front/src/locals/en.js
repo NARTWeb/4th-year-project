@@ -91,5 +91,9 @@ export default{
         add: "Add",
         inputMsg: "Input Invite Message",
         msg: "Message"
+    },
+    groupSetting: {
+        getMemberError: "Not able to get members in group",
+        
     }
 }

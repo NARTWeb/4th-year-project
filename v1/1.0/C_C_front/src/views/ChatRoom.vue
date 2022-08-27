@@ -188,6 +188,9 @@ onMounted(() => {
   }
   roomId.value = temp.toString();
 });
+function toGroupInfo() {
+  router.push({ name: "groupChatInfo", params: {} });
+}
 </script>
 <style scoped>
 .all {

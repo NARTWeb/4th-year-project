@@ -13,6 +13,8 @@ const PostStatus = () => import('@/views/PostStatus.vue')
 const ChatRoom = () => import('@/views/ChatRoom.vue')
 const CheckFriendInfo = () => import('@/views/CheckFriendInfo.vue')
 const EditMyInfo = () => import('@/views/EditMyInfo.vue')
+const GroupChatSetting = () => import('@/views/GroupChatSetting.vue')
+const PopWinFriendList = () => import('@/views/PopWinFriendList.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -83,6 +85,16 @@ const router = createRouter({
           path: '/editMyInfo',
           name: 'editMyInfo',
           component: EditMyInfo
+        },
+        {
+          path: '/groupChatInfo',
+          name: 'groupChatInfo',
+          component: GroupChatSetting
+        },
+        {
+          path: '/popWin',
+          name: 'popWin',
+          component: PopWinFriendList
         }
       ]
     }

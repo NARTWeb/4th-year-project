@@ -61,7 +61,7 @@
           </el-scrollbar>
         </div>
         <div class="main-btn">
-          <el-button type="success" round @click="addMember">{{
+          <el-button type="success" round @click="toPopWin">{{
             $t("createGroup.addMember")
           }}</el-button>
           <el-button type="primary" round @click="create">{{
@@ -83,6 +83,7 @@ import { useUserStore } from "../stores/userStore";
 import { ElMessage } from 'element-plus'
 
 const store = useUserStore();
+const router = useRouter();
 const { token } = storeToRefs(store);
 const { t } = useI18n();
 const img = ref(
@@ -186,6 +187,9 @@ function create() {
             console.log(err);
         })
     }
+}
+function toPopWin() {
+  router.push({ name: "popWin", params: {} });
 }
 </script>
 <style scoped>

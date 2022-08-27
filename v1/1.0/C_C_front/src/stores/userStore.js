@@ -13,9 +13,21 @@ export const useUserStore = defineStore("user", {
       tel: "",
       address: "",
       birthday: "",
+      groupInfo:{
+        groupId: "",
+        notice: "",
+        groupName: "",
+        groupAvatar: "",
+      }
     };
   },
   actions: {
+    updategroupInfo(gInfo){
+      this.groupInfo.groupId = gInfo.gid;
+      this.groupInfo.notice = gInfo.note;
+      this.groupInfo.groupName = gInfo.gName;
+      this.groupInfo.groupAvatar = gInfo.gAvatar;
+    },
     login(user) {
       return new Promise((resolve, reject) => {
         signin(user.account, user.password)

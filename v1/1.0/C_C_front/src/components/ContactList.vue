@@ -39,7 +39,7 @@
                   </div>
                 </template>
                 <div>
-                  <el-button class="popLabel" text @click="toChat(member.id)">{{
+                  <el-button class="popLabel" text @click="toChat(member)">{{
                     member.name
                   }}</el-button>
                   <el-button
@@ -451,11 +451,17 @@ function del(id) {
     })
     .finally(() => {});
 }
-function toChat(id) {
+function toChat(member) {
   if (props.isFriend) {
-    router.push({ name:'chatRoom', params: {id: 'f'+id} });
+    router.push({ name:'chatRoom', params: {id: 'f'+ member.id} });
   } else {
-    router.push({ name:'chatRoom', params: {id: 'g'+id} });
+    store.updategroupInfo({
+      gid: member.id,
+      note: member.notice,
+      gName: member.name,
+      gAvatar: member.avatar,
+    })
+    router.push({ name:'chatRoom', params: {id: 'g'+ member.id} });
   }
 }
 onMounted(()=> {
