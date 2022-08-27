@@ -8,7 +8,7 @@ public interface CommentService {
 
     List<comment> showCommentList(String statusId);
 
-    boolean postComment(String statusId,String msg);
+    boolean postComment(String statusId,String msg,int sid);
 
 //    showChildComment
 

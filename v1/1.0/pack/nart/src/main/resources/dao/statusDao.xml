@@ -3,9 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.nart.dao.commentDao">
+<mapper namespace="com.nart.dao.statusDao">
 
-    <select id="getUname" resultType="com.nart.pojo.comment">
 
-    </select>
+
 </mapper>

@@ -5,4 +5,7 @@
 
 <mapper namespace="com.nart.dao.commentDao">
 
+    <select id="getUname" resultType="com.nart.pojo.comment">
+
+    </select>
 </mapper>

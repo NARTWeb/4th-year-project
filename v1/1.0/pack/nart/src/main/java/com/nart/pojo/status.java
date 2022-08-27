@@ -16,10 +16,13 @@ public class status {
     private String text;
     private String pics;
     private Integer likes;
-    @TableField(exist = false)
-    private Boolean userLike;
     @TableField(value = "date")
     private Long createDate;
+
+
+    @TableField(exist = false)
+    private Boolean userLike;
+
     @TableField(exist = false)
     private List<comment> commentList;
 

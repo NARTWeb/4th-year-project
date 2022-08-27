@@ -11,11 +11,11 @@ public class comment {
     private String id;
     private String msg;
     @TableField(value = "status_id")
-    private String statusId;
+    private Long statusId;
     @TableField(value = "date")
     private Long createDate;
     @TableField(value = "sid")
-    private String userId;
+    private Long userId;
 
     @TableField(exist = false)
     private String uname;
