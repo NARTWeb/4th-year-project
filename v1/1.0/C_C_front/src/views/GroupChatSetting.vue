@@ -1,7 +1,8 @@
 <template>
   <div class="all flex">
       <div class="member flex">
-        <el-scrollbar height="45vh">
+        <div><label>groupMember</label></div>
+        <el-scrollbar height="45%">
             <div v-for="member in memberList" :key="member.id" class="scroll-item">
               <el-avatar
                   :size="60"
@@ -20,12 +21,9 @@
 
       <div class="item flex">
         <div class="change flex">
-          <div><label>groupName</label></div>
+          <div><label>groupName: {{groupInfo.groupName}}</label></div>
           <div><el-button type="primary" @click="changeBtn">change</el-button></div>
         </div>
-        <div>
-          <span>{{groupInfo.groupName}}</span>
-        </div> 
       </div>
 
       <div class="item flex">
@@ -116,11 +114,11 @@ function getMember() {
 }
 .member {
   justify-content: flex-start;
-  height: 25%;
+  height: 50%;
 }
 .change {
   flex-direction: row;
   justify-content: space-around;
-  height: 25%;
+  height: 10%;
 }
 </style>
