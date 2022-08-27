@@ -4,7 +4,9 @@ export default{
             item1: 'post my status',
             item2: 'check all my status',
             item3: 'show all friends',
+            item3_hide: 'keep hide friends',
             item4: 'show all groups',
+            item4_hide: 'keep hide groups',
             item5: 'edit my info',
             item6: 'log out'
         },
@@ -53,6 +55,9 @@ export default{
     statusItem: {
         commentPlaceHolder: "make a comment",
     },
+    chatInputBox: {
+        placeHolder: 'Please Input'
+    },
     reqList: {
         loadError: "fail to load friend requests",
         acceptError: "fail to accept the request!",
@@ -88,5 +93,9 @@ export default{
         add: "Add",
         inputMsg: "Input Invite Message",
         msg: "Message"
+    },
+    groupSetting: {
+        getMemberError: "Not able to get members in group",
+        
     }
 }

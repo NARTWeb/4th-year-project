@@ -38,10 +38,16 @@
                   <el-dropdown-item @click="checkStatus">{{
                     $t("main.menu.item2")
                   }}</el-dropdown-item>
-                  <el-dropdown-item @click="showAllFriends">{{
+                  <el-dropdown-item v-if="friendShowAll" @click="showAllFriends">{{
+                    $t("main.menu.item3_hide")
+                  }}</el-dropdown-item>
+                  <el-dropdown-item v-else @click="showAllFriends">{{
                     $t("main.menu.item3")
                   }}</el-dropdown-item>
-                  <el-dropdown-item @click="showAllGroups">{{
+                  <el-dropdown-item v-if="groupShowAll" @click="showAllGroups">{{
+                    $t("main.menu.item4_hide")
+                  }}</el-dropdown-item>
+                  <el-dropdown-item v-else @click="showAllGroups">{{
                     $t("main.menu.item4")
                   }}</el-dropdown-item>
                   <el-dropdown-item @click="editInfo">{{
@@ -188,10 +194,10 @@ function searchF() {
     .finally(() => {});
 }
 function showAllFriends() {
-  friendShowAll.value = true;
+  friendShowAll.value = friendShowAll.value == true ? false : true;
 }
 function showAllGroups() {
-  groupShowAll.value = true;
+  groupShowAll.value = groupShowAll.value == true ? false : true;
 }
 function logout() {
   store.logout();
@@ -261,10 +267,8 @@ function menuClick(index) {
 #mainAside {
   min-width: 150px;
   min-height: 400px;
-  z-index: 5;
 }
 .main-bar {
-  z-index: 4;
   min-height: 400px;
 }
 #m1 {
@@ -317,7 +321,6 @@ function menuClick(index) {
   min-width: 120px;
 }
 .mainPart {
-  z-index: 5;
   flex: auto;
   min-width: 660px;
   min-height: 400px;

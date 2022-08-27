@@ -2,7 +2,7 @@
   <div class="all flex">
     <div class="inner-all">
       <el-button class="to-setting" @click="toGroupInfo" plain><el-icon><Star /></el-icon></el-button>
-      <el-scrollbar height="60vh" id="all">
+      <el-scrollbar height="60vh" id="all" always>
         <ul v-infinite-scroll="tList" class="infinite-list">
           <li v-for="msg in msgList" :key="msg.msgId">
             <chat-message
@@ -30,7 +30,7 @@
 </template>
 <script setup>
 import { ElMessage } from "element-plus";
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, onUpdated, onBeforeUnmount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { showGroupChatHistory, showFriendChatHistory } from "../api/chat";
@@ -52,6 +52,8 @@ const isGroup = ref(false);
 const roomId = ref("");
 const loading = ref(false);
 const nodata = ref(false);
+const showSetting = ref("");
+const showSetting2 = ref("");
 const page = reactive({
   pageNum: 0,
   pageSize: 10,
@@ -168,16 +170,20 @@ function sendMsg(input, type) {
     }
     msgList.push(tempMsg);
 }
-function addPic() {
-
+function addPic(img) {
+  sendMsg(img, "img");
 }
-onMounted(() => {
+function setParam() {
   let str = route.params.id;
   let temp = "";
   if (str[0] == "g") {
     isGroup.value = true;
+    showSetting.value = "flex";
+    showSetting2.value = "-webkit-flex";
   } else if (str[0] == "f") {
     isGroup.value = false;
+    showSetting.value = "none";
+    showSetting2.value = "none";
   } else {
     ElMessage({
       type: "error",
@@ -189,6 +195,14 @@ onMounted(() => {
     temp += str[i];
   }
   roomId.value = temp.toString();
+}
+onMounted(() => {
+  setParam();
+});
+onUpdated(() => {
+  setParam();
+  msgList.splice(0, msgList.length);
+  tList();
 });
 function toGroupInfo() {
   router.push({ name: "groupChatInfo", params: {} });
@@ -227,12 +241,18 @@ display: -webkit-flex; /* Safari */
   flex-shrink: 1;
 }
 .to-setting {
+  display: v-bind(showSetting);
+  display: v-bind(showSetting2);
   position: absolute;
+  text-align: center;
   top: 50px;
   right: 50px;
   width: 25px;
   height: 25px;
-  z-index: 1000;
+  z-index: 5;
+}
+.el-scrollbar__bar .is-vertical {
+  transform: rotate(180deg);
 }
 </style>
 

@@ -12,9 +12,18 @@
     <div id="right">
       <div class="top">
         <div>
-          <el-icon class="addp" :size="25" @click="addPhoto"
-            ><Picture
-          /></el-icon>
+          <el-upload
+            ref="uploadRef"
+            class="upload-demo"
+            :on-change="addPhoto"
+            action=""
+            :auto-upload="false"
+            accept="image/jpeg,image/png,image/jpg"
+          >
+            <template #trigger>
+              <el-icon class="addp" :size="25"
+                ><Picture /></el-icon></template
+          ></el-upload>
         </div>
       </div>
       <div class="bottom">
@@ -23,13 +32,23 @@
     </div>
   </div>
 </template>
-<script setup>
-import { ref } from "vue";
+<script lang="ts" setup>
+import { ref, watch} from "vue";
+import type { UploadInstance } from 'element-plus'
+import { uploadPic } from "../api/upload";
+import { ElMessage } from "element-plus";
+import { useI18n } from "vue-i18n";
+
 const emit = defineEmits(["addPic", "sendMsg"]);
+const { t } = useI18n();
 const input = ref("");
+const uploadRef = ref<UploadInstance>();
+const uploaded = ref(false);
+const img = ref('https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100');
 
 function addPhoto() {
-  emit("addPic");
+  //uploadFun();
+  uploaded.value = true;
 }
 function clearText() {
   input.value = "";
@@ -40,10 +59,43 @@ function sendMsg() {
   clearText();
 }
 function keyDown(e) {
-  if(e.ctrlKey && e.keyCode==13) {
-	  sendMsg();
-	}
+  if (e.ctrlKey && e.keyCode == 13) {
+    sendMsg();
+  }
 }
+function uploadFun() {
+  uploadPic(uploadRef)
+    .then((res) => {
+      if (res.data.success) {
+        img.value = res.data.data;
+      } else {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+          showClose: true,
+          grouping: true,
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+        type: "error",
+        message: t('chatInputBox.uploadPicError'),
+        showClose: true,
+        grouping: true,
+      });
+      console.log(err);
+    }).finally(
+        emit("addPic", img.value)
+    );
+}
+watch(uploaded, (newValue) => {
+  if(newValue) {
+    uploadFun();
+    uploadRef.value!.clearFiles();
+    uploaded.value = false;
+  }
+})
 </script>
 <style scoped>
 .all {

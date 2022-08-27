@@ -7,7 +7,7 @@
             :avatar="f.avatar"
             :id="f.id"
             :username="f.uname"
-            :button-label="t('newFriendList.add')"
+            :button-label="t('friendIHave.chat')"
             @delItem="close"
             @btnFunc="chatBtn"
           ></result-item>
@@ -35,15 +35,12 @@ const { fList } = storeToRefs(friendStore);
 const { t } = useI18n();
 const dialogVisible = ref(false);
 const message = ref("");
-var tempId = ref < Number > -1;
 
 function close(id) {
   friendStore.delItem(id);
 }
 function chatBtn(id) {
-  tempId = id;
-  alert("router.push")
-  //router.push();
+  router.push({ name: "chatRoom", params: { id: "f" + id } });
 }
 function load() {
   friendStore.loadNewFriends();

@@ -1,6 +1,6 @@
 <template>
   <div class="all">
-    <el-dialog v-model="dialogVisible" title="Tips" width="30%">
+    <el-dialog v-model="dialogVisible" title="Tips" width="30%" class="dialog">
       <span>This is a message {{ selectMember.name }}</span>
       <template #footer>
         <span class="dialog-footer">
@@ -12,33 +12,41 @@
       </template>
     </el-dialog>
     <div class="main-scroll">
-      <el-scrollbar height="77.5vh" id="scroll-bar" wrap-style="min-height:400px;">
+      <el-scrollbar
+        height="77.5vh"
+        id="scroll-bar"
+        wrap-style="min-height:400px;"
+      >
         <ul v-infinite-scroll="test" class="infinite-list">
           <li
             v-for="member in list"
             :key="member.id"
-            class="infinite-list-item"
+            :class="detectHidden(member.state)"
           >
             <div style="display: flex; align-items: center">
               <el-popover placement="right" :width="30" trigger="click">
                 <template #reference>
                   <div class="colm">
-                    <el-badge is-dot class="item" :type="checkType(member.state)">
+                    <el-badge
+                      is-dot
+                      class="item"
+                      :type="checkType(member.state)"
+                    >
                       <el-avatar
                         v-if="props.isFriend"
-                        :icon="UserFilled"
+                        :src="member.avatar"
                         @click="selectMember = member"
                       />
                       <el-avatar
                         v-else
                         size="large"
-                        :icon="UserFilled"
+                        :src="member.avatar"
                         @click="selectMember = member"
                       />
                     </el-badge>
                   </div>
                 </template>
-                <div>
+                <div style="z-index: 500">
                   <el-button class="popLabel" text @click="toChat(member)">{{
                     member.name
                   }}</el-button>
@@ -59,7 +67,7 @@
                         round
                         type="primary"
                         :size="btnSize"
-                        @click="unset(member.id)"
+                        @click="unset(member)"
                         >&nbsp;{{ $t("contactList.unset") }}&nbsp;</el-button
                       >
                       <el-button
@@ -68,7 +76,7 @@
                         round
                         type="success"
                         :size="btnSize"
-                        @click="hide(member.id)"
+                        @click="hide(member)"
                         >&nbsp;{{ $t("contactList.hide") }}&nbsp;</el-button
                       >
                       <el-button
@@ -77,7 +85,7 @@
                         round
                         type="primary"
                         :size="btnSize"
-                        @click="unset(member.id)"
+                        @click="unset(member)"
                         >&nbsp;{{ $t("contactList.unset") }}&nbsp;</el-button
                       >
                       <el-button
@@ -86,7 +94,7 @@
                         round
                         type="info"
                         :size="btnSize"
-                        @click="mute(member.id)"
+                        @click="mute(member)"
                         >&nbsp;{{ $t("contactList.mute") }}&nbsp;</el-button
                       >
                     </el-button-group>
@@ -105,7 +113,7 @@ import { reactive, ref, watch } from "vue";
 import { useUserStore } from "../stores/userStore";
 import { storeToRefs } from "pinia";
 import { Delete } from "@element-plus/icons-vue";
-import { ElMessage } from 'element-plus'
+import { ElMessage } from "element-plus";
 import {
   showFriendList,
   hideFriend,
@@ -122,7 +130,7 @@ import {
 } from "../api/group";
 import { UserFilled } from "@element-plus/icons-vue";
 import { useI18n } from "vue-i18n";
-import { onMounted } from 'vue'
+import { onMounted } from "vue";
 import { min } from "lodash";
 import { useRouter } from "vue-router";
 
@@ -141,89 +149,102 @@ const loading = ref(false);
 const nodata = ref(false);
 const pageN = ref(props.param.page.pageNum);
 const store = useUserStore();
-const { token} = storeToRefs(store);
-const minW = ref('60px');
+const { token } = storeToRefs(store);
+const minW = ref("60px");
 const btnSize = "default";
 var list = reactive([]);
 var selectMember = reactive({});
 const dialogVisible = ref(false);
 const bgColor = reactive({
-  backgroundColor:'#fef0f0'
+  backgroundColor: "#fef0f0",
 });
 const { t } = useI18n();
 function checkType(state) {
-  if(state == 2) {
+  if (state == 2) {
     return "info";
-  } else if(state == 1) {
+  } else if (state == 1) {
     return "success";
-  } else if(state == 0) {
+  } else if (state == 0) {
     return "danger";
   }
   return "success";
 }
-function detectHidden() {
-  
+function detectHidden(state) {
+  if (!props.showAll && state == 1) {
+    return "hide";
+  }
+  return "infinite-list-item";
 }
 function test() {
   const testList = [
     {
       id: "3642178321",
       name: "mike",
-      avatar: "hdfsjakdsa",
+      avatar:
+        "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
       state: 2,
     },
     {
       id: "3642178321",
       name: "mike",
-      avatar: "hdfsjakdsa",
+      avatar:
+        "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg",
       state: 0,
     },
     {
       id: "3642178321",
       name: "mike",
-      avatar: "hdfsjakdsa",
+      avatar:
+        "https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg",
       state: 1,
     },
     {
       id: "3642178321",
       name: "mike",
-      avatar: "hdfsjakdsa",
+      avatar:
+        "https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg",
+      state: 1,
+    },
+    {
+      id: "3642178321",
+      name: "mike",
+      avatar:
+        "https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg",
       state: 0,
     },
     {
       id: "3642178321",
       name: "mike",
-      avatar: "hdfsjakdsa",
+      avatar:
+        "https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg",
+      state: 1,
+    },
+    {
+      id: "3642178321",
+      name: "mike",
+      avatar:
+        "https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg",
       state: 0,
     },
     {
       id: "3642178321",
       name: "mike",
-      avatar: "hdfsjakdsa",
+      avatar:
+        "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
       state: 0,
     },
     {
       id: "3642178321",
       name: "mike",
-      avatar: "hdfsjakdsa",
+      avatar:
+        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
       state: 0,
     },
     {
       id: "3642178321",
       name: "mike",
-      avatar: "hdfsjakdsa",
-      state: 0,
-    },
-    {
-      id: "3642178321",
-      name: "mike",
-      avatar: "hdfsjakdsa",
-      state: 0,
-    },
-    {
-      id: "3642178321",
-      name: "mike",
-      avatar: "hdfsjakdsa",
+      avatar:
+        "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
       state: 0,
     },
   ];
@@ -232,9 +253,7 @@ function test() {
   }
   if (!loading.value) {
     loading.value = true;
-    console.log("load");
     list.push(...testList);
-    console.log("list.length: " + list.length);
     props.param.page.pageNum += 1;
   }
   loading.value = false;
@@ -245,7 +264,7 @@ function load() {
     let result;
     let page = {
       pageSize: props.param.page.pageSize,
-      pageNum: pageN.value
+      pageNum: pageN.value,
     };
     if (props.isFriend) {
       result = showFriendList(token, page, props.showAll);
@@ -272,7 +291,7 @@ function load() {
         }
       })
       .catch((err) => {
-        let msg
+        let msg;
         if (props.isFriend) {
           msg = t("contactList.friend.ListError");
         } else {
@@ -291,22 +310,19 @@ function load() {
       });
   }
 }
-function hide(id) {
+function hide(member) {
+  member.state = 1;
+  selectMember = {};
   let result;
   if (props.isFriend) {
-    result = hideFriend(token, id);
+    result = hideFriend(token, member.id);
   } else {
-    result = hideGroup(token, id);
+    result = hideGroup(token, member.id);
   }
   result
     .then((res) => {
       if (res.data.success) {
-        for (var i = 0; i < list.length; i++) {
-          if (list[i].id == id) {
-            list.splice(i, 1);
-            break;
-          }
-        }
+        member.state = 1;
       } else {
         ElMessage({
           type: "error",
@@ -317,7 +333,7 @@ function hide(id) {
       }
     })
     .catch((err) => {
-      let msg
+      let msg;
       if (props.isFriend) {
         msg = t("contactList.friend.hideError");
       } else {
@@ -333,22 +349,19 @@ function hide(id) {
     })
     .finally(() => {});
 }
-function mute(id) {
+function mute(member) {
+  member.state = 2;
+  selectMember = {};
   let result;
   if (props.isFriend) {
-    result = muteFriend(token, id);
+    result = muteFriend(token, member.id);
   } else {
-    result = muteGroup(token, id);
+    result = muteGroup(token, member.id);
   }
   result
     .then((res) => {
       if (res.data.success) {
-        for (var i = 0; i < list.length; i++) {
-          if (list[i].id == id) {
-            // --------------------------------------------待商讨
-            list.splice(i, 1);
-          }
-        }
+        member.state = 2;
       } else {
         ElMessage({
           type: "error",
@@ -359,7 +372,7 @@ function mute(id) {
       }
     })
     .catch((err) => {
-      let msg
+      let msg;
       if (props.isFriend) {
         msg = t("contactList.friend.muteError");
       } else {
@@ -375,17 +388,19 @@ function mute(id) {
     })
     .finally(() => {});
 }
-function unset(id) {
+function unset(member) {
+  member.state = 0;
+  selectMember = {};
   let result;
   if (props.isFriend) {
-    result = unsetFriend(token, id);
+    result = unsetFriend(token, member.id);
   } else {
-    result = unsetGroup(token, id);
+    result = unsetGroup(token, member.id);
   }
   result
     .then((res) => {
       if (res.data.success) {
-        //-------------------------------------------?
+        member.state = 0;
       } else {
         ElMessage({
           type: "error",
@@ -396,7 +411,7 @@ function unset(id) {
       }
     })
     .catch((err) => {
-      let msg
+      let msg;
       if (props.isFriend) {
         msg = t("contactList.friend.unsetError");
       } else {
@@ -438,7 +453,7 @@ function del(id) {
       }
     })
     .catch((err) => {
-      let msg
+      let msg;
       if (props.isFriend) {
         msg = t("contactList.friend.delError");
       } else {
@@ -456,33 +471,33 @@ function del(id) {
 }
 function toChat(member) {
   if (props.isFriend) {
-    router.push({ name:'chatRoom', params: {id: 'f'+ member.id} });
+    router.push({ name: "chatRoom", params: { id: "f" + member.id } });
   } else {
     store.updategroupInfo({
       gid: member.id,
       note: member.notice,
       gName: member.name,
       gAvatar: member.avatar,
-    })
-    router.push({ name:'chatRoom', params: {id: 'g'+ member.id} });
+    });
+    router.push({ name: "chatRoom", params: { id: "g" + member.id } });
   }
 }
-onMounted(()=> {
-  if(props.isFriend) {
-    bgColor.backgroundColor = '#fef0f0';
+onMounted(() => {
+  if (props.isFriend) {
+    bgColor.backgroundColor = "#fef0f0";
   } else {
-     bgColor.backgroundColor = '#faecd8';
-     minW.value = '90px';
+    bgColor.backgroundColor = "#faecd8";
+    minW.value = "90px";
   }
-})
-watch (
+});
+watch(
   () => list.length,
   (length) => {
-    if(length <= props.param.page.pageSize ) {
+    if (length <= props.param.page.pageSize) {
       load();
     }
   }
-)
+);
 </script>
 <style scoped>
 .main-scroll {
@@ -527,6 +542,9 @@ watch (
   text-align: center;
   z-index: 4;
 }
+.hide {
+  display: none;
+}
 .all {
   overflow: clip;
   min-height: 400px;
@@ -553,5 +571,8 @@ watch (
 .el-button:not(#b1) {
   min-width: 40px;
   width: 60px;
+}
+.dialog {
+  z-index: 500;
 }
 </style>
