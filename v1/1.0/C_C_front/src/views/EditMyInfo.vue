@@ -1,31 +1,31 @@
 <template>
-  <div class="all">
+  <div class="all flex">
       <div class="avatar">
         <el-avatar class="img" :src="tt.avatar" />
       </div>
 
-      <div class="info text">
-        <div class="first">
-            <div class="uname">
+      <div class="flex text">
+        <div class="item-div flex">
+            <div class="item">
                 <info-item :label="tt.label1" :value="tt.value1" can-change></info-item>
             </div>
-            <div class="birth">
+            <div class="item">
                 <info-item :label="tt.label2" :value="tt.value2" can-change></info-item>
             </div>
         </div>
-        <div class="second">
-            <div class="pwd">
+        <div class="item-div flex">
+            <div class="item">
                 <info-item :label="tt.label3" :value="tt.value3" can-change is-pwd></info-item>
             </div>
-            <div class="phone">
+            <div class="item">
                 <info-item :label="tt.label4" :value="tt.value4" can-change></info-item>
             </div>
         </div>
-        <div class="third">
-            <div class="email">
+        <div class="item-div flex">
+            <div class="item">
                 <info-item :label="tt.label5" :value="tt.value5" can-change></info-item>
             </div>
-            <div class="address">
+            <div class="item">
                 <info-item :label="tt.label6" :value="tt.value6" can-change></info-item>
             </div>
         </div>
@@ -68,56 +68,25 @@ const tt = {
 </script>
 <style scoped>
 .all {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
   height: 100%;
 }
-.top {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  height: 25%;
+.text {
+  height: 75%;
 }
-.info {
+.flex {
   display: -webkit-flex; /* Safari */
   display: flex;
-  flex-direction: column;
+  flex-flow: column nowrap;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 75%;
 }
-.first {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-direction: row;
+.item-div {
+  flex-flow: row nowrap;
   justify-content: space-around;
-  align-items: center;
-  width: 100%;
   height: 33.3%;
 }
-.second {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 33.3%;
-}
-.third {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 33.3%;
+.item {
+  width: 50%;
 }
 </style>

@@ -161,6 +161,9 @@ function checkType(state) {
   }
   return "success";
 }
+function detectHidden() {
+  
+}
 function test() {
   const testList = [
     {

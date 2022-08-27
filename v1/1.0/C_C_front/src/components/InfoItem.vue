@@ -65,7 +65,6 @@ const props = defineProps({
   label: String,
   value: String,
   canChange: Boolean,
-  // hideBtn: Boolean,
   // matchFormat: String,
 });
 const v = ref(props.value);
@@ -103,7 +102,7 @@ function changeBtn() {
   align-items: center;
 }
 .fullW {
-  width: 100%;
+  width: 250px;
 }
 .top {
   align-items: flex-start;

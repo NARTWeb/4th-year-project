@@ -1,6 +1,7 @@
 <template>
   <div class="all flex">
     <div class="inner-all">
+      <el-button class="to-setting" @click="toGroupInfo" plain><el-icon><Star /></el-icon></el-button>
       <el-scrollbar height="60vh" id="all">
         <ul v-infinite-scroll="tList" class="infinite-list">
           <li v-for="msg in msgList" :key="msg.msgId">
@@ -30,7 +31,7 @@
 <script setup>
 import { ElMessage } from "element-plus";
 import { ref, reactive, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { showGroupChatHistory, showFriendChatHistory } from "../api/chat";
 import { useUserStore } from "../stores/userStore";
@@ -41,6 +42,7 @@ import { format } from "../utils/time.js";
 
 const { t } = useI18n();
 const route = useRoute();
+const router = useRouter();
 const store = useUserStore();
 const { token, avatar, name } = storeToRefs(store);
 const counter = ref(0);
@@ -224,4 +226,14 @@ display: -webkit-flex; /* Safari */
   flex-grow: 1;
   flex-shrink: 1;
 }
+.to-setting {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  width: 25px;
+  height: 25px;
+  z-index: 1000;
+}
 </style>
+
+

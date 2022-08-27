@@ -40,7 +40,6 @@ import InfoItem from "../components/InfoItem.vue";
 import { format } from "@/utils/time.js";
 import { showMemberList } from "@/api/group.js";
 import { ElMessage } from "element-plus";
-import { group } from "console";
 
 const store = useUserStore();
 const { token, groupInfo } = storeToRefs(store);
