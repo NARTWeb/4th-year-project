@@ -3,7 +3,7 @@
      <div class="search">
         <el-input id="searchF" placeholder="Search Your Friend here">
             <template #append>
-                <el-button @click="searchFriend" :icon="Search" />
+                <el-button @click="searchFr" :icon="Search" />
             </template>
         </el-input>
     </div>
@@ -37,10 +37,11 @@ import { useI18n } from "vue-i18n";
 import ResultItem from "../components/ResultItem.vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
-import { t } from "vitest/dist/index-4a906fa4";
 import { useNewStore } from "../stores/newStore";
 import { showFriendList } from "../api/friend";
 
+
+const { t } = useI18n();
 
 const store = useUserStore();
 const Fstore = useFriendStore();
@@ -54,7 +55,7 @@ const page = reactive({
   pageSize: 5,
   pageNum: 0,
 });
-
+const input = ref<String>('');
 
 function close(id) {
   newStore.delItem(id);
@@ -62,7 +63,7 @@ function close(id) {
 function addBtn(id) {
 
 }
-function searchFriend() {
+function searchFr() {
     searchFriend(token, input, page)
     .then((res) =>{
         if(res.data.success){
@@ -89,7 +90,7 @@ function searchFriend() {
 function load(){
     if(!loading.value && !nodata.value){
         loading.value = true;
-        searchFriend(token. input, page)
+        searchFriend(token, input, page)
         .then((res) => {
             if(res.data.success){
                 if(res.data.data.length > 0){
@@ -116,7 +117,7 @@ function load(){
             });
         })
         .finally(() => {
-            this.loading.value = false;
+            loading.value = false;
         });
     }
 }
