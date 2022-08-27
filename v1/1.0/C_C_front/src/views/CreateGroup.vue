@@ -70,6 +70,11 @@
         </div>
       </el-main>
     </el-container>
+
+      <el-dialog v-model="dialogFormVisible" title="Adding Friends">
+        <slot><PopWinFriendList  ></PopWinFriendList></slot>
+        
+      </el-dialog>
   </div>
 </template>
 <script setup>
@@ -81,7 +86,9 @@ import { createNewGroup, sendGroupInvite } from "../api/group";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/userStore";
 import { ElMessage } from 'element-plus'
+import PopWinFriendList from './PopWinFriendList.vue'
 
+const dialogFormVisible = ref(false)
 const store = useUserStore();
 const router = useRouter();
 const { token } = storeToRefs(store);
@@ -189,7 +196,7 @@ function create() {
     }
 }
 function toPopWin() {
-  router.push({ name: "popWin", params: {} });
+  dialogFormVisible.value = true;
 }
 </script>
 <style scoped>

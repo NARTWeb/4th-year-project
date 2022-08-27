@@ -76,7 +76,7 @@ const tt = {
   width: 100%;
   height: 100%;
 }
-.top {
+.avatar {
   display: -webkit-flex; /* Safari */
   display: flex;
   justify-content: flex-start;
@@ -93,28 +93,10 @@ const tt = {
   width: 100%;
   height: 75%;
 }
-.first {
+.first .second .third{
   display: -webkit-flex; /* Safari */
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 33.3%;
-}
-.second {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 33.3%;
-}
-.third {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-direction: row;
+  flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
   width: 100%;

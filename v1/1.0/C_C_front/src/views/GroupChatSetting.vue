@@ -1,31 +1,41 @@
 <template>
-  <div class="all">
-      <div class="member">
+  <div class="all flex">
+      <div class="member flex">
         <el-scrollbar height="45vh">
             <div v-for="member in memberList" :key="member.id" class="scroll-item">
-            <el-avatar
-                :size="60"
-                :src="member.avatar"
-                />
-            <div class="memberName">{{ member.uname }}</div>
+              <el-avatar
+                  :size="60"
+                  :src="member.avatar"
+                  />
+              <div class="memberName">{{ member.uname }}</div>
             </div>
             <div>
+              <span>
                 <button class="add">+</button>
                 <button class="del">-</button>
+              </span>                
             </div>
         </el-scrollbar>
       </div>
 
-      <div>
-        <label>groupName</label>
-        <span>{{groupInfo.groupName}}</span>
-        <el-button type="primary" @click="changeBtn">change</el-button>
+      <div class="item flex">
+        <div class="change flex">
+          <div><label>groupName</label></div>
+          <div><el-button type="primary" @click="changeBtn">change</el-button></div>
+        </div>
+        <div>
+          <span>{{groupInfo.groupName}}</span>
+        </div> 
       </div>
-      <div>
 
-        <label>importantNotice</label>
-        <span>{{groupInfo.notice}}</span>
-        <el-button type="primary" @click="changeBtn">change</el-button>
+      <div class="item flex">
+        <div class="change flex">
+          <div><label>importantNotice</label></div>
+          <div><el-button type="primary" @click="changeBtn">change</el-button></div>
+        </div>
+        <div>
+          <span>{{groupInfo.notice}}</span>
+        </div> 
       </div>
   </div>
 </template>
@@ -96,7 +106,7 @@ function getMember() {
 
 </script>
 <style scoped>
-.all {
+.flex {
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: column;
@@ -105,48 +115,13 @@ function getMember() {
   width: 100%;
   height: 100%;
 }
-.top {
-  display: -webkit-flex; /* Safari */
-  display: flex;
+.member {
   justify-content: flex-start;
-  align-items: center;
-  width: 100%;
   height: 25%;
 }
-.info {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 75%;
-}
-.first {
-  display: -webkit-flex; /* Safari */
-  display: flex;
+.change {
   flex-direction: row;
   justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 33.3%;
-}
-.second {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 33.3%;
-}
-.third {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 33.3%;
+  height: 25%;
 }
 </style>
