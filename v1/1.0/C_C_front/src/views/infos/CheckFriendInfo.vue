@@ -164,6 +164,7 @@ function load() {
 .bottom {
   -webkit-flex: auto;
           flex: auto;
+  overflow: hidden;
 }
 .infinite-list {
   list-style: none;

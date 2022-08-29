@@ -71,7 +71,7 @@
       </div>
     </div>
     <div class="changeable">
-      <div class="item flex">
+      <div class="item flex i1">
         <div class="change flex">
           <div class="this-font">groupName</div>
           <el-input
@@ -86,7 +86,7 @@
         </div>
       </div>
 
-      <div class="item flex">
+      <div class="item flex i2">
         <div class="change flex">
           <div class="this-font">importantNotice</div>
           <el-input
@@ -365,9 +365,15 @@ onMounted(() => {
     height: 300px;
   }
 }
-@media screen and (max-height: 699px) {
+@media screen and (max-height: 699px) and (min-height: 600px){
   .member {
     height: 200px;
+  }
+}
+@media screen and (max-height: 599px) {
+  .member {
+    height: 200px;
+    margin-top: -50px;
   }
 }
 .item {
@@ -382,6 +388,11 @@ onMounted(() => {
 }
 .avatar-and-members {
   flex-flow: row nowrap;
+}
+@media screen and (max-height:540px) {
+  .avatar-and-members {
+    margin-top: -20px;
+  }
 }
 .memberName {
   text-align: center;
@@ -447,7 +458,7 @@ img {
   .changeable {
     width: 100%;
     padding: 0;
-    margin: 0;
+    margin: 0 0;
     display: block;
   }
   .name-bar {
@@ -456,8 +467,11 @@ img {
   .notice-bar {
     width: 50%;
   }
+  .i1 {
+    top: -40px;
+  }
 }
-@media screen and (max-height: 909px) {
+@media screen and (max-height: 909px){
   .changeable {
     width: 100%;
     padding: 0;
@@ -473,6 +487,13 @@ img {
   }
   .notice-bar {
     width: 100%;
+  }
+  @media screen and (max-height: 599px) {
+    .changeable {
+    width: 100%;
+    padding: 0;
+    margin-top: -50px;
+    }
   }
 }
 </style>

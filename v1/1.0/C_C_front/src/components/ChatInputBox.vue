@@ -105,15 +105,15 @@ watch(uploaded, (newValue) => {
   justify-content: space-between;
   align-items: center;
   width: 75vw;
-  height: 10px;
+  height: 100%;
 }
 #left {
   background-color: transparent;
   width: 100%;
-  height: 100%;
+  height: 90%;
 }
 #right {
-  height: 100%;
+  height: 80%;
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-flow: column wrap;

@@ -1,8 +1,8 @@
 <template>
   <div class="all flex">
-      <div class="center">
+      <div class="big center">
         <el-avatar class="img" :src="tt.avatar" />
-        <div class="center">
+        <div class="small center">
           <el-upload
             ref="uploadRef"
             class="upload-demo"
@@ -28,7 +28,7 @@
       </div>
 
       <div class="flex text">
-        <div class="item-div flex">
+        <div class="item-div flex item1">
             <div class="item">
                 <info-item :label="tt.label1" :value="tt.value1" can-change></info-item>
             </div>
@@ -141,5 +141,24 @@ function uploadFun() {
 }
 .center {
   text-align: center;
+}
+@media screen and (min-height: 670px) {
+.img {
+  width: 150px;
+  height: 150px;
+}
+}
+@media screen and (max-height: 669px) {
+  .img {
+  width: 100px;
+  height: 100px;
+}
+}
+@media screen and (max-height: 599px) {
+  .small {
+    float: right;
+    margin-left: 30px;
+    margin-top: 20px;
+  }
 }
 </style>

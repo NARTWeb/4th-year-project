@@ -225,8 +225,8 @@ display: -webkit-flex; /* Safari */
 }
 .inner-all {
     width: 100%;
-    flex-grow: 1;
-    flex-shrink: 1;
+    height: 200px;
+    flex: auto;
 }
 .infinite-list {
   display: -webkit-flex; /* Safari */
@@ -236,9 +236,7 @@ display: -webkit-flex; /* Safari */
   margin-right: 26px;
 }
 .input-box {
-  min-height: 100px;
-  flex-grow: 1;
-  flex-shrink: 1;
+  height: 170px;
 }
 .to-setting {
   display: v-bind(showSetting);
