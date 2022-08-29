@@ -1,4 +1,5 @@
 export default{
+    changeLang: "中文",
     main: {
         menu: {
             item1: 'post my status',
@@ -115,8 +116,24 @@ export default{
         login: 'Login',
         register: 'Register',
         uname: "Username",
+        email: "email",
         pwd: 'Password',
+        pwd2: 'Password Again',
         toRegister: 'register here!',
-        toLogin: 'login here!'
+        toLogin: 'login here!',
+        unameError: 'Username must consist of 3 to 16 letters, numbers, _ or -',
+        pwdError: 'Password must consist of 6 to 18 letters, numbers, _ or -',
+        emailError: 'email format incorrect!',
+        addressError: 'address format incorrect!',
+        phoneError: 'phone number format incorrect!',
+        birthdayError: 'birthday format incorrect!',
+    },
+    user: {
+        loginError: 'fail to login',
+        mainError: 'fail to get user avatar and username',
+        infoError: 'fail to get user detailed information',
+        changeInfoError: 'fail to change user information',
+        logoutError: 'fail to logout',
+        registerError: 'fail to register',
     }
 }

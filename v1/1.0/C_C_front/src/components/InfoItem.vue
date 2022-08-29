@@ -14,18 +14,18 @@
           v-model="newPwd2"
           @input="checkPwd"
         />
-        <div class="error3">New Password not match!</div>
+        <div class="error3">New Passwords not match!</div>
       </div>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="clearBtn">Cancel</el-button>
-          <el-button type="primary" @click="changeBtn">Confirm</el-button>
+          <el-button type="primary" @click="changeBtn" :disabled="confirm">Confirm</el-button>
         </span>
       </template>
     </el-dialog>
     <div class="top flex fullW">
       <span class="text title">{{ props.label }}</span>
-      <hr class="fullW"/>
+      <hr class="fullW" />
     </div>
     <div class="bottom fullW">
       <div v-if="props.isPwd" class="pwde flex fullW">
@@ -37,11 +37,18 @@
       </div>
       <div v-else class="elements flex fullW">
         <div>
-          <el-input v-if="changeValue" v-model="v" @blur="changeValue = false"></el-input>
+          <el-input
+            v-if="changeValue"
+            v-model="v"
+            @change="checkInput"
+            @blur="checkInput"
+          ></el-input>
           <span v-else class="text cb">{{ v }}</span>
         </div>
         <div class="el-right">
-          <el-button round type="primary" v-show="canChange" @click="changeBtn">change</el-button>
+          <el-button round type="primary" v-show="canChange" @click="changeBtn"
+            >change</el-button
+          >
         </div>
       </div>
     </div>
@@ -50,6 +57,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useI18n } from "vue-i18n";
+import { ElMessage } from "element-plus";
 
 const { t } = useI18n();
 const input = ref("");
@@ -59,20 +67,46 @@ const newPwd2 = ref("");
 const dialogVisible = ref(false);
 const error3Display = ref("none");
 const changeValue = ref(false);
+const confirm = ref(false);
+
+const emit = defineEmits(["changeFun", "changePwd"]);
 
 const props = defineProps({
   isPwd: Boolean,
   label: String,
   value: String,
+  reg: RegExp,
   canChange: Boolean,
   // matchFormat: String,
 });
 const v = ref(props.value);
+
 function clearBtn() {
   dialogVisible.value = false;
   oldPwd.value = "";
   newPwd.value = "";
   newPwd2.value = "";
+}
+function checkInput() {
+  changeValue.value = false;
+  let errorClass = '';
+  if(props.label == 'Username') {
+    errorClass = "uname";
+  } else {
+    errorClass = props.label.toLowerCase();
+  }
+  let regexp = new RegExp(props.reg);
+  if(!regexp.test(v.value)) {
+    ElMessage({
+          type: "error",
+          message: t('welcome.' + errorClass + 'Error'),
+          showClose: true,
+          grouping: true,
+        });
+    v.value = props.value;
+  } else {
+    change();
+  }
 }
 function checkPwd() {
   if (newPwd.value == newPwd2.value) {
@@ -80,12 +114,31 @@ function checkPwd() {
   } else {
     error3Display.value = "";
   }
+  let regexp = new RegExp(/^[\w-]{6,18}$/);
+  if (!regexp.test(newPwd.value)) {
+    ElMessage({
+      type: "warning",
+      message: t("welcome.pwdError"),
+      showClose: true,
+      grouping: true,
+    });
+    confirm.value = true;
+  } else {
+    confirm.value = false;
+  }
 }
 function changeBtn() {
-  if(props.isPwd) {
-    dialogVisible.value = true;
+  if (props.isPwd) {
+    dialogVisible.value = dialogVisible.value == true ? false:true;
   } else {
-    changeValue.value = true;
+    changeValue.value = changeValue.value == true ? false:true;
+  }
+}
+function change() {
+  if (!props.isPwd) {
+    emit("changeFun", props.label, input);
+  } else {
+    emit("changePwd", oldPwd, newPwd);
   }
 }
 </script>
