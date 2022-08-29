@@ -32,6 +32,9 @@
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
+                  <el-dropdown-item @click="changeLang()">{{
+                    $t("changeLang")
+                  }}</el-dropdown-item>
                   <el-dropdown-item @click="postStatus">{{
                     $t("main.menu.item1")
                   }}</el-dropdown-item>
@@ -166,9 +169,11 @@ var groupParam = reactive({
     pageNum: 1,
   },
 });
+var lang = 'zh';
 var friendShowAll = ref(false);
 var groupShowAll = ref(false);
 const { t } = useI18n();
+const { locale } = useI18n();
 
 function searchF() {
   searchFriend(token, searchInput.value, friendParam.page)
@@ -193,6 +198,11 @@ function searchF() {
       console.log(err);
     })
     .finally(() => {});
+}
+function changeLang() {
+  locale.value = lang
+  localStorage.setItem('lang', lang)
+  lang = lang == 'en' ? 'zh' : 'en';
 }
 function showAllFriends() {
   friendShowAll.value = friendShowAll.value == true ? false : true;
@@ -225,9 +235,6 @@ function toSearch() {
   router.push({
     name: "searchFriend"
   });
-}
-function btn() {
-  alert("djhskadsa");
 }
 function menuClick(index) {
   router.push({

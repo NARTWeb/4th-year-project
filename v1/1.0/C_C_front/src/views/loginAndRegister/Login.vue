@@ -60,56 +60,82 @@
             {{ $t("welcome.login") }}
           </div>
         </button>
-        <div @click="toRegister" class="text-center hover:text-green-400">{{$t('welcome.toRegister')}}</div>
+        <div @click="toRegister" class="text-center hover:text-green-400">
+          {{$t('welcome.toRegister')}}
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import tool from "@/utils/tool.js";
+import { signin } from "@/api/user";
+import { ElMessage } from 'element-plus'
+import  useUserStore  from "@/stores/userStore";
 
 export default {
   data() {
     return {
       uname: "",
       pwd: "",
+      store: useUserStore(),
+      unameReg: /^[\w-]{3,16}$/,
+      pwdReg: /^[\w-]{6,18}$/,
     };
   },
   methods: {
-    regOrLogin: function () {
+    toRegister: function() {
+      this.$router.push('/register');
+    },  
+    login: function () {
       let uname = this.uname;
       let pwd = this.pwd;
       if (!tool.isNotNull(uname)) {
-        // 获得焦点
         this.$refs.username.focus();
       } else if (!tool.isNotNull(pwd)) {
         this.$refs.password.focus();
       } else {
-        // 判断用户输入是否合法
-        if (uname.length > 12) {
-          return false;
-        } else if (pwd.length < 6) {
+        let reg = new RegExp(this.unameReg);
+        if (!reg.test(uname)) {
+          ElMessage({
+            type: "warning",
+            message: this.$t('welcome.unameError'),
+            showClose: true,
+            grouping: true,
+          });
           return false;
         }
-        axios
-          .post(tool.serverUrl + "user/registerOrLogin", {
-            params: {
-              uname: this.uname,
-              pwd: this.pwd,
-            },
-            timeout: 10000, // 设置超时间为10s
-          })
-          .then(
-            (res) => {
-              console.log(JSON.stringify(res.data));
-            },
-            (err) => {
-              console.log(err);
-            }
-          );
+        reg = new RegExp(this.pwdReg);
+        if (!reg.test(pwd)) {
+          ElMessage({
+            type: "warning",
+            message: this.$t('welcome.pwdError'),
+            showClose: true,
+            grouping: true,
+          });
+          return false;
+        }
+        signin(uname, pwd)
+        .then((res) => {
+          if(res.data.success) {
+            this.store.token = res.data.data;
+          } else {
+            ElMessage({
+            type: "error",
+            message: res.data.msg,
+            showClose: true,
+            grouping: true,
+          });
+          }
+        }).catch((err) => {
+          ElMessage({
+            type: "error",
+            message: this.$t('welcome.loginError'),
+            showClose: true,
+            grouping: true,
+          });
+        })
       }
-      console.log(uname);
-      console.log(pwd);
     },
   },
   computed: {
@@ -144,6 +170,8 @@ export default {
   // remove style on body on updated
   Updated() {
     document.querySelector("body").removeAttribute("style");
+  },
+  setup() {
   }
 };
 </script>
