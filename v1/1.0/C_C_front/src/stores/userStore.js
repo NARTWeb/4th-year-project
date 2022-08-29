@@ -65,8 +65,8 @@ const useUserStore = defineStore("user", {
         signin(user.account, user.password)
           .then((res) => {
             if (res.data.success) {
-              this.token = res.data.data;
               setToken(res.data.data);
+              this.token = getToken();
               setupWS();
               getAvatarUname();
               resolve();
@@ -249,8 +249,8 @@ const useUserStore = defineStore("user", {
         register(user.uname, user.pwd, user.email)
           .then((res) => {
             if (res.data.success) {
-              this.token = res.data.data;
               setToken(res.data.data);
+              this.token = getToken();
               setupWS();
               getAvatarUname();
               resolve();

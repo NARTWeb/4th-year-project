@@ -113,11 +113,17 @@ const router = createRouter({
   ]
 });
 
-router.beforeEach((to, from, next)=>{
-  console.log(to);
-  console.log(from);
-  next();//通行证
-})
+router.beforeEach((to, from, next) => {
+	// if (!localStorage.getItem('token')) {
+	// 	if (to.name == "login" || to.name == "register") {
+	// 		next();
+	// 	} else {
+	// 		router.push('login')
+	// 	}
+	// } else {
+		next();
+	// }
+});
 
 
 export default router
