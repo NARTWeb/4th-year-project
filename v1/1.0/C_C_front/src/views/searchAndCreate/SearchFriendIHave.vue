@@ -19,12 +19,12 @@
 <script setup>
 import { ref, reactive, watch, onBeforeUnmount, onMounted,  } from "vue";
 import { useI18n } from "vue-i18n";
-import { useUserStore } from "../stores/userStore";
-import { useFriendStore } from "../stores/friendStore";
+import useUserStore from "@/stores/userStore";
+import { useFriendStore } from "@/stores/friendStore";
 import { storeToRefs } from "pinia";
 import { ElMessage } from "element-plus";
-import { sendFriendRequest } from "../api/friend";
-import ResultItem from "../components/ResultItem.vue";
+import { sendFriendRequest } from "@/api/friend";
+import ResultItem from "@/components/ResultItem.vue";
 import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
@@ -48,6 +48,7 @@ function load() {
 </script>
 <style scoped>
 #all {
-    margin-left: -1em;
+  padding: 0;
+  margin: -10px 0;
 }
 </style>

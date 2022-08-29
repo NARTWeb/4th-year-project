@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="overall">
     <el-container>
       <el-header>
         <div class="header-row">
@@ -62,12 +62,12 @@
           </div>
         </div>
       </el-header>
-      <el-main>
+      <el-main class="first-main">
         <el-container>
           <el-header class="header">
             <div class="header-text t1">{{ $t("main.bar.item1") }}</div>
             <div class="header-text t2">{{ $t("main.bar.item2") }}</div>
-            <div>
+            <div class="header-menu">
               <el-menu
                 class="el-menu-demo"
                 mode="horizontal"
@@ -105,6 +105,7 @@
                   </div>
                   <div class="main-bar" id="m2">
                     <contact-list
+                      :isFriend="false"
                       :showAll="groupShowAll"
                       :param="groupParam"
                     ></contact-list>
@@ -123,20 +124,20 @@
 </template>
 <script setup>
 import { reactive, ref } from "vue";
-import { useUserStore } from "../stores/userStore";
-import { useFriendStore } from "../stores/friendStore.js";
+import  useUserStore  from "@/stores/userStore";
+import { useFriendStore } from "@/stores/friendStore.js";
 import { storeToRefs } from "pinia";
 import { Search } from "@element-plus/icons-vue";
-import { searchFriend } from "../api/friend";
-import ContactList from "../components/ContactList.vue";
+import { searchFriend } from "@/api/friend";
+import ContactList from "@/components/ContactList.vue";
 import { RouterLink, RouterView } from "vue-router";
 import { useI18n } from "vue-i18n";
-import AcceptableItem from "../components/AcceptableItem.vue";
-import ResultItem from "../components/ResultItem.vue";
-import StatusItem from "../components/StatusItem.vue";
-import ChatMessage from "../components/ChatMessage.vue";
-import MyStatusItem from "../components/MyStatusItem.vue";
-import InfoItem from "../components/InfoItem.vue";
+import AcceptableItem from "@/components/AcceptableItem.vue";
+import ResultItem from "@/components/ResultItem.vue";
+import StatusItem from "@/components/StatusItem.vue";
+import ChatMessage from "@/components/ChatMessage.vue";
+import MyStatusItem from "@/components/MyStatusItem.vue";
+import InfoItem from "@/components/InfoItem.vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 
@@ -250,15 +251,6 @@ function menuClick(index) {
   width: 60vw;
   min-width: 200px;
 }
-.aside {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  min-width: 70px;
-  height: 100%;
-  align-content: flex-start;
-}
 .aside-main {
   display: -webkit-flex; /* Safari */
   display: flex;
@@ -310,11 +302,12 @@ function menuClick(index) {
   margin-bottom: -1vh;
   min-width: 810px;
 }
+@media screen and (min-width: 660px) {
 .el-menu-demo {
   height: 7vh;
   min-height: 40px;
-  width: 80vw;
-  min-width: 660px;
+  width: 100%;
+}
 }
 .menuItem {
   width: 25%;
@@ -329,9 +322,6 @@ function menuClick(index) {
   margin-top: 0;
   margin-left: 1px;
   background-color: #fafafa;
-}
-.common-layout {
-  overflow: clip;
 }
 .main-main {
   margin-top: 1vh;
@@ -360,5 +350,47 @@ function menuClick(index) {
 }
 .col3 {
   padding-left: 3.5em;
+}
+.header-menu {
+  flex: auto;
+}
+#overall {
+  min-height: 500px;
+}
+@media screen and (min-height:635px) {
+  #overall {
+  padding-top:20px;
+  padding-right:20px;
+}
+}
+@media screen and (max-height:634px) and (min-height:590px){
+  #overall {
+  padding-top:10px;
+  padding-right:10px;
+}
+}
+@media screen and (max-height:589px){
+  #overall {
+  padding-top:0px;
+  padding-right:0px;
+}
+}
+@media screen and (max-height:816px) and (min-height:727px){
+  .first-main {
+    padding-top:0;
+    margin-top: 0;
+  }
+}
+@media screen and (max-height:726px) and (min-height:544px){
+  .first-main {
+    padding-top:0;
+    margin-top: -20px;
+  }
+}
+@media screen and (max-height:543px){
+  .first-main {
+    padding-top:0;
+    margin-top: -30px;
+  }
 }
 </style>

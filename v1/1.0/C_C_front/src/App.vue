@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-<div id="page">
+<div id="page" class="w-full h-full fixed top-0 left-0 m-0 overflow-auto">
   <RouterView />
 </div>
 </template>

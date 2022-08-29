@@ -33,12 +33,12 @@ import { ElMessage } from "element-plus";
 import { ref, reactive, onMounted, onUpdated, onBeforeUnmount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { showGroupChatHistory, showFriendChatHistory } from "../api/chat";
-import { useUserStore } from "../stores/userStore";
+import { showGroupChatHistory, showFriendChatHistory } from "@/api/chat";
+import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
-import ChatMessage from "../components/ChatMessage.vue";
-import ChatInputBox from "../components/ChatInputBox.vue";
-import { format } from "../utils/time.js";
+import ChatMessage from "@/components/ChatMessage.vue";
+import ChatInputBox from "@/components/ChatInputBox.vue";
+import { format } from "@/utils/time.js";
 
 const { t } = useI18n();
 const route = useRoute();

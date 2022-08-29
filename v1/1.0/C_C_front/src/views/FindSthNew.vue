@@ -28,7 +28,7 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { useNewStore } from "../stores/newStore";
+import { useNewStore } from "@/stores/newStore";
 
 const store = useNewStore();
 const router = useRouter();

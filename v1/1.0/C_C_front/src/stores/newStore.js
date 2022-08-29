@@ -1,7 +1,7 @@
 import { ElMessage } from "element-plus";
 import { defineStore } from "pinia";
-import { showFriendRequests } from "../api/friend";
-import { useUserStore } from "../stores/userStore";
+import { showFriendRequests } from "@/api/friend";
+import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 const store = useUserStore();

@@ -41,12 +41,12 @@
 <script setup>
 import { ref, reactive, watch, onBeforeUnmount, onMounted,  } from "vue";
 import { useI18n } from "vue-i18n";
-import { useUserStore } from "../stores/userStore";
-import { useNewStore } from "../stores/newStore";
+import  useUserStore  from "@/stores/userStore";
+import { useNewStore } from "@/stores/newStore";
 import { storeToRefs } from "pinia";
 import { ElMessage } from "element-plus";
-import { sendFriendRequest } from "../api/friend";
-import ResultItem from "../components/ResultItem.vue";
+import { sendFriendRequest } from "@/api/friend";
+import ResultItem from "@/components/ResultItem.vue";
 import { useRoute } from "vue-router";
 
 const userStore = useUserStore();

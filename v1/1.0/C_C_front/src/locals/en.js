@@ -51,6 +51,8 @@ export default{
         groupNameHolder: "Please Input",
         addMember: "Add Member",
         create: 'Create Group',
+        createError: "Fail to create a group",
+        inviteError: "Fail to invite"
     },
     statusItem: {
         commentPlaceHolder: "make a comment",
@@ -97,7 +99,13 @@ export default{
     },
     groupSetting: {
         getMemberError: "Not able to get members in group",
-        
+        changeName: "Group name change successfully",
+        changeNameError: "Group name changed failed",
+        changeNotice: "Group notice change successfully",
+        changeNoticeError: "Group notice changed failed",
+        changeAvatar: "Group Avatar change successfully",
+        changeAvatarError: "Group Avatar changed failed",
+        addAvatar: "change Avatar",
     },
     friendIHave: {
         chat: "Chat",

@@ -33,10 +33,10 @@
 import { onMounted } from "vue";
 import { reactive, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { useUserStore } from "../stores/userStore";
+import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
-import MyStatusItem from "../components/MyStatusItem.vue";
-import { showMyStatusList, deleteStatus } from "../api/status";
+import MyStatusItem from "@/components/MyStatusItem.vue";
+import { showMyStatusList, deleteStatus } from "@/api/status";
 
 const props = defineProps({
   uid:{

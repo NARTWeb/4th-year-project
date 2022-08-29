@@ -88,7 +88,7 @@ function popInfo() {
 .bubble {
   overflow: hidden;
   position: relative;
-  max-width: 75vw;
+  padding-right: 50px;
   width: 100%;
   min-width: 580px;
 }

@@ -27,18 +27,18 @@
 </template>
 <script setup>
 import { reactive, ref } from "vue";
-import { useUserStore } from "../stores/userStore";
-import { useFriendStore } from "../stores/friendStore.js";
+import  useUserStore from "@/stores/userStore";
+import { useFriendStore } from "@/stores/friendStore.js";
 import { storeToRefs } from "pinia";
 import { Search } from "@element-plus/icons-vue";
-import { searchFriend } from "../api/friend.js";
-import ContactList from "../components/ContactList.vue";
+import { searchFriend } from "@/api/friend.js";
+import ContactList from "@/components/ContactList.vue";
 import { useI18n } from "vue-i18n";
-import ResultItem from "../components/ResultItem.vue";
+import ResultItem from "@/components/ResultItem.vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
-import { useNewStore } from "../stores/newStore";
-import { showFriendList } from "../api/friend";
+import { useNewStore } from "@/stores/newStore";
+import { showFriendList } from "@/api/friend";
 
 
 const { t } = useI18n();

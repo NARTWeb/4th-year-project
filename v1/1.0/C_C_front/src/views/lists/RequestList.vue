@@ -20,12 +20,12 @@
 </template>
 <script setup>
 import { reactive, ref, watch } from "vue";
-import AcceptableItem from "../components/AcceptableItem.vue";
-import { showFriendRequests } from "../api/friend";
-import { useUserStore } from "../stores/userStore";
+import AcceptableItem from "@/components/AcceptableItem.vue";
+import { showFriendRequests } from "@/api/friend";
+import useUserStore from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
-import { responseFriendReq } from "../api/friend";
+import { responseFriendReq } from "@/api/friend";
 import { ElMessage } from "element-plus";
 
 const store = useUserStore();

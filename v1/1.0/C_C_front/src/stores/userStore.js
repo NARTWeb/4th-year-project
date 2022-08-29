@@ -3,7 +3,7 @@ import { getToken, setToken, removeToken } from "@/request/token";
 import { signin, signout, register, showUserInfo, showAvatarUname, changeUserInfo} from "@/api/user.js";
 import { ElMessage } from 'element-plus'
 
-export const useUserStore = defineStore("user", {
+const useUserStore = defineStore("user", {
   state: () => {
     return {
       token: "jkdflsf;jkadfs",
@@ -13,20 +13,32 @@ export const useUserStore = defineStore("user", {
       tel: "",
       address: "",
       birthday: "",
-      groupInfo:{
-        groupId: "",
-        notice: "",
-        groupName: "",
-        groupAvatar: "",
-      }
+      groupId: "",
+      notice: "",
+      groupName: "",
+      groupAvatar: "",
     };
+  },
+  getters :{
+    getGroupId: (state) => {
+      return state.groupId;
+    },
+    getNotice: (state) => {
+      return state.notice;
+    },
+    getGroupName: (state) => {
+      return state.groupName;
+    },
+    getGroupAvatar: (state) => {
+      return state.groupAvatar;
+    },
   },
   actions: {
     updategroupInfo(gInfo){
-      this.groupInfo.groupId = gInfo.gid;
-      this.groupInfo.notice = gInfo.note;
-      this.groupInfo.groupName = gInfo.gName;
-      this.groupInfo.groupAvatar = gInfo.gAvatar;
+      this.groupId = gInfo.gid;
+      this.notice = gInfo.note;
+      this.groupName = gInfo.gName;
+      this.groupAvatar = gInfo.gAvatar;
     },
     login(user) {
       return new Promise((resolve, reject) => {
@@ -172,6 +184,10 @@ export const useUserStore = defineStore("user", {
           });
       });
     },
-
   },
+  persist: {
+    enabled: true
+  }
 });
+
+export default useUserStore;

@@ -1,8 +1,8 @@
 import { ElMessage } from "element-plus";
 import { defineStore } from "pinia";
-import { useUserStore } from "../stores/userStore";
+import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
-import { searchFriend } from "../api/friend";
+import { searchFriend } from "@/api/friend";
 
 const store = useUserStore();
 const { token } = storeToRefs(store);

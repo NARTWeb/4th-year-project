@@ -110,7 +110,7 @@
 </template>
 <script setup>
 import { reactive, ref, watch } from "vue";
-import { useUserStore } from "../stores/userStore";
+import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import { Delete } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
@@ -120,14 +120,14 @@ import {
   muteFriend,
   delFriend,
   unsetFriend,
-} from "../api/friend";
+} from "@/api/friend";
 import {
   showGroupList,
   hideGroup,
   muteGroup,
   leaveGroup,
   unsetGroup,
-} from "../api/group";
+} from "@/api/group";
 import { UserFilled } from "@element-plus/icons-vue";
 import { useI18n } from "vue-i18n";
 import { onMounted } from "vue";
@@ -183,6 +183,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
       state: 2,
+      notice: 'dhsajkdshajdklhsjlafk'
     },
     {
       id: "3642178321",
@@ -190,6 +191,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg",
       state: 0,
+      notice: 'dhsajkdshajdklhsjlafk'
     },
     {
       id: "3642178321",
@@ -197,6 +199,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg",
       state: 1,
+      notice: 'dhsajkdshajdklhsjlafk'
     },
     {
       id: "3642178321",
@@ -204,6 +207,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg",
       state: 1,
+      notice: 'dhsajkdshajdklhsjlafk'
     },
     {
       id: "3642178321",
@@ -211,6 +215,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg",
       state: 0,
+      notice: 'dhsajkdshajdklhsjlafk'
     },
     {
       id: "3642178321",
@@ -218,6 +223,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg",
       state: 1,
+      notice: 'dhsajkdshajdklhsjlafk'
     },
     {
       id: "3642178321",
@@ -225,6 +231,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg",
       state: 0,
+      notice: 'dhsajkdshajdklhsjlafk'
     },
     {
       id: "3642178321",
@@ -232,6 +239,7 @@ function test() {
       avatar:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
       state: 0,
+      notice: 'dhsajkdshajdklhsjlafk'
     },
     {
       id: "3642178321",
@@ -239,6 +247,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
       state: 0,
+      notice: 'dhsajkdshajdklhsjlafk'
     },
     {
       id: "3642178321",
@@ -246,6 +255,7 @@ function test() {
       avatar:
         "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
       state: 0,
+      notice: 'dhsajkdshajdklhsjlafk'
     },
   ];
   if (props.param.page.pageNum == 10) {
@@ -473,12 +483,13 @@ function toChat(member) {
   if (props.isFriend) {
     router.push({ name: "chatRoom", params: { id: "f" + member.id } });
   } else {
-    store.updategroupInfo({
+    const info = {
       gid: member.id,
       note: member.notice,
       gName: member.name,
       gAvatar: member.avatar,
-    });
+    };
+    store.updategroupInfo(info);
     router.push({ name: "chatRoom", params: { id: "g" + member.id } });
   }
 }
@@ -522,7 +533,6 @@ watch(
   overflow-y: visible;
 }
 .infinite-list {
-  margin-left: -45%;
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-flow: column wrap;

@@ -81,10 +81,10 @@
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { uploadPic } from "../api/upload";
-import { createNewGroup, sendGroupInvite } from "../api/group";
+import { uploadPic } from "@/api/upload";
+import { createNewGroup, sendGroupInvite } from "@/api/group";
 import { storeToRefs } from "pinia";
-import { useUserStore } from "../stores/userStore";
+import  useUserStore  from "@/stores/userStore";
 import { ElMessage } from 'element-plus'
 import PopWinFriendList from './PopWinFriendList.vue'
 
@@ -96,7 +96,7 @@ const { t } = useI18n();
 const img = ref(
   "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
 );
-const uploadRef = ref("");
+const uploadRef = ref('');
 const groupName = ref("");
 const placeholder = t("createGroup.groupNameHolder");
 const inviteList = reactive([]);
@@ -119,7 +119,7 @@ function uploadFun() {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: err.data.msg,
+        message: t('chatInputBox.uploadPicError'),
         showClose: true,
         grouping: true,
       });
@@ -160,17 +160,17 @@ function create() {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: err.data.msg,
+        message: t('createGroup.createError'),
         showClose: true,
         grouping: true,
       });
       console.log(err);
     });
 
-    for(i=0; i<inviteList.length; i++) {
+    for(let i=0; i<inviteList.length; i++) {
         let inviteInfo = {
             groupId: groupId.value,
-            //receiverId = inviteList[i].id,
+            receiverId: inviteList[i].id,
             message: "",
         };
         sendGroupInvite(token, inviteInfo)
@@ -187,7 +187,7 @@ function create() {
         .catch((err)=> {
             ElMessage({
                 type: "error",
-                message: err.data.msg,
+                message: t('createGroup.inviteError'),
                 showClose: true,
                 grouping: true,
             });

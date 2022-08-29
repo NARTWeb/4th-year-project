@@ -21,11 +21,11 @@
 </template>
 <script setup>
 import { reactive, ref, watch } from "vue";
-import AcceptableItem from "../components/AcceptableItem.vue";
-import { useUserStore } from "../stores/userStore";
+import AcceptableItem from "@/components/AcceptableItem.vue";
+import  useUserStore from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
-import { showGroupInvitions, responseGroupInvite } from "../api/group";
+import { showGroupInvitions, responseGroupInvite } from "@/api/group";
 import { ElMessage } from "element-plus";
 
 const store = useUserStore();

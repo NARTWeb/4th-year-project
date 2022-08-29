@@ -1,7 +1,30 @@
 <template>
   <div class="all flex">
-      <div class="avatar">
+      <div class="center">
         <el-avatar class="img" :src="tt.avatar" />
+        <div class="center">
+          <el-upload
+            ref="uploadRef"
+            class="upload-demo"
+            accept="image/jpeg,image/png,image/jpg"
+            action="string"
+            :http-request="uploadFun"
+            :limit="1"
+            :auto-upload="true"
+            :show-file-list="false"
+          >
+            <template #trigger>
+              <el-button type="primary" round class style="margin-top: 1vh">{{
+                $t("groupSetting.addAvatar")
+              }}</el-button>
+            </template>
+            <template #tip>
+              <div class="el-upload__tip">
+                jpg/png files with a size less than 500kb
+              </div>
+            </template>
+          </el-upload>
+        </div>
       </div>
 
       <div class="flex text">
@@ -37,15 +60,17 @@
 import { onMounted } from "vue";
 import { reactive, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { useUserStore } from "../stores/userStore";
+import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
-import InfoItem from "../components/InfoItem.vue";
+import InfoItem from "@/components/InfoItem.vue";
 import { format } from "@/utils/time.js";
+import { uploadPic } from "@/api/upload";
 
 const store = useUserStore();
 const { token } = storeToRefs(store);
 const { t } = useI18n();
 const counter = ref(0);
+const uploadRef = ref("");
 
 const tt = {
   label1: "Username",
@@ -64,6 +89,31 @@ const tt = {
   avatar:
         "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
 };
+
+function uploadFun() {
+  uploadPic(uploadRef)
+    .then((res) => {
+      if (res.data.success) {
+        gAvatar.value = res.data.data;
+      } else {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+          showClose: true,
+          grouping: true,
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+        type: "error",
+        message: t("chatInputBox.uploadPicError"),
+        showClose: true,
+        grouping: true,
+      });
+      console.log(err);
+    });
+}
 
 </script>
 <style scoped>
@@ -88,5 +138,8 @@ const tt = {
 }
 .item {
   width: 50%;
+}
+.center {
+  text-align: center;
 }
 </style>

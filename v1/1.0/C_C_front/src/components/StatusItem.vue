@@ -38,11 +38,11 @@
 <script setup>
 import { onMounted } from "vue";
 import { reactive, ref } from "vue";
-import { likeStatus } from "../api/status";
-import { postComment } from "../api/comment";
+import { likeStatus } from "@/api/status";
+import { postComment } from "@/api/comment";
 import { useI18n } from "vue-i18n";
 import CommentList from "./CommentList.vue";
-import { useUserStore } from "../stores/userStore";
+import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 
 const { t } = useI18n();
