@@ -110,5 +110,13 @@ export default{
     friendIHave: {
         chat: "Chat",
 
+    },
+    welcome: {
+        login: 'Login',
+        register: 'Register',
+        uname: "Username",
+        pwd: 'Password',
+        toRegister: 'register here!',
+        toLogin: 'login here!'
     }
 }

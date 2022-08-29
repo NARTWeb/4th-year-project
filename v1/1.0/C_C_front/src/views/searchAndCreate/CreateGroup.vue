@@ -44,7 +44,7 @@
       </el-header>
       <el-main class="main">
         <div class="scroll">
-          <el-scrollbar height="45vh">
+          <el-scrollbar class="scroll-main-bar">
             <div class="scroll-bar">
               <div
                 v-for="member in inviteList"
@@ -250,6 +250,9 @@ function toPopWin() {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  top: 10px;
+  margin: 0;
+  padding: 0;
 }
 .text {
   font-family: "Helvetica Neue";
@@ -257,5 +260,28 @@ function toPopWin() {
 }
 .memberName {
   text-align: center;
+}
+@media screen and (min-height: 850px) {
+  .scroll-main-bar {
+    height: 45vh;
+  }
+}
+@media screen and (max-height: 849px) and (min-height: 720px){
+  .scroll-main-bar {
+    height: 40vh;
+  }
+}
+@media screen and (max-height: 719px)and (min-height: 620px){
+  .scroll-main-bar {
+    height: 35vh;
+  }
+}
+@media screen and (max-height: 619px){
+  .scroll-main-bar {
+    height: 30vh;
+  }
+  .main-btn{
+    top: 5px;
+  }
 }
 </style>

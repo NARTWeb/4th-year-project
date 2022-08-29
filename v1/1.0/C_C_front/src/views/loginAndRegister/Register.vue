@@ -6,10 +6,8 @@
       py-12 px-12 backdrop-blur-md flex flex-col flex-nowrap justify-center items-center"
     >
       <header>
-        <div
-          class="text-white my-12 text-4xl mt-5"
-        >
-          {{ $t("welcome.login") }}
+        <div class="text-white my-12 text-4xl mt-5">
+          {{ $t("welcome.register") }}
         </div>
       </header>
       <div>
@@ -50,22 +48,21 @@
           </div>
         </form>
       </div>
-      <div class="flex flex-col flex-nowrap">
+      <div>
         <button
-          @click="login"
+          @click="register"
           class="flex2 bg-rose-800 hover:bg-yellow-300 text-white font-bold 
           py-2 px-16 rounded-2xl my-8 text-2xl"
         >
-          <div>
-            {{ $t("welcome.login") }}
-          </div>
+          <div>{{ $t("welcome.register") }}</div>
         </button>
-        <div @click="toRegister" class="text-center hover:text-green-400">{{$t('welcome.toRegister')}}</div>
+        <div @click="toLogin" class="text-center hover:text-green-400">{{$t('welcome.toRegister')}}</div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
 import tool from "@/utils/tool.js";
 
 export default {

@@ -19,7 +19,7 @@
         </div>
         <el-divider />
       </el-header>
-      <el-main>
+      <el-main id="main">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -65,10 +65,21 @@ function createGroup() {
   align-items: center;
   margin-top: 10px;
 }
+@media screen and (max-height: 550px) {
+  .flex {
+    margin-top: -10px;
+  }
+  #main {
+    margin-top:-10px;
+  }
+}
 .input {
   -webkit-flex: initial;
   flex: initial;
   width: 50vw;
   min-width: 200px;
+}
+.el-main {
+  overflow: hidden;
 }
 </style>

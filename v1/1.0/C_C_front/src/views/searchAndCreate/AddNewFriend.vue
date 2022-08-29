@@ -22,7 +22,7 @@
         </span>
       </template>
     </el-dialog>
-    <el-scrollbar height="65vh" id="all">
+    <el-scrollbar id="scroll-bar">
       <ul v-infinite-scroll="load" class="infinite-list">
         <li v-for="nf in nfList" :key="nf.id">
           <result-item
@@ -105,6 +105,28 @@ function load() {
 </script>
 <style scoped>
 #all {
-    margin-left: -1em;
+  margin-left: -1em;
+  overflow: hidden;
 }
+@media screen and (min-height: 800px) {
+  #scroll-bar {
+  height: 65vh;
+}
+}
+@media screen and (max-height: 799px) and (min-height: 680px){
+  #scroll-bar {
+  height: 63vh;
+}
+}
+@media screen and (max-height: 679px) and (min-height: 580px){
+  #scroll-bar {
+  height: 60vh;
+}
+}
+@media screen and (max-height: 579px) {
+  #scroll-bar {
+  height: 57vh;
+}
+}
+
 </style>

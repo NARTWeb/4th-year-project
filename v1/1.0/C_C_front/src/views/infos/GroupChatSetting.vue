@@ -367,7 +367,7 @@ onMounted(() => {
 }
 @media screen and (max-height: 699px) and (min-height: 600px){
   .member {
-    height: 200px;
+   height: 200px;
   }
 }
 @media screen and (max-height: 599px) {

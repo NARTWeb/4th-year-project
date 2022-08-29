@@ -16,16 +16,11 @@ const CheckFriendInfo = () => import('@/views/infos/CheckFriendInfo.vue')
 const EditMyInfo = () => import('@/views/infos/EditMyInfo.vue')
 const GroupChatSetting = () => import('@/views/infos/GroupChatSetting.vue')
 const Login = () => import('@/views/loginAndRegister/Login.vue')
-const Welcome = () => import('@/views/loginAndRegister/Welcome.vue')
+const Register = () => import('@/views/loginAndRegister/Register.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/lORr',
-      name: 'lorr',
-      component: Welcome,
-    },
     {
       path: '/login',
       name: 'login',
@@ -34,7 +29,7 @@ const router = createRouter({
     {
       path: '/register',
       name: 'register',
-      component: Login
+      component: Register
     },
     {
       path: '/',
