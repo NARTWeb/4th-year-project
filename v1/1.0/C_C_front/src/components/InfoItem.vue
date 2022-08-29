@@ -59,6 +59,7 @@ const newPwd2 = ref("");
 const dialogVisible = ref(false);
 const error3Display = ref("none");
 const changeValue = ref(false);
+const dialogTableVisible = ref(false)
 
 const props = defineProps({
   isPwd: Boolean,

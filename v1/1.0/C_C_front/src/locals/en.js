@@ -48,7 +48,7 @@ export default{
         avatarLabel: "avatar",
         addAvatar: "add Avatar",
         groupName: "Group Name",
-        groupNameHolder: "Please Input",
+        groupNameHolder: "Please Input Group Name Here",
         addMember: "Add Member",
         create: 'Create Group',
         createError: "Fail to create a group",
@@ -109,6 +109,7 @@ export default{
     },
     friendIHave: {
         chat: "Chat",
+<<<<<<< Updated upstream
 
     },
     welcome: {
@@ -118,5 +119,18 @@ export default{
         pwd: 'Password',
         toRegister: 'register here!',
         toLogin: 'login here!'
+=======
+        searchFriend: "Search Your Friend here",
+        searchError: "Search friend failed",
+        loadError: "Fail to load Friends",
+    },
+    chatRoom: {
+        friendLoadError: "Load friend failed",
+        groupLoadError: "Load group failed",
+        roomTypeError: "Get room type failed",
+    },
+    memberList: {
+        add: "",
+>>>>>>> Stashed changes
     }
 }

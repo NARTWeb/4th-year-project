@@ -37,7 +37,7 @@
 import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { useI18n } from "vue-i18n";
-import  useUserStore from "@/stores/userStore";
+import  useUserStore from "@/stores/userStore.js";
 import { storeToRefs } from "pinia";
 import { postStatus } from "@/api/status";
 import { ElMessage } from 'element-plus';
