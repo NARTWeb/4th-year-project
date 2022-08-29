@@ -70,7 +70,6 @@ const changeValue = ref(false);
 const confirm = ref(false);
 
 const emit = defineEmits(["changeFun", "changePwd"]);
-
 const props = defineProps({
   isPwd: Boolean,
   label: String,
