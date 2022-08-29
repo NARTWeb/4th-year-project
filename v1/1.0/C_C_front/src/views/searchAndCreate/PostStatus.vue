@@ -2,12 +2,12 @@
   <div class="all">
     <div class="mainpart">
         <div class="top">
-            <textarea rows="6" style="font-size:16px;color:red;font-family:Arial;font-weight:bold;outline:none;" placeholder="How's your day?"></textarea>
+            <textarea rows="6" style="font-size:16px;color:red;font-family:Arial;font-weight:bold;outline:none;" :placeholder="t('postStatus.placeHolder')"></textarea>
         </div>
     </div>
     <div class="pics">
         <div class="mid">
-            <span>put photo here...</span>
+            <span>{{ $t("postStatus.putPic") }}</span>
         </div>
         <el-upload
             v-model:file-list="fileList"
@@ -28,7 +28,7 @@
         </el-dialog>
     </div>
     <div class="bottom">
-      <el-button round type="primary" id="post-btn" @click="post">Post</el-button>
+      <el-button round type="primary" id="post-btn" @click="post">{{ $t("postStatus.post") }}</el-button>
     </div>
   </div>
 </template>
@@ -37,7 +37,7 @@
 import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { useI18n } from "vue-i18n";
-import  useUserStore from "@/stores/userStore.js";
+import  useUserStore from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import { postStatus } from "@/api/status";
 import { ElMessage } from 'element-plus';
@@ -56,11 +56,11 @@ function post(msg, pics){
     postStatus(token, msg, pics)
     .then((res) =>{
         if(res.data.success) {
-          alert("post succeed")
+          alert(t('postStatus.succeed'))
         }else{
           ElMessage({
             type: "error",
-            message: res.data.msg,
+            message: t('postStatus.err'),
             showClose: true,
           });
         }
@@ -68,13 +68,13 @@ function post(msg, pics){
     .catch((err) => {
         ElMessage({
             type: "error",
-            message: err.data.msg,
+            message: t('postStatus.err'),
             showClose: true,
         });
         console.log(err);
     })
     .finally(() => {
-        alert("post succeed")
+        alert(t('postStatus.succeed'))
     });
 }
 const dialogImageUrl = ref('')

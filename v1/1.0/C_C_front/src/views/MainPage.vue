@@ -15,7 +15,7 @@
               v-model="searchInput"
               size="large"
               class="col2-input"
-              placeholder="search"
+              :placeholder="t('findSthNew.placeholder')"
               @change="toSearch"
               :suffix-icon="Search"
             ></el-input>
@@ -177,7 +177,7 @@ function searchF() {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("contactList.friend.ListError"),
           showClose: true,
           grouping: true,
         });

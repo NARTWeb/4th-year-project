@@ -17,8 +17,8 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="clear">Cancel</el-button>
-          <el-button type="primary" @click="add">Confirm</el-button>
+          <el-button @click="clear">{{ $t("infoItem.cancel") }}</el-button>
+          <el-button type="primary" @click="add">{{ $t("infoItem.confrim") }}</el-button>
         </span>
       </template>
     </el-dialog>

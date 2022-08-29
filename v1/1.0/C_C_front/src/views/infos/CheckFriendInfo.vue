@@ -6,10 +6,10 @@
       </div>
       <div class="info">
         <div class="uname">
-          <info-item :label="tt.label1" :value="tt.value1"></info-item>
+          <info-item :label="t('infoItem.userName')" :value="tt.value1"></info-item>
         </div>
         <div class="uemail">
-          <info-item :label="tt.label2" :value="tt.value2"></info-item>
+          <info-item :label="t('infoItem.email')" :value="tt.value2"></info-item>
         </div>
       </div>
     </div>
@@ -66,8 +66,6 @@ const page = reactive({
   pageNum: 0,
 });
 const tt = {
-  label1: "Username",
-  label2: "Email",
   value1: "testName",
   value2: "testEmail@gmail.com",
   avatar:

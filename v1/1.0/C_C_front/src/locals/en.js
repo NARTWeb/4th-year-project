@@ -43,6 +43,7 @@ export default{
     findSthNew: {
         search: "add new friend",
         create: "create new group",
+        placeholder: "Search",
     },
     createGroup: {
         avatarLabel: "avatar",
@@ -53,6 +54,7 @@ export default{
         create: 'Create Group',
         createError: "Fail to create a group",
         inviteError: "Fail to invite"
+
     },
     statusItem: {
         commentPlaceHolder: "make a comment",
@@ -60,6 +62,9 @@ export default{
     chatInputBox: {
         placeHolder: 'Please Input',
         uploadPicError: 'Upload Picture Fail',
+        send: 'Send',
+        chat: 'Say something here...',
+
     },
     reqList: {
         loadError: "fail to load friend requests",
@@ -87,7 +92,18 @@ export default{
         title: "Changing Password",
         oldPwd: "Input Old Password",
         newPwd: "Input New Password",
-        newPwd2: "Input New Password Again"
+        newPwd2: "Input New Password Again",
+        userName: "Username",
+        email: "Email",
+        birthday: "Birthday",
+        password: "Password",
+        phone: "Phone",
+        address: "Address",
+        change: "Change",
+        picInfo: "jpg/png files with a size less than 500kb",
+        confrim: "Confrim",
+        cancel: "Cancel",
+        notMatch: "New Password not match!",
     },
     newFriendList: {
         loadError: "fail to load new friend search result",
@@ -106,11 +122,16 @@ export default{
         changeAvatar: "Group Avatar change successfully",
         changeAvatarError: "Group Avatar changed failed",
         addAvatar: "change Avatar",
+        groupAvatar: "Group Avatat",
+        groupMember: "Group Member",
+        groupName: "Group Name",
+        importantNotice: "Important Notice",
     },
     friendIHave: {
         chat: "Chat",
-<<<<<<< Updated upstream
-
+        searchFriend: "Search Your Friend here",
+        searchError: "Search friend failed",
+        loadError: "Fail to load Friends",
     },
     welcome: {
         login: 'Login',
@@ -118,11 +139,8 @@ export default{
         uname: "Username",
         pwd: 'Password',
         toRegister: 'register here!',
-        toLogin: 'login here!'
-=======
-        searchFriend: "Search Your Friend here",
-        searchError: "Search friend failed",
-        loadError: "Fail to load Friends",
+        toLogin: 'login here!',
+        err: "Page Not Found",
     },
     chatRoom: {
         friendLoadError: "Load friend failed",
@@ -130,7 +148,17 @@ export default{
         roomTypeError: "Get room type failed",
     },
     memberList: {
-        add: "",
->>>>>>> Stashed changes
+        add: "New Member Adding",
+    },
+    popWin: {
+        AddFriend: "Add New Members",
+
+    },
+    postStatus: {
+        putPic: "put photo here...",
+        post: "Post",
+        placeHolder: "How's your day?",
+        err: "Post Failed",
+        succeed: "Post succeed",
     }
 }

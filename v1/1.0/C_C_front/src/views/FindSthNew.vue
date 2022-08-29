@@ -4,7 +4,7 @@
       <el-header>
         <div class="flex">
           <div class="input">
-            <el-input v-model="input" size="large" placeholder="search" />
+            <el-input v-model="input" size="large" :placeholder="t('findSthNew.placeholder')" />
           </div>
           <div class="btn1">
             <el-button type="primary" size="large" round @click="searchNew">{{

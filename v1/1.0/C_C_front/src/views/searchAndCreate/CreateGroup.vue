@@ -25,7 +25,7 @@
               </template>
               <template #tip>
                 <div class="el-upload__tip">
-                  jpg/png files with a size less than 500kb
+                  {{ $t("infoItem.picInfo") }}
                 </div>
               </template>
             </el-upload>
@@ -110,7 +110,7 @@ function uploadFun() {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t('chatInputBox.uploadPicError'),
           showClose: true,
           grouping: true,
         });
@@ -151,7 +151,7 @@ function create() {
         } else {
             ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t('createGroup.createError'),
           showClose: true,
           grouping: true,
         });
@@ -178,7 +178,7 @@ function create() {
             if(!res.data.success) {
                 ElMessage({
                     type: "error",
-                    message: res.data.msg,
+                    message: t('createGroup.inviteError'),
                     showClose: true,
                     grouping: true,
                 })
@@ -196,7 +196,7 @@ function create() {
     }
 }
 function toPopWin() {
-  dialogFormVisible.value = true;
+  router.push({ name: "popWin", params: {} });
 }
 </script>
 <style scoped>

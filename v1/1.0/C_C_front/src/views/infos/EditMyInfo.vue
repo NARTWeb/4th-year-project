@@ -20,7 +20,7 @@
             </template>
             <template #tip>
               <div class="el-upload__tip">
-                jpg/png files with a size less than 500kb
+                {{ $t("infoItem.picInfo") }}
               </div>
             </template>
           </el-upload>
@@ -30,26 +30,26 @@
       <div class="flex text">
         <div class="item-div flex item1">
             <div class="item">
-                <info-item :label="tt.label1" :value="tt.value1" can-change></info-item>
+                <info-item :label="t('infoItem.userName')" :value="tt.value1" can-change></info-item>
             </div>
             <div class="item">
-                <info-item :label="tt.label2" :value="tt.value2" can-change></info-item>
-            </div>
-        </div>
-        <div class="item-div flex">
-            <div class="item">
-                <info-item :label="tt.label3" :value="tt.value3" can-change is-pwd></info-item>
-            </div>
-            <div class="item">
-                <info-item :label="tt.label4" :value="tt.value4" can-change></info-item>
+                <info-item :label="t('infoItem.birthday')" :value="tt.value2" can-change></info-item>
             </div>
         </div>
         <div class="item-div flex">
             <div class="item">
-                <info-item :label="tt.label5" :value="tt.value5" can-change></info-item>
+                <info-item :label="t('infoItem.password')" :value="tt.value3" can-change is-pwd></info-item>
             </div>
             <div class="item">
-                <info-item :label="tt.label6" :value="tt.value6" can-change></info-item>
+                <info-item :label="t('infoItem.phone')" :value="tt.value4" can-change></info-item>
+            </div>
+        </div>
+        <div class="item-div flex">
+            <div class="item">
+                <info-item :label="t('infoItem.email')" :value="tt.value5" can-change></info-item>
+            </div>
+            <div class="item">
+                <info-item :label="t('infoItem.address')" :value="tt.value6" can-change></info-item>
             </div>
         </div>
       </div>
@@ -73,13 +73,6 @@ const counter = ref(0);
 const uploadRef = ref("");
 
 const tt = {
-  label1: "Username",
-  label2: "Birthday",
-  label3: "Password",
-  label4: "Phone",
-  label5: "Email",
-  label6: "address",
-
   value1: "testName",
   value2: "000607",
   value3: "",

@@ -6,7 +6,7 @@
         rows="6"
         v-model="input"
         style="outline: none"
-        placeholder="Say something here..."
+        :placeholder="t('chatInputBox.chat')"
       ></textarea>
     </div>
     <div id="right">
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="bottom">
-        <el-button round type="primary" @click="sendMsg">Send</el-button>
+        <el-button round type="primary" @click="sendMsg">{{ $t("chatInputBox.send") }}</el-button>
       </div>
     </div>
   </div>

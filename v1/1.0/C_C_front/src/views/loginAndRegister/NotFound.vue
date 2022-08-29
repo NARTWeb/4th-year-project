@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{ $t("welcome.err") }}
         页面找不到！
     </div>
 </template>

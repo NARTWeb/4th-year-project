@@ -1,29 +1,37 @@
 <template>
-  <div class="all">
-     <div class="search">
-        <el-input id="searchF" :placeholder="t('FriendIHave.searchFriend')">
-            <template #append>
-                <el-button @click="searchFr" :icon="Search" />
-            </template>
-        </el-input>
-    </div>
-    <div class="list">
-            <el-scrollbar height="65vh" id="all">
-                <ul v-infinite-scroll="load" class="infinite-list">
-                    <li v-for="friend in friendList" :key="friend.id">
-                    <result-item
-                        :avatar="friend.avatar"
-                        :id="friend.id"
-                        :username="friend.uname"
-                        :button-label="t('memberList.add')"
-                        @delItem="close"
-                        @btnFunc="addBtn"
-                    ></result-item>
-                    </li>
-                </ul>
-            </el-scrollbar>    
-    </div>
-  </div>
+    <el-dialog
+      v-model="dialogVisible"
+      :title="t('popWin.AddFriend')"
+      width="40%"
+    >
+      <div style="width: 40%">
+        <div class="all">
+            <div class="search">
+                <el-input id="searchF" :placeholder="t('FriendIHave.searchFriend')">
+                    <template #append>
+                        <el-button @click="searchFr" :icon="Search" />
+                    </template>
+                </el-input>
+            </div>
+            <div class="list">
+                <el-scrollbar height="65vh" id="all">
+                    <ul v-infinite-scroll="load" class="infinite-list">
+                        <li v-for="friend in friendList" :key="friend.id">
+                        <result-item
+                            :avatar="friend.avatar"
+                            :id="friend.id"
+                            :username="friend.uname"
+                            :button-label="t('memberList.add')"
+                            @delItem="close"
+                            @btnFunc="addBtn"
+                        ></result-item>
+                        </li>
+                    </ul>
+                </el-scrollbar>    
+            </div>
+        </div>
+      </div>
+    </el-dialog>
 </template>
 <script setup>
 import { reactive, ref } from "vue";
@@ -72,7 +80,7 @@ function searchFr() {
         }else{
             ElMessage({
                 type: "error",
-                message: res.data.msg,
+                message: t('FriendIHave.searchError'),
                 showClose: true,
                 grouping: true,
             });
@@ -102,7 +110,7 @@ function load(){
             }else{
                 ElMessage({
                     type: "error",
-                    message: res.data.msg,
+                    message: t("friendIHave.loadError"),
                     showClose: true,
                     grouping: true,
                 });

@@ -14,12 +14,12 @@
           v-model="newPwd2"
           @input="checkPwd"
         />
-        <div class="error3">New Password not match!</div>
+        <div class="error3">{{ $t("infoItem.notMatch") }}</div>
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="clearBtn">Cancel</el-button>
-          <el-button type="primary" @click="changeBtn">Confirm</el-button>
+          <el-button @click="clearBtn">{{ $t("infoItem.cancel") }}</el-button>
+          <el-button type="primary" @click="changeBtn">{{ $t("infoItem.confrim") }}</el-button>
         </span>
       </template>
     </el-dialog>
@@ -31,7 +31,7 @@
       <div v-if="props.isPwd" class="pwde flex fullW">
         <div>
           <el-button round type="primary" @click="dialogVisible = true"
-            >change</el-button
+            >{{ $t("infoItem.change") }}</el-button
           >
         </div>
       </div>
@@ -41,7 +41,7 @@
           <span v-else class="text cb">{{ v }}</span>
         </div>
         <div class="el-right">
-          <el-button round type="primary" v-show="canChange" @click="changeBtn">change</el-button>
+          <el-button round type="primary" v-show="canChange" @click="changeBtn">{{ $t("infoItem.change") }}</el-button>
         </div>
       </div>
     </div>

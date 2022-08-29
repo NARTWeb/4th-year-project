@@ -2,7 +2,7 @@
   <div class="all flex">
     <div class="avatar-and-members flex">
       <div class="avatar flex">
-        <div class="this-font">GroupAvatar</div>
+        <div class="this-font">{{ $t("infoItem.groupAvatar") }}</div>
         <div class="g-avatar">
           <el-image
             class="g-avatar"
@@ -29,14 +29,14 @@
             </template>
             <template #tip>
               <div class="el-upload__tip">
-                jpg/png files with a size less than 500kb
+                {{ $t("infoItem.picInfo") }}
               </div>
             </template>
           </el-upload>
         </div>
       </div>
       <div class="member flex">
-        <div class="this-font">groupMember</div>
+        <div class="this-font">{{ $t("infoItem.groupMember") }}</div>
         <el-scrollbar wrap-class="member-scroll-bar" class="scroll">
           <div class="scroll-bar flex">
             <div
@@ -73,7 +73,7 @@
     <div class="changeable">
       <div class="item flex i1">
         <div class="change flex">
-          <div class="this-font">groupName</div>
+          <div class="this-font">{{ $t("infoItem.groupName") }}</div>
           <el-input
             v-model="gName"
             class="text name-bar"
@@ -88,7 +88,7 @@
 
       <div class="item flex i2">
         <div class="change flex">
-          <div class="this-font">importantNotice</div>
+          <div class="this-font">{{ $t("infoItem.importantNotice") }}</div>
           <el-input
             v-model="gNotice"
             :rows="4"
