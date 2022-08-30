@@ -116,7 +116,7 @@ function load() {
         } else {
           this.$message({
             type: "error",
-            message: res.data.msg,
+            message: t("myStatusList.loadError"),
             showClose: true,
           });
         }

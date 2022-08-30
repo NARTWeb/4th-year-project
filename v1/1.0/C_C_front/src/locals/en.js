@@ -26,6 +26,10 @@ export default{
         leave:"leave",
         del: "delete",
         unset:"unset",
+        hideErr: "fail to hide",
+        muteErr: "fail to mute",
+        unsetErr: "fail to unset",
+        delErr: "fail to delete",
         friend: {
             ListError: "fail to load Friend List",
             hideError: "fail to hide Friend",
@@ -33,6 +37,8 @@ export default{
             delError: "fail to delete Friend",
             unsetError: "fail to set Friend to normal",
             del: "Are you sure you want to delete ",
+            title: "Delete Friend",
+            loadErr: "fail to load list",
         },
         group: {
             ListError: "fail to load Group List",
@@ -63,6 +69,8 @@ export default{
     },
     chatInputBox: {
         placeHolder: 'Please Input',
+
+
         uploadPicError: 'Upload Picture Fail',
         send: 'Send',
         chat: 'Say something here...',
@@ -101,10 +109,6 @@ export default{
         password: "Password",
         phone: "Phone",
         address: "Address",
-        change: "Change",
-        picInfo: "jpg/png files with a size less than 500kb",
-        confrim: "Confrim",
-        cancel: "Cancel",
         notMatch: "New Password not match!",
     },
     newFriendList: {
@@ -128,6 +132,8 @@ export default{
         groupMember: "Group Member",
         groupName: "Group Name",
         importantNotice: "Important Notice",
+        changeSucceed: "Info changed succeed",
+        changeFailed: "Info changed failed",
     },
     friendIHave: {
         chat: "Chat",
@@ -139,7 +145,7 @@ export default{
         login: 'Login',
         register: 'Register',
         uname: "Username",
-        email: "email",
+        email: "Email",
         pwd: 'Password',
         pwd2: 'Password Again',
         toRegister: 'register here!',
@@ -167,6 +173,7 @@ export default{
         friendLoadError: "Load friend failed",
         groupLoadError: "Load group failed",
         roomTypeError: "Get room type failed",
+        LoadError: "Loading failed"
     },
     memberList: {
         add: "New Member Adding",
@@ -181,5 +188,19 @@ export default{
         placeHolder: "How's your day?",
         err: "Post Failed",
         succeed: "Post succeed",
+    },
+    buttons: {
+        cancel: "Cancel",
+        confirm: "Confirm",
+        change: "Change",
+        picInfo: "jpg/png files with a size less than 500kb",
+    },
+    postComment: {
+        succeed: "post comment succeed",
+        fail: "post comment failed",
+        like: "like succeed",
+        likeFail: "like failed",
+        dislike: "dislike succeed",
+        dislikeFail: "dislike failed",
     }
 }

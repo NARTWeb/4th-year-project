@@ -20,7 +20,7 @@
           </template>
           <template #tip>
             <div class="el-upload__tip">
-              {{ $t("infoItem.picInfo") }}
+              {{ $t("buttons.picInfo") }}
             </div>
           </template>
         </el-upload>
@@ -128,7 +128,7 @@ function uploadFun() {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("chatInputBox.uploadPicError"),
           showClose: true,
           grouping: true,
         });

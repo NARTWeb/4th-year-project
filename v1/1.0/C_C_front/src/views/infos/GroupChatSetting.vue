@@ -2,7 +2,7 @@
   <div class="all flex">
     <div class="avatar-and-members flex">
       <div class="avatar flex">
-        <div class="this-font">{{ $t("infoItem.groupAvatar") }}</div>
+        <div class="this-font">{{ $t("groupSetting.groupAvatar") }}</div>
         <div class="g-avatar">
           <el-image
             class="g-avatar"
@@ -29,14 +29,14 @@
             </template>
             <template #tip>
               <div class="el-upload__tip">
-                {{ $t("infoItem.picInfo") }}
+                {{ $t("buttons.picInfo") }}
               </div>
             </template>
           </el-upload>
         </div>
       </div>
       <div class="member flex">
-        <div class="this-font">{{ $t("infoItem.groupMember") }}</div>
+        <div class="this-font">{{ $t("groupSetting.groupMember") }}</div>
         <el-scrollbar wrap-class="member-scroll-bar" class="scroll">
           <div class="scroll-bar flex">
             <div
@@ -73,7 +73,7 @@
     <div class="changeable">
       <div class="item flex i1">
         <div class="change flex">
-          <div class="this-font">{{ $t("infoItem.groupName") }}</div>
+          <div class="this-font">{{ $t("groupSetting.groupName") }}</div>
           <el-input
             v-model="gName"
             class="text name-bar"
@@ -88,7 +88,7 @@
 
       <div class="item flex i2">
         <div class="change flex">
-          <div class="this-font">{{ $t("infoItem.importantNotice") }}</div>
+          <div class="this-font">{{ $t("groupSetting.importantNotice") }}</div>
           <el-input
             v-model="gNotice"
             :rows="4"
@@ -232,7 +232,7 @@ function uploadFun() {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("chatInputBox.uploadPicError"),
           showClose: true,
           grouping: true,
         });
@@ -256,7 +256,7 @@ function getMember() {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("groupSetting.getMemberError"),
           showClose: true,
           grouping: true,
         });
@@ -298,14 +298,14 @@ function changeInfo(successMsg, ErrorMsg) {
       if (res.data.success) {
         ElMessage({
           type: "success",
-          message: successMsg,
+          message: t("groupSetting.changeSucceed"),
           showClose: true,
           grouping: true,
         });
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("groupSetting.changeFailed"),
           showClose: true,
           grouping: true,
         });
@@ -314,7 +314,7 @@ function changeInfo(successMsg, ErrorMsg) {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: ErrorMsg,
+        message: t("groupSetting.changeFailed"),
         showClose: true,
         grouping: true,
       });

@@ -17,8 +17,8 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="clear">{{ $t("infoItem.cancel") }}</el-button>
-          <el-button type="primary" @click="add">{{ $t("infoItem.confrim") }}</el-button>
+          <el-button @click="clear">{{ $t("buttons.cancel") }}</el-button>
+          <el-button type="primary" @click="add">{{ $t("buttons.confirm") }}</el-button>
         </span>
       </template>
     </el-dialog>
@@ -83,7 +83,7 @@ function add() {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("newFriendList.addError"),
           showClose: true,
           grouping: true,
         });

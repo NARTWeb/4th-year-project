@@ -127,7 +127,7 @@ function sendComment() {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("postComment.fail"),
           showClose: true,
           grouping: true,
         });
@@ -136,7 +136,7 @@ function sendComment() {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: t("postComment.err"),
+        message: t("postComment.fail"),
         showClose: true,
         grouping: true,
       });
@@ -149,19 +149,19 @@ function sendLike() {
   let result, errMsg, succeedMsg;
   if (like.value) {
     result = likeStatus(token, props.statusId);
-    succeedMsg = t("likeStatus.succeed");
-    errMsg = t("likeStatus.err");
+    succeedMsg = t("postComment.like");
+    errMsg = t("postComment.likeFail");
   } else {
     result = dislikeStatus(token, props.statusId);
-    succeedMsg = t("dislikeStatus.succeed");
-    errMsg = t("dislikeStatus.err");
+    succeedMsg = t("postComment.dislike");
+    errMsg = t("postComment.dislikeFail");
   }
   result
     .then((res) => {
       if (res.data.success) {
         ElMessage({
           type: "success",
-          message: succeedMsg,
+          message: t("postComment.like"),
           showClose: true,
           grouping: true,
         });
@@ -173,7 +173,7 @@ function sendLike() {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("postComment.likeFail"),
           showClose: true,
           grouping: true,
         });
@@ -182,7 +182,7 @@ function sendLike() {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: errMsg,
+        message: t("postComment.likeFail"),
         showClose: true,
         grouping: true,
       });

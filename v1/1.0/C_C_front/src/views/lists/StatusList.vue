@@ -128,7 +128,7 @@ function load() {
         } else {
           ElMessage({
             type: "error",
-            message: res.data.msg,
+            message: t("statusList.loadError"),
             showClose: true,
             grouping: true,
           });

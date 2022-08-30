@@ -18,8 +18,8 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="clearBtn">Cancel</el-button>
-          <el-button type="primary" @click="changeBtn" :disabled="confirm">{{ $t("infoItem.confirm") }}</el-button>
+          <el-button @click="clearBtn">{{ $t("buttons.cancel") }}</el-button>
+          <el-button type="primary" @click="changeBtn" :disabled="confirm">{{ $t("buttons.confirm") }}</el-button>
         </span>
       </template>
     </el-dialog>
@@ -31,7 +31,7 @@
       <div v-if="props.isPwd" class="pwde flex fullW">
         <div>
           <el-button round type="primary" @click="dialogVisible = true"
-            >{{ $t("infoItem.change") }}</el-button
+            >{{ $t("buttons.change") }}</el-button
           >
         </div>
       </div>
@@ -46,7 +46,7 @@
           <span v-else class="text cb">{{ v }}</span>
         </div>
         <div class="el-right">
-          <el-button round type="primary" v-show="canChange" @click="changeBtn">{{ $t("infoItem.change") }}</el-button>
+          <el-button round type="primary" v-show="canChange" @click="changeBtn">{{ $t("buttons.change") }}</el-button>
         </div>
       </div>
     </div>

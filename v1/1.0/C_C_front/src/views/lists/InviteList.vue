@@ -119,7 +119,7 @@ function searchReqList() {
         } else {
           ElMessage({
             type: "error",
-            message: res.data.msg,
+            message: t("inviteList.loadError"),
             showClose: true,
             grouping: true,
           });
@@ -149,7 +149,7 @@ function acceptFun(id) {
           } else {
             ElMessage({
               type: "error",
-              message: res.data.msg,
+              message: t("inviteList.acceptError"),
               showClose: true,
               grouping: true,
             });
@@ -180,7 +180,7 @@ function rejectFun(id) {
           } else {
             ElMessage({
               type: "error",
-              message: res.data.msg,
+              message: t("inviteList.rejectError"),
               showClose: true,
               grouping: true,
             });

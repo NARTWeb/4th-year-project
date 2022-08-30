@@ -1,12 +1,12 @@
 <template>
   <div class="all">
-    <el-dialog v-model="dialogVisible" title="Tips" width="30%" class="dialog">
+    <el-dialog v-model="dialogVisible" title="t('contactList.friend.title')" width="30%" class="dialog">
       <span>{{ $t("contactList.friend.del") }}{{ selectMember.name }}</span>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">{{ $t("infoItem.cancel") }}</el-button>
+          <el-button @click="dialogVisible = false">{{ $t("buttons.cancel") }}</el-button>
           <el-button type="primary" @click="del(selectMember.id)"
-            >{{ $t("infoItem.confrim") }}</el-button
+            >{{ $t("buttons.confrim") }}</el-button
           >
         </span>
       </template>
@@ -298,7 +298,7 @@ function load() {
         } else {
           ElMessage({
             type: "error",
-            message: res.data.msg,
+            message: t("contactList.friend.loadErr"),
             showClose: true,
             grouping: true,
           });
@@ -313,7 +313,7 @@ function load() {
         }
         ElMessage({
           type: "error",
-          message: msg,
+          message: t("contactList.friend.loadErr"),
           showClose: true,
           grouping: true,
         });
@@ -340,7 +340,7 @@ function hide(member) {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("contactList.friend.hideErr"),
           showClose: true,
           grouping: true,
         });
@@ -355,7 +355,7 @@ function hide(member) {
       }
       ElMessage({
         type: "error",
-        message: msg,
+        message: t("contactList.friend.hideErr"),
         showClose: true,
         grouping: true,
       });
@@ -379,7 +379,7 @@ function mute(member) {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("contactList.friend.muteErr"),
           showClose: true,
           grouping: true,
         });
@@ -394,7 +394,7 @@ function mute(member) {
       }
       ElMessage({
         type: "error",
-        message: msg,
+        message: t("contactList.friend.muteErr"),
         showClose: true,
         grouping: true,
       });
@@ -418,7 +418,7 @@ function unset(member) {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("contactList.friend.unsetErr"),
           showClose: true,
           grouping: true,
         });
@@ -433,7 +433,7 @@ function unset(member) {
       }
       ElMessage({
         type: "error",
-        message: msg,
+        message: t("contactList.friend.unsetErr"),
         showClose: true,
         grouping: true,
       });
@@ -460,7 +460,7 @@ function del(id) {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("contactList.friend.delErr"),
           showClose: true,
           grouping: true,
         });
@@ -475,7 +475,7 @@ function del(id) {
       }
       ElMessage({
         type: "error",
-        message: msg,
+        message: t("contactList.friend.delErr"),
         showClose: true,
         grouping: true,
       });

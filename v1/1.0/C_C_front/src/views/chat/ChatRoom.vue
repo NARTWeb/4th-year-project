@@ -124,7 +124,7 @@ function load() {
         } else {
           ElMessage({
             type: "error",
-            message: res.data.msg,
+            message: t("chatRoom.LoadError"),
             showClose: true,
             grouping: true,
           });
@@ -139,7 +139,7 @@ function load() {
         }
         ElMessage({
           type: "error",
-          message: msg,
+          message: t("chatRoom.LoadError"),
           showClose: true,
           grouping: true,
         });

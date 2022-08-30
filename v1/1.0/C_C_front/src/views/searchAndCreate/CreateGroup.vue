@@ -25,7 +25,7 @@
               </template>
               <template #tip>
                 <div class="el-upload__tip">
-                  {{ $t("infoItem.picInfo") }}
+                  {{ $t("buttons.picInfo") }}
                 </div>
               </template>
             </el-upload>

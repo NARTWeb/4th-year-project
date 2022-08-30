@@ -121,7 +121,7 @@ function load() {
         } else {
           ElMessage({
             type: "error",
-            message: res.data.msg,
+            message: t("myStatusList.loadError"),
             showClose: true,
           });
         }
@@ -157,7 +157,7 @@ function delBack(id) {
       } else {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("reqList.rejectError"),
           showClose: true,
           grouping: true,
         });
