@@ -30,6 +30,10 @@ import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useNewStore } from "@/stores/newStore";
 import { useI18n } from "vue-i18n";
+<<<<<<< Updated upstream
+=======
+const { t } = useI18n();
+>>>>>>> Stashed changes
 
 const {t} = useI18n();
 const store = useNewStore();
