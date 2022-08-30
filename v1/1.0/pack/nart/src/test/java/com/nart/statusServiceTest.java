@@ -25,6 +25,16 @@ public class statusServiceTest {
         IPage iPage = StatusService.showStatusList(1L, page);
         System.out.println("一共多少页:"+iPage.getPages());
         System.out.println(iPage.getRecords());
+    }
 
+    @Test
+    public void showpostStatus(){
+        status status = new status();
+        status.setSenderId("1");
+        status.setText("erfwf");
+        status.setPics("1122323");
+        status.setCreateDate(13232344L);
+        boolean b = StatusService.postStatus(status);
+        System.out.println(b);
     }
 }

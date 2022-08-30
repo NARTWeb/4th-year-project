@@ -39,4 +39,10 @@ public class StatusServiceImpl implements StatusService {
         }
         return iPage;
     }
+
+    @Override
+    public boolean postStatus(status status) {
+        int insert = StatusDao.insert(status);
+        return insert>0;
+    }
 }
