@@ -70,15 +70,11 @@
         </div>
       </el-main>
     </el-container>
-
-      <el-dialog v-model="dialogFormVisible" title="Adding Friends">
-        <slot><PopWinFriendList  ></PopWinFriendList></slot>
-        
-      </el-dialog>
+    <PopWinFriendList :dialog-visible="dialogFormVisible" ></PopWinFriendList>
   </div>
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { uploadPic } from "@/api/upload";
@@ -196,7 +192,7 @@ function create() {
     }
 }
 function toPopWin() {
-  router.push({ name: "popWin", params: {} });
+  dialogFormVisible.value = true;
 }
 </script>
 <style scoped>

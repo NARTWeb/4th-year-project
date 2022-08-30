@@ -115,26 +115,12 @@ export default {
           });
           return false;
         }
-        signin(uname, pwd)
-        .then((res) => {
-          if(res.data.success) {
-            this.store.token = res.data.data;
-          } else {
-            ElMessage({
-            type: "error",
-            message: res.data.msg,
-            showClose: true,
-            grouping: true,
-          });
-          }
-        }).catch((err) => {
-          ElMessage({
-            type: "error",
-            message: this.$t('welcome.loginError'),
-            showClose: true,
-            grouping: true,
-          });
-        })
+        let user = {
+          username: uname,
+          password: pwd
+        }
+        this.store.login(user);
+        this.$router.push('/');
       }
     },
   },

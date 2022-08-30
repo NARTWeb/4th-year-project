@@ -44,7 +44,7 @@ const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
-const { token, avatar, name } = storeToRefs(store);
+const { token, avatar, name, ws } = storeToRefs(store);
 const counter = ref(0);
 const mins = 30;
 const msgList = reactive([]);
@@ -149,6 +149,10 @@ function load() {
         loading.value = false;
       });
   }
+}
+function wsSend(input, type) {
+  
+  store.wsSend();
 }
 function sendMsg(input, type) {
     let date = new Date();

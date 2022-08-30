@@ -150,10 +150,12 @@ export default {
           return false;
         }
         let user = {
-          account: uname,
-          password: pwd,
+          uname: uname,
+          pwd: pwd,
+          email: em,
         }
         this.store.login(user);
+        this.$router.push('/');
       }
     },
   },

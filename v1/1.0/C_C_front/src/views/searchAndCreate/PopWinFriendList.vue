@@ -7,7 +7,7 @@
       <div style="width: 40%">
         <div class="all">
             <div class="search">
-                <el-input id="searchF" :placeholder="t('FriendIHave.searchFriend')">
+                <el-input id="searchF" :placeholder="ph">
                     <template #append>
                         <el-button @click="searchFr" :icon="Search" />
                     </template>
@@ -34,7 +34,7 @@
     </el-dialog>
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import  useUserStore from "@/stores/userStore";
 import { useFriendStore } from "@/stores/friendStore.js";
 import { storeToRefs } from "pinia";
@@ -47,7 +47,6 @@ import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import { useNewStore } from "@/stores/newStore";
 import { showFriendList } from "@/api/friend";
-
 
 const { t } = useI18n();
 
@@ -64,6 +63,12 @@ const page = reactive({
   pageNum: 0,
 });
 const input = ref<String>('');
+const props = defineProps({
+    dialogVisible: Boolean
+})
+const ph = computed(() => {
+    return t('FriendIHave.searchFriend');
+});
 
 function close(id) {
   newStore.delItem(id);

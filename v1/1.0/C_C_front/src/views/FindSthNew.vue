@@ -29,7 +29,9 @@
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useNewStore } from "@/stores/newStore";
+import { useI18n } from "vue-i18n";
 
+const {t} = useI18n();
 const store = useNewStore();
 const router = useRouter();
 const page = {

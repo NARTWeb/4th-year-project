@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { ref, watch} from "vue";
 import type { UploadInstance } from 'element-plus'
-import { uploadPic } from "@/api/upload";
+import { uploadPic } from "@/api/upload.js";
 import { ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
 

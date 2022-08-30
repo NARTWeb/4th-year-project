@@ -60,9 +60,12 @@ const useUserStore = defineStore("user", {
           
       }
     },
+    async wsSend(msg) {
+      this.ws.send(msg);
+    },
     login(user) {
       return new Promise((resolve, reject) => {
-        signin(user.account, user.password)
+        signin(user.username, user.password)
           .then((res) => {
             if (res.data.success) {
               setToken(res.data.data);
