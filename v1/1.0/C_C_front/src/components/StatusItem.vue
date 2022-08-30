@@ -9,14 +9,19 @@
         <span class="text">{{ message }}</span>
         <div class="img-box">
           <div v-for="(img, index) in props.pictures" :key="img">
-            <el-image class="img" :src="img" :initial-index="index" :preview-src-list="props.pictures"/>
+            <el-image
+              class="img"
+              :src="img"
+              :initial-index="index"
+              :preview-src-list="props.pictures"
+            />
           </div>
         </div>
       </div>
     </div>
     <div id="down">
       <div :class="iconClass" @click="likeS" id="like"></div>
-      <span v-show="like" style="font-weight:100">{{props.heartNum}}</span>
+      <span v-show="like" style="font-weight: 100">{{ props.heartNum }}</span>
       <el-button round type="primary" @click="startCom">...</el-button>
     </div>
     <div id="bottom">
@@ -29,24 +34,24 @@
       </div>
     </div>
     <div id="comments">
-      <comment-list
-        :comment-List="commentList"
-        ></comment-list>
+      <comment-list :comment-List="commentList"></comment-list>
     </div>
   </div>
 </template>
 <script setup>
 import { onMounted } from "vue";
 import { reactive, ref } from "vue";
-import { likeStatus } from "@/api/status";
+import { likeStatus, dislikeStatus } from "@/api/status";
 import { postComment } from "@/api/comment";
 import { useI18n } from "vue-i18n";
 import CommentList from "./CommentList.vue";
-import  useUserStore  from "@/stores/userStore";
+import useUserStore from "@/stores/userStore";
 import { storeToRefs } from "pinia";
+import { set } from "lodash";
+import { now } from "@/utils/time.js";
 
 const { t } = useI18n();
-const commentDisplay = ref('none');
+const commentDisplay = ref("none");
 const props = defineProps({
   statusId: String,
   avatar: String,
@@ -64,7 +69,15 @@ const { name, avatar, token } = storeToRefs(store);
 const commentList = reactive(props.comments);
 const like = ref(props.heart);
 const iconClass = ref("iconfont icon-aixin");
-const input = ref('');
+var comment = "";
+const input = computed({
+  get() {
+    return comment;
+  },
+  set(newValue) {
+    comment = newValue.trim();
+  },
+});
 function likeS() {
   like.value = like.value ? false : true;
   if (like.value) {
@@ -75,23 +88,106 @@ function likeS() {
 }
 
 function startCom() {
-  if(commentDisplay.value == 'none') {
-    commentDisplay.value = '';
+  if (commentDisplay.value == "none") {
+    commentDisplay.value = "";
   } else {
-    commentDisplay.value = 'none';
+    commentDisplay.value = "none";
   }
 }
 
 function makeCom() {
-  alert(input.value);
   let comment = {
-    id:"738291",
-    uname:name,
-    msg:input.value,
-    date:'now'
-  }
+    id: "738291",
+    uname: name,
+    msg: input.value,
+    date: now(),
+  };
   commentList.unshift(comment);
-  input.value = '';
+  input.value = "";
+}
+
+function sendComment() {
+  postComment(token, props.statusId, input.value)
+    .then((res) => {
+      if (res.data.success) {
+        ElMessage({
+          type: "success",
+          message: t("postComment.succeed"),
+          showClose: true,
+          grouping: true,
+        });
+        let comment = {
+          id: res.data.data,
+          uname: name,
+          msg: input.value,
+          date: now(),
+        };
+        commentList.unshift(comment);
+        input.value = "";
+      } else {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+          showClose: true,
+          grouping: true,
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+        type: "error",
+        message: t("postComment.err"),
+        showClose: true,
+        grouping: true,
+      });
+      console.log(err);
+    });
+}
+
+function sendLike() {
+  like.value = like.value ? false : true;
+  let result, errMsg, succeedMsg;
+  if (like.value) {
+    result = likeStatus(token, props.statusId);
+    succeedMsg = t("likeStatus.succeed");
+    errMsg = t("likeStatus.err");
+  } else {
+    result = dislikeStatus(token, props.statusId);
+    succeedMsg = t("dislikeStatus.succeed");
+    errMsg = t("dislikeStatus.err");
+  }
+  result
+    .then((res) => {
+      if (res.data.success) {
+        ElMessage({
+          type: "success",
+          message: succeedMsg,
+          showClose: true,
+          grouping: true,
+        });
+        if (like.value) {
+          iconClass.value = "iconfont icon-aixin_shixin like";
+        } else {
+          iconClass.value = "iconfont icon-aixin";
+        }
+      } else {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+          showClose: true,
+          grouping: true,
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+        type: "error",
+        message: errMsg,
+        showClose: true,
+        grouping: true,
+      });
+      console.log(err);
+    });
 }
 
 onMounted(() => {
@@ -152,7 +248,7 @@ onMounted(() => {
   width: 100%;
 }
 #bt1 {
-  width:80%;
+  width: 80%;
   display: v-bind(commentDisplay);
 }
 </style>

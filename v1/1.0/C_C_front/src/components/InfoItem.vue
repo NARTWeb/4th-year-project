@@ -39,7 +39,7 @@
         <div>
           <el-input
             v-if="changeValue"
-            v-model="v"
+            v-model="input"
             @change="checkInput"
             @blur="checkInput"
           ></el-input>
@@ -54,15 +54,11 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { ElMessage } from "element-plus";
 
 const { t } = useI18n();
-const input = ref("");
-const oldPwd = ref("");
-const newPwd = ref("");
-const newPwd2 = ref("");
 const dialogVisible = ref(false);
 const error3Display = ref("none");
 const changeValue = ref(false);
@@ -77,13 +73,48 @@ const props = defineProps({
   canChange: Boolean,
   // matchFormat: String,
 });
-const v = ref(props.value);
+var v = props.value;
+const input = computed({
+  get() {
+    return v;
+  },
+  set(newValue) {
+    v = newValue.trim();
+  }
+});
+var oldP = "";
+const oldPwd = computed({
+  get() {
+    return oldP;
+  },
+  set(newValue) {
+    oldP = newValue.trim();
+  }
+});
+var newP = "";
+const newPwd = computed({
+  get() {
+    return newP;
+  },
+  set(newValue) {
+    newP = newValue.trim();
+  }
+});;
+var newP2 = "";
+const newPwd2 = computed({
+  get() {
+    return newP2;
+  },
+  set(newValue) {
+    newP2 = newValue.trim();
+  }
+});;
 
 function clearBtn() {
   dialogVisible.value = false;
-  oldPwd.value = "";
-  newPwd.value = "";
-  newPwd2.value = "";
+  oldP = "";
+  newP = "";
+  newP2 = "";
 }
 function checkInput() {
   changeValue.value = false;
@@ -94,26 +125,26 @@ function checkInput() {
     errorClass = props.label.toLowerCase();
   }
   let regexp = new RegExp(props.reg);
-  if(!regexp.test(v.value)) {
+  if(!regexp.test(v)) {
     ElMessage({
           type: "error",
           message: t('welcome.' + errorClass + 'Error'),
           showClose: true,
           grouping: true,
         });
-    v.value = props.value;
+    v = props.value;
   } else {
     change();
   }
 }
 function checkPwd() {
-  if (newPwd.value == newPwd2.value) {
+  if (newP == newP2) {
     error3Display.value = "none";
   } else {
     error3Display.value = "";
   }
   let regexp = new RegExp(/^[\w-]{6,18}$/);
-  if (!regexp.test(newPwd.value)) {
+  if (!regexp.test(newP)) {
     ElMessage({
       type: "warning",
       message: t("welcome.pwdError"),
@@ -136,7 +167,7 @@ function change() {
   if (!props.isPwd) {
     emit("changeFun", props.label, input);
   } else {
-    emit("changePwd", oldPwd, newPwd);
+    emit("changePwd", oldP, newP);
   }
 }
 </script>

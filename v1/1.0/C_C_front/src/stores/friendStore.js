@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import { searchFriend } from "@/api/friend";
+import i18n from '../locals/index.js'
 
 const store = useUserStore();
 const { token } = storeToRefs(store);
@@ -47,15 +48,15 @@ export const useFriendStore = defineStore("friends", {
               });
             }
           })
-          //   .catch((err) => {
-          //     ElMessage({
-          //       type: "error",
-          //       message: t("newFriendList.loadError"),
-          //       showClose: true,
-          //       grouping: true,
-          //     });
-          //     console.log(err);
-          //   })
+            .catch((err) => {
+              ElMessage({
+                type: "error",
+                message: i18n.global.t("newFriendList.loadError"),
+                showClose: true,
+                grouping: true,
+              });
+              console.log(err);
+            })
           .finally(() => {
             this.loading = false;
           });

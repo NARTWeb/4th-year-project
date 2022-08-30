@@ -126,7 +126,7 @@
   </div>
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { onMounted, onUpdated, reactive, ref } from "vue";
 import  useUserStore  from "@/stores/userStore";
 import { useFriendStore } from "@/stores/friendStore.js";
 import { storeToRefs } from "pinia";
@@ -152,10 +152,12 @@ const pics = reactive([
   "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
 ]);
 
+
+const router = useRouter();
 const store = useUserStore();
 const Fstore = useFriendStore();
 const { name, avatar, token } = storeToRefs(store);
-const router = useRouter();
+
 var searchInput = ref("");
 var friendParam = reactive({
   page: {
@@ -241,6 +243,9 @@ function menuClick(index) {
     name: index,
   });
 }
+onMounted(() => {
+
+})
 </script>
 <style scoped>
 .el-main {

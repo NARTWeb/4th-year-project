@@ -3,7 +3,8 @@ import { defineStore } from "pinia";
 import { showFriendRequests } from "@/api/friend";
 import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
-import { useI18n } from "vue-i18n";
+import i18n from '../locals/index.js'
+
 const store = useUserStore();
 const { token } = storeToRefs(store);
 
@@ -47,15 +48,15 @@ export const useNewStore = defineStore("newFriend", {
               });
             }
           })
-          //   .catch((err) => {
-          //     ElMessage({
-          //       type: "error",
-          //       message: t("newFriendList.loadError"),
-          //       showClose: true,
-          //       grouping: true,
-          //     });
-          //     console.log(err);
-          //   })
+            .catch((err) => {
+              ElMessage({
+                type: "error",
+                message: i18n.global.t("newFriendList.loadError"),
+                showClose: true,
+                grouping: true,
+              });
+              console.log(err);
+            })
           .finally(() => {
             this.loading = false;
           });

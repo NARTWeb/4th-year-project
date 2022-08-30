@@ -53,7 +53,7 @@
               <el-avatar
                 :size="60"
                 :icon="Plus"
-                @click="popWindow"
+                @click="toPopWin"
                 class="scroll-item oper"
               />
             </div>
@@ -103,6 +103,7 @@
         </div>
       </div>
     </div>
+    <PopWinFriendList :dialog-visible="dialogFormVisible"></PopWinFriendList>
   </div>
 </template>
 <script setup>
@@ -118,6 +119,7 @@ import { ElMessage } from "element-plus";
 import { Plus, Minus } from "@element-plus/icons-vue";
 import { changeGroupInfo } from "@/api/group";
 import { uploadPic } from "@/api/upload";
+import PopWinFriendList from "@/views/searchAndCreate/PopWinFriendList.vue";
 
 const store = useUserStore();
 const { token } = storeToRefs(store);
@@ -130,7 +132,11 @@ const counter = ref(0);
 const memberList = reactive([]);
 var imgParent = ref("circle");
 const uploadRef = ref("");
+const dialogFormVisible = ref(false);
 
+function toPopWin() {
+  dialogFormVisible.value = true;
+}
 function test() {
   const testList = [
     {
@@ -285,7 +291,7 @@ function changeInfo(successMsg, ErrorMsg) {
     id: gId.value,
     name: gName.value,
     avatar: gAvatar.value,
-    notice: gNotice,
+    notice: gNotice.value,
   };
   changeGroupInfo(token, gInfo)
     .then((res) => {
@@ -315,7 +321,6 @@ function changeInfo(successMsg, ErrorMsg) {
       console.log(err);
     });
 }
-function popWindow() {}
 function delMember() {
   imgParent.value =
     imgParent.value == "circle" ? "del-circle circle" : "circle";

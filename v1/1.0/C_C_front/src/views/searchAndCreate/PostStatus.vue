@@ -1,93 +1,118 @@
 <template>
   <div class="all">
     <div class="mainpart">
-        <div class="top">
-            <textarea rows="6" style="font-size:16px;color:red;font-family:Arial;font-weight:bold;outline:none;" :placeholder="t('postStatus.placeHolder')"></textarea>
-        </div>
+      <div class="top">
+        <textarea
+          rows="6"
+          style="
+            font-size: 16px;
+            color: red;
+            font-family: Arial;
+            font-weight: bold;
+            outline: none;
+          "
+          v-model="msg"
+          :placeholder="t('postStatus.placeHolder')"
+        ></textarea>
+      </div>
     </div>
     <div class="pics">
-        <div class="mid">
-            <span>{{ $t("postStatus.putPic") }}</span>
-        </div>
-        <el-upload
-            v-model:file-list="fileList"
-            action=""
-            list-type="picture-card"
-            mutiple
-            show-file-list
-            :auto-upload="false"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :limit="9"
-        >
-            <el-icon><Plus /></el-icon>
-        </el-upload>
+      <div class="mid">
+        <span>{{ $t("postStatus.putPic") }}</span>
+      </div>
+      <el-upload
+        v-model:file-list="fileList"
+        action=""
+        list-type="picture-card"
+        mutiple
+        show-file-list
+        :auto-upload="false"
+        :on-preview="handlePictureCardPreview"
+        :on-remove="handleRemove"
+        :limit="9"
+      >
+        <el-icon><Plus /></el-icon>
+      </el-upload>
 
-        <el-dialog v-model="dialogVisible">
-            <el-image fit="fill" :src="dialogImageUrl" alt="Preview Image" />
-        </el-dialog>
+      <el-dialog v-model="dialogVisible">
+        <el-image fit="fill" :src="dialogImageUrl" alt="Preview Image" />
+      </el-dialog>
     </div>
     <div class="bottom">
-      <el-button round type="primary" id="post-btn" @click="post">{{ $t("postStatus.post") }}</el-button>
+      <el-button round type="primary" id="post-btn" @click="post">{{
+        $t("postStatus.post")
+      }}</el-button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { Plus } from '@element-plus/icons-vue'
+import { ref, computed } from "vue";
+import { Plus } from "@element-plus/icons-vue";
 import { useI18n } from "vue-i18n";
-import  useUserStore from "@/stores/userStore";
+import useUserStore from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import { postStatus } from "@/api/status";
-import { ElMessage } from 'element-plus';
+import { ElMessage } from "element-plus";
 
-import type { UploadProps, UploadUserFile } from 'element-plus'
+import type { UploadProps, UploadUserFile } from "element-plus";
 
 const store = useUserStore();
 const { token } = storeToRefs(store);
 const { t } = useI18n();
 const counter = ref(0);
+var m = "";
+const msg = computed({
+  get() {
+    return m;
+  },
+  set(newValue: String) {
+    m = newValue.trim();
+  },
+});
 
-const fileList = ref<UploadUserFile[]>([
-])
+const fileList = ref<UploadUserFile[]>([]);
 
-function post(msg, pics){
-    postStatus(token, msg, pics)
-    .then((res) =>{
-        if(res.data.success) {
-          alert(t('postStatus.succeed'))
-        }else{
-          ElMessage({
-            type: "error",
-            message: t('postStatus.err'),
-            showClose: true,
-          });
-        }
+function post() {
+  postStatus(token, m, fileList)
+    .then((res) => {
+      if (res.data.success) {
+        ElMessage({
+          type: "success",
+          message: t("postStatus.succeed"),
+          showClose: true,
+          grouping: true,
+        });
+      } else {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+          showClose: true,
+          grouping: true,
+        });
+      }
     })
     .catch((err) => {
-        ElMessage({
-            type: "error",
-            message: t('postStatus.err'),
-            showClose: true,
-        });
-        console.log(err);
-    })
-    .finally(() => {
-        alert(t('postStatus.succeed'))
+      ElMessage({
+        type: "error",
+        message: t("postStatus.err"),
+        showClose: true,
+        grouping: true,
+      });
+      console.log(err);
     });
 }
-const dialogImageUrl = ref('')
-const dialogVisible = ref(false)
+const dialogImageUrl = ref("");
+const dialogVisible = ref(false);
 
-const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-  console.log(uploadFile, uploadFiles)
-}
+const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
+  console.log(uploadFile, uploadFiles);
+};
 
-const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
-  dialogImageUrl.value = uploadFile.url!
-  dialogVisible.value = true
-}
+const handlePictureCardPreview: UploadProps["onPreview"] = (uploadFile) => {
+  dialogImageUrl.value = uploadFile.url!;
+  dialogVisible.value = true;
+};
 </script>
 <style scoped>
 .all {

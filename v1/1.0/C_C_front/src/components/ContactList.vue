@@ -30,6 +30,7 @@
                     <el-badge
                       is-dot
                       class="item"
+                      :hidden="member.newMsg"
                       :type="checkType(member.state)"
                     >
                       <el-avatar
@@ -133,6 +134,7 @@ import { useI18n } from "vue-i18n";
 import { onMounted } from "vue";
 import { min } from "lodash";
 import { useRouter } from "vue-router";
+import { useChatStore } from '@/stores/chatStore';
 
 const router = useRouter();
 const props = defineProps({
@@ -149,7 +151,9 @@ const loading = ref(false);
 const nodata = ref(false);
 const pageN = ref(props.param.page.pageNum);
 const store = useUserStore();
+const chatStore = useChatStore();
 const { token } = storeToRefs(store);
+const { ws } = storeToRefs(chatStore);
 const minW = ref("60px");
 const btnSize = "default";
 var list = reactive([]);
@@ -277,9 +281,9 @@ function load() {
       pageNum: pageN.value,
     };
     if (props.isFriend) {
-      result = showFriendList(token, page, props.showAll);
+      result = showFriendList(token, page);
     } else {
-      result = showGroupList(token, page, props.showAll);
+      result = showGroupList(token, page);
     }
     result
       .then((res) => {
@@ -496,6 +500,7 @@ function toChat(member) {
 onMounted(() => {
   if (props.isFriend) {
     bgColor.backgroundColor = "#fef0f0";
+    chatStore.setupWS();
   } else {
     bgColor.backgroundColor = "#faecd8";
     minW.value = "90px";

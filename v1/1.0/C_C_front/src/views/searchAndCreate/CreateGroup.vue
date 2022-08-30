@@ -70,21 +70,21 @@
         </div>
       </el-main>
     </el-container>
-    <PopWinFriendList :dialog-visible="dialogFormVisible" ></PopWinFriendList>
+    <PopWinFriendList :dialog-visible="dialogFormVisible"></PopWinFriendList>
   </div>
 </template>
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { uploadPic } from "@/api/upload";
 import { createNewGroup, sendGroupInvite } from "@/api/group";
 import { storeToRefs } from "pinia";
-import  useUserStore  from "@/stores/userStore";
-import { ElMessage } from 'element-plus'
-import PopWinFriendList from './PopWinFriendList.vue'
+import useUserStore from "@/stores/userStore";
+import { ElMessage } from "element-plus";
+import PopWinFriendList from "./PopWinFriendList.vue";
 
-const dialogFormVisible = ref(false)
+const dialogFormVisible = ref(false);
 const store = useUserStore();
 const router = useRouter();
 const { token } = storeToRefs(store);
@@ -92,9 +92,21 @@ const { t } = useI18n();
 const img = ref(
   "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
 );
-const uploadRef = ref('');
-const groupName = ref("");
-const placeholder = t("createGroup.groupNameHolder");
+const uploadRef = ref("");
+var gName = "";
+const groupName = computed({
+  get(){
+    return gName;
+  },
+  set(newValue) {
+    gName = newValue.trim();
+  }
+});
+const placeholder = computed({
+  get() {
+    return t("createGroup.groupNameHolder");
+  }
+});
 const inviteList = reactive([]);
 const groupId = ref("");
 function uploadFun() {
@@ -106,7 +118,7 @@ function uploadFun() {
       } else {
         ElMessage({
           type: "error",
-          message: t('chatInputBox.uploadPicError'),
+          message: t("chatInputBox.uploadPicError"),
           showClose: true,
           grouping: true,
         });
@@ -115,81 +127,64 @@ function uploadFun() {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: t('chatInputBox.uploadPicError'),
+        message: t("chatInputBox.uploadPicError"),
         showClose: true,
         grouping: true,
       });
       console.log(err);
     });
 }
-function addMember() {
-  inviteList.push(
-    ...[
-      {
-        id: "783921",
-        name: "mike",
-        avatar: "dshjaokda",
-      },
-      {
-        id: "8342910",
-        name: "mtony",
-        avatar: "dshja",
-      },
-    ]
-  );
-  console.log(inviteList.value);
-}
 function create() {
-    createNewGroup(token, groupName.value)
-    .then((res)=> {
-        if(res.data.success) {
-            groupId.value = res.data.data;
-        } else {
-            ElMessage({
+  createNewGroup(token, groupName.value)
+    .then((res) => {
+      if (res.data.success) {
+        groupId.value = res.data.data;
+      } else {
+        ElMessage({
           type: "error",
-          message: t('createGroup.createError'),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
-        }
+      }
     })
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: t('createGroup.createError'),
+        message: t("createGroup.createError"),
         showClose: true,
         grouping: true,
       });
       console.log(err);
     });
 
-    for(let i=0; i<inviteList.length; i++) {
-        let inviteInfo = {
-            groupId: groupId.value,
-            receiverId: inviteList[i].id,
-            message: "",
-        };
-        sendGroupInvite(token, inviteInfo)
-        .then((res)=> {
-            if(!res.data.success) {
-                ElMessage({
-                    type: "error",
-                    message: t('createGroup.inviteError'),
-                    showClose: true,
-                    grouping: true,
-                })
-            }
-        })
-        .catch((err)=> {
-            ElMessage({
-                type: "error",
-                message: t('createGroup.inviteError'),
-                showClose: true,
-                grouping: true,
-            });
-            console.log(err);
-        })
-    }
+  for (let i = 0; i < inviteList.length; i++) {
+    let inviteInfo = {
+      groupId: groupId.value,
+      receiverId: inviteList[i].id,
+      message: "",
+    };
+    sendGroupInvite(token, inviteInfo)
+      .then((res) => {
+        if (!res.data.success) {
+          ElMessage({
+            type: "error",
+            message: res.data.msg,
+            showClose: true,
+            grouping: true,
+          });
+        }
+      })
+      .catch((err) => {
+        ElMessage({
+          type: "error",
+          message: t("createGroup.inviteError"),
+          showClose: true,
+          grouping: true,
+        });
+        console.log(err);
+      });
+  }
 }
 function toPopWin() {
   dialogFormVisible.value = true;
@@ -262,21 +257,21 @@ function toPopWin() {
     height: 45vh;
   }
 }
-@media screen and (max-height: 849px) and (min-height: 720px){
+@media screen and (max-height: 849px) and (min-height: 720px) {
   .scroll-main-bar {
     height: 40vh;
   }
 }
-@media screen and (max-height: 719px)and (min-height: 620px){
+@media screen and (max-height: 719px) and (min-height: 620px) {
   .scroll-main-bar {
     height: 35vh;
   }
 }
-@media screen and (max-height: 619px){
+@media screen and (max-height: 619px) {
   .scroll-main-bar {
     height: 30vh;
   }
-  .main-btn{
+  .main-btn {
     top: 5px;
   }
 }

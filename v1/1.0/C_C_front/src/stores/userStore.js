@@ -18,7 +18,6 @@ const useUserStore = defineStore("user", {
       notice: "",
       groupName: "",
       groupAvatar: "",
-      ws: "",
     };
   },
   getters :{
@@ -42,27 +41,6 @@ const useUserStore = defineStore("user", {
       this.groupName = gInfo.gName;
       this.groupAvatar = gInfo.gAvatar;
     },
-    async setupWS() {
-      var ws = new WebSocket("ws://localhost/chat");
-      ws.onopen = function() {
-          
-      }
-      ws.onmessage = function(evt) {
-          var dataStr = evt.data;
-          var res = JSON.parse(dataStr);
-          if(res.isSystem) {
-              //
-          } else {
-
-          }
-      }
-      ws.onclose = function() {
-          
-      }
-    },
-    async wsSend(msg) {
-      this.ws.send(msg);
-    },
     login(user) {
       return new Promise((resolve, reject) => {
         signin(user.username, user.password)
@@ -70,7 +48,6 @@ const useUserStore = defineStore("user", {
             if (res.data.success) {
               setToken(res.data.data);
               this.token = getToken();
-              setupWS();
               getAvatarUname();
               resolve();
             } else {
@@ -254,7 +231,6 @@ const useUserStore = defineStore("user", {
             if (res.data.success) {
               setToken(res.data.data);
               this.token = getToken();
-              setupWS();
               getAvatarUname();
               resolve();
             } else {

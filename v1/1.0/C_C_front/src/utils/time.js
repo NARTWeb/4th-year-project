@@ -63,3 +63,7 @@ export function format(date, isZh) {
     }
     return ymd(date);
 }
+export function now() {
+    let d = new Date();
+    return "just now!";
+}
