@@ -7,7 +7,7 @@
       <div style="width: 40%">
         <div class="all">
             <div class="search">
-                <el-input id="searchF" :placeholder="ph">
+                <el-input id="searchF" :placeholder="t('FriendIHave.searchFriend')">
                     <template #append>
                         <el-button @click="searchFr" :icon="Search" />
                     </template>
@@ -47,6 +47,8 @@ import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import { useNewStore } from "@/stores/newStore";
 import { showFriendList } from "@/api/friend";
+const dialogVisible = ref(false);
+
 
 const { t } = useI18n();
 
@@ -66,15 +68,16 @@ const input = ref<String>('');
 const props = defineProps({
     dialogVisible: Boolean
 })
-const ph = computed(() => {
-    return t('FriendIHave.searchFriend');
-});
+
 
 function close(id) {
   newStore.delItem(id);
 }
 function addBtn(id) {
 
+}
+function pop(){
+    dialogVisible.value = true;
 }
 function searchFr() {
     searchFriend(token, input, page)

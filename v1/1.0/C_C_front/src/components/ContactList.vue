@@ -1,12 +1,12 @@
 <template>
   <div class="all">
     <el-dialog v-model="dialogVisible" title="Tips" width="30%" class="dialog">
-      <span>This is a message {{ selectMember.name }}</span>
+      <span>{{ $t("contactList.friend.del") }}{{ selectMember.name }}</span>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button @click="dialogVisible = false">{{ $t("infoItem.cancel") }}</el-button>
           <el-button type="primary" @click="del(selectMember.id)"
-            >Confirm</el-button
+            >{{ $t("infoItem.confrim") }}</el-button
           >
         </span>
       </template>

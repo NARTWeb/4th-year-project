@@ -70,7 +70,9 @@
         </div>
       </el-main>
     </el-container>
+
     <PopWinFriendList :dialog-visible="dialogFormVisible" ></PopWinFriendList>
+
   </div>
 </template>
 <script setup>
@@ -84,7 +86,7 @@ import  useUserStore  from "@/stores/userStore";
 import { ElMessage } from 'element-plus'
 import PopWinFriendList from './PopWinFriendList.vue'
 
-const dialogFormVisible = ref(false)
+const dialogVisible = ref(false)
 const store = useUserStore();
 const router = useRouter();
 const { token } = storeToRefs(store);

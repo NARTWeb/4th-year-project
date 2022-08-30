@@ -31,7 +31,8 @@ export default{
             hideError: "fail to hide Friend",
             muteError: "fail to mute Friend",
             delError: "fail to delete Friend",
-            unsetError: "fail to set Friend to normal"
+            unsetError: "fail to set Friend to normal",
+            del: "Are you sure you want to delete ",
         },
         group: {
             ListError: "fail to load Group List",
