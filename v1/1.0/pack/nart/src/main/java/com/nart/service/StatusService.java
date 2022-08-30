@@ -9,5 +9,7 @@ public interface StatusService {
 
     boolean postStatus(status status);
 
-    boolean delStatus();
+    boolean delStatus(String id);
+
+    boolean likeStatus(String id, boolean like);
 }

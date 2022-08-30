@@ -28,13 +28,25 @@ public class statusServiceTest {
     }
 
     @Test
-    public void showpostStatus(){
+    public void TestpostStatus(){
         status status = new status();
         status.setSenderId("1");
         status.setText("erfwf");
         status.setPics("1122323");
         status.setCreateDate(13232344L);
         boolean b = StatusService.postStatus(status);
+        System.out.println(b);
+    }
+
+    @Test
+    public void TestdelStatus(){
+        boolean b = StatusService.delStatus("1564436341058641922");
+        System.out.println(b);
+    }
+    
+    @Test
+    public void TestlikeStatus(){
+        boolean b = StatusService.likeStatus("1", true);
         System.out.println(b);
     }
 }
