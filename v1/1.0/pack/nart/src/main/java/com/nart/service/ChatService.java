@@ -1,12 +1,22 @@
 package com.nart.service;
 
+import com.nart.pojo.friendChat;
+import com.nart.pojo.groupChat;
 import com.nart.pojo.message;
+
+import java.util.List;
 
 public interface ChatService {
 
-    boolean sendMsg(message message);
+    boolean sendFriendMsg(friendChat friendChat);
 
-//    reciviceMsg(message message)
+    boolean sendGroupMsg(groupChat groupChat);
 
-//    showHistory(String chatId,String type);
+
+
+    List<friendChat> recivicefriendMsg(String reciviceId);
+
+    List<groupChat> recivicegroupMsg(String reciviceId);
+
+    List<Object> showHistory(String chatId,int frg);
 }
