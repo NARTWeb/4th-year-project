@@ -30,20 +30,24 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public Result register(@RequestBody UserVo user){
+    public Result register(@RequestBody UserVo userInfo){
+        return Result.fail(ErrorCode.UNDEFINED);
+    }
+
+    @GetMapping("info/{id}")
+    public Result showUserInfo(@PathVariable("id") String id) {
+        // if "" means show current user info
+        // else means show other users' info
         return Result.fail(ErrorCode.UNDEFINED);
     }
 
     @GetMapping
-    public Result showUserInfo() {
-        return Result.fail(ErrorCode.UNDEFINED);
-    }
-
     public Result showUnameAvatar() {
         return Result.fail(ErrorCode.UNDEFINED);
     }
 
-    public Result changeUserInfo(){ //
+    @PutMapping("changeInfo")
+    public Result changeUserInfo(@RequestBody UserVo userInfo){
         return Result.fail(ErrorCode.UNDEFINED);
     }
 }

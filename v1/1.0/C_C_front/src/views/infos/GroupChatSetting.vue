@@ -249,7 +249,7 @@ function uploadFun() {
     });
 }
 function getMember() {
-  showMemberList(token, groupId, page)
+  showMemberList(token, gId.value)
     .then((res) => {
       if (res.data.success) {
         memberList.push(...res.data.data);

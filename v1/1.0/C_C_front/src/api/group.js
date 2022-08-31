@@ -72,16 +72,11 @@ export function leaveGroup(token, groupId) {
     });
 }
 
-export function showMemberList(token, groupId, page) {
+export function showMemberList(token, groupId) {
     return req({
         headers: {'Authorization':token},
         method: 'get',
-        url: '/group/memberList',
-        data: {
-            groupId,
-            pageSize: page.pageSize,
-            pageNum: page.pageNum
-        }
+        url: `/group/memberList/${groupId}`,
     });
 }
 
