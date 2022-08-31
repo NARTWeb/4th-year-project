@@ -18,5 +18,8 @@ public interface ChatService {
 
     List<groupChat> recivicegroupMsg(String reciviceId);
 
-    List<Object> showHistory(String chatId,int frg);
+    List<friendChat> showFriendHistory(String Id);
+
+
+    List<groupChat> showGroupHistory(String gId);
 }

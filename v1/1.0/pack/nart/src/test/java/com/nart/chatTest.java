@@ -59,9 +59,9 @@ public class chatTest {
     }
 
     @Test
-    public void TestshowHistory(){
-        List<Object> objects = chatService.showHistory("1", 1);
-        System.out.println(objects);
+    public void TestshowFriendHistory(){
+        List<friendChat> friendChats = chatService.showFriendHistory("1");
+        System.out.println(friendChats);
     }
 
 }

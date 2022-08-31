@@ -22,9 +22,8 @@ public class statusServiceTest {
     @Test
     public void showStatusListTest(){
         IPage<status> page=new Page<>(1,2);
-        IPage iPage = StatusService.showStatusList(1L, page);
-        System.out.println("一共多少页:"+iPage.getPages());
-        System.out.println(iPage.getRecords());
+        List<status> statuses = StatusService.showStatusList(1L, page);
+        System.out.println(statuses);
     }
 
     @Test

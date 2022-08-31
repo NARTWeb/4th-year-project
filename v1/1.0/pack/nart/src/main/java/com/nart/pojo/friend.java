@@ -10,18 +10,27 @@ import java.util.List;
 @TableName("tb_friend")
 public class friend {
     private String id;
+    private String uid;
+    private String fid;
+    private String state;
+    @TableField(value = "leave_time")
+    private Long leaveTime;
+
+    @TableField(exist = false)
     private String name;
+    @TableField(exist = false)
     private String email;
+    @TableField(exist = false)
     private String avatar;
+    @TableField(exist = false)
     private Boolean online;
 
-    private String state;
 //    private Chat chat;
 
     @TableField(exist = false)
     private List<status> statusList;
     @TableField(exist = false)
-    private List<message> chatHistory;
+    private List<friendChat> chatHistory;
     @TableField(exist = false)
     private Boolean newMessage;
 

@@ -22,7 +22,7 @@ public class StatusServiceImpl implements StatusService {
     private CommentService commentService;
 
     @Override
-    public IPage showStatusList(Long sid, IPage page) {
+    public List<status> showStatusList(Long sid, IPage page) {
         LambdaQueryWrapper<status> lqw = new LambdaQueryWrapper<status>();
         lqw.eq(status::getSenderId, sid);
         IPage iPage = StatusDao.selectPage(page, lqw);
@@ -36,7 +36,7 @@ public class StatusServiceImpl implements StatusService {
             record.setCommentList(comments);
 
         }
-        return iPage;
+        return records;
     }
 
     @Override

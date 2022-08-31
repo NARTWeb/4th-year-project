@@ -3,9 +3,11 @@ package com.nart.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.pojo.status;
 
+import java.util.List;
+
 public interface StatusService {
 
-    IPage showStatusList(Long sid, IPage page);
+    List<status> showStatusList(Long sid, IPage page);
 
     boolean postStatus(status status);
 
