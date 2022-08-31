@@ -12,13 +12,14 @@ export function postStatus(token, msg, pics) {
     })
 }
 
-export function showMyStatusList(token, page) {
+export function showMyStatusList(token, uid, page) {
     return req({
         headers: {'Authorization': token},
         method: 'get',
         url: '/status/list',
         data: {
             type: 'my',
+            uid,
             pageSize: page.pageSize,
             pageNum: page.pageNum
         }

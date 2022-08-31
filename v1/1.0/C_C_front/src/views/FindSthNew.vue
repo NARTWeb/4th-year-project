@@ -4,24 +4,22 @@
       <el-header>
         <div class="flex">
           <div class="input">
-            <el-input v-model="input" size="large" placeholder="search" />
+            <el-input v-model="input" size="large" :placeholder="t('findSthNew.placeholder')" />
           </div>
           <div class="btn1">
-            <el-button type="primary" size="large" 
-                round @click="searchNew">{{
+            <el-button type="primary" size="large" round @click="searchNew">{{
               $t("findSthNew.search")
             }}</el-button>
           </div>
           <div class="btn2">
-            <el-button type="primary" size="large" 
-                round @click="createGroup">{{
+            <el-button type="primary" size="large" round @click="createGroup">{{
               $t("findSthNew.create")
             }}</el-button>
           </div>
         </div>
         <el-divider />
       </el-header>
-      <el-main>
+      <el-main id="main">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -29,6 +27,13 @@
 </template>
 <script setup>
 import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useNewStore } from "@/stores/newStore";
+import { useI18n } from "vue-i18n";
+
+const {t} = useI18n();
+const store = useNewStore();
+const router = useRouter();
 const page = {
   loading: false,
   nodata: false,
@@ -37,19 +42,24 @@ const page = {
 };
 var input = ref("");
 function searchNew() {
+  let temp = input.value;
+
+    if (temp == "") {
+      temp = "_[all]_";
+    }
+  if (store.searchHistory != temp) {
+    store.searchHistory = temp;
+    store.loadFirstList();
+  }
   router.push({
-    name,
-    params: {
-      input: input.value,
-      page,
-    },
+    name: "addNewFriend"
   });
 }
 function createGroup() {
-  router.push({ name });
+  router.push({ path: "/findSthNew/createGroup" });
 }
 </script>
-<style>
+<style scoped>
 .flex {
   display: -webkit-flex; /* Safari */
   display: flex;
@@ -57,10 +67,21 @@ function createGroup() {
   align-items: center;
   margin-top: 10px;
 }
+@media screen and (max-height: 550px) {
+  .flex {
+    margin-top: -10px;
+  }
+  #main {
+    margin-top:-10px;
+  }
+}
 .input {
   -webkit-flex: initial;
   flex: initial;
   width: 50vw;
   min-width: 200px;
+}
+.el-main {
+  overflow: hidden;
 }
 </style>
