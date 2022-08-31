@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import com.nart.pojo.user;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +21,8 @@ import java.util.concurrent.TimeUnit;
 import static com.nart.util.EncryptUtil.encryptPwd;
 import static com.nart.util.RandomContentGenerator.getRandomId;
 import static com.nart.util.RandomContentGenerator.getRandomPics;
+
+import static com.nart.util.EncryptUtil.encryptPwd;
 
 /**
  * Copyright (c) 2008-2024: Zirui Qiao

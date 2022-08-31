@@ -1,7 +1,6 @@
 package com.nart.util;
 
 import org.apache.commons.codec.digest.DigestUtils;
-
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
  * Project: pack
@@ -13,7 +12,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  * @date: 2022/8/30 16:26
  */
 public class EncryptUtil {
-    private static String salt = "3251637nart%^&";
+    private static final String salt = "2361578nart!@#";
 
     public static String encryptPwd(String pwd) {
         return DigestUtils.md5Hex(pwd + salt);

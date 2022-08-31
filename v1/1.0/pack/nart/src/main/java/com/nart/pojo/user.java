@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @TableName("tb_user")
 public class user {
+
 // 主键生成策略
 //    @TableId(type = IdType.ASSIGN_UUID)
     private String id;
