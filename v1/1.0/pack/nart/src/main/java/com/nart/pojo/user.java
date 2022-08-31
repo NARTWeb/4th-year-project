@@ -10,7 +10,6 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @TableName("tb_user")
 public class user {
 // 主键生成策略
@@ -20,7 +19,7 @@ public class user {
     private String avatar;
     @TableField(value = "uname")
     private String name;
-    private Integer age;
+    private String age;
     private String tel;
     private String address;
     private String email;
@@ -38,6 +37,4 @@ public class user {
     private List<groupInvite> groupInvites;
     @TableField(exist = false)
     private List<status> statusList;
-
-
 }
