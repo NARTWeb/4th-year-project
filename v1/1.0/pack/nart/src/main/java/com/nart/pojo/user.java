@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @Data
 @TableName("tb_user")
 public class user {
+
 // 主键生成策略
 
     @TableId(type = IdType.ASSIGN_ID)
@@ -19,7 +21,7 @@ public class user {
     private String avatar;
     @TableField(value = "uname")
     private String name;
-    private Integer age;
+    private String age;
     private String tel;
     private String address;
     private String email;
@@ -37,6 +39,4 @@ public class user {
     private List<groupInvite> groupInvites;
     @TableField(exist = false)
     private List<status> statusList;
-
-
 }
