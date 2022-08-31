@@ -1,8 +1,7 @@
 package com.nart.common;
 
 import com.google.gson.Gson;
-import com.nart.util.IpUtils;
-import lombok.extern.slf4j.Slf4j;
+import com.nart.util.upload.IpUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -11,7 +10,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -34,13 +34,13 @@ import java.util.Enumeration;
  */
 @Component
 @Aspect
-@Slf4j
 public class LogAspect {
 
     private final Gson gson = new Gson();
+    private final Logger log = LoggerFactory.getLogger(LogAspect.class);
 
 
-    @Pointcut("@annotation(com.nart.common.LogAnnotation)")
+    @Pointcut("@annotation(com.nart.common.LogA)")
     public void pt() {
 
     }
@@ -68,9 +68,9 @@ public class LogAspect {
         log.info("=====================log start================================");
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        LogAnnotation logAnnotation = method.getAnnotation(LogAnnotation.class);
-        log.info("module:{}", logAnnotation.module());
-        log.info("operation:{}", logAnnotation.operator());
+//        LogA logA = method.getAnnotation(LogA.class);
+//        log.info("module:{}", logA.module());
+//        log.info("operation:{}", logA.operator());
 
         // 请求的方法名
         String className = joinPoint.getTarget().getClass().getName();

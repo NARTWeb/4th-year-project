@@ -1,5 +1,6 @@
 package com.nart.controller;
 
+import com.nart.common.LogA;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
 import com.nart.vo.CommentVo;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("comment")
+@LogA
 public class CommentController {
 
 

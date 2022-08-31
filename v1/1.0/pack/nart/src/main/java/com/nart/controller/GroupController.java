@@ -1,6 +1,7 @@
 package com.nart.controller;
 
 import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
+import com.nart.common.LogA;
 import com.nart.pojo.groupInvite;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("group")
+@LogA
 public class GroupController {
     @GetMapping("memberList/{groupId}")
     public Result showGroupMemberList(@PathVariable("groupId") String gid) {

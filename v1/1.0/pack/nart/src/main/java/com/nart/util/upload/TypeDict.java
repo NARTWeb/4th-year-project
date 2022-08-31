@@ -1,4 +1,4 @@
-package com.nart.util;
+package com.nart.util.upload;
 
 import org.apache.http.entity.ContentType;
 

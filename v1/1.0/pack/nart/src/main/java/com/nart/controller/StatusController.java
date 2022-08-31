@@ -1,5 +1,6 @@
 package com.nart.controller;
 
+import com.nart.common.LogA;
 import com.nart.pojo.user;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("status")
+@LogA
 public class StatusController {
 
 

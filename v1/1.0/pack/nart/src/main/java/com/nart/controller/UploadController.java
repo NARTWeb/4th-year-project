@@ -1,7 +1,8 @@
 package com.nart.controller;
 
+import com.nart.common.LogA;
 import com.nart.util.ErrorCode;
-import com.nart.util.ImgtuUtil;
+import com.nart.util.upload.ImgtuUtil;
 import com.nart.util.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("upload")
+@LogA
 public class UploadController {
 
     @PostMapping

@@ -1,10 +1,8 @@
 package com.nart.util;
 
-import org.apache.velocity.util.ArrayListWrapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
-import zirui.blog.vo.params.LoginParams;
 
 import java.util.*;
 
@@ -27,7 +25,7 @@ public class CopyUtil {
             BeanUtils.copyProperties(obj1, t, getNullPropertyNames(obj1));
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("copyBean 工具方法失败： " + tClass);
+            System.out.println("copyBean Util methods failed： " + tClass);
         }
         return t;
     }

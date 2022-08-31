@@ -1,4 +1,4 @@
-package com.nart.util;
+package com.nart.util.upload;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -77,7 +77,7 @@ public class ImgtuUtil {
 
     public static Boolean initSession(boolean forceAction) {
         if (!forceAction && !isSessionIdExpired()) {
-            log.info("【初始化】成功：会话有效期内，无需重新初始化。");
+            log.info("Imgtu [INITIALIZATION] Success：No re-initialisation required for the duration of the session");
             return null;
         }
         synchronized (ImgtuUtil.class) {
@@ -93,7 +93,7 @@ public class ImgtuUtil {
                 HttpEntity httpEntity = httpResponse.getEntity();
                 httpRawString = EntityUtils.toString(httpEntity);
             } catch (IOException e) {
-                log.error("【初始化】失败：请求页面失败。（{}）" + e.getLocalizedMessage());
+                log.error("Imgtu [INITIALIZATION] Failed: Failing request page（{}）" + e.getLocalizedMessage());
                 e.printStackTrace();
                 return false;
             }
@@ -111,7 +111,7 @@ public class ImgtuUtil {
             }
 
             if (sessionId == null) {
-                log.error("【初始化】失败：获取SessionId失败。");
+                log.error("Imgtu [INITIALIZATION] Failed: Failing get sessionId");
                 return false;
             }
 
@@ -120,12 +120,12 @@ public class ImgtuUtil {
             if (matcher.find(0)) {
                 authToken = matcher.group(1);
             } else {
-                log.error("【初始化】失败：获取AuthToken失败。");
+                log.error("Imgtu [INITIALIZATION] Failed: Failing get AuthToken");
                 return false;
             }
 
-            log.info("【初始化】√ SessionId:" + sessionId);
-            log.info("【初始化】√ AuthToken:" + authToken);
+            log.info("Imgtu [INITIALIZATION]√ SessionId:" + sessionId);
+            log.info("Imgtu [INITIALIZATION]√ AuthToken:" + authToken);
 
             initTimestamp = System.currentTimeMillis();
             return true;
@@ -138,7 +138,7 @@ public class ImgtuUtil {
 
     public static Boolean login(boolean forceAction) throws IOException {
         if (!forceAction && !isLoginExpired()) {
-            log.info("【登录】成功：登录状态有效期内，无需重新登录。");
+            log.info("Imgtu [LOGIN] success：No re-login required for the duration of the session");
             return null;
         }
         synchronized (ImgtuUtil.class) {
@@ -146,7 +146,7 @@ public class ImgtuUtil {
             if (isSessionIdExpired()) {
                 Boolean b = initSession();
                 if (!(b == null || b)) {
-                    log.error("【登录】失败：初始化会话受阻。");
+                    log.error("Imgtu [LOGIN] fail：Initialization session blocked");
                 }
             }
 
@@ -171,10 +171,10 @@ public class ImgtuUtil {
 
             if (keepLogin != null) {
                 loginTimestamp = System.currentTimeMillis();
-                log.info("【登录】√ KeepLogin:" + keepLogin);
+                log.info("Imgtu [LOGIN]：√ KeepLogin:" + keepLogin);
                 return true;
             } else {
-                log.error("【登录】× StatusCode:" + httpResponse.getStatusLine().getStatusCode());
+                log.error("Imgtu [LOGIN]：× StatusCode:" + httpResponse.getStatusLine().getStatusCode());
                 return false;
             }
         }
@@ -191,9 +191,9 @@ public class ImgtuUtil {
     }
 
     public static JsonObject upload(byte[] bytes, String fileName, ContentType fileType) throws IOException {
-        log.info("-------->>>> 图床·上传 <<<<--------");
+        log.info("-------->>>> PicBeds - Upload <<<<--------");
         if (!ensureLogin()) {
-            log.error("【上传】失败：服务不可用。");
+            log.error("Imgtu [UPLOAD]：fail：Service unavailable");
             return null;
         }
 
@@ -214,19 +214,19 @@ public class ImgtuUtil {
 
             CloseableHttpResponse httpResponse = HttpUtil.multipart(IMGTU_OPERATE_URL, new HashMap<>(0), headers, params);
             String httpRawString = EntityUtils.toString(httpResponse.getEntity());
-            log.info("【上传】成功：上传成功！");
+            log.info("Imgtu [UPLOAD] Success：Upload Successfully！");
             return new Gson().fromJson(httpRawString, JsonObject.class);
         } catch (IOException e) {
-            log.error("【上传】失败：{}" + e.getLocalizedMessage());
+            log.error("\"Imgtu [UPLOAD] Fail：{}" + e.getLocalizedMessage());
             e.printStackTrace();
             return null;
         }
     }
 
     public static JsonObject delete(String deleteId) throws IOException {
-        log.info("-------->>>> 图床·删除 <<<<--------");
+        log.info("-------->>>> PicBeds - Delete <<<<--------");
         if (!ensureLogin()) {
-            log.error("【删除】失败：服务不可用。");
+            log.error("Imgtu [DELETE] Fail：Service unavailable");
             return null;
         }
         Map<String, String> headers = new HashMap<>(3);
@@ -244,10 +244,10 @@ public class ImgtuUtil {
 
             CloseableHttpResponse httpResponse = HttpUtil.multipart(IMGTU_OPERATE_URL, new HashMap<>(0), headers, params);
             String httpRawString = EntityUtils.toString(httpResponse.getEntity());
-            log.info("【删除】成功：删除成功！");
+            log.info("Imgtu [DELETE] Success：Delete Successfully！");
             return new Gson().fromJson(httpRawString, JsonObject.class);
         } catch (IOException e) {
-            log.error("【删除】失败：{}" + e.getLocalizedMessage());
+            log.error("Imgtu [DELETE] Fail：{}" + e.getLocalizedMessage());
             e.printStackTrace();
             return null;
         }
@@ -290,12 +290,5 @@ public class ImgtuUtil {
         log.info("short url: " + asString);
 
         return asString;
-    }
-
-    public static void main(String[] args) throws IOException {
-        File img = new File("C:\\Users\\mikeq\\Desktop\\WeChat_20220727174850.mp4");
-        String s = uploadPic(img, "testFile");
-
-        log.info("s :" + s);
     }
 }
