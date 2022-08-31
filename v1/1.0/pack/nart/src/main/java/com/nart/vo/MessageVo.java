@@ -7,6 +7,7 @@ import lombok.Data;
 public class MessageVo {
     private String msgId;
     private String type;
+    private String chatId;
     private String senderId;
     private String senderName;
     private String senderAvatar;

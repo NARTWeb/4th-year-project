@@ -15,7 +15,9 @@ import lombok.Data;
  */
 @AllArgsConstructor
 public enum ErrorCode {
-    UNDEFINED(9999, "undefined error");
+    UNDEFINED(9999, "undefined error"),
+    UPLOAD_ERROR(20001, "upload picture failed"),
+    ;
 
     private Integer code;
     private String msg;

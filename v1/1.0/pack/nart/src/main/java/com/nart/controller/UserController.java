@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @PutMapping("login")
-    public Result login(@RequestBody UserVo user) {
+    public Result login(@RequestBody UserVo uInfo) {
         return Result.fail(ErrorCode.UNDEFINED);
     }
 
@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public Result register(@RequestBody UserVo userInfo){
+    public Result register(@RequestBody UserVo uInfo){
         return Result.fail(ErrorCode.UNDEFINED);
     }
 
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @PutMapping("changeInfo")
-    public Result changeUserInfo(@RequestBody UserVo userInfo){
+    public Result changeUserInfo(@RequestBody UserVo uInfo){
         return Result.fail(ErrorCode.UNDEFINED);
     }
 }

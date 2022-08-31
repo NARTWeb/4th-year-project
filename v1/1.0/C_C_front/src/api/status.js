@@ -13,13 +13,12 @@ export function postStatus(token, msg, pics) {
 }
 
 export function showMyStatusList(token, uid, page) {
+    let type = "my";
     return req({
         headers: {'Authorization': token},
         method: 'get',
-        url: '/status/list',
+        url: `/status/list/${type}/${uid}`,
         data: {
-            type: 'my',
-            uid,
             pageSize: page.pageSize,
             pageNum: page.pageNum
         }
@@ -27,12 +26,13 @@ export function showMyStatusList(token, uid, page) {
 }
 
 export function showAllStatusList(token, page) {
+    let type = "all";
+    let uid = "";
     return req({
         headers: {'Authorization': token},
         method: 'get',
-        url: '/status/list',
+        url: `/status/list/${type}/${uid}`,
         data: {
-            type: 'all',
             pageSize: page.pageSize,
             pageNum: page.pageNum
         }
@@ -43,33 +43,24 @@ export function deleteStatus(token, statusId) {
     return req({
         headers: {'Authorization': token},
         method: 'delete',
-        url: '/status/del',
-        data: {
-            statusId
-        }
+        url: `/status/del/${statusId}`,
     })
 }
 
 export function likeStatus(token, statusId) {
+    let like = true;
     return req({
         headers: {'Authorization': token},
         method: 'put',
-        url: '/status/like',
-        data: {
-            statusId,
-            like: true
-        }
+        url: `/status/like/${statusId}/${like}`
     })
 }
 
 export function dislikeStatus(token, statusId) {
+    let like = false;
     return req({
         headers: {'Authorization': token},
         method: 'put',
-        url: '/status/like',
-        data: {
-            statusId,
-            like: false
-        }
+        url: `/status/like/${statusId}/${like}`
     })
 }

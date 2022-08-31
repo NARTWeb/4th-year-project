@@ -1,26 +1,20 @@
 import req from "@/request";
 
 export function showFriendChatHistory(token, chatId) {
+  let type = "friend";
   return req({
     headers: { Authorization: token },
-    url: "/chat/history",
-    method: "get",
-    data: {
-      chatId,
-      type: "friend",
-    },
+    url: `/chat/history/${type}/${chatId}`,
+    method: "get"
   });
 }
 
 export function showGroupChatHistory(token, chatId) {
+  let type = "group";
   return req({
     headers: { Authorization: token },
-    url: "/chat/history",
-    method: "get",
-    data: {
-      chatId,
-      type: "group",
-    },
+    url: `/chat/history/${type}/${chatId}`,
+    method: "get"
   });
 }
 

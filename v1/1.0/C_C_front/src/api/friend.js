@@ -1,14 +1,13 @@
 import req from "@/request";
 
-export function showFriendList(token, page, showAll) {
+export function showFriendList(token, page) {
     return req({
         headers: {'Authorization': token},
         method: 'get',
         url: '/friend/list',
         data: {
             pageSize: page.pageSize,
-            pageNum: page.pageNum,
-            showAll
+            pageNum: page.pageNum
         }
     })
 }
@@ -17,9 +16,8 @@ export function searchFriend(token, input, page) {
     return req({
         headers: {'Authorization': token},
         method: 'get',
-        url: '/friend/list',
+        url: `/friend/search/${input}`,
         data: {
-            input,
             pageSize: page.pageSize,
             pageNum: page.pageNum
         }
@@ -39,38 +37,29 @@ export function showFriendRequests(token, page) {
 }
 
 export function hideFriend(token, friendId) {
+    let state = 1;
     return req({
         headers: {'Authorization': token},
         method: 'put',
-        url: '/friend/state',
-        data: {
-            friendId,
-            state: 1
-        }
+        url: `/friend/state${friendId}/${state}`
     })
 }
 
 export function muteFriend(token, friendId) {
+    let state = 2;
     return req({
         headers: {'Authorization': token},
         method: 'put',
-        url: '/friend/state',
-        data: {
-            friendId,
-            state: 2
-        }
+        url: `/friend/state${friendId}/${state}`
     })
 }
 
 export function unsetFriend(token, friendId) {
+    let state = 0;
     return req({
         headers: {'Authorization': token},
         method: 'put',
-        url: '/friend/state',
-        data: {
-            friendId,
-            state: 0
-        }
+        url: `/friend/state${friendId}/${state}`
     })
 }
 
@@ -78,10 +67,7 @@ export function delFriend(token, friendId) {
     return req({
         headers: {'Authorization': token},
         method: 'delete',
-        url: '/friend/del',
-        data: {
-            friendId
-        }
+        url: `/friend/del/${friendId}`
     })
 }
 
@@ -89,9 +75,8 @@ export function searchNewFriend(token, input, page) {
     return req({
         headers: {'Authorization': token},
         method: 'get',
-        url: '/friend/del',
+        url: `/friend/del/${input}`,
         data: {
-            input,
             pageSize: page.pageSize,
             pageNum: page.pageNum
         }
@@ -114,10 +99,6 @@ export function responseFriendReq(token, requestId, agree) {
     return req({
         headers: {'Authorization': token},
         method: 'post',
-        url: '/friend/resp',
-        data: {
-            requestId,
-            agree
-        }
+        url: `/friend/resp/${requestId}/${agree}`
     })
 }
