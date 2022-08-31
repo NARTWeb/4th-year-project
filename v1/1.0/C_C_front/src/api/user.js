@@ -41,11 +41,11 @@ export function showAvatarUname(token) {
     });
 }
 
-export function showUserInfo(token) {
+export function showUserInfo(token, id) {
     return req({
         headers: {'Authorization':token},
         method: 'get',
-        url: '/user/info'
+        url: `/user/info/${id}`
     });
 }
 

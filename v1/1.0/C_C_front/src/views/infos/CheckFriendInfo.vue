@@ -53,10 +53,14 @@ import MyStatusItem from "@/components/MyStatusItem.vue";
 import InfoItem from "@/components/InfoItem.vue";
 import { showMyStatusList } from "@/api/status";
 import { format } from "@/utils/time.js";
+import { useRoute } from "vue-router";
+import { showUserInfo } from "../../api/user";
+import { ElMessage } from "element-plus";
 
 const store = useUserStore();
 const { token } = storeToRefs(store);
 const { t } = useI18n();
+const route = useRoute();
 const myStatusList = reactive([]);
 const counter = ref(0);
 const loading = ref(false);
@@ -71,6 +75,31 @@ const tt = {
   avatar:
         "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
 };
+
+function getFriendInfo() {
+  showUserInfo(token, route.params.id)
+  .then((res) => {
+        if (res.data.success) {
+            tt.value1 = res.data.data.uname;
+            tt.value2 = res.data.data.email;
+            tt.avatar = res.data.data.avatar;
+        } else {
+          ElMessage({
+            type: "error",
+            message: res.data.msg,
+            showClose: true,
+          });
+        }
+      })
+      .catch((err) => {
+        ElMessage({
+          type: "error",
+          message: t("myStatusList.loadError"),
+          showClose: true,
+        });
+        console.log(err);
+      });
+}
 
 function tList() {
   if (counter.value > 10) {
@@ -114,15 +143,15 @@ function load() {
             nodata.value = true;
           }
         } else {
-          this.$message({
+          ElMessage({
             type: "error",
-            message: t("myStatusList.loadError"),
+            message: res.data.msg,
             showClose: true,
           });
         }
       })
       .catch((err) => {
-        this.$message({
+        ElMessage({
           type: "error",
           message: t("myStatusList.loadError"),
           showClose: true,

@@ -102,7 +102,7 @@ const useUserStore = defineStore("user", {
     },
     async getUserInfo() {
       return new Promise((resolve, reject) => {
-        showUserInfo(this.token)
+        showUserInfo(this.token, "")
           .then((res) => {
             if (res.data.success) {
               this.name = res.data.data.uname;
