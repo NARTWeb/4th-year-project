@@ -14,7 +14,8 @@ import java.util.List;
 public class user {
 
 // 主键生成策略
-//    @TableId(type = IdType.ASSIGN_UUID)
+
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
     private String pwd;
     private String avatar;
@@ -26,7 +27,7 @@ public class user {
     private String email;
 
     @TableField(value = "on_line")
-    private Boolean userOnline;
+    private int userOnline;
 
     @TableField(exist = false)
     private List<friend> friendList;
