@@ -31,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
         lqw.eq(comment::getStatusId, Integer.valueOf(statusId));
         List<comment> comments = CommentDao.selectList(lqw);
         for (comment comment : comments) {
-            Long userId = comment.getUserId();
+            String userId = comment.getUserId();
             user user = UserDao.selectById(userId);
             String name = user.getName();
             comment.setUname(name);
@@ -45,9 +45,9 @@ public class CommentServiceImpl implements CommentService {
         comment Comment = new comment();
         Comment.setMsg(msg);
         Long status_id = Long.valueOf(statusId);
-        Comment.setStatusId(status_id);
+        Comment.setStatusId(String.valueOf(status_id));
         Long s_id = (long) sid;
-        Comment.setUserId(s_id);
+        Comment.setUserId(String.valueOf(s_id));
         Long createTime = 1212121L;
         Comment.setCreateDate(createTime);
         return CommentDao.insert(Comment)>0;

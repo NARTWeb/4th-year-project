@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
         user.setTel(userVo.getPhone());
         user.setEmail(userVo.getEmail());
         user.setAddress(userVo.getAddress());
-        user.setAge(Integer.valueOf(userVo.getBirthday()));
+        user.setAge(String.valueOf(Integer.valueOf(userVo.getBirthday())));
         int i = UserDao.updateById(user);
         return i>0;
     }
