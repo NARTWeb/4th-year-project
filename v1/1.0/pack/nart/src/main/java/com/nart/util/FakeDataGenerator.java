@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import com.nart.pojo.user;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
  * @author: ZIRUI QIAO
  * @date: 2022/8/30 15:43
  */
+@Component
 public class FakeDataGenerator {
     private final Faker faker = new Faker(Locale.CANADA);
     private final Random r = new Random();

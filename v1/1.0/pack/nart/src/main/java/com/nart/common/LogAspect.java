@@ -1,6 +1,6 @@
 package com.nart.common;
 
-import com.google.gson.Gson;
+import com.nart.util.GsonFormatter;
 import com.nart.util.upload.IpUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -79,7 +79,7 @@ public class LogAspect {
         // //请求的参数
         Object[] args = joinPoint.getArgs();
         if (args.length > 0) {
-            String params = gson.toJson(args[0]);
+            String params = GsonFormatter.toJsonString(args[0]);
             log.info("params:{}", params);
         }
 
@@ -145,7 +145,7 @@ public class LogAspect {
                     }
                     if (!Arrays.asList(types).contains(typeName)) {
                         // 把参数转成json格式
-                        logStr += "&" + params[i] + "=" + gson.toJson(arg);
+                        logStr += "&" + params[i] + "=" + GsonFormatter.toJsonString(arg);
                     } else {
                         logStr += "&" + params[i] + "=" + arg;
                     }

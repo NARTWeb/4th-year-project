@@ -14,7 +14,7 @@ public class StatusVo {
     private int likes;
     private Boolean liked;
     private String msg;
-    private String pics;
+    private List<String> pics;
     private List<CommentVo> comments;
 
 }

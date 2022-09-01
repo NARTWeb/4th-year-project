@@ -1,6 +1,11 @@
 package com.nart.util;
 
 import com.nart.pojo.user;
+import com.nart.service.FriendService;
+import com.nart.service.GroupService;
+import com.nart.service.StatusService;
+
+import java.util.Date;
 
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
@@ -25,5 +30,9 @@ public class UserThreadLocal {
     }
     public static void remove() {
         LOCAL.remove();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Date().getTime());
     }
 }

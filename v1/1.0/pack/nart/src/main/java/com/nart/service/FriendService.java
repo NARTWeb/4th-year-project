@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.pojo.friend;
 import com.nart.pojo.friendReq;
 import com.nart.pojo.user;
+import com.nart.vo.PageVo;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface FriendService {
     boolean sendFriendReq(String rid, String sid,String msg);
 
     boolean respFriendReq(String reqId, Boolean agree);
+
+    List<user> searchNew(String name, PageVo pageVo);
 }
