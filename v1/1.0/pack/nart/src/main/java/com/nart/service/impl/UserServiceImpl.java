@@ -1,7 +1,6 @@
 package com.nart.service.impl;
 
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -26,23 +25,24 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public boolean login(String uname, String pwd) {
+    public user findUser(String uname, String pwd) {
         LambdaQueryWrapper<user> lqw = new LambdaQueryWrapper<user>();
-        lqw.eq(user::getName,uname);
+        lqw.eq(user::getName,uname).eq(user::getPwd, pwd);
         user user = UserDao.selectOne(lqw);
-//        System.out.println(user);
-        String pwd1 = user.getPwd();
-//        System.out.println(pwd1);
 
-        if(pwd1.equals(pwd)){
-            int userOnline = user.getUserOnline();
+        if(user != null){
             user.setUserOnline(1);
             UserDao.updateById(user);
-            return true;
-
-        }else{
-            return false;
+            return user;
         }
+        return null;
+    }
+
+    @Override
+    public user findUserByName(String uname) {
+        LambdaQueryWrapper<user> lqw = new LambdaQueryWrapper<user>();
+        lqw.eq(user::getName,uname);
+        return UserDao.selectOne(lqw);
     }
 
     @Override
@@ -62,13 +62,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean register(String email, String name, String pwd) {
+    public user register(String email, String name, String pwd) {
         user user = new user();
         user.setEmail(email);
         user.setName(name);
         user.setPwd(pwd);
+        user.setUserOnline(0);
+        user.setAvatar("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png");
         int insert = UserDao.insert(user);
-        return insert>0;
+        if(insert>0) return user;
+        return null;
     }
 
     @Override
@@ -78,14 +81,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> showUnameAvatar(String userId) {
-        user user = UserDao.selectById(userId);
-        String name = user.getName();
-        String avatar = user.getAvatar();
-        List<String> stringList = new LinkedList<>();
-        stringList.add(name);
-        stringList.add(avatar);
-        return stringList;
+    public user showUnameAvatar(String userId) {
+        LambdaQueryWrapper<user> lqw = new LambdaQueryWrapper<user>();
+        lqw.select(user::getName, user::getAvatar).eq(user::getId, userId);
+        return UserDao.selectOne(lqw);
     }
 
     @Override

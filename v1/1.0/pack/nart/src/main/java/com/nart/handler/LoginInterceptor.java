@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.nart.pojo.user;
 import com.nart.service.LoginService;
 import com.nart.util.ErrorCode;
+import com.nart.util.GsonFormatter;
 import com.nart.util.Result;
 import com.nart.util.UserThreadLocal;
 import lombok.extern.slf4j.Slf4j;
@@ -33,8 +34,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Autowired
     private LoginService loginService;
-
-    private final Gson gson = new Gson();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -81,6 +80,6 @@ public class LoginInterceptor implements HandlerInterceptor {
     private void noLogin(HttpServletResponse response) throws IOException {
         Result result = Result.fail(ErrorCode.NO_LOGIN);
         response.setContentType("application/json;charset=utf-8");
-        response.getWriter().print(gson.toJson(result));
+        response.getWriter().print(GsonFormatter.toJsonString(result));
     }
 }

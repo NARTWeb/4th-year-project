@@ -17,7 +17,11 @@ public enum ErrorCode {
     UNDEFINED(99999, "undefined error"),
 
     ACCOUNT_EXIST(10001, "account already exists"),
+    PARAMS_ERROR(10101, "username or password format incorrect"),
+    REGISTER_ERROR(10901, "register failed: unknown reason"),
+    CHANGE_INFO_ERROR(10901, "change personal information failed: unknown reason"),
     ACCOUNT_PWD_NOT_MATCH(10501, "username and password not match"),
+    USER_NOT_EXIST(10502, "user not exists"),
     SESSION_TIME_OUT(11001,"session time out"),
     NO_LOGIN(10301,"need login"),
     UPLOAD_ERROR(80401, "upload picture failed"),

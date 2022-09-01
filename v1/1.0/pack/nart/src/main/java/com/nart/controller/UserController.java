@@ -1,9 +1,12 @@
 package com.nart.controller;
 
 import com.nart.common.LogA;
+import com.nart.pojo.user;
+import com.nart.service.LoginService;
 import com.nart.service.UserService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
+import com.nart.util.UserThreadLocal;
 import com.nart.vo.UserVo;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,40 +29,50 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private LoginService loginService;
 
     @PutMapping("login")
     public Result login(@RequestBody UserVo uInfo) {
-        boolean login = userService.login(uInfo.getUname(), uInfo.getPwd());
-        if(login) {
-            return Result.success(null);
-        }
-        return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_MATCH);
+        return loginService.login(uInfo.getUname(), uInfo.getPwd());
     }
 
     @PutMapping("logout")
-    public Result logout() {
-        return Result.fail(ErrorCode.UNDEFINED);
+    public Result logout(@RequestHeader("Authorization") String token) {
+        return loginService.logout(token);
     }
 
     @PostMapping("register")
     public Result register(@RequestBody UserVo uInfo){
-        return Result.fail(ErrorCode.UNDEFINED);
+        return loginService.register(uInfo.getEmail(), uInfo.getUname(), uInfo.getPwd());
     }
 
     @GetMapping("info/{id}")
     public Result showUserInfo(@PathVariable("id") String id) {
-        // if "" means show current user info
-        // else means show other users' info
-        return Result.fail(ErrorCode.UNDEFINED);
+        user user;
+        if(id.isEmpty()) {
+            user = userService.showUserInfo(UserThreadLocal.get().getId());
+        } else {
+            user = userService.showUserInfo(id);
+        }
+        if(user == null) {
+            Result.fail(ErrorCode.USER_NOT_EXIST);
+        }
+        return Result.success(user);
     }
 
     @GetMapping
     public Result showUnameAvatar() {
-        return Result.fail(ErrorCode.UNDEFINED);
+        user user = userService.showUnameAvatar(UserThreadLocal.get().getId());
+        return Result.success(user);
     }
 
     @PutMapping("changeInfo")
     public Result changeUserInfo(@RequestBody UserVo uInfo){
-        return Result.fail(ErrorCode.UNDEFINED);
+        boolean b = userService.changeUserInfo(uInfo, UserThreadLocal.get().getId());
+        if(b) {
+            return Result.success(null);
+        }
+        return Result.fail(ErrorCode.CHANGE_INFO_ERROR);
     }
 }

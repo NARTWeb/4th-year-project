@@ -4,6 +4,7 @@ package com.nart;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.pojo.user;
 import com.nart.service.UserService;
+import com.nart.util.Result;
 import com.nart.vo.PageVo;
 import com.nart.vo.UserVo;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class userTest {
 
     @Test
     public void Testlogin(){
-        boolean liu = userService.login("liu", "123");
+        user liu = userService.findUser("liu", "123");
         System.out.println(liu);
     }
 
@@ -37,7 +38,7 @@ public class userTest {
 
     @Test
     public void Testregister(){
-        boolean register = userService.register("wewewe", "qi", "323423");
+        user register = userService.register("wewewe", "qi", "323423");
         System.out.println(register);
     }
 
@@ -49,8 +50,8 @@ public class userTest {
 
     @Test
     public void TestshowUnameAvatar(){
-        List<String> strings = userService.showUnameAvatar("1");
-        System.out.println(strings);
+        user user = userService.showUnameAvatar("1");
+        System.out.println(user);
     }
 
     @Test

@@ -36,7 +36,6 @@ import java.util.Enumeration;
 @Aspect
 public class LogAspect {
 
-    private final Gson gson = new Gson();
     private final Logger log = LoggerFactory.getLogger(LogAspect.class);
 
 

@@ -11,15 +11,17 @@ public interface UserService {
 
     //    checkUserToken
 
-    boolean login(String uname,String pwd);
+    user findUser(String uname, String pwd);
+
+    user findUserByName(String uname);
 
     boolean logout(String userId);
 
-    boolean register(String email,String name, String pwd);
+    user register(String email, String name, String pwd);
 
     user showUserInfo(String userId);
 
-    List<String> showUnameAvatar(String userId);
+    user showUnameAvatar(String userId);
 
     boolean changeUserInfo(UserVo userVo,String id);
 
