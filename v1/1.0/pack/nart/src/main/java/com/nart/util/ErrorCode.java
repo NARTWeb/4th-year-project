@@ -17,7 +17,7 @@ public enum ErrorCode {
     UNDEFINED(99999, "undefined error"),
 
     ACCOUNT_EXIST(10001, "account already exists"),
-    ACCOUNT_PWD_NOT_EXIST(10501, "username or password not exists"),
+    ACCOUNT_PWD_NOT_MATCH(10501, "username and password not match"),
     SESSION_TIME_OUT(11001,"session time out"),
     NO_LOGIN(10301,"need login"),
     UPLOAD_ERROR(80401, "upload picture failed"),

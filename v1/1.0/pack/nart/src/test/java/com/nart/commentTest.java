@@ -26,7 +26,7 @@ public class commentTest {
 
     @Test
     public void testpostComment(){
-        boolean a = commentService.postComment("1","ddwdwdw",1);
+        boolean a = commentService.postComment("1","ddwdwdw","1");
         System.out.println(a);
     }
 

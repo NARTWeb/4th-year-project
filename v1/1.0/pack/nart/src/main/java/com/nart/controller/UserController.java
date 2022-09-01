@@ -1,10 +1,12 @@
 package com.nart.controller;
 
 import com.nart.common.LogA;
+import com.nart.service.UserService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
 import com.nart.vo.UserVo;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -22,9 +24,16 @@ import org.springframework.web.bind.annotation.*;
 @LogA
 public class UserController {
 
+    @Autowired
+    private UserService userService;
+
     @PutMapping("login")
     public Result login(@RequestBody UserVo uInfo) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        boolean login = userService.login(uInfo.getUname(), uInfo.getPwd());
+        if(login) {
+            return Result.success(null);
+        }
+        return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_MATCH);
     }
 
     @PutMapping("logout")

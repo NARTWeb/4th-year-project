@@ -33,7 +33,7 @@ public class EncryptUtil {
         claims.put("userId",userId);
         JwtBuilder jwtBuilder = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, jwtToken) // assign token, key is jwtToken
-                .setClaims(claims) // body数据，要唯一，自行设置
+                .setClaims(claims) // use userID as body data
                 .setIssuedAt(new Date()) // set create time
                 .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 60 * 1000));// one day available
         String token = jwtBuilder.compact();

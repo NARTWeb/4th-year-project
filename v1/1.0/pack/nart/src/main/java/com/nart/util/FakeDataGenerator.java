@@ -130,7 +130,7 @@ public class FakeDataGenerator {
             if(r.nextBoolean()) {
                 String authorId = "";
                 /**
-                 * select authorId as sid from tb_status where id = statusId
+                 * select sid as authorId from tb_status where id = statusId
                  */
                 List<String> userFriendIds = getUserFriendIds(authorId);
                 String uid = getRandomId(userFriendIds);
@@ -158,7 +158,7 @@ public class FakeDataGenerator {
     public void generateLikes(String statusId, int num) {
         String authorId = "";
         /**
-         * select authorId as sid from tb_status where id = statusId
+         * select sid as authorId from tb_status where id = statusId
          */
         List<String> userFriendIds = getUserFriendIds(authorId);
         List<String> likedUserId = new ArrayList<>();
@@ -166,7 +166,9 @@ public class FakeDataGenerator {
             String uid = getRandomId(userFriendIds, likedUserId);
             if (uid.isEmpty()) return;
             if(r.nextBoolean()) {
-                // insert into tb_users_likes values (uid = uid, status_id = statusId);
+                /**
+                 *  insert into tb_users_likes values (uid = uid, status_id = statusId);
+                 */
                 likedUserId.add(uid);
             }
         }
@@ -211,7 +213,7 @@ public class FakeDataGenerator {
              * TODO
              * select id from tb_user_group where uid = sid and gid = gid;
              * if not exists
-             * update tb_group set last_level++ where id = gid;
+             * update tb_group set last_level=last_level+1 where id = gid;
              * tempLevel = select last_level from tb_group where id = gid;
              * insert into tb_user_group values (sid, gid, 0, tempLevel, 0L);
              */
@@ -241,7 +243,7 @@ public class FakeDataGenerator {
             if(r.nextBoolean()) {
                 String sid = getRandomId(userIds, groupMemberIds);
                 /**
-                 * update tb_group set last_level++ where id = gid;
+                 * update tb_group set last_level=last_level+1 where id = gid;
                  * tempLevel = select last_level from tb_group where id = gid;
                  * insert into tb_user_group values (sid, gid, 0, tempLevel, 0L);
                  */
@@ -326,10 +328,11 @@ public class FakeDataGenerator {
                         msg.setMsg(faker.internet().image());
                     }
                     msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+                    int maxLevel = 0;
                     /**
                      * maxLevel = select last_level from tb_group where id = gid
-                     * msg.setLevel(r.nextInt(maxLevel));
                      */
+                    msg.setLevel(r.nextInt(maxLevel));
                 }
             }
         }
