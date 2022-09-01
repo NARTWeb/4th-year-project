@@ -1,6 +1,5 @@
 package com.nart.service.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -23,14 +22,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private DataCounterService dataCounterService;
 
-
     @Override
     public user findUser(String uname, String pwd) {
         LambdaQueryWrapper<user> lqw = new LambdaQueryWrapper<user>();
-        lqw.eq(user::getName,uname).eq(user::getPwd, pwd);
+        lqw.eq(user::getName, uname).eq(user::getPwd, pwd);
         user user = UserDao.selectOne(lqw);
 
-        if(user != null){
+        if (user != null) {
             user.setUserOnline(1);
             UserDao.updateById(user);
             return user;
@@ -41,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public user findUserByName(String uname) {
         LambdaQueryWrapper<user> lqw = new LambdaQueryWrapper<user>();
-        lqw.eq(user::getName,uname);
+        lqw.eq(user::getName, uname);
         return UserDao.selectOne(lqw);
     }
 
@@ -50,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
         user user1 = UserDao.selectById(userId);
         int userOnline = user1.getUserOnline();
-        if(userOnline == 1) {
+        if (userOnline == 1) {
             user user = new user();
 
             user.setId(userId);
@@ -70,7 +68,8 @@ public class UserServiceImpl implements UserService {
         user.setUserOnline(0);
         user.setAvatar("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png");
         int insert = UserDao.insert(user);
-        if(insert>0) return user;
+        if (insert > 0)
+            return user;
         return null;
     }
 
@@ -88,7 +87,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean changeUserInfo(UserVo userVo,String id) {
+    public boolean changeUserInfo(UserVo userVo, String id) {
         user user = UserDao.selectById(id);
 
         user.setName(userVo.getUname());
@@ -99,7 +98,7 @@ public class UserServiceImpl implements UserService {
         user.setAddress(userVo.getAddress());
         user.setAge(userVo.getBirthday());
         int i = UserDao.updateById(user);
-        return i>0;
+        return i > 0;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.nart.service.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.nart.dao.commentDao;
 import com.nart.dao.userDao;
@@ -45,6 +44,6 @@ public class CommentServiceImpl implements CommentService {
         Comment.setUserId(sid);
         Long createTime = 1212121L;
         Comment.setCreateDate(createTime);
-        return CommentDao.insert(Comment)>0;
+        return CommentDao.insert(Comment) > 0;
     }
 }

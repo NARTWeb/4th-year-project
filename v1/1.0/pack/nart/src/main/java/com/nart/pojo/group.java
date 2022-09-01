@@ -13,14 +13,19 @@ public class group {
     private String id;
     @TableField(value = "gname")
     private String groupName;
-
-    private List<friend> userList;
-    private String avatar;
-    private int state;
     private String notice;
-
+    private String avatar;
     @TableField(value = "last_level")
     private int userLevel;
+
+    @TableField(exist = false)
+    private List<friend> userList;
+    @TableField(exist = false)
+    private int state;
+
+    @TableField(exist = false)
     private List<message> chatHistory;
+
+    @TableField(exist = false)
     private Boolean newMessage;
 }

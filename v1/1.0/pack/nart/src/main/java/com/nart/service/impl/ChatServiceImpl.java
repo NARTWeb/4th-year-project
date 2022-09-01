@@ -25,7 +25,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Autowired
     private groupChatDao GroupChatDao;
-    private Object message;
+
     @Autowired
     private userDao userDao;
 
