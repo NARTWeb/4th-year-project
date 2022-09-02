@@ -2,82 +2,82 @@ package com.nart.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.nart.dao.friendChatDao;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
-import com.nart.dao.groupChatDao;
-
-import com.nart.dao.userDao;
-import com.nart.pojo.friendChat;
-import com.nart.pojo.groupChat;
-import com.nart.pojo.message;
-import com.nart.pojo.user;
+import com.nart.dao.UserDao;
+import com.nart.pojo.*;
 import com.nart.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
 public class ChatServiceImpl implements ChatService {
     @Autowired
-    private friendChatDao FriendChatDao;
+    private com.nart.dao.FriendChatDao FriendChatDao;
 
     @Autowired
-    private groupChatDao GroupChatDao;
+    private com.nart.dao.GroupChatDao GroupChatDao;
 
     @Autowired
-    private userDao userDao;
+    private UserDao userDao;
 
 
 
     @Override
-    public boolean sendFriendMsg(friendChat friendChat) {
+    public boolean sendFriendMsg(FriendChat friendChat) {
         int insert = FriendChatDao.insert(friendChat);
         return insert>0;
     }
 
     @Override
-    public boolean sendGroupMsg(groupChat groupChat) {
+    public boolean sendGroupMsg(GroupChat groupChat) {
         int insert = GroupChatDao.insert(groupChat);
         return insert>0;
     }
 
     @Override
-    public List<friendChat> recivicefriendMsg(String reciviceId) {
+    public List<FriendChat> recivicefriendMsg(String reciviceId, IPage page) {
 
-        LambdaQueryWrapper<friendChat> lqw = new LambdaQueryWrapper<friendChat>();
+        LambdaQueryWrapper<FriendChat> lqw = new LambdaQueryWrapper<FriendChat>();
 
-        lqw.eq(friendChat::getReceiverId, reciviceId);
-        List<friendChat> message = FriendChatDao.selectList(lqw);
-
-        return message;
+        lqw.eq(FriendChat::getReceiverId, reciviceId);
+        IPage iPage = FriendChatDao.selectPage(page, lqw);
+        List<FriendChat> records = iPage.getRecords();
+        return records;
     }
 
     @Override
-    public List<groupChat> recivicegroupMsg(String reciviceId) {
-        LambdaQueryWrapper<groupChat> lqw = new LambdaQueryWrapper<groupChat>();
-        lqw.eq(groupChat::getGroupId, reciviceId);
-        List<groupChat> message = GroupChatDao.selectList(lqw);
-        return message;
+    public List<GroupChat> recivicegroupMsg(String reciviceId, IPage page) {
+        LambdaQueryWrapper<GroupChat> lqw = new LambdaQueryWrapper<GroupChat>();
+        lqw.eq(GroupChat::getGroupId, reciviceId);
+        IPage iPage = GroupChatDao.selectPage(page, lqw);
+        List<GroupChat> records = iPage.getRecords();
+        return records;
     }
 
     @Override
-    public List<friendChat> showFriendHistory(String Id) {
-        LambdaQueryWrapper<friendChat> lqw = new LambdaQueryWrapper<friendChat>();
-        lqw.eq(friendChat::getSenderId, Id).or().eq(friendChat::getReceiverId, Id);
-        List<friendChat> friendChats = FriendChatDao.selectList(lqw);
+    public List<FriendChat> showFriendHistory(String Id, IPage page) {
+        LambdaQueryWrapper<FriendChat> lqw = new LambdaQueryWrapper<FriendChat>();
+        lqw.eq(FriendChat::getSenderId, Id).or().eq(FriendChat::getReceiverId, Id);
+        lqw.orderBy(true,false, FriendChat::getDate);
 
-        return friendChats;
+        IPage iPage = FriendChatDao.selectPage(page, lqw);
+        List<FriendChat> records = iPage.getRecords();
+        return records;
     }
 
     @Override
-    public List<groupChat> showGroupHistory(String gId) {
+    public List<GroupChat> showGroupHistory(String gId, IPage page) {
 
-        LambdaQueryWrapper<groupChat> lqw = new LambdaQueryWrapper<groupChat>();
-        lqw.eq(groupChat::getGroupId, gId);
-        List<groupChat> groupChats = GroupChatDao.selectList(lqw);
-        return groupChats;
+        LambdaQueryWrapper<GroupChat> lqw = new LambdaQueryWrapper<GroupChat>();
+        lqw.eq(GroupChat::getGroupId, gId);
+        lqw.orderBy(true,false, GroupChat::getLevel, GroupChat::getDate);
+
+        IPage iPage = GroupChatDao.selectPage(page, lqw);
+        List<GroupChat> records = iPage.getRecords();
+        return records;
 
     }
 

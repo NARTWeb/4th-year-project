@@ -1,13 +1,11 @@
 package com.nart.service.impl;
 
-import com.google.gson.Gson;
-import com.nart.pojo.user;
+import com.nart.pojo.User;
 import com.nart.service.LoginService;
 import com.nart.service.UserService;
 import com.nart.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +36,7 @@ public class LoginServiceImpl implements LoginService {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         }
         String password = EncryptUtil.encryptPwd(pwd);
-        user user = userService.findUser(uname, password);
+        User user = userService.findUser(uname, password);
         if (user == null) {
             return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_MATCH);
         }
@@ -50,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public user checkToken(String token) {
+    public User checkToken(String token) {
         if (StringUtils.isBlank(token)) {
             return null;
         }
@@ -62,7 +60,7 @@ public class LoginServiceImpl implements LoginService {
         if (StringUtils.isBlank(userJson)) {
             return null;
         }
-        user user = GsonFormatter.fromJsonToObj(userJson, user.class);
+        User user = GsonFormatter.fromJsonToObj(userJson, User.class);
         return user;
     }
 
@@ -78,12 +76,12 @@ public class LoginServiceImpl implements LoginService {
         if (email.length() == 0 || uname.length() == 0 || pwd.length() == 0) {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         }
-        user user = userService.findUserByName(uname);
+        User user = userService.findUserByName(uname);
         if (user != null) {
             return Result.fail(ErrorCode.ACCOUNT_EXIST);
         }
         String password = EncryptUtil.encryptPwd(pwd);
-        user user1 = userService.register(email, uname, password);
+        User user1 = userService.register(email, uname, password);
 
         if(user1 == null) {
             return Result.fail(ErrorCode.REGISTER_ERROR);

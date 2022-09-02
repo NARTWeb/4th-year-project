@@ -3,7 +3,7 @@ package com.nart;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nart.pojo.status;
+import com.nart.pojo.Status;
 import com.nart.service.StatusService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +21,14 @@ public class statusServiceTest {
 
     @Test
     public void showStatusListTest(){
-        IPage<status> page=new Page<>(1,2);
-        List<status> statuses = StatusService.showStatusList(1L, page);
-        System.out.println(statuses);
+        IPage<Status> page=new Page<>(1,2);
+        List<Status> Statuses = StatusService.showStatusList(1L, page);
+        System.out.println(Statuses);
     }
 
     @Test
     public void TestpostStatus(){
-        status status = new status();
+        Status status = new Status();
         status.setSenderId("1");
         status.setText("erfwf");
         status.setPics("1122323");

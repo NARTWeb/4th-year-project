@@ -1,15 +1,13 @@
 package com.nart.controller;
 
 import com.nart.common.LogA;
-import com.nart.pojo.user;
+import com.nart.pojo.User;
 import com.nart.service.LoginService;
 import com.nart.service.UserService;
 import com.nart.util.ErrorCode;
-import com.nart.util.GsonFormatter;
 import com.nart.util.Result;
 import com.nart.util.UserThreadLocal;
 import com.nart.vo.UserVo;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +48,7 @@ public class UserController {
 
     @GetMapping("info/{id}")
     public Result showUserInfo(@PathVariable("id") String id) {
-        user user;
+        User user;
         if(id.isEmpty()) {
             user = userService.showUserInfo(UserThreadLocal.get().getId());
         } else {
@@ -64,7 +62,7 @@ public class UserController {
 
     @GetMapping
     public Result showUnameAvatar() {
-        user user = userService.showUnameAvatar(UserThreadLocal.get().getId());
+        User user = userService.showUnameAvatar(UserThreadLocal.get().getId());
         return Result.success(user);
     }
 

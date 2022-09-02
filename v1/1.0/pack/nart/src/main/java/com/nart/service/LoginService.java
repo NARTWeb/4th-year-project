@@ -1,6 +1,6 @@
 package com.nart.service;
 
-import com.nart.pojo.user;
+import com.nart.pojo.User;
 import com.nart.util.Result;
 
 /**
@@ -16,7 +16,7 @@ import com.nart.util.Result;
 public interface LoginService {
     Result login(String uname, String pwd);
 
-    user checkToken(String token);
+    User checkToken(String token);
 
     Result logout(String token);
 

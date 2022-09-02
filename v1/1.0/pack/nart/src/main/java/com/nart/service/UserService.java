@@ -1,29 +1,27 @@
 package com.nart.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nart.pojo.user;
+import com.nart.pojo.User;
 import com.nart.vo.PageVo;
 import com.nart.vo.UserVo;
-
-import java.util.List;
 
 public interface UserService {
 
     //    checkUserToken
 
-    user findUser(String uname, String pwd);
+    User findUser(String uname, String pwd);
 
-    user findUserByName(String uname);
+    User findUserByName(String uname);
 
     boolean logout(String userId);
 
-    user register(String email, String name, String pwd);
+    User register(String email, String name, String pwd);
 
-    user showUserInfo(String userId);
+    User showUserInfo(String userId);
 
-    user showUnameAvatar(String userId);
+    User showUnameAvatar(String userId);
 
     boolean changeUserInfo(UserVo userVo,String id);
 
-    IPage<user> searchNew(String name, PageVo pageVo);
+    IPage<User> searchNew(String name, PageVo pageVo);
 }

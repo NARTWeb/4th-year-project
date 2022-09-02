@@ -1,9 +1,6 @@
 package com.nart.util;
 
-import com.nart.pojo.user;
-import com.nart.service.FriendService;
-import com.nart.service.GroupService;
-import com.nart.service.StatusService;
+import com.nart.pojo.User;
 
 import java.util.Date;
 
@@ -20,12 +17,12 @@ import java.util.Date;
 public class UserThreadLocal {
     private UserThreadLocal(){}
 
-    private static final ThreadLocal<user> LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<User> LOCAL = new ThreadLocal<>();
 
-    public static void put(user user) {
+    public static void put(User user) {
         LOCAL.set(user);
     }
-    public static user get() {
+    public static User get() {
         return LOCAL.get();
     }
     public static void remove() {

@@ -1,25 +1,22 @@
 package com.nart.service;
 
-import com.nart.pojo.friendChat;
-import com.nart.pojo.groupChat;
-import com.nart.pojo.message;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.nart.pojo.FriendChat;
+import com.nart.pojo.GroupChat;
 
 import java.util.List;
 
 public interface ChatService {
 
-    boolean sendFriendMsg(friendChat friendChat);
+    boolean sendFriendMsg(FriendChat friendChat);
 
-    boolean sendGroupMsg(groupChat groupChat);
+    boolean sendGroupMsg(GroupChat groupChat);
 
+    List<FriendChat> recivicefriendMsg(String reciviceId, IPage page);
 
+    List<GroupChat> recivicegroupMsg(String reciviceId, IPage page);
 
-    List<friendChat> recivicefriendMsg(String reciviceId);
+    List<FriendChat> showFriendHistory(String Id, IPage page);
 
-    List<groupChat> recivicegroupMsg(String reciviceId);
-
-    List<friendChat> showFriendHistory(String Id);
-
-
-    List<groupChat> showGroupHistory(String gId);
+    List<GroupChat> showGroupHistory(String gId, IPage page);
 }
