@@ -45,7 +45,11 @@ public enum ErrorCode {
     POST_STATUS_ERROR(40902, "post status failed: unknown reason"),
     DEL_STATUS_ERROR(40903, "delete status failed: unknown reason"),
     SHOW_COMMENT_LIST_ERROR(50901, "show comment list failed: unknown reason"),
-    POST_COMMENT_ERROR(50902, "psot comment failed: unknown reason"),
+    POST_COMMENT_ERROR(50902, "post comment failed: unknown reason"),
+    SHOW_FRIEND_CHAT_HISTORY(60901, "show friend chat history failed: unknown reason"),
+    SHOW_GROUP_CHAT_HISTORY(70901, "show group chat history failed: unknown reason"),
+    SEND_FRIEND_CHAT_HISTORY(60902, "send friend chat failed: unknown reason"),
+    SEND_GROUP_CHAT_HISTORY(70902, "send group chat failed: unknown reason"),
 
     UPLOAD_ERROR(80401, "upload picture failed"),
     TOKEN_ERROR(90001, "token illegal"),
