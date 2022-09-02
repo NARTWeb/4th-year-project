@@ -1,16 +1,14 @@
 package com.nart.controller;
 
 import com.nart.common.LogA;
-import com.nart.pojo.friend;
-import com.nart.pojo.friendReq;
-import com.nart.pojo.user;
+import com.nart.pojo.Friend;
+import com.nart.pojo.FriendReq;
+import com.nart.pojo.User;
 import com.nart.service.FriendService;
 import com.nart.util.ErrorCode;
-import com.nart.util.GsonFormatter;
 import com.nart.util.Result;
 import com.nart.util.UserThreadLocal;
 import com.nart.vo.PageVo;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,22 +34,22 @@ public class FriendController {
 
     @GetMapping("list")
     public Result showFriendList(@RequestBody PageVo page) {
-        List<friend> friends = friendService.showFriendList(
-                page.toIPage(friend.class), UserThreadLocal.get().getId());
-        if(friends == null) {
+        List<Friend> Friends = friendService.showFriendList(
+                page.toIPage(Friend.class), UserThreadLocal.get().getId());
+        if(Friends == null) {
             return Result.fail(ErrorCode.SHOW_FRIEND_LIST_ERROR);
         }
-        return Result.success(friends);
+        return Result.success(Friends);
     }
 
     @GetMapping("search/{input}")
     public Result searchFriend(@RequestBody PageVo page,
                                @PathVariable("input") String input) {
-        List<user> users = friendService.searchFriend(input, page.toIPage(friend.class));
-        if(users == null) {
+        List<User> Users = friendService.searchFriend(input, page.toIPage(Friend.class));
+        if(Users == null) {
             return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);
         }
-        return Result.success(users);
+        return Result.success(Users);
     }
 
     @DeleteMapping("del/{friendId}")
@@ -75,16 +73,16 @@ public class FriendController {
 
     @GetMapping("reqlist")
     public Result showReqList(@RequestBody PageVo page) {
-        List<friendReq> friendReqs = friendService.showReqList(
-                page.toIPage(friendReq.class), UserThreadLocal.get().getId());
-        if(friendReqs == null) {
+        List<FriendReq> FriendReqs = friendService.showReqList(
+                page.toIPage(FriendReq.class), UserThreadLocal.get().getId());
+        if(FriendReqs == null) {
             return Result.fail(ErrorCode.SHOW_FRIEND_REQS_ERROR);
         }
-        return Result.success(friendReqs);
+        return Result.success(FriendReqs);
     }
 
     @GetMapping("send")
-    public Result sendFriendReq(@RequestBody friendReq reqInfo) {
+    public Result sendFriendReq(@RequestBody FriendReq reqInfo) {
         boolean b = friendService.sendFriendReq(
                 reqInfo.getReceiverId(), UserThreadLocal.get().getId(), reqInfo.getMsg());
         if(b) {
@@ -106,10 +104,10 @@ public class FriendController {
     @GetMapping("searchNew/{input}")
     public Result searchNew(@RequestBody PageVo page,
                               @PathVariable("input") String input) {
-        List<user> users = friendService.searchNew(input, page);
-        if(users == null) {
+        List<User> Users = friendService.searchNew(input, page);
+        if(Users == null) {
             return Result.success(ErrorCode.SEARCH_NEW_ERROR);
         }
-        return Result.success(users);
+        return Result.success(Users);
     }
 }

@@ -2,10 +2,10 @@ package com.nart.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.common.LogA;
-import com.nart.pojo.group;
-import com.nart.pojo.groupInvite;
-import com.nart.pojo.user;
-import com.nart.pojo.userGroup;
+import com.nart.pojo.Group;
+import com.nart.pojo.GroupInvite;
+import com.nart.pojo.User;
+import com.nart.pojo.UserGroup;
 import com.nart.service.GroupService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
@@ -37,16 +37,16 @@ public class GroupController {
 
     @GetMapping("memberList/{groupId}")
     public Result showGroupMemberList(@PathVariable("groupId") String gid) {
-        List<user> users = groupService.showGroupMebList(gid, new Page());
-        if(users == null) {
+        List<User> Users = groupService.showGroupMebList(gid, new Page());
+        if(Users == null) {
             Result.fail(ErrorCode.SHOW_GROUP_MEMBER_ERROR);
         }
-        return Result.success(users);
+        return Result.success(Users);
     }
 
     @PutMapping("changeInfo")
     public Result changeGroupInfo(@RequestBody GroupVo gInfo) {
-        group group = new group();
+        Group group = new Group();
         group.setId(gInfo.getGroupId());
         group.setGroupName(gInfo.getGroupName());
         group.setAvatar(gInfo.getGroupAvatar());
@@ -60,11 +60,11 @@ public class GroupController {
 
     @GetMapping("list")
     public Result showGroupList(@RequestBody PageVo page) {
-        List<group> groups = groupService.showGroupList(page.toIPage(userGroup.class));
-        if(groups == null) {
+        List<Group> Groups = groupService.showGroupList(page.toIPage(UserGroup.class));
+        if(Groups == null) {
             Result.fail(ErrorCode.SHOW_GROUP_LIST_ERROR);
         }
-        return Result.success(groups);
+        return Result.success(Groups);
     }
 
     @DeleteMapping("del/{groupId}")
@@ -88,15 +88,15 @@ public class GroupController {
 
     @GetMapping("inviteList")
     public Result showInviteList(@RequestBody PageVo page) {
-        List<groupInvite> groupInvites = groupService.showInviteList(page.toIPage(groupInvite.class));
-        if(groupInvites == null) {
+        List<GroupInvite> GroupInvites = groupService.showInviteList(page.toIPage(GroupInvite.class));
+        if(GroupInvites == null) {
             Result.fail(ErrorCode.SHOW_GROUP_INVITE_LIST_ERROR);
         }
-        return Result.success(groupInvites);
+        return Result.success(GroupInvites);
     }
 
     @PostMapping("send")
-    public Result sendInvite(@RequestBody groupInvite inviteInfo) {
+    public Result sendInvite(@RequestBody GroupInvite inviteInfo) {
         boolean b = groupService.sendInvite(inviteInfo);
         if(b) {
             return Result.success(null);

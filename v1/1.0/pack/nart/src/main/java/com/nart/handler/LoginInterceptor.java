@@ -1,7 +1,6 @@
 package com.nart.handler;
 
-import com.google.gson.Gson;
-import com.nart.pojo.user;
+import com.nart.pojo.User;
 import com.nart.service.LoginService;
 import com.nart.util.ErrorCode;
 import com.nart.util.GsonFormatter;
@@ -61,7 +60,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             noLogin(response);
             return false;
         }
-        user user = loginService.checkToken(token);
+        User user = loginService.checkToken(token);
         if(user == null) {
             noLogin(response);
             return false;

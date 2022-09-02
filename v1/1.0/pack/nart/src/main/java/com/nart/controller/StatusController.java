@@ -1,7 +1,7 @@
 package com.nart.controller;
 
 import com.nart.common.LogA;
-import com.nart.pojo.status;
+import com.nart.pojo.Status;
 import com.nart.service.StatusService;
 import com.nart.util.ErrorCode;
 import com.nart.util.GsonFormatter;
@@ -37,12 +37,12 @@ public class StatusController {
                                  @RequestBody PageVo page) {
         /*if (type.equals("my")){
             if(uid.equals("")) {
-                show current user's status
+                show current User's Status
             } else {
-                show uid user's status
+                show uid User's Status
             }
         } else {
-            show all visible status for current user
+            show all visible Status for current User
         }*/
         return Result.fail(ErrorCode.UNDEFINED);
     }
@@ -60,7 +60,7 @@ public class StatusController {
 
     @PostMapping("post")
     public Result postStatus(@RequestBody StatusVo statusInfo) {
-        status status = new status();
+        Status status = new Status();
         status.setSenderId(statusInfo.getUid());
         status.setText(statusInfo.getMsg());
         status.setPics(GsonFormatter.toJsonString(statusInfo.getPics()));

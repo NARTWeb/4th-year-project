@@ -1,10 +1,8 @@
 package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.nart.dao.commentDao;
-import com.nart.dao.userDao;
-import com.nart.pojo.comment;
-import com.nart.pojo.user;
+import com.nart.pojo.Comment;
+import com.nart.pojo.User;
 import com.nart.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,30 +13,30 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     @Autowired
-    private commentDao CommentDao;
+    private com.nart.dao.CommentDao CommentDao;
 
     @Autowired
-    private userDao UserDao;
+    private com.nart.dao.UserDao UserDao;
 
     @Override
-    public List<comment> showCommentList(String statusId) {
-        LambdaQueryWrapper<comment> lqw = new LambdaQueryWrapper<comment>();
+    public List<Comment> showCommentList(String statusId) {
+        LambdaQueryWrapper<Comment> lqw = new LambdaQueryWrapper<Comment>();
 
-        lqw.eq(comment::getStatusId, Integer.valueOf(statusId));
-        List<comment> comments = CommentDao.selectList(lqw);
-        for (comment comment : comments) {
+        lqw.eq(Comment::getStatusId, Integer.valueOf(statusId));
+        List<Comment> Comments = CommentDao.selectList(lqw);
+        for (Comment comment : Comments) {
             String userId = comment.getUserId();
-            user user = UserDao.selectById(userId);
+            User user = UserDao.selectById(userId);
             String name = user.getName();
             comment.setUname(name);
         }
 
-        return comments;
+        return Comments;
     }
 
     @Override
     public boolean postComment(String statusId, String msg, String sid) {
-        comment Comment = new comment();
+        Comment Comment = new Comment();
         Comment.setMsg(msg);
         Comment.setStatusId(statusId);
         Comment.setUserId(sid);

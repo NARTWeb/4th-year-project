@@ -3,9 +3,9 @@ package com.nart;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nart.pojo.friendChat;
-import com.nart.pojo.groupChat;
-import com.nart.pojo.userGroup;
+import com.nart.pojo.FriendChat;
+import com.nart.pojo.GroupChat;
+import com.nart.pojo.UserGroup;
 import com.nart.service.ChatService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class chatTest {
 
     @Test
     public void TestsendFriendMsg(){
-        friendChat friendChat = new friendChat();
+        FriendChat friendChat = new FriendChat();
         friendChat.setSenderId("1");
         friendChat.setReceiverId("2");
         friendChat.setType("wenzi");
@@ -36,7 +36,7 @@ public class chatTest {
 
     @Test
     public void TestsendGroupMsg(){
-        groupChat groupChat = new groupChat();
+        GroupChat groupChat = new GroupChat();
         groupChat.setGroupId("1");
         groupChat.setSenderId("1");
         groupChat.setDate(112323L);
@@ -50,24 +50,24 @@ public class chatTest {
 
     @Test
     public void TestrecivicefriendMsg(){
-        IPage<userGroup> page=new Page<>(1,3);
-        List<friendChat> friendChats = chatService.recivicefriendMsg("2",page);
-        System.out.println(friendChats);
+        IPage<UserGroup> page=new Page<>(1,3);
+        List<FriendChat> FriendChats = chatService.recivicefriendMsg("2",page);
+        System.out.println(FriendChats);
     }
 
     @Test
     public void TestrecivicegroupMsg(){
-        IPage<userGroup> page=new Page<>(1,3);
-        List<groupChat> groupChats = chatService.recivicegroupMsg("1",page);
-        System.out.println(groupChats);
+        IPage<UserGroup> page=new Page<>(1,3);
+        List<GroupChat> GroupChats = chatService.recivicegroupMsg("1",page);
+        System.out.println(GroupChats);
 
     }
 
     @Test
     public void TestshowFriendHistory(){
-        IPage<userGroup> page=new Page<>(1,3);
-        List<friendChat> friendChats = chatService.showFriendHistory("1",page);
-        System.out.println(friendChats);
+        IPage<UserGroup> page=new Page<>(1,3);
+        List<FriendChat> FriendChats = chatService.showFriendHistory("1",page);
+        System.out.println(FriendChats);
     }
 
 }

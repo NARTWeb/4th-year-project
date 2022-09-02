@@ -2,9 +2,9 @@ package com.nart;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nart.pojo.friend;
-import com.nart.pojo.friendReq;
-import com.nart.pojo.user;
+import com.nart.pojo.Friend;
+import com.nart.pojo.FriendReq;
+import com.nart.pojo.User;
 import com.nart.service.FriendService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +22,15 @@ public class friendTest {
 
     @Test
     public void TestshowFriendList(){
-        IPage<friend> page=new Page<>(1,2);
-        List<friend> friends = friendService.showFriendList(page, "1");
-        System.out.println(friends);
+        IPage<Friend> page=new Page<>(1,2);
+        List<Friend> Friends = friendService.showFriendList(page, "1");
+        System.out.println(Friends);
     }
 
     @Test
     public void TestsearchFriend(){
-        IPage<friend> page=new Page<>(1,2);
-        List<user> liu = friendService.searchFriend("liu", page);
+        IPage<Friend> page=new Page<>(1,2);
+        List<User> liu = friendService.searchFriend("liu", page);
         System.out.println(liu);
     }
 
@@ -48,9 +48,9 @@ public class friendTest {
 
     @Test
     public void TestshowReqList(){
-        IPage<friend> page = new Page<>(1,2);
-        List<friendReq> friendReqs = friendService.showReqList(page, "1");
-        System.out.println(friendReqs);
+        IPage<Friend> page = new Page<>(1,2);
+        List<FriendReq> FriendReqs = friendService.showReqList(page, "1");
+        System.out.println(FriendReqs);
     }
 
     @Test

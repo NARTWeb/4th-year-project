@@ -2,20 +2,17 @@ package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nart.dao.friendDao;
-import com.nart.dao.friendReqDAO;
-import com.nart.dao.statusDao;
-import com.nart.dao.userDao;
-import com.nart.pojo.friend;
-import com.nart.pojo.friendReq;
-import com.nart.pojo.user;
+import com.nart.dao.FriendDao;
+import com.nart.dao.FriendReqDAO;
+import com.nart.dao.StatusDao;
+import com.nart.dao.UserDao;
+import com.nart.pojo.Friend;
+import com.nart.pojo.FriendReq;
+import com.nart.pojo.User;
 import com.nart.service.ChatService;
 import com.nart.service.FriendService;
 import com.nart.service.StatusService;
 import com.nart.service.UserService;
-import com.nart.util.Result;
-import com.nart.util.UserThreadLocal;
 import com.nart.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,13 +23,13 @@ import java.util.List;
 public class FriendServiceImpl implements FriendService {
 
     @Autowired
-    private friendDao friendDao;
+    private FriendDao friendDao;
 
     @Autowired
-    private userDao userDao;
+    private UserDao userDao;
 
     @Autowired
-    private statusDao statusDao;
+    private StatusDao statusDao;
     @Autowired
     private StatusService statusService;
 
@@ -43,19 +40,19 @@ public class FriendServiceImpl implements FriendService {
     private UserService userService;
 
     @Autowired
-    private friendReqDAO friendReqDAO;
+    private FriendReqDAO friendReqDAO;
 
 
     @Override
-    public List<friend> showFriendList(IPage page,String userId) {
+    public List<Friend> showFriendList(IPage page, String userId) {
 
-        LambdaQueryWrapper<friend> lqw = new LambdaQueryWrapper<friend>();
-        lqw.eq(friend::getUid, userId);
+        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
+        lqw.eq(Friend::getUid, userId);
         IPage iPage = friendDao.selectPage(page, lqw);
-        List<friend> records = iPage.getRecords();
-        for (friend record : records) {
+        List<Friend> records = iPage.getRecords();
+        for (Friend record : records) {
             String fid = record.getFid();
-            user user = userDao.selectById(fid);
+            User user = userDao.selectById(fid);
             record.setName(user.getName());
             record.setEmail(user.getEmail());
             record.setAvatar(user.getAvatar());
@@ -76,20 +73,20 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<user> searchFriend(String name, IPage page) {
+    public List<User> searchFriend(String name, IPage page) {
         PageVo pageVo = new PageVo();
         pageVo.setPageNum((int) page.getCurrent());
         pageVo.setPageSize((int) page.getSize());
-        IPage<user> userIPage = userService.searchNew(name, pageVo);
-        List<user> records = userIPage.getRecords();
+        IPage<User> userIPage = userService.searchNew(name, pageVo);
+        List<User> records = userIPage.getRecords();
         return records;
     }
 
     @Override
     public boolean delFriend(String fid,String uid) {
-        LambdaQueryWrapper<friend> lqw = new LambdaQueryWrapper<friend>();
-        lqw.eq(friend::getFid, fid);
-        lqw.eq(friend::getUid, uid);
+        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
+        lqw.eq(Friend::getFid, fid);
+        lqw.eq(Friend::getUid, uid);
         int delete = friendDao.delete(lqw);
 
         return delete>0;
@@ -97,30 +94,30 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public boolean changeFriendState(String fid, String uid,int state) {
-        LambdaQueryWrapper<friend> lqw = new LambdaQueryWrapper<friend>();
-        lqw.eq(friend::getFid, fid);
-        lqw.eq(friend::getUid, uid);
+        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
+        lqw.eq(Friend::getFid, fid);
+        lqw.eq(Friend::getUid, uid);
 
 
-        friend friend = new friend();
+        Friend friend = new Friend();
         friend.setState(String.valueOf(state));
         int update = friendDao.update(friend, lqw);
         return update>0;
     }
 
     @Override
-    public List<friendReq> showReqList(IPage page, String sid) {
-        LambdaQueryWrapper<friendReq> lqw = new LambdaQueryWrapper<friendReq>();
-        lqw.eq(friendReq::getSenderId, sid);
+    public List<FriendReq> showReqList(IPage page, String sid) {
+        LambdaQueryWrapper<FriendReq> lqw = new LambdaQueryWrapper<FriendReq>();
+        lqw.eq(FriendReq::getSenderId, sid);
         IPage iPage = friendReqDAO.selectPage(page, lqw);
-        List<friendReq> records = iPage.getRecords();
+        List<FriendReq> records = iPage.getRecords();
         return records;
     }
 
     @Override
     public boolean sendFriendReq(String rid, String sid, String msg) {
 
-        friendReq friendReq = new friendReq();
+        FriendReq friendReq = new FriendReq();
         friendReq.setMsg(msg);
         friendReq.setReceiverId(rid);
         friendReq.setSenderId(sid);
@@ -131,13 +128,13 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public boolean respFriendReq(String reqId, Boolean agree) {
-        friendReq friendReq = friendReqDAO.selectById(reqId);
+        FriendReq friendReq = friendReqDAO.selectById(reqId);
 
         if(agree){
             String senderId = friendReq.getSenderId();
             String ReceiverId = friendReq.getReceiverId();
 
-            friend friend = new friend();
+            Friend friend = new Friend();
             friend.setFid(senderId);
             friend.setUid(ReceiverId);
 
@@ -152,9 +149,9 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<user> searchNew(String name, PageVo pageVo) {
-        IPage<user> userIPage = userService.searchNew(name, pageVo);
-        List<user> records = userIPage.getRecords();
+    public List<User> searchNew(String name, PageVo pageVo) {
+        IPage<User> userIPage = userService.searchNew(name, pageVo);
+        List<User> records = userIPage.getRecords();
         return records;
     }
 }

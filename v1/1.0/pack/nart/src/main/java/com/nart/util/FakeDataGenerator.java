@@ -2,13 +2,15 @@ package com.nart.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.javafaker.Faker;
-import com.nart.dao.statusDao;
+import com.nart.dao.GroupDao;
+import com.nart.dao.StatusDao;
+import com.nart.dao.UserDao;
 import com.nart.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import com.nart.pojo.user;
+import com.nart.pojo.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -37,25 +39,25 @@ public class FakeDataGenerator {
     private final Random r = new Random();
 
     @Autowired
-    private com.nart.dao.userDao userDao;
+    private UserDao userDao;
     @Autowired
-    private statusDao statusDao;
+    private StatusDao statusDao;
     @Autowired
-    private com.nart.dao.groupDao groupDao;
+    private GroupDao groupDao;
 
     /**
      * @Description: generate users
      * @param num number of users
-     * @return: java.util.List<com.nart.pojo.user>
+     * @return: java.util.List<com.nart.pojo.User>
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:11
      */
-    public List<user> generateUsers(int num) {
-        List<user> list = new ArrayList<>();
+    public List<User> generateUsers(int num) {
+        List<User> list = new ArrayList<>();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
         for (int i = 0; i < num; i++) {
-            user u = new user();
+            User u = new User();
             u.setPwd(encryptPwd(faker.internet().password(6, 18, true)));
             u.setAddress(faker.address().fullAddress());
             u.setAge(df.format(faker.date().birthday()));
@@ -71,18 +73,18 @@ public class FakeDataGenerator {
     /**
      * @Description: generate friends requests
      * @param num number of requests
-     * @return: java.util.List<com.nart.pojo.friendReq>
+     * @return: java.util.List<com.nart.pojo.FriendReq>
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:12
      */
-    public List<friendReq> generateReqs(int num) {
-        List<friendReq> list = new ArrayList<>();
+    public List<FriendReq> generateReqs(int num) {
+        List<FriendReq> list = new ArrayList<>();
         List<String> users = getUserIds();
 
         for (int i = 0; i < num; i++) {
             String sender = getRandomId(users);
             String receiver = getRandomId(users, sender);
-            friendReq frq = new friendReq();
+            FriendReq frq = new FriendReq();
             frq.setSenderId(sender);
             frq.setSenderId(receiver);
             frq.setMsg(faker.regexify("[\\w]{0,20}"));
@@ -93,19 +95,19 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate status with random user as author
-     * @param num number of status
-     * @return: java.util.List<com.nart.pojo.status>
+     * @Description: generate Status with random User as author
+     * @param num number of Status
+     * @return: java.util.List<com.nart.pojo.Status>
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:12
      */
-    public List<status> generateStatus(int num) {
-        List<status> list = new ArrayList<>();
+    public List<Status> generateStatus(int num) {
+        List<Status> list = new ArrayList<>();
 
         List<String> users = getUserIds();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         for (int i = 0; i < num; i++) {
-            status s = new status();
+            Status s = new Status();
             s.setSenderId(getRandomId(users));
             s.setLikes(0);
             s.setText(faker.regexify("[\\w]{20,200}"));
@@ -119,12 +121,12 @@ public class FakeDataGenerator {
     /**
      * @Description: generate comments with random statuses and users
      * @param num max number of comments
-     * @return: java.util.List<com.nart.pojo.comment>
+     * @return: java.util.List<com.nart.pojo.Comment>
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:13
      */
-    public List<comment> generateComment(String statusId, int num) {
-        List<comment> list = new ArrayList<>();
+    public List<Comment> generateComment(String statusId, int num) {
+        List<Comment> list = new ArrayList<>();
 
         for (int i = 0; i < num; i++) {
             if(r.nextBoolean()) {
@@ -134,7 +136,7 @@ public class FakeDataGenerator {
                  */
                 List<String> userFriendIds = getUserFriendIds(authorId);
                 String uid = getRandomId(userFriendIds);
-                comment comment = new comment();
+                Comment comment = new Comment();
                 comment.setUserId(uid);
                 comment.setStatusId(statusId);
                 comment.setMsg(faker.regexify("[\\w]{5,100}"));
@@ -148,9 +150,9 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate like relationship between status and random user
-     * @param statusId status id
-     * @param num max number of likes for each status
+     * @Description: generate like relationship between Status and random User
+     * @param statusId Status id
+     * @param num max number of likes for each Status
      * @return: void
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:19
@@ -176,15 +178,15 @@ public class FakeDataGenerator {
 
     /**
      * @Description: generate empty groups
-     * @param num group number
-     * @return: java.util.List<com.nart.pojo.group>
+     * @param num Group number
+     * @return: java.util.List<com.nart.pojo.Group>
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:20
      */
-    public List<group> generateGroup(int num) {
-        List<group> list = new ArrayList<>();
+    public List<Group> generateGroup(int num) {
+        List<Group> list = new ArrayList<>();
         for (int i = 0; i < num; i++) {
-            group g = new group();
+            Group g = new Group();
             g.setAvatar(faker.avatar().image());
             g.setNotice(faker.regexify("[\\w]{20,200}"));
             g.setGroupName(faker.company().name());
@@ -195,14 +197,14 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate group invitations with random user and group
+     * @Description: generate Group invitations with random User and Group
      * @param num total number of invitations
-     * @return: java.util.List<com.nart.pojo.groupInvite>
+     * @return: java.util.List<com.nart.pojo.GroupInvite>
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:21
      */
-    public List<groupInvite> generateInvites(int num) {
-        List<groupInvite> list = new ArrayList<>();
+    public List<GroupInvite> generateInvites(int num) {
+        List<GroupInvite> list = new ArrayList<>();
         List<String> users = getUserIds();
         List<String> groupIds = getGroupIds();
 
@@ -217,7 +219,7 @@ public class FakeDataGenerator {
              * tempLevel = select last_level from tb_group where id = gid;
              * insert into tb_user_group values (sid, gid, 0, tempLevel, 0L);
              */
-            groupInvite gi = new groupInvite();
+            GroupInvite gi = new GroupInvite();
             gi.setSenderId(sid);
             gi.setGroupId(gid);
             gi.setReceiverId(getRandomId(users, sid));
@@ -229,9 +231,9 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate group relationships between group and random user
-     * @param gid group id
-     * @param num max number of group member
+     * @Description: generate Group relationships between Group and random User
+     * @param gid Group id
+     * @param num max number of Group member
      * @return: void
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:22
@@ -253,9 +255,9 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate friend relationships between user and a random user
-     * @param uid user id
-     * @param num max number of friend
+     * @Description: generate Friend relationships between User and a random User
+     * @param uid User id
+     * @param num max number of Friend
      * @return: void
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:23
@@ -275,9 +277,9 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate friend chat message
-     * @param uid user id
-     * @param num max number of chat msg the user may send to each friend
+     * @Description: generate Friend chat Message
+     * @param uid User id
+     * @param num max number of chat msg the User may send to each Friend
      * @return: void
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 19:50
@@ -287,7 +289,7 @@ public class FakeDataGenerator {
         for(String fid: userFriendIds) {
             for(int i=0; i<num; i++) {
                 if(r.nextBoolean()) {
-                    message msg = new message();
+                    Message msg = new Message();
                     msg.setSenderId(uid);
                     msg.setReceiverId(fid);
                     if(r.nextBoolean()) {
@@ -304,9 +306,9 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate group chat message
-     * @param uid user id
-     * @param num max number of chat msg the user may send to each group
+     * @Description: generate Group chat Message
+     * @param uid User id
+     * @param num max number of chat msg the User may send to each Group
      * @return: void
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 19:50
@@ -317,7 +319,7 @@ public class FakeDataGenerator {
         for(String gid: userGroupIds) {
             for(int i=0; i<num; i++) {
                 if(r.nextBoolean()) {
-                    message msg = new message();
+                    Message msg = new Message();
                     msg.setSenderId(uid);
                     msg.setReceiverId(gid);
                     if(r.nextBoolean()) {
@@ -345,9 +347,9 @@ public class FakeDataGenerator {
      * @Date: 2022/8/30 20:27
      */
     public List<String> getUserIds() {
-        LambdaQueryWrapper<user> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(user::getId);
-        List<user> objList = this.userDao.selectList(queryWrapper);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(User::getId);
+        List<User> objList = this.userDao.selectList(queryWrapper);
         List<String> result = new ArrayList<>();
         objList.forEach((obj -> {
             result.add(obj.getId());
@@ -362,9 +364,9 @@ public class FakeDataGenerator {
      * @Date: 2022/8/30 20:28
      */
     public List<String> getStatusIds() {
-        LambdaQueryWrapper<status> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(status::getId);
-        List<status> objList = this.statusDao.selectList(queryWrapper);
+        LambdaQueryWrapper<Status> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(Status::getId);
+        List<Status> objList = this.statusDao.selectList(queryWrapper);
         List<String> result = new ArrayList<>();
         objList.forEach((obj -> {
             result.add(obj.getId());
@@ -379,9 +381,9 @@ public class FakeDataGenerator {
      * @Date: 2022/8/30 20:28
      */
     public List<String> getGroupIds() {
-        LambdaQueryWrapper<group> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(group::getId);
-        List<group> objList = this.groupDao.selectList(queryWrapper);
+        LambdaQueryWrapper<Group> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(Group::getId);
+        List<Group> objList = this.groupDao.selectList(queryWrapper);
         List<String> result = new ArrayList<>();
         objList.forEach((obj -> {
             result.add(obj.getId());
@@ -390,15 +392,15 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: find all members' ids in the group
-     * @param groupId group id
+     * @Description: find all members' ids in the Group
+     * @param groupId Group id
      * @return: java.util.List<java.lang.String>
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:28
      */
 
     public List<String> getGroupMemberIds(String groupId) {
-//        List<group> objList= this.groupDao.selectAllMember(groupId);
+//        List<Group> objList= this.GroupDao.selectAllMember(groupId);
         List<String> result = new ArrayList<>();
 //        objList.forEach((obj -> {
 //            result.add(obj.getId());
@@ -407,14 +409,14 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: find all friends' ids of the user
-     * @param uid user id
+     * @Description: find all friends' ids of the User
+     * @param uid User id
      * @return: java.util.List<java.lang.String>
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:29
      */
     public List<String> getUserFriendIds(String uid) {
-//        List<user> objList= this.userDao.selectFriends(uid);
+//        List<User> objList= this.UserDao.selectFriends(uid);
         List<String> result = new ArrayList<>();
 //        objList.forEach((obj -> {
 //            result.add(obj.getId());
@@ -423,14 +425,14 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: find all groups' id the user joined
-     * @param uid user id
+     * @Description: find all groups' id the User joined
+     * @param uid User id
      * @return: java.util.List<java.lang.String>
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:29
      */
     public List<String> getUserGroupIds(String uid) {
-//        List<group> objList= this.groupDao.selectGroups(uid);
+//        List<Group> objList= this.GroupDao.selectGroups(uid);
         List<String> result = new ArrayList<>();
 //        objList.forEach((obj -> {
 //            result.add(obj.getId());
@@ -440,30 +442,30 @@ public class FakeDataGenerator {
 
     /**
      * @Description: use this to generate fake data and load to database
-     * @param num a base number (1/10 of user number)
+     * @param num a base number (1/10 of User number)
      * @return: void
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:30
      */
     public void generateTestData(int num) {
-        List<user> users = generateUsers(num * 10);
+        List<User> Users = generateUsers(num * 10);
         // write to database
-        List<friendReq> friendReqs = generateReqs(num * 20);
+        List<FriendReq> FriendReqs = generateReqs(num * 20);
         // write to database
         for (String uid : getUserIds()) {
             generateFriendRelationships(uid, num*3);
         }
-        List<status> statuses = generateStatus(num * 20);
+        List<Status> Statuses = generateStatus(num * 20);
         // write to database
         for (String statusId : getStatusIds()) {
             generateLikes(statusId, num*2);
-            List<comment> comments = generateComment(statusId, num * 10);
+            List<Comment> Comments = generateComment(statusId, num * 10);
             //write to database
         }
         //write to database
-        List<group> groups = generateGroup(num);
+        List<Group> Groups = generateGroup(num);
         // write to database
-        List<groupInvite> groupInvites = generateInvites(num * 10);
+        List<GroupInvite> GroupInvites = generateInvites(num * 10);
         // write to database
         for (String gid : getGroupIds()) {
             generateGroupRelationships(gid, num*3);

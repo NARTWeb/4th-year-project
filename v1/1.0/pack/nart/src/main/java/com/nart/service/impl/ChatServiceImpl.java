@@ -3,10 +3,8 @@ package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nart.dao.friendChatDao;
 
-import com.nart.dao.groupChatDao;
-
+import com.nart.dao.UserDao;
 import com.nart.pojo.*;
 import com.nart.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,68 +15,68 @@ import java.util.List;
 @Service
 public class ChatServiceImpl implements ChatService {
     @Autowired
-    private friendChatDao FriendChatDao;
+    private com.nart.dao.FriendChatDao FriendChatDao;
 
     @Autowired
-    private groupChatDao GroupChatDao;
+    private com.nart.dao.GroupChatDao GroupChatDao;
 
     @Autowired
-    private com.nart.dao.userDao userDao;
+    private UserDao userDao;
 
 
 
     @Override
-    public boolean sendFriendMsg(friendChat friendChat) {
+    public boolean sendFriendMsg(FriendChat friendChat) {
         int insert = FriendChatDao.insert(friendChat);
         return insert>0;
     }
 
     @Override
-    public boolean sendGroupMsg(groupChat groupChat) {
+    public boolean sendGroupMsg(GroupChat groupChat) {
         int insert = GroupChatDao.insert(groupChat);
         return insert>0;
     }
 
     @Override
-    public List<friendChat> recivicefriendMsg(String reciviceId,IPage page) {
+    public List<FriendChat> recivicefriendMsg(String reciviceId, IPage page) {
 
-        LambdaQueryWrapper<friendChat> lqw = new LambdaQueryWrapper<friendChat>();
+        LambdaQueryWrapper<FriendChat> lqw = new LambdaQueryWrapper<FriendChat>();
 
-        lqw.eq(friendChat::getReceiverId, reciviceId);
+        lqw.eq(FriendChat::getReceiverId, reciviceId);
         IPage iPage = FriendChatDao.selectPage(page, lqw);
-        List<friendChat> records = iPage.getRecords();
+        List<FriendChat> records = iPage.getRecords();
         return records;
     }
 
     @Override
-    public List<groupChat> recivicegroupMsg(String reciviceId,IPage page) {
-        LambdaQueryWrapper<groupChat> lqw = new LambdaQueryWrapper<groupChat>();
-        lqw.eq(groupChat::getGroupId, reciviceId);
+    public List<GroupChat> recivicegroupMsg(String reciviceId, IPage page) {
+        LambdaQueryWrapper<GroupChat> lqw = new LambdaQueryWrapper<GroupChat>();
+        lqw.eq(GroupChat::getGroupId, reciviceId);
         IPage iPage = GroupChatDao.selectPage(page, lqw);
-        List<groupChat> records = iPage.getRecords();
+        List<GroupChat> records = iPage.getRecords();
         return records;
     }
 
     @Override
-    public List<friendChat> showFriendHistory(String Id,IPage page) {
-        LambdaQueryWrapper<friendChat> lqw = new LambdaQueryWrapper<friendChat>();
-        lqw.eq(friendChat::getSenderId, Id).or().eq(friendChat::getReceiverId, Id);
-        lqw.orderBy(true,false,friendChat::getDate);
+    public List<FriendChat> showFriendHistory(String Id, IPage page) {
+        LambdaQueryWrapper<FriendChat> lqw = new LambdaQueryWrapper<FriendChat>();
+        lqw.eq(FriendChat::getSenderId, Id).or().eq(FriendChat::getReceiverId, Id);
+        lqw.orderBy(true,false, FriendChat::getDate);
 
         IPage iPage = FriendChatDao.selectPage(page, lqw);
-        List<friendChat> records = iPage.getRecords();
+        List<FriendChat> records = iPage.getRecords();
         return records;
     }
 
     @Override
-    public List<groupChat> showGroupHistory(String gId, IPage page) {
+    public List<GroupChat> showGroupHistory(String gId, IPage page) {
 
-        LambdaQueryWrapper<groupChat> lqw = new LambdaQueryWrapper<groupChat>();
-        lqw.eq(groupChat::getGroupId, gId);
-        lqw.orderBy(true,false,groupChat::getLevel,groupChat::getDate);
+        LambdaQueryWrapper<GroupChat> lqw = new LambdaQueryWrapper<GroupChat>();
+        lqw.eq(GroupChat::getGroupId, gId);
+        lqw.orderBy(true,false, GroupChat::getLevel, GroupChat::getDate);
 
         IPage iPage = GroupChatDao.selectPage(page, lqw);
-        List<groupChat> records = iPage.getRecords();
+        List<GroupChat> records = iPage.getRecords();
         return records;
 
     }

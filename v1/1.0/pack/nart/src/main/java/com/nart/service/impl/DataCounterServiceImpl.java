@@ -1,7 +1,6 @@
 package com.nart.service.impl;
 
 
-import com.nart.dao.dataCounterDao;
 import com.nart.service.DataCounterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class DataCounterServiceImpl implements DataCounterService {
 
     @Autowired
-    private dataCounterDao DataCounterDao;
+    private com.nart.dao.DataCounterDao DataCounterDao;
 
     @Override
     public int updateUserAmount(boolean increase) {

@@ -2,17 +2,13 @@ package com.nart;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nart.pojo.user;
+import com.nart.pojo.User;
 import com.nart.service.UserService;
-import com.nart.util.Result;
 import com.nart.vo.PageVo;
 import com.nart.vo.UserVo;
-import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 public class userTest {
@@ -26,7 +22,7 @@ public class userTest {
 
     @Test
     public void Testlogin(){
-        user liu = userService.findUser("liu", "123");
+        User liu = userService.findUser("liu", "123");
         System.out.println(liu);
     }
 
@@ -38,19 +34,19 @@ public class userTest {
 
     @Test
     public void Testregister(){
-        user register = userService.register("wewewe", "qi", "323423");
+        User register = userService.register("wewewe", "qi", "323423");
         System.out.println(register);
     }
 
     @Test
     public void TestshowUserInfo(){
-        user user = userService.showUserInfo("1");
+        User user = userService.showUserInfo("1");
         System.out.println(user);
     }
 
     @Test
     public void TestshowUnameAvatar(){
-        user user = userService.showUnameAvatar("1");
+        User user = userService.showUnameAvatar("1");
         System.out.println(user);
     }
 
@@ -74,7 +70,7 @@ public class userTest {
         PageVo pageVo = new PageVo();
         pageVo.setPageNum(1);
         pageVo.setPageSize(1);
-        IPage<user> u = userService.searchNew("u", pageVo);
+        IPage<User> u = userService.searchNew("u", pageVo);
         System.out.println(u.getRecords());
     }
 

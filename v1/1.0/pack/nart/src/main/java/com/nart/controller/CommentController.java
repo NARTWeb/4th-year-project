@@ -1,7 +1,7 @@
 package com.nart.controller;
 
 import com.nart.common.LogA;
-import com.nart.pojo.comment;
+import com.nart.pojo.Comment;
 import com.nart.service.CommentService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
@@ -33,11 +33,11 @@ public class CommentController {
 
     @GetMapping("list/{statusId}")
     public Result showCommentList(@PathVariable String statusId) {
-        List<comment> comments = commentService.showCommentList(statusId);
-        if(comments == null) {
+        List<Comment> Comments = commentService.showCommentList(statusId);
+        if(Comments == null) {
             return Result.fail(ErrorCode.SHOW_COMMENT_LIST_ERROR);
         }
-        return Result.success(comments);
+        return Result.success(Comments);
     }
 
     @PostMapping("/post")
