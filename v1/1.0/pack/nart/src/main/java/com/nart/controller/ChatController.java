@@ -1,8 +1,9 @@
 package com.nart.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.common.LogA;
-import com.nart.pojo.friendChat;
-import com.nart.pojo.groupChat;
+import com.nart.pojo.FriendChat;
+import com.nart.pojo.GroupChat;
 import com.nart.service.ChatService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
@@ -36,13 +37,13 @@ public class ChatController {
     public Result showHistory(@PathVariable String type,
                               @PathVariable String chatId) {
         if(type.equals("friend")) {
-            List<friendChat> friendChats = chatService.showFriendHistory(chatId);
+            List<FriendChat> friendChats = chatService.showFriendHistory(chatId,null);
             if(friendChats == null) {
                 return Result.fail(ErrorCode.SHOW_FRIEND_CHAT_HISTORY);
             }
             return Result.success(friendChats);
         } else {
-            List<groupChat> groupChats = chatService.showGroupHistory(chatId);
+            List<GroupChat> groupChats = chatService.showGroupHistory(chatId,null);
             if(groupChats == null) {
                 return Result.fail(ErrorCode.SHOW_GROUP_CHAT_HISTORY);
             }
@@ -53,25 +54,25 @@ public class ChatController {
     @PostMapping("send")
     public Result sendMsg(@RequestBody MessageVo msgInfo) {
         if(msgInfo.getType().equals("friend")) {
-            friendChat friendChat = new friendChat();
-            friendChat.setReceiverId(msgInfo.getChatId());
-            friendChat.setSenderId(msgInfo.getSenderId());
-            friendChat.setMsg(msgInfo.getMsg());
-            friendChat.setType(msgInfo.getMsgType());
-            friendChat.setDate(new Date().getTime());
-            boolean b = chatService.sendFriendMsg(friendChat);
+            FriendChat FriendChat = new FriendChat();
+            FriendChat.setReceiverId(msgInfo.getChatId());
+            FriendChat.setSenderId(msgInfo.getSenderId());
+            FriendChat.setMsg(msgInfo.getMsg());
+            FriendChat.setType(msgInfo.getMsgType());
+            FriendChat.setDate(new Date().getTime());
+            boolean b = chatService.sendFriendMsg(FriendChat);
             if(b) {
                 return Result.success(null);
             }
             return Result.fail(ErrorCode.SEND_FRIEND_CHAT_HISTORY);
         } else {
-            groupChat groupChat = new groupChat();
-            groupChat.setGroupId(msgInfo.getChatId());
-            groupChat.setSenderId(msgInfo.getSenderId());
-            groupChat.setMsg(msgInfo.getMsg());
-            groupChat.setType(msgInfo.getMsgType());
-            groupChat.setDate(new Date().getTime());
-            boolean b = chatService.sendGroupMsg(groupChat);
+            GroupChat GroupChat = new GroupChat();
+            GroupChat.setGroupId(msgInfo.getChatId());
+            GroupChat.setSenderId(msgInfo.getSenderId());
+            GroupChat.setMsg(msgInfo.getMsg());
+            GroupChat.setType(msgInfo.getMsgType());
+            GroupChat.setDate(new Date().getTime());
+            boolean b = chatService.sendGroupMsg(GroupChat);
             if(b) {
                 return Result.success(null);
             }

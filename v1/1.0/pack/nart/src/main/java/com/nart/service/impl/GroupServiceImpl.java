@@ -31,11 +31,11 @@ public class GroupServiceImpl implements GroupService {
     private GroupInviteDao groupInviteDao;
 
     @Override
-    public List<User> showGroupMebList(String gid, IPage page) {
+    public List<User> showGroupMebList(String gid) {
         LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
         lqw.eq(UserGroup::getGid,gid);
 
-        IPage iPage = userGroupDao.selectPage(page, lqw);
+        IPage iPage = userGroupDao.selectPage(null, lqw);
         List<UserGroup> records = iPage.getRecords();
         List<User> Users = new ArrayList<>();
         for (UserGroup record : records) {
@@ -85,7 +85,11 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<GroupInvite> showInviteList(IPage page) {
-        IPage iPage = groupInviteDao.selectPage(page, null);
+        String id = UserThreadLocal.get().getId();
+        LambdaQueryWrapper<GroupInvite> lqw = new LambdaQueryWrapper<GroupInvite>();
+        lqw.eq(GroupInvite::getReceiverId,id);
+
+        IPage iPage = groupInviteDao.selectPage(page, lqw);
         List<GroupInvite> records = iPage.getRecords();
         return records;
     }
@@ -144,21 +148,19 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public boolean joinGroup(String groupId) {
-        LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
-        lqw.eq(UserGroup::getGid,groupId);
-        lqw.orderBy(true,false, UserGroup::getJoinLevel);
-        List<UserGroup> UserGroups = userGroupDao.selectList(lqw);
-        UserGroup userGroup1 = UserGroups.get(0);
-        int joinLevel = userGroup1.getJoinLevel();
-
+        Group group = groupDao.selectById(groupId);
+        int userLevel = group.getUserLevel();
 
         String id = UserThreadLocal.get().getId();
         UserGroup userGroup = new UserGroup();
         userGroup.setGid(groupId);
         userGroup.setUid(id);
-        userGroup.setJoinLevel(joinLevel+1);
+        userGroup.setJoinLevel(userLevel+1);
 
         int insert = userGroupDao.insert(userGroup);
+
+        group.setUserLevel(userLevel+1);
+        groupDao.updateById(group);
 
 
         return insert>0;

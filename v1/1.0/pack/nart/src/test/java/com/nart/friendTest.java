@@ -48,7 +48,7 @@ public class friendTest {
 
     @Test
     public void TestshowReqList(){
-        IPage<Friend> page = new Page<>(1,2);
+        IPage<FriendReq> page = new Page<>(1,2);
         List<FriendReq> FriendReqs = friendService.showReqList(page, "1");
         System.out.println(FriendReqs);
     }

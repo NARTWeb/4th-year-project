@@ -63,8 +63,8 @@ public class FriendServiceImpl implements FriendService {
                 record.setOnline(false);
             }
 
-            record.setStatusList(statusService.showStatusList(Long.valueOf(userId) ,page));
-            record.setChatHistory(chatService.showFriendHistory(user.getId()));
+            record.setStatusList(statusService.showStatusList(userId ,page));
+            record.setChatHistory(chatService.showFriendHistory(user.getId(),page));
 
         }
 
@@ -108,7 +108,7 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public List<FriendReq> showReqList(IPage page, String sid) {
         LambdaQueryWrapper<FriendReq> lqw = new LambdaQueryWrapper<FriendReq>();
-        lqw.eq(FriendReq::getSenderId, sid);
+        lqw.eq(FriendReq::getReceiverId, sid);
         IPage iPage = friendReqDAO.selectPage(page, lqw);
         List<FriendReq> records = iPage.getRecords();
         return records;

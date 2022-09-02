@@ -37,7 +37,7 @@ public class GroupController {
 
     @GetMapping("memberList/{groupId}")
     public Result showGroupMemberList(@PathVariable("groupId") String gid) {
-        List<User> Users = groupService.showGroupMebList(gid, new Page());
+        List<User> Users = groupService.showGroupMebList(gid);
         if(Users == null) {
             Result.fail(ErrorCode.SHOW_GROUP_MEMBER_ERROR);
         }

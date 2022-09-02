@@ -18,7 +18,7 @@ public interface FriendService {
 
     boolean changeFriendState(String fid,String uid,int state);
 
-    List<FriendReq> showReqList(IPage page, String sid);
+    List<FriendReq> showReqList(IPage page, String rid);
 
     boolean sendFriendReq(String rid, String sid,String msg);
 

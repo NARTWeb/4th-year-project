@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface StatusService {
 
-    List<Status> showStatusList(Long sid, IPage page);
+    List<Status> showStatusList(String sid, IPage page);
 
     boolean postStatus(Status status);
 

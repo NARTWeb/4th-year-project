@@ -21,7 +21,7 @@ public class StatusServiceImpl implements StatusService {
     private CommentService commentService;
 
     @Override
-    public List<Status> showStatusList(Long sid, IPage page) {
+    public List<Status> showStatusList(String sid, IPage page) {
         LambdaQueryWrapper<Status> lqw = new LambdaQueryWrapper<Status>();
         lqw.eq(Status::getSenderId, sid);
         IPage iPage = StatusDao.selectPage(page, lqw);

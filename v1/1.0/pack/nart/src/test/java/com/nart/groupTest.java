@@ -22,7 +22,7 @@ public class groupTest {
     @Test
     public void TestshowGroupMebList(){
         IPage<UserGroup> page=new Page<>(1,3);
-        List<User> Users = groupService.showGroupMebList("1", page);
+        List<User> Users = groupService.showGroupMebList("1");
         System.out.println(Users);
     }
 

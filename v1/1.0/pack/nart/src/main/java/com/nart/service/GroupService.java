@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface GroupService {
 
-    List<User> showGroupMebList(String gid, IPage page);
+    List<User> showGroupMebList(String gid);
 
     boolean changeGroupInfo(Group group);
 

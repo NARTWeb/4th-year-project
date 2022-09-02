@@ -22,7 +22,7 @@ public class statusServiceTest {
     @Test
     public void showStatusListTest(){
         IPage<Status> page=new Page<>(1,2);
-        List<Status> Statuses = StatusService.showStatusList(1L, page);
+        List<Status> Statuses = StatusService.showStatusList("1", page);
         System.out.println(Statuses);
     }
 
