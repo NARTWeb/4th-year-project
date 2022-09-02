@@ -1,8 +1,11 @@
 package com.nart;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.pojo.friendChat;
 import com.nart.pojo.groupChat;
+import com.nart.pojo.userGroup;
 import com.nart.service.ChatService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +40,7 @@ public class chatTest {
         groupChat.setGroupId("1");
         groupChat.setSenderId("1");
         groupChat.setDate(112323L);
-        groupChat.setLevel(1);
+
         groupChat.setMsg("sfefef");
         groupChat.setType("tupian");
         boolean b = chatService.sendGroupMsg(groupChat);
@@ -47,20 +50,23 @@ public class chatTest {
 
     @Test
     public void TestrecivicefriendMsg(){
-        List<friendChat> friendChats = chatService.recivicefriendMsg("2");
+        IPage<userGroup> page=new Page<>(1,3);
+        List<friendChat> friendChats = chatService.recivicefriendMsg("2",page);
         System.out.println(friendChats);
     }
 
     @Test
     public void TestrecivicegroupMsg(){
-        List<groupChat> groupChats = chatService.recivicegroupMsg("1");
+        IPage<userGroup> page=new Page<>(1,3);
+        List<groupChat> groupChats = chatService.recivicegroupMsg("1",page);
         System.out.println(groupChats);
 
     }
 
     @Test
     public void TestshowFriendHistory(){
-        List<friendChat> friendChats = chatService.showFriendHistory("1");
+        IPage<userGroup> page=new Page<>(1,3);
+        List<friendChat> friendChats = chatService.showFriendHistory("1",page);
         System.out.println(friendChats);
     }
 

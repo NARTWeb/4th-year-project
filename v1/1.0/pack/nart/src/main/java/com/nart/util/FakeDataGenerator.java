@@ -2,9 +2,7 @@ package com.nart.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.javafaker.Faker;
-import com.nart.dao.groupDao;
 import com.nart.dao.statusDao;
-import com.nart.dao.userDao;
 import com.nart.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,11 +35,11 @@ public class FakeDataGenerator {
     private final Random r = new Random();
 
     @Autowired
-    private userDao userDao;
+    private com.nart.dao.userDao userDao;
     @Autowired
     private statusDao statusDao;
     @Autowired
-    private groupDao groupDao;
+    private com.nart.dao.groupDao groupDao;
 
     /**
      * @Description: generate users

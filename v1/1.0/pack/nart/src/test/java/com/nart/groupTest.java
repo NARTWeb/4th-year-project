@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.pojo.*;
 import com.nart.service.GroupService;
+import com.nart.util.UserThreadLocal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -89,5 +90,12 @@ public class groupTest {
         System.out.println(test);
     }
 
-
+    @Test
+    public void joinGroup(){
+        user user = new user();
+        user.setId("3");
+        UserThreadLocal.put(user);
+        boolean b = groupService.joinGroup("1565224110185975810");
+        System.out.println(b);
+    }
 }

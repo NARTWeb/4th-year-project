@@ -1,5 +1,6 @@
 package com.nart.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.pojo.friendChat;
 import com.nart.pojo.groupChat;
 import com.nart.pojo.message;
@@ -12,14 +13,11 @@ public interface ChatService {
 
     boolean sendGroupMsg(groupChat groupChat);
 
+    List<friendChat> recivicefriendMsg(String reciviceId,IPage page);
 
+    List<groupChat> recivicegroupMsg(String reciviceId,IPage page);
 
-    List<friendChat> recivicefriendMsg(String reciviceId);
+    List<friendChat> showFriendHistory(String Id, IPage page);
 
-    List<groupChat> recivicegroupMsg(String reciviceId);
-
-    List<friendChat> showFriendHistory(String Id);
-
-
-    List<groupChat> showGroupHistory(String gId);
+    List<groupChat> showGroupHistory(String gId,IPage page);
 }

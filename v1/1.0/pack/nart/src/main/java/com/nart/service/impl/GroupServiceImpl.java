@@ -2,15 +2,12 @@ package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nart.dao.groupDao;
-import com.nart.dao.groupInviteDao;
-import com.nart.dao.userDao;
-import com.nart.dao.userGroupDao;
 import com.nart.pojo.group;
 import com.nart.pojo.groupInvite;
 import com.nart.pojo.user;
 import com.nart.pojo.userGroup;
 import com.nart.service.GroupService;
+import com.nart.util.UserThreadLocal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +17,14 @@ import java.util.*;
 public class GroupServiceImpl implements GroupService {
 
     @Autowired
-    private userGroupDao userGroupDao;
+    private com.nart.dao.userGroupDao userGroupDao;
     @Autowired
-    private userDao userDao;
+    private com.nart.dao.userDao userDao;
     @Autowired
-    private groupDao groupDao;
+    private com.nart.dao.groupDao groupDao;
 
     @Autowired
-    private groupInviteDao groupInviteDao;
+    private com.nart.dao.groupInviteDao groupInviteDao;
 
     @Override
     public List<user> showGroupMebList(String gid, IPage page) {
@@ -134,10 +131,33 @@ public class GroupServiceImpl implements GroupService {
         userGroup userGroup = new userGroup();
         userGroup.setGid(id);
         userGroup.setUid(uid);
+        userGroup.setJoinLevel(1);
 
         int insert1 = userGroupDao.insert(userGroup);
 
         return insert1>0;
+    }
+
+    @Override
+    public boolean joinGroup(String groupId) {
+        LambdaQueryWrapper<userGroup> lqw = new LambdaQueryWrapper<userGroup>();
+        lqw.eq(userGroup::getGid,groupId);
+        lqw.orderBy(true,false, userGroup::getJoinLevel);
+        List<userGroup> UserGroups = userGroupDao.selectList(lqw);
+        userGroup userGroup1 = UserGroups.get(0);
+        int joinLevel = userGroup1.getJoinLevel();
+
+
+        String id = UserThreadLocal.get().getId();
+        userGroup userGroup = new userGroup();
+        userGroup.setGid(groupId);
+        userGroup.setUid(id);
+        userGroup.setJoinLevel(joinLevel+1);
+
+        int insert = userGroupDao.insert(userGroup);
+
+
+        return insert>0;
     }
 
 

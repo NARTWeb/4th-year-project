@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.pojo.group;
 import com.nart.pojo.groupInvite;
 import com.nart.pojo.user;
-import com.nart.pojo.userGroup;
 
 import java.util.List;
 
@@ -27,4 +26,6 @@ public interface GroupService {
     boolean respGroupInvite(String InviteId,Boolean agree);
 
     boolean createGroup(String groupName,String uid);
+
+    boolean joinGroup(String groupId);
 }

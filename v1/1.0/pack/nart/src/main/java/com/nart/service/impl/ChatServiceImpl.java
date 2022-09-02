@@ -2,20 +2,16 @@ package com.nart.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.dao.friendChatDao;
 
 import com.nart.dao.groupChatDao;
 
-import com.nart.dao.userDao;
-import com.nart.pojo.friendChat;
-import com.nart.pojo.groupChat;
-import com.nart.pojo.message;
-import com.nart.pojo.user;
+import com.nart.pojo.*;
 import com.nart.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -27,7 +23,7 @@ public class ChatServiceImpl implements ChatService {
     private groupChatDao GroupChatDao;
 
     @Autowired
-    private userDao userDao;
+    private com.nart.dao.userDao userDao;
 
 
 
@@ -44,40 +40,46 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<friendChat> recivicefriendMsg(String reciviceId) {
+    public List<friendChat> recivicefriendMsg(String reciviceId,IPage page) {
 
         LambdaQueryWrapper<friendChat> lqw = new LambdaQueryWrapper<friendChat>();
 
         lqw.eq(friendChat::getReceiverId, reciviceId);
-        List<friendChat> message = FriendChatDao.selectList(lqw);
-
-        return message;
+        IPage iPage = FriendChatDao.selectPage(page, lqw);
+        List<friendChat> records = iPage.getRecords();
+        return records;
     }
 
     @Override
-    public List<groupChat> recivicegroupMsg(String reciviceId) {
+    public List<groupChat> recivicegroupMsg(String reciviceId,IPage page) {
         LambdaQueryWrapper<groupChat> lqw = new LambdaQueryWrapper<groupChat>();
         lqw.eq(groupChat::getGroupId, reciviceId);
-        List<groupChat> message = GroupChatDao.selectList(lqw);
-        return message;
+        IPage iPage = GroupChatDao.selectPage(page, lqw);
+        List<groupChat> records = iPage.getRecords();
+        return records;
     }
 
     @Override
-    public List<friendChat> showFriendHistory(String Id) {
+    public List<friendChat> showFriendHistory(String Id,IPage page) {
         LambdaQueryWrapper<friendChat> lqw = new LambdaQueryWrapper<friendChat>();
         lqw.eq(friendChat::getSenderId, Id).or().eq(friendChat::getReceiverId, Id);
-        List<friendChat> friendChats = FriendChatDao.selectList(lqw);
+        lqw.orderBy(true,false,friendChat::getDate);
 
-        return friendChats;
+        IPage iPage = FriendChatDao.selectPage(page, lqw);
+        List<friendChat> records = iPage.getRecords();
+        return records;
     }
 
     @Override
-    public List<groupChat> showGroupHistory(String gId) {
+    public List<groupChat> showGroupHistory(String gId, IPage page) {
 
         LambdaQueryWrapper<groupChat> lqw = new LambdaQueryWrapper<groupChat>();
         lqw.eq(groupChat::getGroupId, gId);
-        List<groupChat> groupChats = GroupChatDao.selectList(lqw);
-        return groupChats;
+        lqw.orderBy(true,false,groupChat::getLevel,groupChat::getDate);
+
+        IPage iPage = GroupChatDao.selectPage(page, lqw);
+        List<groupChat> records = iPage.getRecords();
+        return records;
 
     }
 
