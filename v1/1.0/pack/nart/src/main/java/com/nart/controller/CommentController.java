@@ -1,10 +1,16 @@
 package com.nart.controller;
 
 import com.nart.common.LogA;
+import com.nart.pojo.comment;
+import com.nart.service.CommentService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
+import com.nart.util.UserThreadLocal;
 import com.nart.vo.CommentVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
@@ -21,14 +27,25 @@ import org.springframework.web.bind.annotation.*;
 @LogA
 public class CommentController {
 
+    @Autowired
+    private CommentService commentService;
+
 
     @GetMapping("list/{statusId}")
     public Result showCommentList(@PathVariable String statusId) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        List<comment> comments = commentService.showCommentList(statusId);
+        if(comments == null) {
+            return Result.fail(ErrorCode.SHOW_COMMENT_LIST_ERROR);
+        }
+        return Result.success(comments);
     }
 
     @PostMapping("/post")
     public Result postComment(@RequestBody CommentVo cInfo) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        boolean b = commentService.postComment(cInfo.getStatusId(), cInfo.getMsg(), UserThreadLocal.get().getId());
+        if(b) {
+            return Result.success(null);
+        }
+        return Result.fail(ErrorCode.POST_COMMENT_ERROR);
     }
 }

@@ -2,7 +2,7 @@
   <div class="all">
     <div class="mainpart">
         <div class="top">
-            <textarea rows="6" style="font-size:16px;color:red;font-family:Arial;font-weight:bold;outline:none;" :placeholder="t('postStatus.placeHolder')"></textarea>
+            <textarea rows="6" v-model="msg" style="font-size:16px;color:red;font-family:Arial;font-weight:bold;outline:none;" :placeholder="t('postStatus.placeHolder')"></textarea>
         </div>
     </div>
     <div class="pics">
@@ -40,6 +40,7 @@ import { useI18n } from "vue-i18n";
 import  useUserStore from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import { postStatus } from "@/api/status";
+import { uploadPic } from '@/api/upload';
 import { ElMessage } from 'element-plus';
 
 import type { UploadProps, UploadUserFile } from 'element-plus'
@@ -51,9 +52,37 @@ const counter = ref(0);
 
 const fileList = ref<UploadUserFile[]>([
 ])
+var pics = String[''];
+var msg = ref("");
 
-function post(msg, pics){
-    postStatus(token, msg, pics)
+function uploadPics() {
+  for(let i=0; i<fileList.value.length; i++) {
+    uploadPic(fileList.value[i])
+    .then((res) => {
+      if(res.data.success) {
+        pics.push(res.data.data);
+      } else {
+        ElMessage({
+          type: "error",
+          msg: res.data.msg,
+          showClose: true,
+          grouping: true,
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+          type: "error",
+          msg: t('chatInputBox.uploadPicError'),
+          showClose: true,
+          grouping: true,
+        });
+    })
+  }
+}
+
+function post(){
+    postStatus(token, msg.value, pics)
     .then((res) =>{
         if(res.data.success) {
           alert(t('postStatus.succeed'))

@@ -1,13 +1,21 @@
 package com.nart.controller;
 
-import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.common.LogA;
+import com.nart.pojo.group;
 import com.nart.pojo.groupInvite;
+import com.nart.pojo.user;
+import com.nart.pojo.userGroup;
+import com.nart.service.GroupService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
+import com.nart.util.UserThreadLocal;
 import com.nart.vo.GroupVo;
 import com.nart.vo.PageVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
@@ -23,50 +31,95 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("group")
 @LogA
 public class GroupController {
+
+    @Autowired
+    private GroupService groupService;
+
     @GetMapping("memberList/{groupId}")
     public Result showGroupMemberList(@PathVariable("groupId") String gid) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        List<user> users = groupService.showGroupMebList(gid, new Page());
+        if(users == null) {
+            Result.fail(ErrorCode.SHOW_GROUP_MEMBER_ERROR);
+        }
+        return Result.success(users);
     }
 
     @PutMapping("changeInfo")
     public Result changeGroupInfo(@RequestBody GroupVo gInfo) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        group group = new group();
+        group.setId(gInfo.getGroupId());
+        group.setGroupName(gInfo.getGroupName());
+        group.setAvatar(gInfo.getGroupAvatar());
+        group.setNotice(gInfo.getNotice());
+        boolean b = groupService.changeGroupInfo(group);
+        if(b) {
+            return Result.success(null);
+        }
+        return Result.fail(ErrorCode.CHANGE_GROUP_INFO_ERROR);
     }
 
     @GetMapping("list")
     public Result showGroupList(@RequestBody PageVo page) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        List<group> groups = groupService.showGroupList(page.toIPage(userGroup.class));
+        if(groups == null) {
+            Result.fail(ErrorCode.SHOW_GROUP_LIST_ERROR);
+        }
+        return Result.success(groups);
     }
 
     @DeleteMapping("del/{groupId}")
     public Result leaveGroup(@PathVariable("groupId") String gid) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        boolean b = groupService.leaveGroup(gid, UserThreadLocal.get().getId());
+        if(b) {
+            return Result.success(null);
+        }
+        return Result.fail(ErrorCode.LEAVE_GROUP_ERROR);
     }
 
     @PutMapping("state/{groupId}/{state}")
     public Result changeGroupState(@PathVariable("groupId") String gid,
                                    @PathVariable("state") Integer state) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        boolean b = groupService.changeGroupState(gid, UserThreadLocal.get().getId(), state);
+        if(b) {
+            return Result.success(null);
+        }
+        return Result.fail(ErrorCode.CHANGE_GROUP_STATE_ERROR);
     }
 
     @GetMapping("inviteList")
     public Result showInviteList(@RequestBody PageVo page) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        List<groupInvite> groupInvites = groupService.showInviteList(page.toIPage(groupInvite.class));
+        if(groupInvites == null) {
+            Result.fail(ErrorCode.SHOW_GROUP_INVITE_LIST_ERROR);
+        }
+        return Result.success(groupInvites);
     }
 
     @PostMapping("send")
     public Result sendInvite(@RequestBody groupInvite inviteInfo) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        boolean b = groupService.sendInvite(inviteInfo);
+        if(b) {
+            return Result.success(null);
+        }
+        return Result.fail(ErrorCode.SEND_GROUP_INVITE_ERROR);
     }
 
     @PutMapping("resp/{inviteId}/{agree}")
     public Result respGroupInvite(@PathVariable("inviteId") String inviteId,
                                   @PathVariable("agree") Boolean agree) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        boolean b = groupService.respGroupInvite(inviteId, agree);
+        if(b) {
+            return Result.success(null);
+        }
+        return Result.fail(ErrorCode.RESP_GROUP_INVITE_ERROR);
     }
 
     @PostMapping("create")
     public Result createGroup(@RequestBody String gName) {
-        return Result.fail(ErrorCode.UNDEFINED);
+        boolean b = groupService.createGroup(gName, UserThreadLocal.get().getId());
+        if(b) {
+            return Result.success(null);
+        }
+        return Result.fail(ErrorCode.CREATE_GROUP_ERROR);
     }
 }

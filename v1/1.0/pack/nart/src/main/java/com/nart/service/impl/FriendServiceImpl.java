@@ -2,9 +2,11 @@ package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.dao.friendDao;
 import com.nart.dao.friendReqDAO;
 import com.nart.dao.statusDao;
+import com.nart.dao.userDao;
 import com.nart.pojo.friend;
 import com.nart.pojo.friendReq;
 import com.nart.pojo.user;
@@ -12,12 +14,12 @@ import com.nart.service.ChatService;
 import com.nart.service.FriendService;
 import com.nart.service.StatusService;
 import com.nart.service.UserService;
+import com.nart.util.Result;
 import com.nart.util.UserThreadLocal;
 import com.nart.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +29,7 @@ public class FriendServiceImpl implements FriendService {
     private friendDao friendDao;
 
     @Autowired
-    private com.nart.dao.userDao userDao;
+    private userDao userDao;
 
     @Autowired
     private statusDao statusDao;
@@ -65,7 +67,7 @@ public class FriendServiceImpl implements FriendService {
             }
 
             record.setStatusList(statusService.showStatusList(Long.valueOf(userId) ,page));
-            record.setChatHistory(chatService.showFriendHistory(user.getId(),page));
+            record.setChatHistory(chatService.showFriendHistory(user.getId()));
 
         }
 
@@ -75,28 +77,12 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<user> searchFriend(String name, IPage page) {
-
-        String Uid = UserThreadLocal.get().getId();
-
-        List<user> friendList = new ArrayList<>();
         PageVo pageVo = new PageVo();
         pageVo.setPageNum((int) page.getCurrent());
         pageVo.setPageSize((int) page.getSize());
         IPage<user> userIPage = userService.searchNew(name, pageVo);
         List<user> records = userIPage.getRecords();
-
-        for (user record : records) {
-            String id = record.getId();
-            LambdaQueryWrapper<friend> lqw = new LambdaQueryWrapper<friend>();
-            lqw.eq(friend::getFid, id);
-
-            friend friend = friendDao.selectOne(lqw);
-            String uid = friend.getUid();
-            if(Uid.equals(uid)){
-                friendList.add(record);
-            }
-        }
-        return friendList;
+        return records;
     }
 
     @Override
@@ -147,7 +133,6 @@ public class FriendServiceImpl implements FriendService {
     public boolean respFriendReq(String reqId, Boolean agree) {
         friendReq friendReq = friendReqDAO.selectById(reqId);
 
-
         if(agree){
             String senderId = friendReq.getSenderId();
             String ReceiverId = friendReq.getReceiverId();
@@ -164,6 +149,12 @@ public class FriendServiceImpl implements FriendService {
             friendReqDAO.deleteById(reqId);
             return false;
         }
+    }
 
+    @Override
+    public List<user> searchNew(String name, PageVo pageVo) {
+        IPage<user> userIPage = userService.searchNew(name, pageVo);
+        List<user> records = userIPage.getRecords();
+        return records;
     }
 }

@@ -5,6 +5,7 @@ import com.nart.pojo.user;
 import com.nart.service.LoginService;
 import com.nart.service.UserService;
 import com.nart.util.ErrorCode;
+import com.nart.util.GsonFormatter;
 import com.nart.util.Result;
 import com.nart.util.UserThreadLocal;
 import com.nart.vo.UserVo;
