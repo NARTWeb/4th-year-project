@@ -1,8 +1,9 @@
 package com.nart.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.common.LogA;
-import com.nart.pojo.friendChat;
-import com.nart.pojo.groupChat;
+import com.nart.pojo.FriendChat;
+import com.nart.pojo.GroupChat;
 import com.nart.service.ChatService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
@@ -36,13 +37,13 @@ public class ChatController {
     public Result showHistory(@PathVariable String type,
                               @PathVariable String chatId) {
         if(type.equals("friend")) {
-            List<friendChat> friendChats = chatService.showFriendHistory(chatId);
+            List<FriendChat> friendChats = chatService.showFriendHistory(chatId, new Page());
             if(friendChats == null) {
                 return Result.fail(ErrorCode.SHOW_FRIEND_CHAT_HISTORY);
             }
             return Result.success(friendChats);
         } else {
-            List<groupChat> groupChats = chatService.showGroupHistory(chatId);
+            List<GroupChat> groupChats = chatService.showGroupHistory(chatId, new Page());
             if(groupChats == null) {
                 return Result.fail(ErrorCode.SHOW_GROUP_CHAT_HISTORY);
             }
@@ -53,7 +54,7 @@ public class ChatController {
     @PostMapping("send")
     public Result sendMsg(@RequestBody MessageVo msgInfo) {
         if(msgInfo.getType().equals("friend")) {
-            friendChat friendChat = new friendChat();
+            FriendChat friendChat = new FriendChat();
             friendChat.setReceiverId(msgInfo.getChatId());
             friendChat.setSenderId(msgInfo.getSenderId());
             friendChat.setMsg(msgInfo.getMsg());
@@ -65,7 +66,7 @@ public class ChatController {
             }
             return Result.fail(ErrorCode.SEND_FRIEND_CHAT_HISTORY);
         } else {
-            groupChat groupChat = new groupChat();
+            GroupChat groupChat = new GroupChat();
             groupChat.setGroupId(msgInfo.getChatId());
             groupChat.setSenderId(msgInfo.getSenderId());
             groupChat.setMsg(msgInfo.getMsg());
