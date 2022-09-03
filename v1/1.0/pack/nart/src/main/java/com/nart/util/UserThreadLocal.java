@@ -28,8 +28,4 @@ public class UserThreadLocal {
     public static void remove() {
         LOCAL.remove();
     }
-
-    public static void main(String[] args) {
-        System.out.println(new Date().getTime());
-    }
 }
