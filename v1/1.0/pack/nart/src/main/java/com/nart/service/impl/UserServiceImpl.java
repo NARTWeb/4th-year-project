@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
             user.setId(userId);
             user.setUserOnline(0);
             int i = UserDao.updateById(user);
+            dataCounterService.updateOnlineUserAmount(false)
             return i > 0;
         }
         return false;
@@ -65,8 +66,11 @@ public class UserServiceImpl implements UserService {
         user.setUserOnline(0);
         user.setAvatar("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png");
         int insert = UserDao.insert(user);
-        if (insert > 0)
+        if (insert > 0) {
+            int i = dataCounterService.updateUserAmount(true);
             return user;
+        }
+
         return null;
     }
 

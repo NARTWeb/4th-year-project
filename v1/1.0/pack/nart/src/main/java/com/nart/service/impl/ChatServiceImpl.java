@@ -8,6 +8,7 @@ import com.nart.dao.GroupDao;
 import com.nart.dao.UserDao;
 import com.nart.pojo.*;
 import com.nart.service.ChatService;
+import com.nart.service.DataCounterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +28,15 @@ public class ChatServiceImpl implements ChatService {
     @Autowired
     private GroupDao groupDao;
 
+    @Autowired
+    private DataCounterService dataCounterService;
+
 
 
     @Override
     public boolean sendFriendMsg(FriendChat friendChat) {
         int insert = FriendChatDao.insert(friendChat);
+        dataCounterService.updateMessageAmount(true);
         return insert>0;
     }
 
@@ -45,6 +50,7 @@ public class ChatServiceImpl implements ChatService {
         int userLevel = group.getUserLevel();
         groupChat.setLevel(userLevel);
         int insert = GroupChatDao.insert(groupChat);
+        dataCounterService.updateMessageAmount(true);
         return insert>0;
     }
 

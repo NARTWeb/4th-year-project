@@ -1,6 +1,7 @@
 package com.nart.service.impl;
 
 import com.nart.pojo.User;
+import com.nart.service.DataCounterService;
 import com.nart.service.LoginService;
 import com.nart.service.UserService;
 import com.nart.util.*;
@@ -29,6 +30,8 @@ public class LoginServiceImpl implements LoginService {
     private UserService userService;
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+    @Autowired
+    private DataCounterService dataCounterService;
 
     @Override
     public Result login(String uname, String pwd) {
@@ -43,7 +46,7 @@ public class LoginServiceImpl implements LoginService {
         String token = EncryptUtil.createToken(Long.parseLong(user.getId()));
 
         redisTemplate.opsForValue().set("TOKEN_" + token, GsonFormatter.toJsonString(user), 1, TimeUnit.DAYS);
-
+        dataCounterService.updateOnlineUserAmount(true);
         return Result.success(token);
     }
 

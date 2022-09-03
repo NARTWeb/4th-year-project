@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.pojo.Comment;
 import com.nart.pojo.Status;
 import com.nart.service.CommentService;
+import com.nart.service.DataCounterService;
 import com.nart.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class StatusServiceImpl implements StatusService {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private DataCounterService dataCounterService;
 
     @Override
     public List<Status> showStatusList(String sid, IPage page) {
@@ -41,12 +45,14 @@ public class StatusServiceImpl implements StatusService {
     @Override
     public boolean postStatus(Status status) {
         int insert = StatusDao.insert(status);
+        dataCounterService.updateStatusAmount(true);
         return insert>0;
     }
 
     @Override
     public boolean delStatus(String id) {
         int id1 = StatusDao.deleteById(id);
+        dataCounterService.updateStatusAmount(false);
         return id1>0;
     }
 

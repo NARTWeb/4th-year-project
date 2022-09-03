@@ -3,7 +3,7 @@ package com.nart.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.dao.FriendDao;
-import com.nart.dao.FriendReqDAO;
+import com.nart.dao.FriendReqDao;
 import com.nart.dao.StatusDao;
 import com.nart.dao.UserDao;
 import com.nart.pojo.Friend;
@@ -40,7 +40,7 @@ public class FriendServiceImpl implements FriendService {
     private UserService userService;
 
     @Autowired
-    private FriendReqDAO friendReqDAO;
+    private FriendReqDao friendReqDAO;
 
 
     @Override

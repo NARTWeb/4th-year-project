@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.nart.pojo.Comment;
 import com.nart.pojo.User;
 import com.nart.service.CommentService;
+import com.nart.service.DataCounterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private com.nart.dao.UserDao UserDao;
+
+    @Autowired
+    private DataCounterService dataCounterService;
 
     @Override
     public List<Comment> showCommentList(String statusId) {
@@ -42,6 +46,7 @@ public class CommentServiceImpl implements CommentService {
         Comment.setUserId(sid);
         Long createTime = 1212121L;
         Comment.setCreateDate(createTime);
+        dataCounterService.updateCommentAmount(true);
         return CommentDao.insert(Comment) > 0;
     }
 }
