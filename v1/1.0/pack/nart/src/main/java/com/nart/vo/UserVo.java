@@ -1,5 +1,6 @@
 package com.nart.vo;
 
+import com.nart.pojo.User;
 import lombok.Data;
 
 @Data
@@ -12,4 +13,8 @@ public class UserVo {
     private String birthday;
     private String phone;
     private String address;
+
+    public UserVo transfer(User user){
+
+    }
 }

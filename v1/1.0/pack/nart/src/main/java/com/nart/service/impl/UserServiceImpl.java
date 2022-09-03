@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
             user.setId(userId);
             user.setUserOnline(0);
             int i = UserDao.updateById(user);
-            dataCounterService.updateOnlineUserAmount(false)
+            dataCounterService.updateOnlineUserAmount(false);
             return i > 0;
         }
         return false;
