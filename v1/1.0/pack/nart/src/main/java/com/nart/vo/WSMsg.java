@@ -16,7 +16,8 @@ import lombok.Data;
 public class WSMsg {
     private String msg;
     private String sender;
-    private String senderType;
+    private String senderAvatar;
+    private String groupId;
     private String msgType;
     private String receiver;
     private String receiverType;

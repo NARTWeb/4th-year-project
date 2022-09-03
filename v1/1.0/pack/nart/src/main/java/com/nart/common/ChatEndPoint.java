@@ -81,10 +81,8 @@ public class ChatEndPoint {
             // set receivers
             if(receiverType.equals("friend")) {
                 receivers.add(receiver);
-                msg.setSenderType("friend");
             } else {
                 receivers.addAll(groupService.findAllMembers(receiver));
-                msg.setSenderType("group");
             }
 
             broadcastAllUsers(msg, receivers);

@@ -132,9 +132,7 @@ import {
 import { UserFilled } from "@element-plus/icons-vue";
 import { useI18n } from "vue-i18n";
 import { onMounted } from "vue";
-import { min } from "lodash";
 import { useRouter } from "vue-router";
-import { useChatStore } from '@/stores/chatStore';
 
 const router = useRouter();
 const props = defineProps({
@@ -151,9 +149,7 @@ const loading = ref(false);
 const nodata = ref(false);
 const pageN = ref(props.param.page.pageNum);
 const store = useUserStore();
-const chatStore = useChatStore();
 const { token } = storeToRefs(store);
-const { ws } = storeToRefs(chatStore);
 const minW = ref("60px");
 const btnSize = "default";
 var list = reactive([]);
@@ -484,6 +480,7 @@ function del(id) {
     .finally(() => {});
 }
 function toChat(member) {
+  member.newMsg = false;
   if (props.isFriend) {
     router.push({ name: "chatRoom", params: { id: "f" + member.id } });
   } else {
@@ -497,10 +494,28 @@ function toChat(member) {
     router.push({ name: "chatRoom", params: { id: "g" + member.id } });
   }
 }
+function noticeNewMsg(isFriend, id, isNew) {
+  if(isFriend) {
+    if(props.isFriend) {
+      for(let i=0; i<list.length; i++) {
+        if(list[i].id == id) {
+          list[i].newMsg == isNew;
+        }
+      }
+    }
+  } else {
+    if(!props.isFriend) {
+      for(let i=0; i<list.length; i++) {
+        if(list[i].id == id) {
+          list[i].newMsg == isNew;
+        }
+      }
+    }
+  }
+}
 onMounted(() => {
   if (props.isFriend) {
     bgColor.backgroundColor = "#fef0f0";
-    chatStore.setupWS();
   } else {
     bgColor.backgroundColor = "#faecd8";
     minW.value = "90px";

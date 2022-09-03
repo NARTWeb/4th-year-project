@@ -7,6 +7,6 @@ public class FriendVo {
     private String id;
     private String uname;
     private String avatar;
-    private  int state;
-
+    private Integer state;
+    private Boolean newMsg;
 }
