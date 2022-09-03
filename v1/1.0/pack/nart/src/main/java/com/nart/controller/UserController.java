@@ -11,6 +11,8 @@ import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
  * Project: pack
@@ -32,8 +34,8 @@ public class UserController {
     private LoginService loginService;
 
     @PutMapping("login")
-    public Result login(@RequestBody UserVo uInfo) {
-        return loginService.login(uInfo.getUname(), uInfo.getPwd());
+    public Result login(@RequestBody UserVo uInfo, HttpSession session) {
+        return loginService.login(uInfo.getUname(), uInfo.getPwd(), session);
     }
 
     @PutMapping("logout")
@@ -42,8 +44,8 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public Result register(@RequestBody UserVo uInfo){
-        return loginService.register(uInfo.getEmail(), uInfo.getUname(), uInfo.getPwd());
+    public Result register(@RequestBody UserVo uInfo, HttpSession session){
+        return loginService.register(uInfo.getEmail(), uInfo.getUname(), uInfo.getPwd(), session);
     }
 
     @GetMapping("info/{id}")

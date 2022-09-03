@@ -8,4 +8,6 @@ public class GroupVo {
     private String groupName;
     private String groupAvatar;
     private String notice;
+    private Integer state;
+    private Boolean newMsg;
 }

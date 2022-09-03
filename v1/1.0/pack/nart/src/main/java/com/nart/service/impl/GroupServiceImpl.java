@@ -166,5 +166,20 @@ public class GroupServiceImpl implements GroupService {
         return insert>0;
     }
 
+    @Override
+    public Set<String> findAllMembers(String gid) {
+        LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
+        lqw.eq(UserGroup::getGid,gid);
+
+        List<UserGroup> userGroups = userGroupDao.selectList(lqw);
+        Set<String> ids = new HashSet<>();
+        for (UserGroup record : userGroups) {
+            String uid = record.getUid();
+            ids.add(uid);
+        }
+
+        return ids;
+    }
+
 
 }

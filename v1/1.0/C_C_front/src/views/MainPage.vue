@@ -19,7 +19,12 @@
               @change="toSearch"
               :suffix-icon="Search"
             ></el-input>
-            <el-button :icon="Search" class="col2-btn" @click="toSearch" circle />
+            <el-button
+              :icon="Search"
+              class="col2-btn"
+              @click="toSearch"
+              circle
+            />
           </div>
           <div class="col3">
             <el-dropdown trigger="click">
@@ -41,15 +46,19 @@
                   <el-dropdown-item @click="checkStatus">{{
                     $t("main.menu.item2")
                   }}</el-dropdown-item>
-                  <el-dropdown-item v-if="friendShowAll" @click="showAllFriends">{{
-                    $t("main.menu.item3_hide")
-                  }}</el-dropdown-item>
+                  <el-dropdown-item
+                    v-if="friendShowAll"
+                    @click="showAllFriends"
+                    >{{ $t("main.menu.item3_hide") }}</el-dropdown-item
+                  >
                   <el-dropdown-item v-else @click="showAllFriends">{{
                     $t("main.menu.item3")
                   }}</el-dropdown-item>
-                  <el-dropdown-item v-if="groupShowAll" @click="showAllGroups">{{
-                    $t("main.menu.item4_hide")
-                  }}</el-dropdown-item>
+                  <el-dropdown-item
+                    v-if="groupShowAll"
+                    @click="showAllGroups"
+                    >{{ $t("main.menu.item4_hide") }}</el-dropdown-item
+                  >
                   <el-dropdown-item v-else @click="showAllGroups">{{
                     $t("main.menu.item4")
                   }}</el-dropdown-item>
@@ -104,6 +113,7 @@
                       isFriend
                       :showAll="friendShowAll"
                       :param="friendParam"
+                      ref="fnoticeNew"
                     ></contact-list>
                   </div>
                   <div class="main-bar" id="m2">
@@ -111,12 +121,13 @@
                       :isFriend="false"
                       :showAll="groupShowAll"
                       :param="groupParam"
+                      ref="gnoticeNew"
                     ></contact-list>
                   </div>
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
-                <router-view></router-view>
+                <router-view ref="rv" @fathre="wSend"></router-view>
               </el-main>
             </el-container>
           </el-main>
@@ -127,7 +138,7 @@
 </template>
 <script setup>
 import { onMounted, onUpdated, reactive, ref } from "vue";
-import  useUserStore  from "@/stores/userStore";
+import useUserStore from "@/stores/userStore";
 import { useFriendStore } from "@/stores/friendStore.js";
 import { storeToRefs } from "pinia";
 import { Search } from "@element-plus/icons-vue";
@@ -152,12 +163,12 @@ const pics = reactive([
   "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
 ]);
 
-
 const router = useRouter();
 const store = useUserStore();
 const Fstore = useFriendStore();
 const { name, avatar, token } = storeToRefs(store);
 
+var ws;
 var searchInput = ref("");
 var friendParam = reactive({
   page: {
@@ -171,11 +182,14 @@ var groupParam = reactive({
     pageNum: 1,
   },
 });
-var lang = 'zh';
+var lang = "zh";
 var friendShowAll = ref(false);
 var groupShowAll = ref(false);
 const { t } = useI18n();
 const { locale } = useI18n();
+const fnoticeNew = ref(null);
+const gnoticeNew = ref(null);
+const rv = ref(null);
 
 function searchF() {
   searchFriend(token, searchInput.value, friendParam.page)
@@ -184,7 +198,7 @@ function searchF() {
       } else {
         ElMessage({
           type: "error",
-          message: t("contactList.friend.ListError"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -202,9 +216,9 @@ function searchF() {
     .finally(() => {});
 }
 function changeLang() {
-  locale.value = lang
-  localStorage.setItem('lang', lang)
-  lang = lang == 'en' ? 'zh' : 'en';
+  locale.value = lang;
+  localStorage.setItem("lang", lang);
+  lang = lang == "en" ? "zh" : "en";
 }
 function showAllFriends() {
   friendShowAll.value = friendShowAll.value == true ? false : true;
@@ -219,7 +233,7 @@ function postStatus() {
   router.push({ name: "postStatus", params: {} });
 }
 function checkStatus() {
-  router.push({ name: "myStatus"});
+  router.push({ name: "myStatus" });
 }
 function editInfo() {
   router.push({ name: "editMyInfo", params: {} });
@@ -235,7 +249,7 @@ function toSearch() {
     Fstore.loadFirstList();
   }
   router.push({
-    name: "searchFriend"
+    name: "searchFriend",
   });
 }
 function menuClick(index) {
@@ -243,9 +257,49 @@ function menuClick(index) {
     name: index,
   });
 }
+function wSend(input) {
+  ws.send(JSON.stringify(input));
+}
 onMounted(() => {
+  ws = new WebSocket("ws://localhost/chat");
 
-})
+  ws.onopen = function () {};
+
+  ws.onmessage = function (evt) {
+    var dataStr = evt.data;
+
+    var res = JSON.parse(dataStr);
+    let rType = res.receiverType;
+    let gid = res.receiver;
+    let sid = res.sender;
+
+    if (rType == "friend") {
+      fnoticeNew.value.noticeNewMsg(true, sid, true);
+    } else {
+      gnoticeNew.value.noticeNewMsg(false, gid, true);
+    }
+
+    if(router.currentRoute.value.name == "chatRoom") {
+
+      let str = router.currentRoute.value.params.id;
+      let type = roomId[0];
+      let roomId = str.slice(1);
+      if(type == "f") {
+        if(sid == roomId && rType == "friend") {
+          fnoticeNew.value.noticeNewMsg(true, sid, false);
+          rv.value.receiveMsg(res);
+        }
+      } else {
+        if(gid == roomId && rType == "group") {
+          gnoticeNew.value.noticeNewMsg(false, gid, false);
+          rv.value.receiveMsg(res);
+        }
+      }
+    }
+  };
+
+  ws.onclose = function () {};
+});
 </script>
 <style scoped>
 .el-main {
@@ -315,11 +369,11 @@ onMounted(() => {
   min-width: 810px;
 }
 @media screen and (min-width: 660px) {
-.el-menu-demo {
-  height: 7vh;
-  min-height: 40px;
-  width: 100%;
-}
+  .el-menu-demo {
+    height: 7vh;
+    min-height: 40px;
+    width: 100%;
+  }
 }
 .menuItem {
   width: 25%;
@@ -369,39 +423,39 @@ onMounted(() => {
 #overall {
   min-height: 500px;
 }
-@media screen and (min-height:635px) {
+@media screen and (min-height: 635px) {
   #overall {
-  padding-top:20px;
-  padding-right:20px;
+    padding-top: 20px;
+    padding-right: 20px;
+  }
 }
-}
-@media screen and (max-height:634px) and (min-height:590px){
+@media screen and (max-height: 634px) and (min-height: 590px) {
   #overall {
-  padding-top:10px;
-  padding-right:10px;
+    padding-top: 10px;
+    padding-right: 10px;
+  }
 }
-}
-@media screen and (max-height:589px){
+@media screen and (max-height: 589px) {
   #overall {
-  padding-top:0px;
-  padding-right:0px;
+    padding-top: 0px;
+    padding-right: 0px;
+  }
 }
-}
-@media screen and (max-height:816px) and (min-height:727px){
+@media screen and (max-height: 816px) and (min-height: 727px) {
   .first-main {
-    padding-top:0;
+    padding-top: 0;
     margin-top: 0;
   }
 }
-@media screen and (max-height:726px) and (min-height:544px){
+@media screen and (max-height: 726px) and (min-height: 544px) {
   .first-main {
-    padding-top:0;
+    padding-top: 0;
     margin-top: -20px;
   }
 }
-@media screen and (max-height:543px){
+@media screen and (max-height: 543px) {
   .first-main {
-    padding-top:0;
+    padding-top: 0;
     margin-top: -30px;
   }
 }

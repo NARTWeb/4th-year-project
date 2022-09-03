@@ -39,13 +39,13 @@ public class ChatController {
         if(type.equals("friend")) {
             List<FriendChat> friendChats = chatService.showFriendHistory(chatId, new Page());
             if(friendChats == null) {
-                return Result.fail(ErrorCode.SHOW_FRIEND_CHAT_HISTORY);
+                return Result.fail(ErrorCode.SHOW_FRIEND_CHAT_HISTORY_ERROR);
             }
             return Result.success(friendChats);
         } else {
             List<GroupChat> groupChats = chatService.showGroupHistory(chatId, new Page());
             if(groupChats == null) {
-                return Result.fail(ErrorCode.SHOW_GROUP_CHAT_HISTORY);
+                return Result.fail(ErrorCode.SHOW_GROUP_CHAT_HISTORY_ERROR);
             }
             return Result.success(groupChats);
         }
@@ -64,7 +64,7 @@ public class ChatController {
             if(b) {
                 return Result.success(null);
             }
-            return Result.fail(ErrorCode.SEND_FRIEND_CHAT_HISTORY);
+            return Result.fail(ErrorCode.SEND_FRIEND_CHAT_HISTORY_ERROR);
         } else {
             GroupChat groupChat = new GroupChat();
             groupChat.setGroupId(msgInfo.getChatId());
@@ -76,8 +76,27 @@ public class ChatController {
             if(b) {
                 return Result.success(null);
             }
-            return Result.fail(ErrorCode.SEND_GROUP_CHAT_HISTORY);
+            return Result.fail(ErrorCode.SEND_GROUP_CHAT_HISTORY_ERROR);
         }
+    }
+
+    @PutMapping("leaveRoom/{roomId}/{isFriend}")
+    public Result leaveRoom(@PathVariable String roomId,
+                            @PathVariable Boolean isFriend) {
+        // roomId是 friendId 或 groupId
+        boolean b = false;
+        if(isFriend) {
+            // friend更新用户离开时间
+        } else {
+            // group更新用户离开时间
+        }
+        if(b) {
+            return Result.success(null);
+        }
+        if(isFriend) {
+            return Result.fail(ErrorCode.LEAVE_FRIEND_CHAT_ERROR);
+        }
+        return Result.fail(ErrorCode.LEAVE_GROUP_CHAT_ERROR);
     }
 
 }
