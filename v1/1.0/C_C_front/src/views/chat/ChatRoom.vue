@@ -30,12 +30,14 @@
 </template>
 <script setup>
 import { ElMessage } from "element-plus";
-import { ref, reactive, onMounted, onUpdated, onBeforeUnmount } from "vue";
+import { ref, reactive, onMounted, onUpdated, onBeforeUnmount, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { showGroupChatHistory, showFriendChatHistory } from "@/api/chat";
 import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
+import { sendGroupMsg, sendFriendMsg, leaveRoom} from "@/api/chat";
+
 import ChatMessage from "@/components/ChatMessage.vue";
 import ChatInputBox from "@/components/ChatInputBox.vue";
 import { format } from "@/utils/time.js";
@@ -58,6 +60,7 @@ const page = reactive({
   pageNum: 0,
   pageSize: 10,
 });
+const emit = defineEmits(["wSend"]);
 
 function tList() {
   if(msgList.length > 30) {
@@ -151,7 +154,17 @@ function load() {
   }
 }
 function wsSend(input, type) {
-  
+  let roomType = isGroup.value ? "group" : "friend";
+  let json = {
+    "msg": input,
+    "msgType": type,
+    "sender": token,
+    "senderName": name,
+    "senderAvatar": avatar,
+    "receiver": roomId.value,
+    "receiverType": roomType
+  };
+  emit("wSend", json);
 }
 function sendMsg(input, type) {
     let date = new Date();
@@ -172,9 +185,61 @@ function sendMsg(input, type) {
         msgType: type,
     }
     msgList.push(tempMsg);
+    wsSend(input, type);
+}
+function sendToBack(input, type) {
+  let msgInfo = {
+    chatId: roomId.value,
+    msg: input, 
+    msgType: type
+  };
+  let result;
+  if(isGroup.value) {
+    result = sendGroupMsg(token, msgInfo);
+  } else {
+    result = sendFriendMsg(token, msgInfo);
+  }
+  result.then((res) => {
+      if (res.data.success) {
+      } else {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+          showClose: true,
+          grouping: true,
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+        type: "error",
+        message: t("chatRoom.sendError"),
+        showClose: true,
+        grouping: true,
+      });
+      console.log(err);
+    })
+    .finally(() => {});
 }
 function receiveMsg(msgInfo) {
-
+  let date = new Date();
+  let tempMsg = {
+    msgId : "-1",
+    senderId: msgInfo.sender,
+    senderName: msgInfo.senderName,
+    senderAvatar: msgInfo.senderAvatar,
+    sentDate: {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+      hour: date.getHours(),
+      min: date.getMinutes() + 1,
+    },
+    isMe: false,
+    msg: msgInfo.msg,
+    msgType: msgInfo.msgType
+  }
+  msgList.push(tempMsg);
 }
 function addPic(img) {
   sendMsg(img, "img");
@@ -209,6 +274,30 @@ onUpdated(() => {
   setParam();
   msgList.splice(0, msgList.length);
   tList();
+});
+onBeforeUnmount(() => {
+  leaveRoom(token, roomId.value, isGroup.value)
+  .then((res) => {
+      if (res.data.success) {
+      } else {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+          showClose: true,
+          grouping: true,
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+        type: "error",
+        message: t("chatRoom.leaveError"),
+        showClose: true,
+        grouping: true,
+      });
+      console.log(err);
+    });
+
 });
 function toGroupInfo() {
   router.push({ name: "groupChatInfo", params: {} });

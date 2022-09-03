@@ -173,7 +173,9 @@ export default{
         friendLoadError: "加载好友失败",
         groupLoadError: "加载群组失败",
         roomTypeError: "判定聊天室类型失败",
-        LoadError: "加载失败"
+        LoadError: "加载失败",
+        sendError: "发送信息失败",
+        leaveError: "更新离开时间失败"
     },
     memberList: {
         add: "添加新朋友",

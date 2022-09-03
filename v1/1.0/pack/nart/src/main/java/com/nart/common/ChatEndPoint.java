@@ -74,6 +74,9 @@ public class ChatEndPoint {
         try {
             ObjectMapper mapper = new ObjectMapper();
             WSMsg msg = mapper.readValue(message, WSMsg.class);
+            String sid = msg.getSender();
+            sid = (String) EncryptUtil.checkToken(sid).get("userId");
+            msg.setSender(sid);
 
             Set<String> receivers = new HashSet<>();
             String receiverType = msg.getReceiverType();

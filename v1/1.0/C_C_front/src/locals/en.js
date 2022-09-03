@@ -173,7 +173,9 @@ export default{
         friendLoadError: "Load friend failed",
         groupLoadError: "Load group failed",
         roomTypeError: "Get room type failed",
-        LoadError: "Loading failed"
+        LoadError: "Loading failed",
+        sendError: "sending message failed",
+        leaveError: "updating leave time failed"
     },
     memberList: {
         add: "New Member Adding",
