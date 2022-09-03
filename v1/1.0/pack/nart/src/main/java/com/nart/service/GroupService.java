@@ -6,6 +6,7 @@ import com.nart.pojo.GroupInvite;
 import com.nart.pojo.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface GroupService {
 
@@ -28,4 +29,6 @@ public interface GroupService {
     boolean createGroup(String groupName,String uid);
 
     boolean joinGroup(String groupId);
+
+    Set<String> findAllMembers(String gid);
 }

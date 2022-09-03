@@ -35,7 +35,7 @@ public class EncryptUtil {
                 .signWith(SignatureAlgorithm.HS256, jwtToken) // assign token, key is jwtToken
                 .setClaims(claims) // use userID as body data
                 .setIssuedAt(new Date()) // set create time
-                .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 60 * 1000));// one day available
+                .setExpiration(new Date(System.currentTimeMillis() + 24L * 60 * 60 * 60 * 1000));// one day available
         String token = jwtBuilder.compact();
         return token;
     }

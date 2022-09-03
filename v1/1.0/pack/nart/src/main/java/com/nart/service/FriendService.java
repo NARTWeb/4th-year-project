@@ -25,4 +25,6 @@ public interface FriendService {
     boolean respFriendReq(String reqId, Boolean agree);
 
     List<User> searchNew(String name, PageVo pageVo);
+
+    List<Friend> findAllFriends(String uid);
 }

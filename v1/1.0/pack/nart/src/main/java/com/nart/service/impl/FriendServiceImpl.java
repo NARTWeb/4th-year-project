@@ -154,4 +154,11 @@ public class FriendServiceImpl implements FriendService {
         List<User> records = userIPage.getRecords();
         return records;
     }
+
+    @Override
+    public List<Friend> findAllFriends(String uid) {
+        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
+        lqw.select(Friend::getFid).eq(Friend::getUid, uid);
+        return friendDao.selectList(lqw);
+    }
 }

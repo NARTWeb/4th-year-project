@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -29,12 +30,12 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserService userService;
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private RedisUtil redisUtil;
     @Autowired
     private DataCounterService dataCounterService;
 
     @Override
-    public Result login(String uname, String pwd) {
+    public Result login(String uname, String pwd, HttpSession session) {
         if (StringUtils.isBlank(uname) || StringUtils.isBlank(pwd)) {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         }
@@ -44,8 +45,9 @@ public class LoginServiceImpl implements LoginService {
             return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_MATCH);
         }
         String token = EncryptUtil.createToken(Long.parseLong(user.getId()));
+        redisUtil.set("TOKEN_" + token, user, RedisUtil.DEFAULT_EXPIRE);
+        session.setAttribute("uid", "uid: " + user.getId());
 
-        redisTemplate.opsForValue().set("TOKEN_" + token, GsonFormatter.toJsonString(user), 1, TimeUnit.DAYS);
         dataCounterService.updateOnlineUserAmount(true);
         return Result.success(token);
     }
@@ -59,23 +61,23 @@ public class LoginServiceImpl implements LoginService {
         if (stringObjectMap == null) {
             return null;
         }
-        String userJson = redisTemplate.opsForValue().get("TOKEN_" + token);
-        if (StringUtils.isBlank(userJson)) {
+        User user = redisUtil.get("TOKEN_" + token, User.class);
+        if (user == null) {
             return null;
         }
-        User user = GsonFormatter.fromJsonToObj(userJson, User.class);
         return user;
     }
 
     @Override
     public Result logout(String token) {
-        redisTemplate.delete("TOKEN_" + token);
+        redisUtil.delete("TOKEN_" + token);
         userService.logout(UserThreadLocal.get().getId());
+        dataCounterService.updateOnlineUserAmount(false);
         return Result.success(null);
     }
 
     @Override
-    public Result register(String email, String uname, String pwd) {
+    public Result register(String email, String uname, String pwd, HttpSession session) {
         if (email.length() == 0 || uname.length() == 0 || pwd.length() == 0) {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         }
@@ -91,7 +93,11 @@ public class LoginServiceImpl implements LoginService {
         }
         String token = EncryptUtil.createToken(Long.parseLong(user1.getId()));
 
-        redisTemplate.opsForValue().set("TOKEN_" + token, GsonFormatter.toJsonString(user1), 1, TimeUnit.DAYS);
+        redisUtil.set("TOKEN_" + token, user1, RedisUtil.DEFAULT_EXPIRE);
+        session.setAttribute("uid", "uid: " + user1.getId());
+
+        dataCounterService.updateUserAmount(true);
+        dataCounterService.updateOnlineUserAmount(true);
         return Result.success(token);
     }
 }

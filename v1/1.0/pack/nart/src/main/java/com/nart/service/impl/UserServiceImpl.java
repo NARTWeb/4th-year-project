@@ -3,6 +3,8 @@ package com.nart.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.nart.dao.FriendDao;
+import com.nart.pojo.Friend;
 import com.nart.pojo.User;
 import com.nart.service.DataCounterService;
 import com.nart.service.UserService;
@@ -10,6 +12,8 @@ import com.nart.vo.PageVo;
 import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,7 +55,7 @@ public class UserServiceImpl implements UserService {
             user.setId(userId);
             user.setUserOnline(0);
             int i = UserDao.updateById(user);
-            dataCounterService.updateOnlineUserAmount(false)
+            dataCounterService.updateOnlineUserAmount(false);
             return i > 0;
         }
         return false;
