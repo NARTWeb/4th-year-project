@@ -9,6 +9,8 @@ import com.nart.dao.UserDao;
 import com.nart.pojo.*;
 import com.nart.service.ChatService;
 import com.nart.service.DataCounterService;
+import com.nart.util.RedisUtil;
+import com.nart.util.UserThreadLocal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +32,17 @@ public class ChatServiceImpl implements ChatService {
 
     @Autowired
     private DataCounterService dataCounterService;
-
+    @Autowired
+    private RedisUtil redisUtil;
 
 
     @Override
     public boolean sendFriendMsg(FriendChat friendChat) {
+
+//        检查权限
+//        String id = UserThreadLocal.get().getId();
+//        Object o = redisUtil.get(id);
+
         int insert = FriendChatDao.insert(friendChat);
         dataCounterService.updateMessageAmount(true);
         return insert>0;
