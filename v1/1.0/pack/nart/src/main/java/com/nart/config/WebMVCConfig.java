@@ -34,8 +34,8 @@ public class WebMVCConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 配置拦截的接口
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/comments/create/change")
-                .addPathPatterns("/articles/del")
-                .addPathPatterns("/articles/publish");
+                .addPathPatterns("/**/**")
+                .excludePathPatterns("/user/login")
+                .excludePathPatterns("/user/register");
     }
 }
