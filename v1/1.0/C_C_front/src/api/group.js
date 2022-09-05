@@ -1,14 +1,13 @@
 import req from "@/request";
 
-export function showGroupList(token, page, showAll) {
+export function showGroupList(token, page) {
     return req({
         headers: {'Authorization':token},
         method: 'get',
         url: '/group/list',
         data: {
             pageSize: page.pageSize,
-            pageNum: page.pageNum,
-            showAll
+            pageNum: page.pageNum
         }
     });
 }
@@ -26,38 +25,29 @@ export function showGroupInvitions(token, page) {
 }
 
 export function hideGroup(token, groupId) {
+    let state = 1;
     return req({
         headers: {'Authorization':token},
         method: 'put',
-        url: '/group/state',
-        data: {
-            groupId,
-            state: 1
-        }
+        url: `/group/state/${groupId}/${state}`,
     });
 }
 
 export function muteGroup(token, groupId) {
+    let state = 2;
     return req({
         headers: {'Authorization':token},
         method: 'put',
-        url: '/group/state',
-        data: {
-            groupId,
-            state: 2
-        }
+        url: `/group/state/${groupId}/${state}`,
     });
 }
 
 export function unsetGroup(token, groupId) {
+    let state = 0;
     return req({
         headers: {'Authorization':token},
         method: 'put',
-        url: '/group/state',
-        data: {
-            groupId,
-            state: 0
-        }
+        url: `/group/state/${groupId}/${state}`,
     });
 }
 
@@ -65,30 +55,22 @@ export function leaveGroup(token, groupId) {
     return req({
         headers: {'Authorization':token},
         method: 'delete',
-        url: '/group/del',
-        data: {
-            groupId
-        }
+        url: `/group/del/${groupId}`
     });
 }
 
-export function showMemberList(token, groupId, page) {
+export function showMemberList(token, groupId) {
     return req({
         headers: {'Authorization':token},
         method: 'get',
-        url: '/group/memberList',
-        data: {
-            groupId,
-            pageSize: page.pageSize,
-            pageNum: page.pageNum
-        }
+        url: `/group/memberList/${groupId}`,
     });
 }
 
 export function createNewGroup(token, groupName) {
     return req({
         headers: {'Authorization':token},
-        method: 'get',
+        method: 'post',
         url: '/group/create',
         data: {
             groupName
@@ -127,10 +109,6 @@ export function responseGroupInvite(token, inviteId, agree) {
     return req({
         headers: {'Authorization':token},
         method: 'put',
-        url: '/group/resp',
-        data: {
-            inviteId,
-            agree
-        }
+        url: `/group/resp/${inviteId}/${agree}`
     });
 }

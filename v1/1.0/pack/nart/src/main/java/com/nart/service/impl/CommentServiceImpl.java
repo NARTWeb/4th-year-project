@@ -1,55 +1,52 @@
 package com.nart.service.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.nart.dao.commentDao;
-import com.nart.dao.userDao;
-import com.nart.pojo.comment;
-import com.nart.pojo.user;
+import com.nart.pojo.Comment;
+import com.nart.pojo.User;
 import com.nart.service.CommentService;
-import org.apache.ibatis.annotations.Param;
+import com.nart.service.DataCounterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
 
     @Autowired
-    private commentDao CommentDao;
+    private com.nart.dao.CommentDao CommentDao;
 
     @Autowired
-    private userDao UserDao;
+    private com.nart.dao.UserDao UserDao;
+
+    @Autowired
+    private DataCounterService dataCounterService;
 
     @Override
-    public List<comment> showCommentList(String statusId) {
-        LambdaQueryWrapper<comment> lqw = new LambdaQueryWrapper<comment>();
+    public List<Comment> showCommentList(String statusId) {
+        LambdaQueryWrapper<Comment> lqw = new LambdaQueryWrapper<Comment>();
 
-        lqw.eq(comment::getStatusId, Integer.valueOf(statusId));
-        List<comment> comments = CommentDao.selectList(lqw);
-        for (comment comment : comments) {
-            Long userId = comment.getUserId();
-            user user = UserDao.selectById(userId);
+        lqw.eq(Comment::getStatusId, Integer.valueOf(statusId));
+        List<Comment> Comments = CommentDao.selectList(lqw);
+        for (Comment comment : Comments) {
+            String userId = comment.getUserId();
+            User user = UserDao.selectById(userId);
             String name = user.getName();
             comment.setUname(name);
         }
 
-        return comments;
+        return Comments;
     }
 
     @Override
-    public boolean postComment(String statusId, String msg, int sid) {
-        comment Comment = new comment();
+    public boolean postComment(String statusId, String msg, String sid) {
+        Comment Comment = new Comment();
         Comment.setMsg(msg);
-        Long status_id = Long.valueOf(statusId);
-        Comment.setStatusId(status_id);
-        Long s_id = (long) sid;
-        Comment.setUserId(s_id);
+        Comment.setStatusId(statusId);
+        Comment.setUserId(sid);
         Long createTime = 1212121L;
         Comment.setCreateDate(createTime);
-        return CommentDao.insert(Comment)>0;
+        dataCounterService.updateCommentAmount(true);
+        return CommentDao.insert(Comment) > 0;
     }
 }

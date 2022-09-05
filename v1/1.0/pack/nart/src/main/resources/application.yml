@@ -7,6 +7,13 @@ spring:
         url: jdbc:mysql://132.145.110.184:3306/c_c?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
         username: nart
         password: 1234
+    redis:
+        host: localhost
+        port: 6379
+    servlet:
+        multipart:
+            max-request-size: 20MB
+            max-file-size: 2MB
 
 
 #        关闭驼峰转换，因为使用@TableField()

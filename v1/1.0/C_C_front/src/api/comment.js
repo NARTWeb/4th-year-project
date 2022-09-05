@@ -4,10 +4,7 @@ export function showCommentList(token, statusId) {
     return req({
         headers: {'Authorization': token},
         method: 'get',
-        url: '/comment/list',
-        data: {
-            statusId
-        }
+        url: `/comment/list/${statusId}`
     })
 }
 
