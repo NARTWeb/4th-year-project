@@ -19,4 +19,6 @@ public interface ChatService {
     List<FriendChat> showFriendHistory(String Id, IPage page);
 
     List<GroupChat> showGroupHistory(String gId, IPage page);
+
+    boolean leaveRoom (String roomId, Boolean isF);
 }

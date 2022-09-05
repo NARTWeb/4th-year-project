@@ -87,8 +87,10 @@ public class ChatController {
         boolean b = false;
         if(isFriend) {
             // friend更新用户离开时间
+            boolean b1 = chatService.leaveRoom(roomId, isFriend);
         } else {
             // group更新用户离开时间
+            boolean b2 = chatService.leaveRoom(roomId, isFriend);
         }
         if(b) {
             return Result.success(null);

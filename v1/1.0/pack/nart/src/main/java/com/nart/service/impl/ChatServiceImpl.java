@@ -4,8 +4,10 @@ package com.nart.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
+import com.nart.dao.FriendDao;
 import com.nart.dao.GroupDao;
 import com.nart.dao.UserDao;
+import com.nart.dao.UserGroupDao;
 import com.nart.pojo.*;
 import com.nart.service.ChatService;
 import com.nart.service.DataCounterService;
@@ -14,6 +16,9 @@ import com.nart.util.UserThreadLocal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,6 +40,11 @@ public class ChatServiceImpl implements ChatService {
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private  FriendDao friendDao;
+
+    @Autowired
+    private UserGroupDao userGroupDao;
 
     @Override
     public boolean sendFriendMsg(FriendChat friendChat) {
@@ -104,6 +114,45 @@ public class ChatServiceImpl implements ChatService {
         List<GroupChat> records = iPage.getRecords();
         return records;
 
+    }
+
+    @Override
+    public boolean leaveRoom(String roomId, Boolean isF) {
+        if (isF){
+            Friend friend = friendDao.selectById(roomId);
+            long timeStamp = getTimeStamp();
+            friend.setLeaveTime(timeStamp);
+            int i = friendDao.updateById(friend);
+            return i>0;
+        }else {
+            LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
+            lqw.eq(UserGroup::getGid, roomId);
+            UserGroup userGroup = userGroupDao.selectOne(lqw);
+            String timeStamp = String.valueOf(getTimeStamp());
+            userGroup.setUserLevelTime(timeStamp);
+            int i = userGroupDao.updateById(userGroup);
+            return i>0;
+        }
+
+    }
+
+    public long getTimeStamp() {
+        String currentDate = getCurrentDate();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = new Date();
+        try {
+            date = sf.parse(currentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long s = Long.parseLong(String.valueOf(date.getTime()));
+        return s;
+    }
+
+    public static String getCurrentDate() {
+        Date d = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return sf.format(d);
     }
 
 
