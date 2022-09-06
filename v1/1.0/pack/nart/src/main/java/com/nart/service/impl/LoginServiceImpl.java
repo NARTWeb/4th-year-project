@@ -7,12 +7,10 @@ import com.nart.service.UserService;
 import com.nart.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
