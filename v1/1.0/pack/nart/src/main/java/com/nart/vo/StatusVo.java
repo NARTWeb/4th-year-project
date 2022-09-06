@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 
 @Service
@@ -55,7 +57,15 @@ public class StatusVo {
         statusVo.setLiked(status.getUserLike());
         statusVo.setMsg(status.getText());
 
-        // statusVo.setPics(); // status 表中pics不是List 问乔怎么改
+        // statusVo pics
+        String pics = status.getPics();
+        List<String> p = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(pics,";");
+        while(st.hasMoreElements()){
+            p.add(st.nextToken());
+        }
+        statusVo.setPics(p);
+
 
         List<Comment> commentList = status.getCommentList();
         List<CommentVo> comments = statusVo.getComments();

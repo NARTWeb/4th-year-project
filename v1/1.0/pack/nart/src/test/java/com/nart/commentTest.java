@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import java.text.ParseException;
+import java.util.StringTokenizer;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -105,6 +107,18 @@ public class commentTest {
         System.out.println(Fen);
         dateVo.setMin(Fen);
         System.out.println(dateVo);
+    }
+
+    @Test
+    public void status(){
+        String pics = "ewewdwd;ewewewew1";
+        List<String> p = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(pics,";");
+        while(st.hasMoreElements()){
+            p.add(st.nextToken());
+
+        }
+        System.out.println(p);
     }
 
 
