@@ -38,7 +38,10 @@ public class LoginServiceImpl implements LoginService {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         }
         String password = EncryptUtil.encryptPwd(pwd);
+        System.out.println("密码"+password);
         User user = userService.findUser(uname, password);
+        System.out.println(user);
+
         if (user == null) {
             return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_MATCH);
         }

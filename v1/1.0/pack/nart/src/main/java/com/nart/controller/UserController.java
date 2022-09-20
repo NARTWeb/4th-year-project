@@ -35,6 +35,7 @@ public class UserController {
 
     @PutMapping("login")
     public Result login(@RequestBody UserVo uInfo, HttpSession session) {
+        System.out.println(uInfo);
         return loginService.login(uInfo.getUname(), uInfo.getPwd(), session);
     }
 

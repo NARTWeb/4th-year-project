@@ -58,7 +58,7 @@ public class ChatController {
             friendChat.setReceiverId(msgInfo.getChatId());
             friendChat.setSenderId(msgInfo.getSenderId());
             friendChat.setMsg(msgInfo.getMsg());
-            friendChat.setType(msgInfo.getMsgType());
+            friendChat.setType(msgInfo.getType());
             friendChat.setDate(new Date().getTime());
             boolean b = chatService.sendFriendMsg(friendChat);
             if(b) {
@@ -70,7 +70,7 @@ public class ChatController {
             groupChat.setGroupId(msgInfo.getChatId());
             groupChat.setSenderId(msgInfo.getSenderId());
             groupChat.setMsg(msgInfo.getMsg());
-            groupChat.setType(msgInfo.getMsgType());
+            groupChat.setType(msgInfo.getType());
             groupChat.setDate(new Date().getTime());
             boolean b = chatService.sendGroupMsg(groupChat);
             if(b) {

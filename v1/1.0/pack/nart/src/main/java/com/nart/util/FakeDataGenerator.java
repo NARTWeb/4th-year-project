@@ -33,6 +33,9 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
  * @author: ZIRUI QIAO
  * @date: 2022/8/30 15:43
  */
+
+//补充缺失的代码
+
 @Component
 public class FakeDataGenerator {
     private final Faker faker = new Faker(Locale.CANADA);
@@ -447,6 +450,8 @@ public class FakeDataGenerator {
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:30
      */
+
+    //
     public void generateTestData(int num) {
         List<User> Users = generateUsers(num * 10);
         // write to database
