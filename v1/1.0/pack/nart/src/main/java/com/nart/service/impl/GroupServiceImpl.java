@@ -35,14 +35,29 @@ public class GroupServiceImpl implements GroupService {
         LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
         lqw.eq(UserGroup::getGid,gid);
 
-        IPage iPage = userGroupDao.selectPage(null, lqw);
-        List<UserGroup> records = iPage.getRecords();
+//        IPage iPage = userGroupDao.selectPage(null, lqw);
+//        List<UserGroup> records = iPage.getRecords();
+        List<UserGroup> userGroups = userGroupDao.selectList(lqw);
         List<User> Users = new ArrayList<>();
-        for (UserGroup record : records) {
-            String uid = record.getUid();
+        for (UserGroup userGroup : userGroups) {
+            String uid = userGroup.getUid();
             User user = userDao.selectById(uid);
-            Users.add(user);
+            String name = user.getName();
+            String avatar = user.getAvatar();
+            String id = user.getId();
+
+            User user1 = new User();
+            user1.setId(id);
+            user1.setAvatar(avatar);
+            user1.setName(name);
+            Users.add(user1);
         }
+
+//        for (UserGroup record : records) {
+//            String uid = record.getUid();
+//            User user = userDao.selectById(uid);
+//            Users.add(user);
+//        }
 
         return Users;
     }

@@ -61,10 +61,15 @@ public class StatusServiceImpl implements StatusService {
         int i;
         if(like){
             Status status = StatusDao.selectById(id);
-            status.setLikes(1);
+            status.setLikes(status.getLikes()+1);
+            i = StatusDao.updateById(status);
+            return i>0;
+        }else{
+            Status status = StatusDao.selectById(id);
+            status.setLikes(status.getLikes()-1);
             i = StatusDao.updateById(status);
             return i>0;
         }
-        return false;
+
     }
 }

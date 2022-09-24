@@ -107,6 +107,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<FriendReq> showReqList(IPage page, String sid) {
+        System.out.println(sid);
         LambdaQueryWrapper<FriendReq> lqw = new LambdaQueryWrapper<FriendReq>();
         lqw.eq(FriendReq::getReceiverId, sid);
         IPage iPage = friendReqDAO.selectPage(page, lqw);

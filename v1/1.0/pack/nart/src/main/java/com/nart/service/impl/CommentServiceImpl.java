@@ -44,7 +44,9 @@ public class CommentServiceImpl implements CommentService {
         Comment.setMsg(msg);
         Comment.setStatusId(statusId);
         Comment.setUserId(sid);
-        Long createTime = 1212121L;
+        long l = System.currentTimeMillis();
+        Long createTime = l;
+        System.out.println(l);
         Comment.setCreateDate(createTime);
         dataCounterService.updateCommentAmount(true);
         return CommentDao.insert(Comment) > 0;

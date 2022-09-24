@@ -1,6 +1,6 @@
 package com.nart.vo;
 
-import com.nart.dao.UserDao;
+//import com.nart.dao.UserDao;
 import com.nart.pojo.Comment;
 import com.nart.pojo.Status;
 import com.nart.pojo.User;
@@ -26,11 +26,11 @@ public class StatusVo {
     private int likes;
     private Boolean liked;
     private String msg;
-    private List<String> pics; // status 表中pics不是List 问乔怎么改
+    private List<String> pics;
     private List<CommentVo> comments;
 
-    @Autowired
-    private UserDao userDao;
+//    @Autowired
+//    private UserDao userDao;
 
     public StatusVo transfer(Status status){
         StatusVo statusVo = new StatusVo();
@@ -38,11 +38,11 @@ public class StatusVo {
         statusVo.setUid(status.getSenderId());
 
         String senderId = status.getSenderId();
-        User user = userDao.selectById(senderId);
-
-        statusVo.setUname(user.getName());
-
-        statusVo.setAvatar(user.getAvatar());
+//        System.out.println(senderId);
+//        User user = userDao.selectById(senderId);
+//        System.out.println(user);
+//        statusVo.setUname(user.getName());
+//        statusVo.setAvatar(user.getAvatar());
 
         //获取时间戳
         Long createDate = status.getCreateDate();
@@ -68,8 +68,8 @@ public class StatusVo {
 
 
         List<Comment> commentList = status.getCommentList();
-        List<CommentVo> comments = statusVo.getComments();
-
+//        List<CommentVo> comments = statusVo.getComments();
+        List<CommentVo> comments = new ArrayList<>();
 
         for (Comment comment : commentList) {
             CommentVo commentVo = new CommentVo();

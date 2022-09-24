@@ -35,7 +35,7 @@ public class UserController {
 
     @PutMapping("login")
     public Result login(@RequestBody UserVo uInfo, HttpSession session) {
-        System.out.println(uInfo);
+//        System.out.println(uInfo);
         return loginService.login(uInfo.getUname(), uInfo.getPwd(), session);
     }
 
@@ -51,6 +51,7 @@ public class UserController {
 
     @GetMapping("info/{id}")
     public Result showUserInfo(@PathVariable("id") String id) {
+        System.out.println(id);
         User user;
         if(id.isEmpty()) {
             user = userService.showUserInfo(UserThreadLocal.get().getId());
@@ -66,6 +67,7 @@ public class UserController {
     @GetMapping
     public Result showUnameAvatar() {
         User user = userService.showUnameAvatar(UserThreadLocal.get().getId());
+//        System.out.println(user);
         return Result.success(user);
     }
 

@@ -37,10 +37,11 @@ public class LoginServiceImpl implements LoginService {
         if (StringUtils.isBlank(uname) || StringUtils.isBlank(pwd)) {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         }
+//        System.out.println(pwd);
         String password = EncryptUtil.encryptPwd(pwd);
         System.out.println("密码"+password);
         User user = userService.findUser(uname, password);
-        System.out.println(user);
+//        System.out.println(user);
 
         if (user == null) {
             return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_MATCH);
