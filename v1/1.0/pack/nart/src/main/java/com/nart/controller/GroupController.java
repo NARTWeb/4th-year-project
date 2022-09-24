@@ -11,10 +11,13 @@ import com.nart.util.ErrorCode;
 import com.nart.util.Result;
 import com.nart.util.UserThreadLocal;
 import com.nart.vo.GroupVo;
+import com.nart.vo.InviteVo;
 import com.nart.vo.PageVo;
+import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,11 +40,12 @@ public class GroupController {
 
     @GetMapping("memberList/{groupId}")
     public Result showGroupMemberList(@PathVariable("groupId") String gid) {
-        List<User> Users = groupService.showGroupMebList(gid);
-        if(Users == null) {
+        List<UserVo> userVos = groupService.showGroupMebList(gid);
+        if(userVos == null) {
             Result.fail(ErrorCode.SHOW_GROUP_MEMBER_ERROR);
         }
-        return Result.success(Users);
+
+        return Result.success(userVos);
     }
 
     @PutMapping("changeInfo")
@@ -60,11 +64,11 @@ public class GroupController {
 
     @GetMapping("list")
     public Result showGroupList(@RequestBody PageVo page) {
-        List<Group> Groups = groupService.showGroupList(page.toIPage(UserGroup.class));
-        if(Groups == null) {
+        List<GroupVo> groupVos = groupService.showGroupList(page.toIPage(UserGroup.class));
+        if(groupVos == null) {
             Result.fail(ErrorCode.SHOW_GROUP_LIST_ERROR);
         }
-        return Result.success(Groups);
+        return Result.success(groupVos);
     }
 
     @DeleteMapping("del/{groupId}")
@@ -88,11 +92,14 @@ public class GroupController {
 
     @GetMapping("inviteList")
     public Result showInviteList(@RequestBody PageVo page) {
-        List<GroupInvite> GroupInvites = groupService.showInviteList(page.toIPage(GroupInvite.class));
-        if(GroupInvites == null) {
+        List<InviteVo> inviteVos = groupService.showInviteList(page.toIPage(GroupInvite.class));
+
+
+        if(inviteVos == null) {
             Result.fail(ErrorCode.SHOW_GROUP_INVITE_LIST_ERROR);
         }
-        return Result.success(GroupInvites);
+
+        return Result.success(inviteVos);
     }
 
     @PostMapping("send")

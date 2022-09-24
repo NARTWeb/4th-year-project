@@ -37,17 +37,18 @@ public class ChatController {
     public Result showHistory(@PathVariable String type,
                               @PathVariable String chatId) {
         if(type.equals("friend")) {
-            List<FriendChat> friendChats = chatService.showFriendHistory(chatId, new Page());
-            if(friendChats == null) {
+            List<MessageVo> messageVos = chatService.showFriendHistory(chatId, new Page());
+
+            if(messageVos == null) {
                 return Result.fail(ErrorCode.SHOW_FRIEND_CHAT_HISTORY_ERROR);
             }
-            return Result.success(friendChats);
+            return Result.success(messageVos);
         } else {
-            List<GroupChat> groupChats = chatService.showGroupHistory(chatId, new Page());
-            if(groupChats == null) {
+            List<MessageVo> messageVos = chatService.showGroupHistory(chatId, new Page());
+            if(messageVos == null) {
                 return Result.fail(ErrorCode.SHOW_GROUP_CHAT_HISTORY_ERROR);
             }
-            return Result.success(groupChats);
+            return Result.success(messageVos);
         }
     }
 

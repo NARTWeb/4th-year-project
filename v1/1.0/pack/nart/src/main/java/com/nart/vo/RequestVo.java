@@ -16,19 +16,20 @@ public class RequestVo {
     private String friendName;
     private String friendAvatar;
     private String senderName;
-    @Autowired
-    private UserDao userDao;
+
 
     public RequestVo transfer(FriendReq friendReq){
         RequestVo requestVo = new RequestVo();
         requestVo.setId(friendReq.getId());
         requestVo.setFriendId(friendReq.getReceiverId());
         requestVo.setMsg(friendReq.getMsg());
-        User user = userDao.selectById(friendReq.getReceiverId());
-        requestVo.setFriendName(user.getName());
-        requestVo.setFriendAvatar(user.getAvatar());
-        User user1 = userDao.selectById(friendReq.getSenderId());
-        requestVo.setSenderName(user1.getName());
+
+
+
+
+        ;
+
+
         return requestVo;
     }
 

@@ -83,6 +83,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User showUserInfo(String userId) {
         User user = UserDao.selectById(userId);
+
         return user;
     }
 

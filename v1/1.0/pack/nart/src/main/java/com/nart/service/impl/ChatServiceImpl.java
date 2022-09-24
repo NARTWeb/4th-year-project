@@ -12,12 +12,13 @@ import com.nart.pojo.*;
 import com.nart.service.ChatService;
 import com.nart.service.DataCounterService;
 import com.nart.util.RedisUtil;
-import com.nart.util.UserThreadLocal;
+import com.nart.vo.MessageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -92,18 +93,34 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<FriendChat> showFriendHistory(String Id, IPage page) {
+    public List<MessageVo> showFriendHistory(String Id, IPage page) {
         LambdaQueryWrapper<FriendChat> lqw = new LambdaQueryWrapper<FriendChat>();
         lqw.eq(FriendChat::getSenderId, Id).or().eq(FriendChat::getReceiverId, Id);
         lqw.orderBy(true,false, FriendChat::getDate);
 
         IPage iPage = FriendChatDao.selectPage(page, lqw);
         List<FriendChat> records = iPage.getRecords();
-        return records;
+
+        MessageVo messageVo = new MessageVo();
+        List<MessageVo> messageVos = new ArrayList<>();
+
+        for (FriendChat record : records) {
+            MessageVo ftransfer = messageVo.Ftransfer(record);
+
+            User user = userDao.selectById(record.getSenderId());
+//            System.out.println(user);
+            if(user!=null){
+                ftransfer.setSenderName(user.getName());
+                ftransfer.setSenderAvatar(user.getAvatar());
+            }
+
+            messageVos.add(ftransfer);
+        }
+        return messageVos;
     }
 
     @Override
-    public List<GroupChat> showGroupHistory(String gId, IPage page) {
+    public List<MessageVo> showGroupHistory(String gId, IPage page) {
 
         LambdaQueryWrapper<GroupChat> lqw = new LambdaQueryWrapper<GroupChat>();
         lqw.eq(GroupChat::getGroupId, gId);
@@ -112,7 +129,24 @@ public class ChatServiceImpl implements ChatService {
 
         IPage iPage = GroupChatDao.selectPage(page, lqw);
         List<GroupChat> records = iPage.getRecords();
-        return records;
+
+        MessageVo messageVo = new MessageVo();
+        List<MessageVo> messageVos = new ArrayList<>();
+
+        for (GroupChat record : records) {
+            MessageVo ftransfer = messageVo.Gtransfer(record);
+
+            User user = userDao.selectById(record.getSenderId());
+            if (user != null) {
+                ftransfer.setSenderName(user.getName());
+                ftransfer.setSenderAvatar(user.getAvatar());
+            }
+
+
+            messageVos.add(ftransfer);
+        }
+
+        return messageVos;
 
     }
 

@@ -6,12 +6,12 @@ import com.nart.dao.GroupDao;
 import com.nart.dao.GroupInviteDao;
 import com.nart.dao.UserDao;
 import com.nart.dao.UserGroupDao;
-import com.nart.pojo.Group;
-import com.nart.pojo.GroupInvite;
-import com.nart.pojo.User;
-import com.nart.pojo.UserGroup;
+import com.nart.pojo.*;
 import com.nart.service.GroupService;
 import com.nart.util.UserThreadLocal;
+import com.nart.vo.GroupVo;
+import com.nart.vo.InviteVo;
+import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class GroupServiceImpl implements GroupService {
     private GroupInviteDao groupInviteDao;
 
     @Override
-    public List<User> showGroupMebList(String gid) {
+    public List<UserVo> showGroupMebList(String gid) {
         LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
         lqw.eq(UserGroup::getGid,gid);
 
@@ -59,7 +59,14 @@ public class GroupServiceImpl implements GroupService {
 //            Users.add(user);
 //        }
 
-        return Users;
+        UserVo userVo = new UserVo();
+        List<UserVo> userVos = new ArrayList<>();
+        for (User user : Users) {
+            UserVo transfer = userVo.transfer(user);
+            userVos.add(transfer);
+        }
+
+        return userVos;
     }
 
     @Override
@@ -69,11 +76,19 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Group> showGroupList(IPage page) {
+    public List<GroupVo> showGroupList(IPage page) {
+        LambdaQueryWrapper<Group> lqw = new LambdaQueryWrapper<Group>();
+        lqw.orderBy(true,false, Group::getUserLevel);
 
-        IPage iPage = groupDao.selectPage(page, null);
+        IPage iPage = groupDao.selectPage(page, lqw);
         List<Group> records = iPage.getRecords();
-        return records;
+        List<GroupVo> groupVos = new ArrayList<>();
+        GroupVo groupVo = new GroupVo();
+        for (Group record : records) {
+            GroupVo transfer = groupVo.transfer(record);
+            groupVos.add(transfer);
+        }
+        return groupVos;
     }
 
     @Override
@@ -99,14 +114,37 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<GroupInvite> showInviteList(IPage page) {
+    public List<InviteVo> showInviteList(IPage page) {
         String id = UserThreadLocal.get().getId();
         LambdaQueryWrapper<GroupInvite> lqw = new LambdaQueryWrapper<GroupInvite>();
         lqw.eq(GroupInvite::getReceiverId,id);
+        lqw.orderBy(true,false, GroupInvite::getDate);
 
         IPage iPage = groupInviteDao.selectPage(page, lqw);
         List<GroupInvite> records = iPage.getRecords();
-        return records;
+
+        InviteVo inviteVo = new InviteVo();
+        List<InviteVo> inviteVos =  new ArrayList<>();
+
+
+        for (GroupInvite record : records) {
+            InviteVo transfer = inviteVo.transfer(record);
+
+            Group group = groupDao.selectById(record.getGroupId());
+            transfer.setGroupName(group.getGroupName());
+            transfer.setReceiverId(record.getReceiverId());
+            transfer.setGroupAvatar(group.getAvatar());
+
+
+            User user = userDao.selectById(record.getSenderId());
+            transfer.setSenderName(user.getName());
+
+
+            inviteVos.add(transfer);
+        }
+
+
+        return inviteVos;
     }
 
     @Override

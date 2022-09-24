@@ -2,6 +2,7 @@ package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.nart.pojo.Comment;
+import com.nart.pojo.Status;
 import com.nart.pojo.User;
 import com.nart.service.CommentService;
 import com.nart.service.DataCounterService;
@@ -27,6 +28,8 @@ public class CommentServiceImpl implements CommentService {
         LambdaQueryWrapper<Comment> lqw = new LambdaQueryWrapper<Comment>();
 
         lqw.eq(Comment::getStatusId, Integer.valueOf(statusId));
+        lqw.orderBy(true,false, Comment::getCreateDate);
+
         List<Comment> Comments = CommentDao.selectList(lqw);
         for (Comment comment : Comments) {
             String userId = comment.getUserId();

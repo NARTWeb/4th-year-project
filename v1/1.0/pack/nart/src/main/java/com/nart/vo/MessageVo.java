@@ -19,19 +19,18 @@ public class MessageVo {
     private String senderAvatar;
     private DateVo sendDate;
     private String msg;
-    @Autowired
-    private UserDao userDao;
 
-    public MessageVo FriendChat_transfer(FriendChat friendChat){
+
+    public MessageVo Ftransfer(FriendChat friendChat){
         MessageVo messageVo = new MessageVo();
         messageVo.setMsgId(String.valueOf(friendChat.getId()));
         messageVo.setType(friendChat.getType());
         messageVo.setChatId(friendChat.getReceiverId());
         messageVo.setSenderId(friendChat.getSenderId());
-        User user = userDao.selectById(friendChat.getSenderId());
 
-        messageVo.setSenderName(user.getName());
-        messageVo.setSenderAvatar(user.getAvatar());
+
+
+
         DateVo dateVo = new DateVo();
         DateVo dateToString = dateVo.getDateToString(friendChat.getDate());
         messageVo.setSendDate(dateToString);
@@ -41,15 +40,15 @@ public class MessageVo {
         return messageVo;
     }
 
-    public MessageVo GroupChat_transfer(GroupChat groupChat){
+    public MessageVo Gtransfer(GroupChat groupChat){
         MessageVo messageVo = new MessageVo();
         messageVo.setMsgId(String.valueOf(groupChat.getId()));
         messageVo.setType(groupChat.getType());
         messageVo.setChatId(groupChat.getGroupId());
         messageVo.setSenderId(groupChat.getSenderId());
-        User user = userDao.selectById(groupChat.getSenderId());
-        messageVo.setSenderName(user.getName());
-        messageVo.setSenderAvatar(user.getAvatar());
+//        User user = userDao.selectById(groupChat.getSenderId());
+//        messageVo.setSenderName(user.getName());
+//        messageVo.setSenderAvatar(user.getAvatar());
         DateVo dateVo = new DateVo();
         DateVo dateToString = dateVo.getDateToString(groupChat.getDate());
         messageVo.setSendDate(dateToString);

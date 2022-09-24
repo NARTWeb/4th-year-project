@@ -4,6 +4,8 @@ package com.nart.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.pojo.Comment;
+import com.nart.pojo.GroupChat;
+import com.nart.pojo.GroupInvite;
 import com.nart.pojo.Status;
 import com.nart.service.CommentService;
 import com.nart.service.DataCounterService;
@@ -28,6 +30,7 @@ public class StatusServiceImpl implements StatusService {
     public List<Status> showStatusList(String sid, IPage page) {
         LambdaQueryWrapper<Status> lqw = new LambdaQueryWrapper<Status>();
         lqw.eq(Status::getSenderId, sid);
+        lqw.orderBy(true,false, Status::getCreateDate);
         IPage iPage = StatusDao.selectPage(page, lqw);
         List<Status> records = iPage.getRecords();
         for (Status record : records) {

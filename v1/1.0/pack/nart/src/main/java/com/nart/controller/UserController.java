@@ -61,14 +61,18 @@ public class UserController {
         if(user == null) {
             Result.fail(ErrorCode.USER_NOT_EXIST);
         }
-        return Result.success(user);
+        UserVo userVo = new UserVo();
+        UserVo transfer = userVo.transfer(user);
+        return Result.success(transfer);
     }
 
     @GetMapping
     public Result showUnameAvatar() {
         User user = userService.showUnameAvatar(UserThreadLocal.get().getId());
 //        System.out.println(user);
-        return Result.success(user);
+        UserVo userVo = new UserVo();
+        UserVo transfer = userVo.transfer(user);
+        return Result.success(transfer);
     }
 
     @PutMapping("changeInfo")

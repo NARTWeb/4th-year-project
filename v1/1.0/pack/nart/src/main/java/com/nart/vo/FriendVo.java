@@ -17,8 +17,8 @@ public class FriendVo {
     private Integer state;
     private Boolean newMsg;
 
-    @Autowired
-    private UserDao userDao;
+//    @Autowired
+//    private UserDao userDao;
 
     public FriendVo transfer(Friend friend){
         FriendVo friendVo = new FriendVo();
@@ -27,8 +27,10 @@ public class FriendVo {
         friendVo.setFname(friend.getName());
         friendVo.setState(Integer.valueOf(friend.getState()));
         friendVo.setNewMsg(friend.getNewMessage());
-        User user = userDao.selectById(friend.getUid());
-        friendVo.setUname(user.getName());
+
+
+//        User user = userDao.selectById(friend.getUid());
+//        friendVo.setUname(user.getName());
         return friendVo;
 
     }

@@ -21,23 +21,19 @@ public class InviteVo {
     private String groupAvatar;
     private String senderName;
     private String receiverId;
-    @Autowired
-    private GroupDao groupDao;
-    @Autowired
-    private UserDao userDao;
+//    @Autowired
+//    private GroupDao groupDao;
+//    @Autowired
+//    private UserDao userDao;
 
     public InviteVo transfer(GroupInvite groupInvite){
         InviteVo inviteVo = new InviteVo();
         inviteVo.setId(groupInvite.getId());
         inviteVo.setGroupId(groupInvite.getGroupId());
         inviteVo.setMsg(groupInvite.getMsg());
-        String groupId = groupInvite.getGroupId();
-        Group group = groupDao.selectById(groupId);
-        inviteVo.setGroupName(group.getGroupName());
-        inviteVo.setReceiverId(groupInvite.getReceiverId());
-        inviteVo.setGroupAvatar(group.getAvatar());
-        User user = userDao.selectById(groupInvite.getSenderId());
-        inviteVo.setSenderName(user.getName());
+
+//        User user = userDao.selectById(groupInvite.getSenderId());
+//        inviteVo.setSenderName(user.getName());
 
         return inviteVo;
     }
