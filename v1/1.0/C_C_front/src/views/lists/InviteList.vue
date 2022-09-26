@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-scrollbar height="75vh" id="all">
-      <ul v-infinite-scroll="testList" class="infinite-list">
+      <ul v-infinite-scroll="searchReqList" class="infinite-list">
         <li v-for="req in inviteList" :key="req.id">
           <acceptable-item
             :avatar="req.groupAvatar"
@@ -11,8 +11,8 @@
             :button-label1="t('inviteList.accept')"
             :button-label2="t('inviteList.reject')"
             :id="req.id"
-            @accept="acceptf"
-            @reject="rejectf"
+            @accept="acceptFun"
+            @reject="rejectFun"
           ></acceptable-item>
         </li>
       </ul>
@@ -107,7 +107,7 @@ function rejectf(id) {
 function searchReqList() {
   if (!nodata.value && !loading.value) {
     loading.value = true;
-    showFriendRequests(token, page)
+    showGroupInvitions(token, page)
       .then((res) => {
         if (res.data.success) {
           if (res.data.data > 0) {
@@ -119,7 +119,7 @@ function searchReqList() {
         } else {
           ElMessage({
             type: "error",
-            message: t("inviteList.loadError"),
+            message: res.data.msg,
             showClose: true,
             grouping: true,
           });
@@ -135,21 +135,21 @@ function searchReqList() {
         console.log(err);
       })
       .finally(() => {
-        this.loading.value = false;
+        loading.value = false;
       });
   }
 }
 function acceptFun(id) {
   for (let i = 0; i < inviteList.length; i++) {
     if (id == inviteList[i].id) {
-      responseFriendReq(token, id, true)
+      responseGroupInvite(token, id, true)
         .then((res) => {
           if (res.data.success) {
             inviteList.splice(i, 1);
           } else {
             ElMessage({
               type: "error",
-              message: t("inviteList.acceptError"),
+              message: res.data.msg,
               showClose: true,
               grouping: true,
             });
@@ -173,14 +173,14 @@ function acceptFun(id) {
 function rejectFun(id) {
   for (let i = 0; i < inviteList.length; i++) {
     if (id == inviteList[i].id) {
-      responseFriendReq(token, id, false)
+      responseGroupInvite(token, id, false)
         .then((res) => {
           if (res.data.success) {
             inviteList.splice(i, 1);
           } else {
             ElMessage({
               type: "error",
-              message: t("inviteList.rejectError"),
+              message: res.data.msg,
               showClose: true,
               grouping: true,
             });

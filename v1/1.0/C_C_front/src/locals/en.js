@@ -69,8 +69,6 @@ export default{
     },
     chatInputBox: {
         placeHolder: 'Please Input',
-
-
         uploadPicError: 'Upload Picture Fail',
         send: 'Send',
         chat: 'Say something here...',
@@ -96,7 +94,8 @@ export default{
     },
     myStatusList: {
         loadError: "fail to load statuses",
-        toEnd: "This is the End!"
+        toEnd: "This is the End!",
+        delError: "Fail to delete the status"
     },
     infoItem: {
         title: "Changing Password",
@@ -128,7 +127,7 @@ export default{
         changeAvatar: "Group Avatar change successfully",
         changeAvatarError: "Group Avatar changed failed",
         addAvatar: "change Avatar",
-        groupAvatar: "Group Avatat",
+        groupAvatar: "Group Avatar",
         groupMember: "Group Member",
         groupName: "Group Name",
         importantNotice: "Important Notice",

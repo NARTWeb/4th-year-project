@@ -103,7 +103,9 @@
         </div>
       </div>
     </div>
-    <PopWinFriendList :dialog-visible="dialogFormVisible"></PopWinFriendList>
+    <PopWinFriendList :dialog-visible="dialogFormVisible" :list="inviteList"
+      @closeWin="closePop"
+      @addFun="addToList"></PopWinFriendList>
   </div>
 </template>
 <script setup>
@@ -120,6 +122,7 @@ import { Plus, Minus } from "@element-plus/icons-vue";
 import { changeGroupInfo } from "@/api/group";
 import { uploadPic } from "@/api/upload";
 import PopWinFriendList from "@/views/searchAndCreate/PopWinFriendList.vue";
+import { sendGroupInvite } from "@/api/group";
 
 const store = useUserStore();
 const { token } = storeToRefs(store);
@@ -130,12 +133,16 @@ const gAvatar = ref(store.getGroupAvatar);
 const { t } = useI18n();
 const counter = ref(0);
 const memberList = reactive([]);
+const inviteList = reactive([]);
 var imgParent = ref("circle");
 const uploadRef = ref("");
 const dialogFormVisible = ref(false);
 
 function toPopWin() {
   dialogFormVisible.value = true;
+}
+function closePop() {
+  dialogFormVisible.value = false;
 }
 function test() {
   const testList = [
@@ -232,7 +239,7 @@ function uploadFun() {
       } else {
         ElMessage({
           type: "error",
-          message: t("chatInputBox.uploadPicError"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -256,7 +263,7 @@ function getMember() {
       } else {
         ElMessage({
           type: "error",
-          message: t("groupSetting.getMemberError"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -298,14 +305,14 @@ function changeInfo(successMsg, ErrorMsg) {
       if (res.data.success) {
         ElMessage({
           type: "success",
-          message: t("groupSetting.changeSucceed"),
+          message: successMsg,
           showClose: true,
           grouping: true,
         });
       } else {
         ElMessage({
           type: "error",
-          message: t("groupSetting.changeFailed"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -314,7 +321,7 @@ function changeInfo(successMsg, ErrorMsg) {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: t("groupSetting.changeFailed"),
+        message: ErrorMsg,
         showClose: true,
         grouping: true,
       });
@@ -330,11 +337,39 @@ function onDel() {
     return;
   }
 }
+function addToList(obj) {
+  inviteList.push(obj);
+  let inviteInfo = {
+      groupId: gId.value,
+      receiverId: obj.id,
+      message: "",
+    };
+    sendGroupInvite(token, inviteInfo)
+      .then((res) => {
+        if (!res.data.success) {
+          ElMessage({
+            type: "error",
+            message: res.data.msg,
+            showClose: true,
+            grouping: true,
+          });
+        }
+      })
+      .catch((err) => {
+        ElMessage({
+          type: "error",
+          message: t("createGroup.inviteError"),
+          showClose: true,
+          grouping: true,
+        });
+        console.log(err);
+      });
+}
 function showHover() {
   alert("hover");
 }
 onMounted(() => {
-  test();
+  getMember();
 });
 </script>
 <style scoped>
@@ -359,6 +394,11 @@ onMounted(() => {
   justify-content: flex-start;
   margin-left: 5vw;
   margin-right: 20px;
+}
+@media screen and (min-width: 1100px) {
+  .member {
+    width: 60vw;
+  }
 }
 @media screen and (min-height: 800px) {
   .member {
@@ -411,6 +451,8 @@ onMounted(() => {
   background-color: bisque;
   padding: 10px;
   border-radius: 20px;
+  min-width: 300px;
+  width: 100%;
 }
 .member-scroll-bar {
   width: 50vw;

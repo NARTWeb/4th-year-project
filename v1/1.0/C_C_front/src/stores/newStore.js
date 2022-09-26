@@ -23,7 +23,7 @@ export const useNewStore = defineStore("newFriend", {
     };
   },
   actions: {
-    tList() {
+    loadNewFriends() {
       if (!this.loading && !this.nodata) {
         this.loading = true;
         showFriendRequests(token, this.searchHistory, this.page)
@@ -72,7 +72,7 @@ export const useNewStore = defineStore("newFriend", {
       }
       this.loadNewFriends();
     },
-    loadNewFriends() {
+    tList() {
       let tempName = this.searchHistory;
       for (let i = 0; i < 7; i++) {
         let test = [

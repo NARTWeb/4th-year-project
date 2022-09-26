@@ -154,7 +154,7 @@ export default {
           pwd: pwd,
           email: em,
         }
-        this.store.login(user);
+        this.store.register(user);
         this.$router.push('/');
       }
     },

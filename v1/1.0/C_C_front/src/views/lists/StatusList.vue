@@ -1,7 +1,7 @@
 <template>
   <div id="larger-all">
     <el-scrollbar height="75vh" id="all">
-      <ul v-infinite-scroll="tList" class="infinite-list">
+      <ul v-infinite-scroll="load" class="infinite-list">
         <li v-for="status in statusList" :key="status.statusId">
           <status-item
             :statusId="status.statusId"
@@ -10,8 +10,8 @@
             :message="status.msg"
             :pictures="status.pics"
             :comments="status.comments"
-            :heart="status.liked"
-            :heartNum="status.likes"
+            :heart="status.heart"
+            :heartNum="status.heartNum"
             :date="status.createDate"
             :uid="status.uid"
           ></status-item>
@@ -48,8 +48,8 @@ function tList() {
     nodata.value = true;
     return;
   }
-  const test = [
-    {
+  for (let i = 0; i < 5; i++) {
+    const test = {
       statusId: counter.value.toString(),
       avatar:
         "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
@@ -66,37 +66,37 @@ function tList() {
       ],
       comments: [
         {
-          id: (1 + counter + 10).toString(),
+          id: (1 + counter.value + 10).toString(),
           uname: "respName",
           msg: "this is a response",
           date: "2002/09/18",
         },
         {
-          id: (2 + counter + 10).toString(),
+          id: (2 + counter.value + 10).toString(),
           uname: "respName",
           msg: "this is a response",
           date: "2002/09/18",
         },
         {
-          id: (3 + counter + 10).toString(),
+          id: (3 + counter.value + 10).toString(),
           uname: "respName",
           msg: "this is a response",
           date: "2002/09/18",
         },
         {
-          id: (4 + counter + 10).toString(),
+          id: (4 + counter.value + 10).toString(),
           uname: "respName",
           msg: "this is a response",
           date: "2002/09/18",
         },
         {
-          id: (5 + counter + 10).toString(),
+          id: (5 + counter.value + 10).toString(),
           uname: "respName",
           msg: "this is a response",
           date: "2002/09/18",
         },
         {
-          id: (6 + counter + 10).toString(),
+          id: (6 + counter.value + 10).toString(),
           uname: "respName",
           msg: "this is a response",
           date: "2002/09/18",
@@ -106,10 +106,8 @@ function tList() {
       heartNum: 100,
       createDate: "2022/09/10",
       uid: "hdsjakdhsa",
-    },
-  ];
-  for (let i = 0; i < 5; i++) {
-    statusList.push(...test);
+    };
+    statusList.push(test);
     counter.value += 1;
   }
 }
@@ -144,12 +142,13 @@ function load() {
         console.log(err);
       })
       .finally(() => {
-        this.loading.value = false;
+        loading.value = false;
       });
   }
 }
 </script>
 <style scoped>
+@import url("@/assets/css/iconfont.css");
 #larger-all {
   padding: 0;
   margin: -20px 0;

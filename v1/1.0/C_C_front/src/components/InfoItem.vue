@@ -68,83 +68,84 @@ const emit = defineEmits(["changeFun", "changePwd"]);
 const props = defineProps({
   isPwd: Boolean,
   label: String,
+  lb: String,
   value: String,
   reg: RegExp,
   canChange: Boolean,
   // matchFormat: String,
 });
-var v = props.value;
+var v = ref(props.value);
 const input = computed({
   get() {
-    return v;
+    return v.value;
   },
   set(newValue) {
-    v = newValue.trim();
+    v.value = newValue.trim();
   }
 });
-var oldP = "";
+var oldP = ref("");
 const oldPwd = computed({
   get() {
-    return oldP;
+    return oldP.value;
   },
   set(newValue) {
-    oldP = newValue.trim();
+    oldP.value = newValue.trim();
   }
 });
-var newP = "";
+var newP = ref("");
 const newPwd = computed({
   get() {
-    return newP;
+    return newP.value;
   },
   set(newValue) {
-    newP = newValue.trim();
+    newP.value = newValue.trim();
   }
 });;
-var newP2 = "";
+var newP2 = ref("");
 const newPwd2 = computed({
   get() {
-    return newP2;
+    return newP2.value;
   },
   set(newValue) {
-    newP2 = newValue.trim();
+    newP2.value = newValue.trim();
   }
 });;
 
 function clearBtn() {
   dialogVisible.value = false;
-  oldP = "";
-  newP = "";
-  newP2 = "";
+  oldP.value = "";
+  newP.value = "";
+  newP2.value = "";
 }
 function checkInput() {
   changeValue.value = false;
   let errorClass = '';
-  if(props.label == 'Username') {
+  if(props.lb == '1') {
     errorClass = "uname";
   } else {
     errorClass = props.label.toLowerCase();
   }
   let regexp = new RegExp(props.reg);
-  if(!regexp.test(v)) {
+  if(!regexp.test(v.value)) {
     ElMessage({
           type: "error",
           message: t('welcome.' + errorClass + 'Error'),
           showClose: true,
           grouping: true,
         });
-    v = props.value;
+    v.value = props.value;
   } else {
     change();
   }
 }
 function checkPwd() {
-  if (newP == newP2) {
+  if (newP.value == newP2.value) {
     error3Display.value = "none";
   } else {
     error3Display.value = "";
   }
   let regexp = new RegExp(/^[\w-]{6,18}$/);
-  if (!regexp.test(newP)) {
+  if (!regexp.test(newP.value)) {
     ElMessage({
       type: "warning",
       message: t("welcome.pwdError"),
@@ -165,9 +166,9 @@ function changeBtn() {
 }
 function change() {
   if (!props.isPwd) {
-    emit("changeFun", props.label, input);
+    emit("changeFun", props.lb, input.value);
   } else {
-    emit("changePwd", oldP, newP);
+    emit("changePwd", oldP.value, newP.value);
   }
 }
 </script>

@@ -1,9 +1,10 @@
 <template>
   <div class="all flex">
+    <div>{{title}}</div>
     <div class="inner-all">
       <el-button class="to-setting" @click="toGroupInfo" plain><el-icon><Star /></el-icon></el-button>
       <el-scrollbar height="60vh" id="all" always>
-        <ul v-infinite-scroll="tList" class="infinite-list">
+        <ul v-infinite-scroll="load" class="infinite-list">
           <li v-for="msg in msgList" :key="msg.msgId">
             <chat-message
               :avatar="msg.senderAvatar"
@@ -60,6 +61,7 @@ const page = reactive({
   pageNum: 0,
   pageSize: 10,
 });
+var title = ref("");
 const emit = defineEmits(["wSend"]);
 
 function tList() {
@@ -122,7 +124,7 @@ function load() {
           } else {
             nodata.value = false;
             msgList.unshift(...res.data.data);
-            pageN.value += 1;
+            page.pageNum += 1;
           }
         } else {
           ElMessage({
@@ -186,6 +188,7 @@ function sendMsg(input, type) {
     }
     msgList.push(tempMsg);
     wsSend(input, type);
+    sendToBack(input, type);
 }
 function sendToBack(input, type) {
   let msgInfo = {
@@ -266,6 +269,7 @@ function setParam() {
     temp += str[i];
   }
   roomId.value = temp.toString();
+  title.value = isGroup.value ? "Group " : "Friend ";
 }
 onMounted(() => {
   setParam();
@@ -273,7 +277,7 @@ onMounted(() => {
 onUpdated(() => {
   setParam();
   msgList.splice(0, msgList.length);
-  tList();
+  load();
 });
 onBeforeUnmount(() => {
   leaveRoom(token, roomId.value, isGroup.value)

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-scrollbar height="75vh" id="all">
-      <ul v-infinite-scroll="testList" class="infinite-list">
+      <ul v-infinite-scroll="searchReqList" class="infinite-list">
         <li v-for="req in reqList" :key="req.id">
           <acceptable-item
             :avatar="req.friendAvatar"
@@ -10,8 +10,8 @@
             :button-label1="t('reqList.accept')"
             :button-label2="t('reqList.reject')"
             :id="req.id"
-            @accept="acceptf"
-            @reject="rejectf"
+            @accept="acceptFun"
+            @reject="rejectFun"
           ></acceptable-item>
         </li>
       </ul>
@@ -130,7 +130,7 @@ function searchReqList() {
         console.log(err);
       })
       .finally(() => {
-        this.loading.value = false;
+        loading.value = false;
       });
   }
 }

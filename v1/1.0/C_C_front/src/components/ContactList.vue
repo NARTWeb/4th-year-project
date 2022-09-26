@@ -17,7 +17,7 @@
         id="scroll-bar"
         wrap-style="min-height:400px;"
       >
-        <ul v-infinite-scroll="test" class="infinite-list">
+        <ul v-infinite-scroll="load" class="infinite-list">
           <li
             v-for="member in list"
             :key="member.id"
@@ -294,7 +294,7 @@ function load() {
         } else {
           ElMessage({
             type: "error",
-            message: t("contactList.friend.loadErr"),
+            message: res.data.msg,
             showClose: true,
             grouping: true,
           });
@@ -336,7 +336,7 @@ function hide(member) {
       } else {
         ElMessage({
           type: "error",
-          message: t("contactList.friend.hideErr"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -375,7 +375,7 @@ function mute(member) {
       } else {
         ElMessage({
           type: "error",
-          message: t("contactList.friend.muteErr"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -414,7 +414,7 @@ function unset(member) {
       } else {
         ElMessage({
           type: "error",
-          message: t("contactList.friend.unsetErr"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -456,7 +456,7 @@ function del(id) {
       } else {
         ElMessage({
           type: "error",
-          message: t("contactList.friend.delErr"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -551,6 +551,7 @@ watch(
   margin-top: 0%;
   min-height: 400px;
   overflow-y: visible;
+  background-color: v-bind("bgColor.backgroundColor");
 }
 .infinite-list {
   display: -webkit-flex; /* Safari */

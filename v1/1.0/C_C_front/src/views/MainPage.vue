@@ -173,13 +173,13 @@ var searchInput = ref("");
 var friendParam = reactive({
   page: {
     pageSize: 10,
-    pageNum: 1,
+    pageNum: 0,
   },
 });
 var groupParam = reactive({
   page: {
     pageSize: 10,
-    pageNum: 1,
+    pageNum: 0,
   },
 });
 var lang = "zh";
@@ -244,8 +244,8 @@ function toSearch() {
   if (temp == "") {
     temp = "_[all]_";
   }
-  if (Fstore.searchHistory != temp) {
-    Fstore.searchHistory = temp;
+  if (Fstore.fSearchHistory != temp) {
+    Fstore.fSearchHistory = temp;
     Fstore.loadFirstList();
   }
   router.push({
@@ -266,6 +266,7 @@ onMounted(() => {
   ws.onopen = function () {};
 
   ws.onmessage = function (evt) {
+    alert("onMessage");
     var dataStr = evt.data;
 
     var res = JSON.parse(dataStr);
@@ -280,7 +281,6 @@ onMounted(() => {
     }
 
     if(router.currentRoute.value.name == "chatRoom") {
-
       let str = router.currentRoute.value.params.id;
       let type = roomId[0];
       let roomId = str.slice(1);
@@ -345,6 +345,7 @@ onMounted(() => {
   width: 5vw;
   height: 7vh;
   min-height: 40px;
+  max-height: 70px;
   text-align: center;
   display: -webkit-flex; /* Safari */
   display: flex;
@@ -372,6 +373,7 @@ onMounted(() => {
   .el-menu-demo {
     height: 7vh;
     min-height: 40px;
+    max-height: 70px;
     width: 100%;
   }
 }

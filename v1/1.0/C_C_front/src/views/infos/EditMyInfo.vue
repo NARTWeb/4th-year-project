@@ -33,6 +33,7 @@
           <info-item
             :label="t('infoItem.userName')"
             :reg="tt.reg1"
+            lb="1"
             can-change
             @changeFun="changef"
           ></info-item>
@@ -41,6 +42,7 @@
           <info-item
             :label="t('infoItem.birthday')"
             :reg="tt.reg2"
+            lb="2"
             can-change
             @changeFun="changef"
           ></info-item>
@@ -59,6 +61,7 @@
           <info-item
             :label="t('infoItem.phone')"
             :reg="tt.reg4"
+            lb="4"
             can-change
             @changeFun="changef"
           ></info-item>
@@ -69,6 +72,7 @@
           <info-item
             :label="t('infoItem.email')"
             :reg="tt.reg5"
+            lb="5"
             can-change
             @changeFun="changef"
           ></info-item>
@@ -77,6 +81,7 @@
           <info-item
             :label="t('infoItem.address')"
             :reg="tt.reg6"
+            lb="6"
             can-change
             @changeFun="changef"
           ></info-item>
@@ -117,7 +122,12 @@ const tt = {
   reg2: /^\d{4}-\d{2}-\d{2}$/,
   reg4: /^[1-9]\d{2}\s\d{3}\s\d{4}/,
   reg6: /^[#.0-9a-zA-Z\s,-]+$/,
-  reg5: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+  reg5: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+  label1: "1",
+  label2: "2",
+  label4: "4",
+  label5: "5",
+  label6: "6",
 };
 
 function uploadFun() {
@@ -128,7 +138,7 @@ function uploadFun() {
       } else {
         ElMessage({
           type: "error",
-          message: t("chatInputBox.uploadPicError"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
