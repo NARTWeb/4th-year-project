@@ -2,10 +2,9 @@ package com.nart.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.javafaker.Faker;
-import com.nart.dao.GroupDao;
-import com.nart.dao.StatusDao;
-import com.nart.dao.UserDao;
+import com.nart.dao.*;
 import com.nart.pojo.*;
+import com.nart.service.impl.LoadDataInDataBaseImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.DateFormat;
@@ -47,6 +46,13 @@ public class FakeDataGenerator {
     private StatusDao statusDao;
     @Autowired
     private GroupDao groupDao;
+    @Autowired
+    private UserGroupDao userGroupDao;
+    @Autowired
+    private FriendDao friendDao;
+
+    @Autowired
+    private LoadDataInDataBaseImpl loadDataInDataBase;
 
     /**
      * @Description: generate users
@@ -333,7 +339,10 @@ public class FakeDataGenerator {
                         msg.setMsg(faker.internet().image());
                     }
                     msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
-                    int maxLevel = 0;
+
+                    Group group = groupDao.selectById(gid);
+
+                    int maxLevel = group.getUserLevel();
                     /**
                      * maxLevel = select last_level from tb_group where id = gid
                      */
@@ -404,7 +413,13 @@ public class FakeDataGenerator {
 
     public List<String> getGroupMemberIds(String groupId) {
 //        List<Group> objList= this.GroupDao.selectAllMember(groupId);
+        LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
+        lqw.eq(UserGroup::getGid, groupId);
+        List<UserGroup> userGroups = userGroupDao.selectList(lqw);
         List<String> result = new ArrayList<>();
+        for (UserGroup userGroup : userGroups) {
+            result.add(userGroup.getUid());
+        }
 //        objList.forEach((obj -> {
 //            result.add(obj.getId());
 //        }));
@@ -420,7 +435,13 @@ public class FakeDataGenerator {
      */
     public List<String> getUserFriendIds(String uid) {
 //        List<User> objList= this.UserDao.selectFriends(uid);
+        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
+        lqw.eq(Friend::getUid, uid);
+        List<Friend> friends = friendDao.selectList(lqw);
         List<String> result = new ArrayList<>();
+        for (Friend friend : friends) {
+            result.add(friend.getFid());
+        }
 //        objList.forEach((obj -> {
 //            result.add(obj.getId());
 //        }));
@@ -436,7 +457,16 @@ public class FakeDataGenerator {
      */
     public List<String> getUserGroupIds(String uid) {
 //        List<Group> objList= this.GroupDao.selectGroups(uid);
+
+        LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
+        lqw.eq(UserGroup::getUid, uid);
+        List<UserGroup> userGroups = userGroupDao.selectList(lqw);
+
         List<String> result = new ArrayList<>();
+        for (UserGroup userGroup : userGroups) {
+            result.add(userGroup.getGid());
+        }
+
 //        objList.forEach((obj -> {
 //            result.add(obj.getId());
 //        }));
@@ -455,22 +485,37 @@ public class FakeDataGenerator {
     public void generateTestData(int num) {
         List<User> Users = generateUsers(num * 10);
         // write to database
+        boolean b = loadDataInDataBase.LoadListUser(Users);
+        System.out.println("user加载"+b);
+
         List<FriendReq> FriendReqs = generateReqs(num * 20);
+        boolean b1 = loadDataInDataBase.LoadListFriendReq(FriendReqs);
+        System.out.println("FriendReqs加载"+b1);
         // write to database
+
         for (String uid : getUserIds()) {
             generateFriendRelationships(uid, num*3);
         }
         List<Status> Statuses = generateStatus(num * 20);
         // write to database
+        boolean b2 = loadDataInDataBase.LoadListStatus(Statuses);
+        System.out.println("Status加载"+b2);
         for (String statusId : getStatusIds()) {
             generateLikes(statusId, num*2);
             List<Comment> Comments = generateComment(statusId, num * 10);
             //write to database
+            boolean bt = loadDataInDataBase.LoadListComment(Comments);
+            System.out.println("Comments加载"+bt);
         }
         //write to database
         List<Group> Groups = generateGroup(num);
         // write to database
+        boolean b3 = loadDataInDataBase.LoadListGroup(Groups);
+        System.out.println("Groups加载"+b3);
+
         List<GroupInvite> GroupInvites = generateInvites(num * 10);
+        boolean b4 = loadDataInDataBase.LoadListGroupInvite(GroupInvites);
+        System.out.println("GroupInvites加载"+b4);
         // write to database
         for (String gid : getGroupIds()) {
             generateGroupRelationships(gid, num*3);

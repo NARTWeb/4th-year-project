@@ -1,9 +1,6 @@
 package com.nart.service;
 
-import com.nart.pojo.FriendReq;
-import com.nart.pojo.Group;
-import com.nart.pojo.Status;
-import com.nart.pojo.User;
+import com.nart.pojo.*;
 
 import java.util.List;
 
@@ -17,5 +14,7 @@ public interface LoadDataInDataBase {
 
     boolean LoadListGroup(List<Group> groupList);
 
+    boolean LoadListComment(List<Comment> commentList);
 
+    boolean LoadListGroupInvite(List<GroupInvite> groupInviteList);
 }

@@ -12,7 +12,7 @@ public class TestApplication {
     public static void main(String[] args) {
         SpringApplication.run(TestApplication.class, args);
 //        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
-//        fakeDataGenerator.generateTestData();
+//        fakeDataGenerator.generateTestData(5);
     }
 
 }

@@ -4,6 +4,7 @@ package com.nart;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.pojo.User;
 import com.nart.service.UserService;
+import com.nart.util.FakeDataGenerator;
 import com.nart.vo.PageVo;
 import com.nart.vo.UserVo;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,16 @@ public class userTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FakeDataGenerator fakeDataGenerator;
+
+    @Test
+    public void setFakeDataGenerator(){
+        fakeDataGenerator.generateTestData(5);
+    }
+
+
 
     @Test
     public void Testlogin(){

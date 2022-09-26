@@ -1,13 +1,7 @@
 package com.nart.service.impl;
 
-import com.nart.dao.FriendReqDao;
-import com.nart.dao.GroupDao;
-import com.nart.dao.StatusDao;
-import com.nart.dao.UserDao;
-import com.nart.pojo.FriendReq;
-import com.nart.pojo.Group;
-import com.nart.pojo.Status;
-import com.nart.pojo.User;
+import com.nart.dao.*;
+import com.nart.pojo.*;
 import com.nart.service.LoadDataInDataBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +19,10 @@ public class LoadDataInDataBaseImpl implements LoadDataInDataBase {
     private StatusDao statusDao;
     @Autowired
     private GroupDao groupDao;
+    @Autowired
+    private CommentDao commentDao;
+    @Autowired
+    private GroupInviteDao groupInviteDao;
 
 
     @Override
@@ -64,6 +62,31 @@ public class LoadDataInDataBaseImpl implements LoadDataInDataBase {
     public boolean LoadListGroup(List<Group> groupList) {
         for (Group group : groupList) {
             int insert = groupDao.insert(group);
+            if(insert <= 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean LoadListComment(List<Comment> commentList) {
+        for (Comment comment : commentList) {
+            int insert = commentDao.insert(comment);
+            if(insert <= 0){
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    @Override
+    public boolean LoadListGroupInvite(List<GroupInvite> groupInviteList) {
+
+        for (GroupInvite groupInvite : groupInviteList) {
+            int insert = groupInviteDao.insert(groupInvite);
             if(insert <= 0){
                 return false;
             }
