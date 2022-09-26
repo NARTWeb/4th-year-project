@@ -70,7 +70,12 @@
         </div>
       </el-main>
     </el-container>
-    <PopWinFriendList :dialog-visible="dialogFormVisible"></PopWinFriendList>
+    <PopWinFriendList
+      :dialog-visible="dialogFormVisible"
+      :list="inviteList"
+      @closeWin="closePop"
+      @addFun="addToList"
+    ></PopWinFriendList>
   </div>
 </template>
 <script setup>
@@ -93,24 +98,23 @@ const img = ref(
   "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
 );
 const uploadRef = ref("");
-var gName = "";
+var gName = ref("");
 const groupName = computed({
-  get(){
-    return gName;
+  get() {
+    return gName.value;
   },
   set(newValue) {
-    gName = newValue.trim();
-  }
+    gName.value = newValue.trim();
+  },
 });
 const placeholder = computed({
   get() {
     return t("createGroup.groupNameHolder");
-  }
+  },
 });
 const inviteList = reactive([]);
 const groupId = ref("");
 function uploadFun() {
-  alert("here!");
   uploadPic(uploadRef)
     .then((res) => {
       if (res.data.success) {
@@ -118,7 +122,7 @@ function uploadFun() {
       } else {
         ElMessage({
           type: "error",
-          message: t("chatInputBox.uploadPicError"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -135,10 +139,12 @@ function uploadFun() {
     });
 }
 function create() {
+  let flag = false;
   createNewGroup(token, groupName.value)
     .then((res) => {
       if (res.data.success) {
         groupId.value = res.data.data;
+        flag = true;
       } else {
         ElMessage({
           type: "error",
@@ -185,9 +191,25 @@ function create() {
         console.log(err);
       });
   }
+  if(flag) {
+    const info = {
+    gid: groupId.value,
+    note: "",
+    gName: gName,
+    gAvatar: img.value,
+  };
+  store.updategroupInfo(info);
+  router.push({ name: "chatRoom", params: { id: "g" + groupId.value } });
+  }
+}
+function addToList(obj) {
+  inviteList.push(obj);
 }
 function toPopWin() {
   dialogFormVisible.value = true;
+}
+function closePop() {
+  dialogFormVisible.value = false;
 }
 </script>
 <style scoped>

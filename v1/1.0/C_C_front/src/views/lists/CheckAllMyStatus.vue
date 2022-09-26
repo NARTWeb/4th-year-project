@@ -1,7 +1,7 @@
 <template>
   <div id="larger-all">
     <el-scrollbar height="75vh" id="all">
-      <ul v-infinite-scroll="tList" class="infinite-list">
+      <ul v-infinite-scroll="load" class="infinite-list">
         <el-timeline>
           <el-timeline-item
             v-for="status in myStatusList"
@@ -37,6 +37,7 @@ import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import MyStatusItem from "@/components/MyStatusItem.vue";
 import { showMyStatusList, deleteStatus } from "@/api/status";
+import { ElMessage } from "element-plus";
 
 const props = defineProps({
   uid:{
@@ -121,7 +122,7 @@ function load() {
         } else {
           ElMessage({
             type: "error",
-            message: t("myStatusList.loadError"),
+            message: res.data.msg,
             showClose: true,
           });
         }
@@ -142,22 +143,20 @@ function load() {
 function del(id) {
   for (let i = 0; i < myStatusList.length; i++) {
     if (myStatusList[i].statusId == id) {
-      alert("id: " + id);
-      myStatusList.splice(i, 1);
-      //delBack(id);
+      delBack(id, i);
       return;
     }
   }
 }
-function delBack(id) {
+function delBack(id, i) {
   deleteStatus(token, id)
     .then((res) => {
       if (res.data.success) {
-        //reqList.splice(i, 1);
+        myStatusList.splice(i, 1);
       } else {
         ElMessage({
           type: "error",
-          message: t("reqList.rejectError"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -166,7 +165,7 @@ function delBack(id) {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: t("reqList.rejectError"),
+        message: t("myStatusList.delError"),
         showClose: true,
         grouping: true,
       });

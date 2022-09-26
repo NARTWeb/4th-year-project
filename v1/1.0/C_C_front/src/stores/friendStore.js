@@ -11,22 +11,30 @@ const { token } = storeToRefs(store);
 export const useFriendStore = defineStore("friends", {
   state: () => {
     return {
-      searchHistory: "",
-      loading: false,
-      nodata: false,
+      fSearchHistory: "",
+      gSearchHistory: "",
+      fLoading: false,
+      fNodata: false,
+      gLoading: false,
+      gNodata: false,
       fList: [],
+      gList: [],
       counter: 0,
-      page: {
+      fPage: {
+        pageSize: 8,
+        pageNum: 0,
+      },
+      gPage: {
         pageSize: 8,
         pageNum: 0,
       },
     };
   },
   actions: {
-    tList() {
-      if (!this.loading && !this.nodata) {
-        this.loading = true;
-        searchFriend(token, this.searchHistory, this.page)
+    loadNewFriends() {
+      if (!this.fLoading && !this.fNodata) {
+        this.fLoading = true;
+        searchFriend(token, this.fSearchHistory, this.fPage)
           .then((res) => {
             if (res.data.success) {
               if (res.data.data.length > 0) {
@@ -35,9 +43,9 @@ export const useFriendStore = defineStore("friends", {
                 } else {
                     this.fList.push(...res.data.data);
                 }
-                this.page.pageNum += 1;
+                this.fPage.pageNum += 1;
               } else {
-                this.nodata = true;
+                this.fNodata = true;
               }
             } else {
               ElMessage({
@@ -58,23 +66,63 @@ export const useFriendStore = defineStore("friends", {
               console.log(err);
             })
           .finally(() => {
-            this.loading = false;
+            this.fLoading = false;
+          });
+      }
+    },
+    loadNewGFriends() {
+      if (!this.gLoading && !this.gNodata) {
+        alert("here!");
+        this.gLoading = true;
+        searchFriend(token, this.gSearchHistory, this.gPage)
+          .then((res) => {
+            if (res.data.success) {
+              if (res.data.data.length > 0) {
+                if (this.gList == undefined) {
+                    this.gList = res.data.data;
+                } else {
+                    this.gList.push(...res.data.data);
+                }
+                this.gPage.pageNum += 1;
+              } else {
+                this.gNodata = true;
+              }
+            } else {
+              ElMessage({
+                type: "error",
+                message: res.data.msg,
+                showClose: true,
+                grouping: true,
+              });
+            }
+          })
+            .catch((err) => {
+              ElMessage({
+                type: "error",
+                message: i18n.global.t("newFriendList.loadError"),
+                showClose: true,
+                grouping: true,
+              });
+              console.log(err);
+            })
+          .finally(() => {
+            this.gLoading = false;
           });
       }
     },
     loadFirstList() {
-      this.loading = false;
-      this.nodata = false;
-      this.page.pageNum = 0;
+      this.fLoading = false;
+      this.fNodata = false;
+      this.fPage.pageNum = 0;
       this.counter = 0;
       if (this.fList != undefined) {
         this.fList.splice(0, this.fList.length);
       }
       this.loadNewFriends();
     },
-    loadNewFriends() {
-      let tempName = this.searchHistory;
-      for (let i = 0; i < this.page.pageSize; i++) {
+    tList() {
+      let tempName = this.fSearchHistory;
+      for (let i = 0; i < this.fPage.pageSize; i++) {
         let test = [
           {
             id: this.counter.toString(),
@@ -89,6 +137,60 @@ export const useFriendStore = defineStore("friends", {
           this.fList.push(...test);
         }
         this.counter += 1;
+      }
+    },
+    loadFirstGList(array) {
+      this.gLoading = false;
+      this.gNodata = false;
+      this.gPage.pageNum = 0;
+      this.counter = 0;
+      if (this.gList != undefined) {
+        this.gList.splice(0, this.gList.length);
+      }
+      this.loadNewGFriends();
+      this.gList = this.getGList(array);
+      while(this.gList.length <= 7) {
+        this.loadNewGFriends();
+        this.gList = this.getGList(array);
+      }
+    },
+    tGList() {
+      let tempName = this.gSearchHistory;
+      for (let i = 0; i < this.gPage.pageSize; i++) {
+        let test = [
+          {
+            id: this.counter.toString(),
+            uname: tempName + this.counter.toString(),
+            avatar:
+              "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
+          },
+        ];
+        if (this.gList == undefined) {
+          this.gList = test;
+        } else {
+          this.gList.push(...test);
+        }
+        this.counter += 1;
+      }
+    },
+    getGList(array) {
+      let difference = this.gList.filter(function(obj) {
+        return !array.some(function(obj2) {
+          return obj.id == obj2.id;
+        })
+      });
+      return difference;
+    },
+    delGItem(id) {
+      for (let i = 0; i < this.gList.length; i++) {
+        if (id == this.gList[i].id) {
+            let temp = this.gList[i];
+            this.gList.splice(i, 1);
+            if(this.gList.length <= 7) {
+                this.loadNewGFriends();
+            }
+            return temp;
+        }
       }
     },
     delItem(id) {

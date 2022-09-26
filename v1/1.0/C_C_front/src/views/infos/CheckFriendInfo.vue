@@ -16,7 +16,7 @@
       <el-divider/>
     <div class="bottom">
       <el-scrollbar id="all" wrap-style="height:50vh;">
-        <ul v-infinite-scroll="tList" class="infinite-list">
+        <ul v-infinite-scroll="load" class="infinite-list">
         <el-timeline>
           <el-timeline-item
             v-for="status in myStatusList"
@@ -163,6 +163,9 @@ function load() {
       });
   }
 }
+onMounted(() => {
+  getFriendInfo();
+})
 </script>
 <style scoped>
 .all {

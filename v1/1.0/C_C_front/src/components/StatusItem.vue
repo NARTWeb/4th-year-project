@@ -20,7 +20,7 @@
       </div>
     </div>
     <div id="down">
-      <div :class="iconClass" @click="likeS" id="like"></div>
+      <div :class="iconClass" @click="sendLike" id="like"></div>
       <span v-show="like" style="font-weight: 100">{{ props.heartNum }}</span>
       <el-button round type="primary" @click="startCom">...</el-button>
     </div>
@@ -29,7 +29,7 @@
         <el-input
           v-model="input"
           :placeholder="t('statusItem.commentPlaceHolder')"
-          @change="makeCom"
+          @change="sendComment"
         />
       </div>
     </div>
@@ -39,7 +39,8 @@
   </div>
 </template>
 <script setup>
-import { onMounted } from "vue";
+import { ElMessage } from "element-plus";
+import { onMounted, computed } from "vue";
 import { reactive, ref } from "vue";
 import { likeStatus, dislikeStatus } from "@/api/status";
 import { postComment } from "@/api/comment";
@@ -47,7 +48,6 @@ import { useI18n } from "vue-i18n";
 import CommentList from "./CommentList.vue";
 import useUserStore from "@/stores/userStore";
 import { storeToRefs } from "pinia";
-import { set } from "lodash";
 import { now } from "@/utils/time.js";
 
 const { t } = useI18n();
@@ -65,17 +65,17 @@ const props = defineProps({
   uid: String,
 });
 const store = useUserStore();
-const { name, avatar, token } = storeToRefs(store);
+const { name, token } = storeToRefs(store);
 const commentList = reactive(props.comments);
 const like = ref(props.heart);
 const iconClass = ref("iconfont icon-aixin");
-var comment = "";
+var comment = ref("");
 const input = computed({
   get() {
-    return comment;
+    return comment.value;
   },
   set(newValue) {
-    comment = newValue.trim();
+    comment.value = newValue.trim();
   },
 });
 function likeS() {
@@ -127,7 +127,7 @@ function sendComment() {
       } else {
         ElMessage({
           type: "error",
-          message: t("postComment.fail"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -145,9 +145,10 @@ function sendComment() {
 }
 
 function sendLike() {
-  like.value = like.value ? false : true;
+  let tempLike = like.value;
+  tempLike = tempLike ? false : true;
   let result, errMsg, succeedMsg;
-  if (like.value) {
+  if (tempLike) {
     result = likeStatus(token, props.statusId);
     succeedMsg = t("postComment.like");
     errMsg = t("postComment.likeFail");
@@ -161,11 +162,11 @@ function sendLike() {
       if (res.data.success) {
         ElMessage({
           type: "success",
-          message: t("postComment.like"),
+          message: succeedMsg,
           showClose: true,
           grouping: true,
         });
-        if (like.value) {
+        if (tempLike) {
           iconClass.value = "iconfont icon-aixin_shixin like";
         } else {
           iconClass.value = "iconfont icon-aixin";
@@ -173,7 +174,7 @@ function sendLike() {
       } else {
         ElMessage({
           type: "error",
-          message: t("postComment.likeFail"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -182,16 +183,17 @@ function sendLike() {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: t("postComment.likeFail"),
+        message: errMsg,
         showClose: true,
         grouping: true,
       });
       console.log(err);
     });
+  like.value = tempLike;
 }
 
 onMounted(() => {
-  if (like.value) {
+  if (props.heart) {
     iconClass.value = "iconfont icon-aixin_shixin like";
   }
 });

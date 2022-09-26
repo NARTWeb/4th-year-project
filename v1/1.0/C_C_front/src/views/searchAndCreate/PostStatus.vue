@@ -64,7 +64,7 @@ function uploadPics() {
       } else {
         ElMessage({
           type: "error",
-          msg: res.data.msg,
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -73,7 +73,7 @@ function uploadPics() {
     .catch((err) => {
       ElMessage({
           type: "error",
-          msg: t('chatInputBox.uploadPicError'),
+          message: t('chatInputBox.uploadPicError'),
           showClose: true,
           grouping: true,
         });
@@ -82,6 +82,7 @@ function uploadPics() {
 }
 
 function post(){
+    uploadPics();
     postStatus(token, msg.value, pics)
     .then((res) =>{
         if(res.data.success) {
@@ -103,7 +104,6 @@ function post(){
         console.log(err);
     })
     .finally(() => {
-        alert(t('postStatus.succeed'))
     });
 }
 const dialogImageUrl = ref('')

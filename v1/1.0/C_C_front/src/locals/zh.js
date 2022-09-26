@@ -91,12 +91,13 @@ export default{
         accept: "同意",
     },
     statusList: {
-        loadError: "加载状态失败",
+        loadError: "加载动态失败",
         toEnd: "没有更多"
     },
     myStatusList: {
-        loadError: "加载状态失败",
-        toEnd: "没有更多"
+        loadError: "加载动态失败",
+        toEnd: "没有更多",
+        delError: "删除动态失败"
     },
     infoItem: {
         title: "更改密码",
