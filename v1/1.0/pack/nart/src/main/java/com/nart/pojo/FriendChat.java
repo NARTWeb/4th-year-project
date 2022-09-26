@@ -13,6 +13,7 @@ public class FriendChat {
     private String receiverId;
     @TableField(value = "sid")
     private String senderId;
+    @TableField(exist = false)
     private int level;
 
     private String msg;

@@ -17,7 +17,7 @@ public class Status {
     private String senderId;
     private String text;
     private String pics;
-    private Integer likes;
+    private int likes;
     @TableField(value = "date")
     private Long createDate;
 

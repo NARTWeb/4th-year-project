@@ -3,24 +3,26 @@ package com.nart.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.pojo.Group;
 import com.nart.pojo.GroupInvite;
-import com.nart.pojo.User;
+import com.nart.vo.GroupVo;
+import com.nart.vo.InviteVo;
+import com.nart.vo.UserVo;
 
 import java.util.List;
 import java.util.Set;
 
 public interface GroupService {
 
-    List<User> showGroupMebList(String gid);
+    List<UserVo> showGroupMebList(String gid);
 
     boolean changeGroupInfo(Group group);
 
-    List<Group> showGroupList(IPage page);
+    List<GroupVo> showGroupList(IPage page);
 
     boolean leaveGroup(String gid,String uid);
 
     boolean changeGroupState(String gid,String uid,int state);
 
-    List<GroupInvite> showInviteList(IPage page);
+    List<InviteVo> showInviteList(IPage page);
 
     boolean sendInvite(GroupInvite groupInvite);
 

@@ -38,7 +38,12 @@ public class RandomContentGenerator {
 
     public static String getRandomId(List<String> ids, List<String> diff) {
         Random r = new Random();
+
+//        System.out.println("fushu"+ids.size());
         String result;
+        if (ids.size()==0){
+            return null;
+        }
         do {
             int randomInt = r.nextInt(ids.size());
             result = ids.get(randomInt);
@@ -61,7 +66,7 @@ public class RandomContentGenerator {
 
     public static String getRandomPics() {
         Random r = new Random();
-        int max = r.nextInt(20);
+        int max = r.nextInt(5);
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < max + 1; i++) {
             result.append(faker.internet().image());

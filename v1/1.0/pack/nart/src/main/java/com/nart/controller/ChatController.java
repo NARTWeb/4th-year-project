@@ -37,17 +37,18 @@ public class ChatController {
     public Result showHistory(@PathVariable String type,
                               @PathVariable String chatId) {
         if(type.equals("friend")) {
-            List<FriendChat> friendChats = chatService.showFriendHistory(chatId, new Page());
-            if(friendChats == null) {
+            List<MessageVo> messageVos = chatService.showFriendHistory(chatId, new Page());
+
+            if(messageVos == null) {
                 return Result.fail(ErrorCode.SHOW_FRIEND_CHAT_HISTORY_ERROR);
             }
-            return Result.success(friendChats);
+            return Result.success(messageVos);
         } else {
-            List<GroupChat> groupChats = chatService.showGroupHistory(chatId, new Page());
-            if(groupChats == null) {
+            List<MessageVo> messageVos = chatService.showGroupHistory(chatId, new Page());
+            if(messageVos == null) {
                 return Result.fail(ErrorCode.SHOW_GROUP_CHAT_HISTORY_ERROR);
             }
-            return Result.success(groupChats);
+            return Result.success(messageVos);
         }
     }
 
@@ -58,7 +59,7 @@ public class ChatController {
             friendChat.setReceiverId(msgInfo.getChatId());
             friendChat.setSenderId(msgInfo.getSenderId());
             friendChat.setMsg(msgInfo.getMsg());
-            friendChat.setType(msgInfo.getMsgType());
+            friendChat.setType(msgInfo.getType());
             friendChat.setDate(new Date().getTime());
             boolean b = chatService.sendFriendMsg(friendChat);
             if(b) {
@@ -70,7 +71,7 @@ public class ChatController {
             groupChat.setGroupId(msgInfo.getChatId());
             groupChat.setSenderId(msgInfo.getSenderId());
             groupChat.setMsg(msgInfo.getMsg());
-            groupChat.setType(msgInfo.getMsgType());
+            groupChat.setType(msgInfo.getType());
             groupChat.setDate(new Date().getTime());
             boolean b = chatService.sendGroupMsg(groupChat);
             if(b) {
@@ -87,8 +88,10 @@ public class ChatController {
         boolean b = false;
         if(isFriend) {
             // friend更新用户离开时间
+            boolean b1 = chatService.leaveRoom(roomId, isFriend);
         } else {
             // group更新用户离开时间
+            boolean b2 = chatService.leaveRoom(roomId, isFriend);
         }
         if(b) {
             return Result.success(null);

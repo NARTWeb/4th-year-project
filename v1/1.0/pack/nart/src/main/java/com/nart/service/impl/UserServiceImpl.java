@@ -8,6 +8,7 @@ import com.nart.pojo.Friend;
 import com.nart.pojo.User;
 import com.nart.service.DataCounterService;
 import com.nart.service.UserService;
+import com.nart.util.EncryptUtil;
 import com.nart.vo.PageVo;
 import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,8 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(email);
         user.setName(name);
-        user.setPwd(pwd);
+        String password = EncryptUtil.encryptPwd(pwd);
+        user.setPwd(password);
         user.setUserOnline(0);
         user.setAvatar("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png");
         int insert = UserDao.insert(user);
@@ -81,6 +83,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User showUserInfo(String userId) {
         User user = UserDao.selectById(userId);
+
         return user;
     }
 
@@ -94,9 +97,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean changeUserInfo(UserVo userVo, String id) {
         User user = UserDao.selectById(id);
-
         user.setName(userVo.getUname());
-        user.setPwd(userVo.getPwd());
+        String password = EncryptUtil.encryptPwd(userVo.getPwd());
+        user.setPwd(password);
         user.setAvatar(userVo.getAvatar());
         user.setTel(userVo.getPhone());
         user.setEmail(userVo.getEmail());

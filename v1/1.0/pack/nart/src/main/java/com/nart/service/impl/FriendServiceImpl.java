@@ -8,15 +8,20 @@ import com.nart.dao.StatusDao;
 import com.nart.dao.UserDao;
 import com.nart.pojo.Friend;
 import com.nart.pojo.FriendReq;
+import com.nart.pojo.GroupChat;
 import com.nart.pojo.User;
 import com.nart.service.ChatService;
 import com.nart.service.FriendService;
 import com.nart.service.StatusService;
 import com.nart.service.UserService;
+import com.nart.vo.FriendVo;
 import com.nart.vo.PageVo;
+import com.nart.vo.RequestVo;
+import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,10 +49,12 @@ public class FriendServiceImpl implements FriendService {
 
 
     @Override
-    public List<Friend> showFriendList(IPage page, String userId) {
+    public List<FriendVo> showFriendList(IPage page, String userId) {
 
         LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
         lqw.eq(Friend::getUid, userId);
+        lqw.orderBy(true,false, Friend::getLeaveTime);
+
         IPage iPage = friendDao.selectPage(page, lqw);
         List<Friend> records = iPage.getRecords();
         for (Friend record : records) {
@@ -63,23 +70,40 @@ public class FriendServiceImpl implements FriendService {
                 record.setOnline(false);
             }
 
-            record.setStatusList(statusService.showStatusList(userId ,page));
-            record.setChatHistory(chatService.showFriendHistory(user.getId(),page));
+//            record.setStatusList(statusService.showStatusList(userId ,page));
+//            record.setChatHistory(chatService.showFriendHistory(user.getId(),page));
 
         }
+        FriendVo friendVo = new FriendVo();
+        List<FriendVo> friendVos = new ArrayList<>();
+        for (Friend record : records) {
+            FriendVo transfer = friendVo.transfer(record);
 
+            User user = userDao.selectById(record.getUid());
+            transfer.setUname(user.getName());
 
-        return records;
+            friendVos.add(transfer);
+        }
+
+        return friendVos;
     }
 
     @Override
-    public List<User> searchFriend(String name, IPage page) {
+    public List<UserVo> searchFriend(String name, IPage page) {
         PageVo pageVo = new PageVo();
         pageVo.setPageNum((int) page.getCurrent());
         pageVo.setPageSize((int) page.getSize());
         IPage<User> userIPage = userService.searchNew(name, pageVo);
         List<User> records = userIPage.getRecords();
-        return records;
+
+        UserVo userVo = new UserVo();
+        List<UserVo> userVos = new ArrayList<>();
+        for (User record : records) {
+            UserVo transfer = userVo.transfer(record);
+            userVos.add(transfer);
+        }
+
+        return userVos;
     }
 
     @Override
@@ -106,12 +130,33 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<FriendReq> showReqList(IPage page, String sid) {
+    public List<RequestVo> showReqList(IPage page, String sid) {
+        System.out.println(sid);
         LambdaQueryWrapper<FriendReq> lqw = new LambdaQueryWrapper<FriendReq>();
         lqw.eq(FriendReq::getReceiverId, sid);
+
+        lqw.orderBy(true,false, FriendReq::getDate);
+
         IPage iPage = friendReqDAO.selectPage(page, lqw);
         List<FriendReq> records = iPage.getRecords();
-        return records;
+
+        RequestVo requestVo = new RequestVo();
+        List<RequestVo> requestVos = new ArrayList<>();
+        for (FriendReq record : records) {
+            RequestVo transfer = requestVo.transfer(record);
+
+            User user = userDao.selectById(record.getReceiverId());
+            transfer.setFriendName(user.getName());
+            transfer.setFriendAvatar(user.getAvatar());
+
+            User user1 = userDao.selectById(record.getSenderId());
+            transfer.setSenderName(user1.getName());
+
+
+            requestVos.add(transfer);
+        }
+        
+        return requestVos;
     }
 
     @Override
@@ -149,16 +194,26 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<User> searchNew(String name, PageVo pageVo) {
+    public List<UserVo> searchNew(String name, PageVo pageVo) {
         IPage<User> userIPage = userService.searchNew(name, pageVo);
         List<User> records = userIPage.getRecords();
-        return records;
+
+        UserVo userVo = new UserVo();
+        List<UserVo> userVos = new ArrayList<>();
+        for (User record : records) {
+            UserVo transfer = userVo.transfer(record);
+            userVos.add(transfer);
+        }
+
+
+        return userVos;
     }
 
     @Override
     public List<Friend> findAllFriends(String uid) {
         LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
         lqw.select(Friend::getFid).eq(Friend::getUid, uid);
+        lqw.orderBy(true,false, Friend::getLeaveTime);
         return friendDao.selectList(lqw);
     }
 }
