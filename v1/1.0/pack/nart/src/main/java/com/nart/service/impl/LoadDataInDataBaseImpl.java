@@ -27,11 +27,9 @@ public class LoadDataInDataBaseImpl implements LoadDataInDataBase {
 
     @Override
     public boolean LoadListUser(List<User> userList) {
+
         for (User user : userList) {
             int insert = userDao.insert(user);
-            if(insert <= 0){
-                return false;
-            }
         }
         return true;
     }
@@ -40,9 +38,6 @@ public class LoadDataInDataBaseImpl implements LoadDataInDataBase {
     public boolean LoadListFriendReq(List<FriendReq> friendReqList) {
         for (FriendReq friendReq : friendReqList) {
             int insert = friendReqDao.insert(friendReq);
-            if(insert <= 0){
-                return false;
-            }
         }
         return true;
     }
@@ -51,9 +46,7 @@ public class LoadDataInDataBaseImpl implements LoadDataInDataBase {
     public boolean LoadListStatus(List<Status> statusList) {
         for (Status status : statusList) {
             int insert = statusDao.insert(status);
-            if(insert <= 0){
-                return false;
-            }
+
         }
         return true;
     }
@@ -62,9 +55,7 @@ public class LoadDataInDataBaseImpl implements LoadDataInDataBase {
     public boolean LoadListGroup(List<Group> groupList) {
         for (Group group : groupList) {
             int insert = groupDao.insert(group);
-            if(insert <= 0){
-                return false;
-            }
+
         }
         return true;
     }
@@ -73,9 +64,7 @@ public class LoadDataInDataBaseImpl implements LoadDataInDataBase {
     public boolean LoadListComment(List<Comment> commentList) {
         for (Comment comment : commentList) {
             int insert = commentDao.insert(comment);
-            if(insert <= 0){
-                return false;
-            }
+
         }
 
         return true;
@@ -87,9 +76,7 @@ public class LoadDataInDataBaseImpl implements LoadDataInDataBase {
 
         for (GroupInvite groupInvite : groupInviteList) {
             int insert = groupInviteDao.insert(groupInvite);
-            if(insert <= 0){
-                return false;
-            }
+
         }
         return true;
     }

@@ -143,6 +143,9 @@ public class FakeDataGenerator {
                 /**
                  * select sid as authorId from tb_status where id = statusId
                  */
+                Status status = statusDao.selectById(statusId);
+                authorId = status.getSenderId();
+
                 List<String> userFriendIds = getUserFriendIds(authorId);
                 String uid = getRandomId(userFriendIds);
                 Comment comment = new Comment();
@@ -171,7 +174,13 @@ public class FakeDataGenerator {
         /**
          * select sid as authorId from tb_status where id = statusId
          */
+//        LambdaQueryWrapper<Status> lqw = new LambdaQueryWrapper<Status>();
+//        lqw.eq(Status::getId, statusId);
+        Status status = statusDao.selectById(statusId);
+        authorId = status.getSenderId();
+//        System.out.println("id"+ authorId);
         List<String> userFriendIds = getUserFriendIds(authorId);
+        System.out.println(userFriendIds);
         List<String> likedUserId = new ArrayList<>();
         for(int i=0; i<num; i++) {
             String uid = getRandomId(userFriendIds, likedUserId);
@@ -258,6 +267,22 @@ public class FakeDataGenerator {
                  * tempLevel = select last_level from tb_group where id = gid;
                  * insert into tb_user_group values (sid, gid, 0, tempLevel, 0L);
                  */
+                Group group = new Group();
+                group.setId(gid);
+                group.setUserLevel(group.getUserLevel()+1);
+                groupDao.updateById(group);
+
+                Group group1 = groupDao.selectById(gid);
+                int tempLevel = group1.getUserLevel();
+
+                UserGroup userGroup = new UserGroup();
+                userGroup.setUid(sid);
+                userGroup.setGid(gid);
+                userGroup.setState(0);
+                userGroup.setJoinLevel(tempLevel);
+                userGroup.setUserLevelTime("0");
+                userGroupDao.insert(userGroup);
+
                 groupMemberIds.add(sid);
             }
         }
@@ -273,6 +298,7 @@ public class FakeDataGenerator {
      */
     public void generateFriendRelationships(String uid, int num) {
         List<String> userFriendIds = getUserFriendIds(uid);
+//        System.out.println("pengy"+userFriendIds);
         List<String> userIds = getUserIds();
         for (int i = 0; i < num; i++) {
             if(r.nextBoolean()) {
@@ -280,6 +306,12 @@ public class FakeDataGenerator {
                 /**
                  * insert into tb_friends values (uid, gid, 0, 0L);
                  */
+                Friend friend = new Friend();
+                friend.setUid(uid);
+                friend.setFid(fid);
+                friend.setState("0");
+                friend.setLeaveTime(0L);
+                friendDao.insert(friend);
                 userFriendIds.add(fid);
             }
         }
@@ -295,6 +327,7 @@ public class FakeDataGenerator {
      */
     public void generateFriendsChats(String uid, int num) {
         List<String> userFriendIds = getUserFriendIds(uid);
+//        System.out.println("朋友"+userFriendIds);
         for(String fid: userFriendIds) {
             for(int i=0; i<num; i++) {
                 if(r.nextBoolean()) {
@@ -378,7 +411,7 @@ public class FakeDataGenerator {
     public List<String> getStatusIds() {
         LambdaQueryWrapper<Status> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(Status::getId);
-        List<Status> objList = this.statusDao.selectList(queryWrapper);
+        List<Status> objList = statusDao.selectList(null);
         List<String> result = new ArrayList<>();
         objList.forEach((obj -> {
             result.add(obj.getId());
@@ -484,6 +517,7 @@ public class FakeDataGenerator {
     //
     public void generateTestData(int num) {
         List<User> Users = generateUsers(num * 10);
+        System.out.println(Users);
         // write to database
         boolean b = loadDataInDataBase.LoadListUser(Users);
         System.out.println("user加载"+b);
@@ -497,16 +531,23 @@ public class FakeDataGenerator {
             generateFriendRelationships(uid, num*3);
         }
         List<Status> Statuses = generateStatus(num * 20);
+        System.out.println(Statuses);
         // write to database
         boolean b2 = loadDataInDataBase.LoadListStatus(Statuses);
         System.out.println("Status加载"+b2);
-        for (String statusId : getStatusIds()) {
-            generateLikes(statusId, num*2);
-            List<Comment> Comments = generateComment(statusId, num * 10);
-            //write to database
-            boolean bt = loadDataInDataBase.LoadListComment(Comments);
-            System.out.println("Comments加载"+bt);
-        }
+//        for (String statusId : getStatusIds()) {
+//            if(statusId.equals("0")){
+//                System.out.println("jirshu");
+//                break;
+//
+//            }
+//            generateLikes(statusId, num*2);
+//            System.out.println("statusId"+statusId);
+//            List<Comment> Comments = generateComment(statusId, num * 2);
+//            //write to database
+//            boolean bt = loadDataInDataBase.LoadListComment(Comments);
+//            System.out.println("Comments加载"+bt);
+//        }
         //write to database
         List<Group> Groups = generateGroup(num);
         // write to database
