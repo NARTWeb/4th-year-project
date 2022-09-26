@@ -41,6 +41,9 @@ public class RandomContentGenerator {
 
 //        System.out.println("fushu"+ids.size());
         String result;
+        if (ids.size()==0){
+            return null;
+        }
         do {
             int randomInt = r.nextInt(ids.size());
             result = ids.get(randomInt);

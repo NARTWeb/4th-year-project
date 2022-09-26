@@ -52,7 +52,16 @@ public class FakeDataGenerator {
     private FriendDao friendDao;
 
     @Autowired
+    private GroupChatDao groupChatDao;
+
+    @Autowired
+    private FriendChatDao friendChatDao;
+
+    @Autowired
     private LoadDataInDataBaseImpl loadDataInDataBase;
+
+    @Autowired
+    private UserLikeDao userLikeDao;
 
     /**
      * @Description: generate users
@@ -177,18 +186,30 @@ public class FakeDataGenerator {
 //        LambdaQueryWrapper<Status> lqw = new LambdaQueryWrapper<Status>();
 //        lqw.eq(Status::getId, statusId);
         Status status = statusDao.selectById(statusId);
+        System.out.println(status);
+
         authorId = status.getSenderId();
-//        System.out.println("id"+ authorId);
+
+        System.out.println("id"+ authorId);
+
         List<String> userFriendIds = getUserFriendIds(authorId);
+
         System.out.println(userFriendIds);
         List<String> likedUserId = new ArrayList<>();
         for(int i=0; i<num; i++) {
             String uid = getRandomId(userFriendIds, likedUserId);
+            if ((uid==null)){
+                continue;
+            }
             if (uid.isEmpty()) return;
             if(r.nextBoolean()) {
                 /**
                  *  insert into tb_users_likes values (uid = uid, status_id = statusId);
                  */
+                UserLike userLike = new UserLike();
+                userLike.setUid(uid);
+                userLike.setStatusId(statusId);
+                userLikeDao.insert(userLike);
                 likedUserId.add(uid);
             }
         }
@@ -331,17 +352,36 @@ public class FakeDataGenerator {
         for(String fid: userFriendIds) {
             for(int i=0; i<num; i++) {
                 if(r.nextBoolean()) {
-                    Message msg = new Message();
-                    msg.setSenderId(uid);
-                    msg.setReceiverId(fid);
+//                    Message msg = new Message();
+                    FriendChat friendChat = new FriendChat();
+
+//                    msg.setSenderId(uid);
+
+                    friendChat.setSenderId(uid);
+
+//                    msg.setReceiverId(fid);
+
+                    friendChat.setReceiverId(fid);
+
                     if(r.nextBoolean()) {
-                        msg.setType("text");
-                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
+//                        msg.setType("text");
+                        friendChat.setType("text");
+//                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
+
+                        friendChat.setMsg(faker.regexify("[\\w]{5,200}"));
                     } else {
-                        msg.setType("picture");
-                        msg.setMsg(faker.internet().image());
+//                        msg.setType("picture");
+                        friendChat.setType("picture");
+
+//                        msg.setMsg(faker.internet().image());
+                        friendChat.setMsg(faker.internet().image());
                     }
-                    msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+//                    msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+                    friendChat.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+                    int insert = friendChatDao.insert(friendChat);
+                    if (insert<0){
+                        break;
+                    }
                 }
             }
         }
@@ -359,19 +399,29 @@ public class FakeDataGenerator {
         List<String> userGroupIds = getUserGroupIds(uid);
 
         for(String gid: userGroupIds) {
-            for(int i=0; i<num; i++) {
+            for(int i=0; i<num+5; i++) {
                 if(r.nextBoolean()) {
-                    Message msg = new Message();
-                    msg.setSenderId(uid);
-                    msg.setReceiverId(gid);
+//                    Message msg = new Message();
+                    GroupChat groupChat = new GroupChat();
+                    groupChat.setGroupId(gid);
+                    groupChat.setSenderId(uid);
+//                    msg.setSenderId(uid);
+//                    msg.setReceiverId(gid);
                     if(r.nextBoolean()) {
-                        msg.setType("text");
-                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
+                        groupChat.setType("text");
+                        groupChat.setMsg(faker.regexify("[\\w]{5,200}"));
+//                        msg.setType("text");
+//                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
+
                     } else {
-                        msg.setType("picture");
-                        msg.setMsg(faker.internet().image());
+                        groupChat.setType("picture");
+                        groupChat.setMsg("picture");
+//                        msg.setType("picture");
+//                        msg.setMsg(faker.internet().image());
                     }
-                    msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+                    groupChat.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+//                    msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+
 
                     Group group = groupDao.selectById(gid);
 
@@ -379,7 +429,11 @@ public class FakeDataGenerator {
                     /**
                      * maxLevel = select last_level from tb_group where id = gid
                      */
-                    msg.setLevel(r.nextInt(maxLevel));
+                    groupChat.setLevel(r.nextInt(maxLevel));
+                    int insert = groupChatDao.insert(groupChat);
+                    if (insert<0){
+                        break;
+                    }
                 }
             }
         }
@@ -516,54 +570,54 @@ public class FakeDataGenerator {
 
     //
     public void generateTestData(int num) {
-        List<User> Users = generateUsers(num * 10);
-        System.out.println(Users);
-        // write to database
-        boolean b = loadDataInDataBase.LoadListUser(Users);
-        System.out.println("user加载"+b);
+//        List<User> Users = generateUsers(num * 10);
+//        System.out.println(Users);
+//        // write to database
+//        boolean b = loadDataInDataBase.LoadListUser(Users);
+//        System.out.println("user加载"+b);
+//
+//        List<FriendReq> FriendReqs = generateReqs(num * 20);
+//        boolean b1 = loadDataInDataBase.LoadListFriendReq(FriendReqs);
+//        System.out.println("FriendReqs加载"+b1);
+//        // write to database
+//
+//        for (String uid : getUserIds()) {
+//            generateFriendRelationships(uid, num*3);
+//        }
+//        List<Status> Statuses = generateStatus(num * 20);
+//        System.out.println(Statuses);
+//        // write to database
+//        boolean b2 = loadDataInDataBase.LoadListStatus(Statuses);
+//        System.out.println("Status加载"+b2);
 
-        List<FriendReq> FriendReqs = generateReqs(num * 20);
-        boolean b1 = loadDataInDataBase.LoadListFriendReq(FriendReqs);
-        System.out.println("FriendReqs加载"+b1);
-        // write to database
-
-        for (String uid : getUserIds()) {
-            generateFriendRelationships(uid, num*3);
-        }
-        List<Status> Statuses = generateStatus(num * 20);
-        System.out.println(Statuses);
-        // write to database
-        boolean b2 = loadDataInDataBase.LoadListStatus(Statuses);
-        System.out.println("Status加载"+b2);
-//        for (String statusId : getStatusIds()) {
+        for (String statusId : getStatusIds()) {
 //            if(statusId.equals("0")){
 //                System.out.println("jirshu");
 //                break;
-//
 //            }
-//            generateLikes(statusId, num*2);
+            generateLikes(statusId, num*2);
 //            System.out.println("statusId"+statusId);
 //            List<Comment> Comments = generateComment(statusId, num * 2);
-//            //write to database
+            //write to database
 //            boolean bt = loadDataInDataBase.LoadListComment(Comments);
 //            System.out.println("Comments加载"+bt);
-//        }
+        }
         //write to database
-        List<Group> Groups = generateGroup(num);
-        // write to database
-        boolean b3 = loadDataInDataBase.LoadListGroup(Groups);
-        System.out.println("Groups加载"+b3);
-
-        List<GroupInvite> GroupInvites = generateInvites(num * 10);
-        boolean b4 = loadDataInDataBase.LoadListGroupInvite(GroupInvites);
-        System.out.println("GroupInvites加载"+b4);
-        // write to database
-        for (String gid : getGroupIds()) {
-            generateGroupRelationships(gid, num*3);
-        }
-        for(String uid : getUserIds()) {
-            generateFriendsChats(uid, num);
-            generateGroupsChats(uid, num);
-        }
+//        List<Group> Groups = generateGroup(num);
+//        // write to database
+//        boolean b3 = loadDataInDataBase.LoadListGroup(Groups);
+//        System.out.println("Groups加载"+b3);
+//
+//        List<GroupInvite> GroupInvites = generateInvites(num * 10);
+//        boolean b4 = loadDataInDataBase.LoadListGroupInvite(GroupInvites);
+//        System.out.println("GroupInvites加载"+b4);
+//        // write to database
+//        for (String gid : getGroupIds()) {
+//            generateGroupRelationships(gid, num*3);
+//        }
+//        for(String uid : getUserIds()) {
+//            generateFriendsChats(uid, num);
+//            generateGroupsChats(uid, num);
+//        }
     }
 }
