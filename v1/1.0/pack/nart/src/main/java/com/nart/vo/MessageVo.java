@@ -17,7 +17,7 @@ public class MessageVo {
     private String senderId;
     private String senderName;
     private String senderAvatar;
-    private DateVo sendDate;
+    private DateVo sentDate;
     private String msg;
 
 
@@ -33,7 +33,7 @@ public class MessageVo {
 
         DateVo dateVo = new DateVo();
         DateVo dateToString = dateVo.getDateToString(friendChat.getDate());
-        messageVo.setSendDate(dateToString);
+        messageVo.setSentDate(dateToString);
 
         messageVo.setMsg(friendChat.getMsg());
 
@@ -51,7 +51,7 @@ public class MessageVo {
 //        messageVo.setSenderAvatar(user.getAvatar());
         DateVo dateVo = new DateVo();
         DateVo dateToString = dateVo.getDateToString(groupChat.getDate());
-        messageVo.setSendDate(dateToString);
+        messageVo.setSentDate(dateToString);
         messageVo.setMsg(groupChat.getMsg());
         return messageVo;
     }

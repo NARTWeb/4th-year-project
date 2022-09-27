@@ -38,6 +38,7 @@ public class GroupController {
     @Autowired
     private GroupService groupService;
 
+    @LogA
     @GetMapping("memberList/{groupId}")
     public Result showGroupMemberList(@PathVariable("groupId") String gid) {
         List<UserVo> userVos = groupService.showGroupMebList(gid);
@@ -48,12 +49,13 @@ public class GroupController {
         return Result.success(userVos);
     }
 
+    @LogA
     @PutMapping("changeInfo")
     public Result changeGroupInfo(@RequestBody GroupVo gInfo) {
         Group group = new Group();
-        group.setId(gInfo.getGroupId());
-        group.setGroupName(gInfo.getGroupName());
-        group.setAvatar(gInfo.getGroupAvatar());
+        group.setId(gInfo.getId());
+        group.setGroupName(gInfo.getName());
+        group.setAvatar(gInfo.getAvatar());
         group.setNotice(gInfo.getNotice());
         boolean b = groupService.changeGroupInfo(group);
         if(b) {
@@ -62,7 +64,8 @@ public class GroupController {
         return Result.fail(ErrorCode.CHANGE_GROUP_INFO_ERROR);
     }
 
-    @GetMapping("list")
+    @LogA
+    @PostMapping("list")
     public Result showGroupList(@RequestBody PageVo page) {
         List<GroupVo> groupVos = groupService.showGroupList(page.toIPage(UserGroup.class));
         if(groupVos == null) {
@@ -71,6 +74,7 @@ public class GroupController {
         return Result.success(groupVos);
     }
 
+    @LogA
     @DeleteMapping("del/{groupId}")
     public Result leaveGroup(@PathVariable("groupId") String gid) {
         boolean b = groupService.leaveGroup(gid, UserThreadLocal.get().getId());
@@ -80,6 +84,7 @@ public class GroupController {
         return Result.fail(ErrorCode.LEAVE_GROUP_ERROR);
     }
 
+    @LogA
     @PutMapping("state/{groupId}/{state}")
     public Result changeGroupState(@PathVariable("groupId") String gid,
                                    @PathVariable("state") Integer state) {
@@ -90,7 +95,8 @@ public class GroupController {
         return Result.fail(ErrorCode.CHANGE_GROUP_STATE_ERROR);
     }
 
-    @GetMapping("inviteList")
+    @LogA
+    @PostMapping("inviteList")
     public Result showInviteList(@RequestBody PageVo page) {
         List<InviteVo> inviteVos = groupService.showInviteList(page.toIPage(GroupInvite.class));
 
@@ -102,6 +108,7 @@ public class GroupController {
         return Result.success(inviteVos);
     }
 
+    @LogA
     @PostMapping("send")
     public Result sendInvite(@RequestBody GroupInvite inviteInfo) {
         boolean b = groupService.sendInvite(inviteInfo);
@@ -111,6 +118,7 @@ public class GroupController {
         return Result.fail(ErrorCode.SEND_GROUP_INVITE_ERROR);
     }
 
+    @LogA
     @PutMapping("resp/{inviteId}/{agree}")
     public Result respGroupInvite(@PathVariable("inviteId") String inviteId,
                                   @PathVariable("agree") Boolean agree) {
@@ -121,6 +129,7 @@ public class GroupController {
         return Result.fail(ErrorCode.RESP_GROUP_INVITE_ERROR);
     }
 
+    @LogA
     @PostMapping("create")
     public Result createGroup(@RequestBody String gName) {
         boolean b = groupService.createGroup(gName, UserThreadLocal.get().getId());

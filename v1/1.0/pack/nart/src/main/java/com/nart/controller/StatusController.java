@@ -42,7 +42,8 @@ public class StatusController {
     @Autowired
     private UserDao userDao;
 
-    @GetMapping("list/{type}/{uid}")
+    @LogA
+    @PostMapping("list/{type}/{uid}")
     public Result showStatusList(@PathVariable("type") String type,
                                  @PathVariable("uid") String uid,
                                  @RequestBody PageVo pageVo) {
@@ -89,6 +90,7 @@ public class StatusController {
         return Result.fail(ErrorCode.UNDEFINED);
     }
 
+    @LogA
     @PutMapping("like/{statusId}/{like}")
     public Result likeStatus(@PathVariable("statusId") String statusId,
                              @PathVariable("like") Boolean like) {
@@ -100,6 +102,7 @@ public class StatusController {
         }
     }
 
+    @LogA
     @PostMapping("post")
     public Result postStatus(@RequestBody StatusVo statusInfo) {
         System.out.println(statusInfo);
@@ -124,6 +127,7 @@ public class StatusController {
         }
     }
 
+    @LogA
     @DeleteMapping("del/{statusId}")
     public Result delStatus(@PathVariable("statusId") String statusId) {
         boolean b = statusService.delStatus(statusId);

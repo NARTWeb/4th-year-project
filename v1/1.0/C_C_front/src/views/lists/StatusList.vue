@@ -114,7 +114,7 @@ function tList() {
 function load() {
   if (!loading.value && !nodata.value) {
     loading.value = true;
-    showAllStatusList(token, page)
+    showAllStatusList(token.value, page)
       .then((res) => {
         if (res.data.success) {
           if (res.data.data.length > 0) {

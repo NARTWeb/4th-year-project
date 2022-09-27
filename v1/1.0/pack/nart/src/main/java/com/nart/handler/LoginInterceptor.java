@@ -48,6 +48,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = request.getHeader("Authorization");
+        System.out.println("token: " + token);
 
         log.info("=================request start===========================");
         String requestURI = request.getRequestURI();

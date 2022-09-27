@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 public class FriendVo {
     private String id;
     private String uname;
-    private String fname;
-    private String favatar;
+    private String name;
+    private String avatar;
     private Integer state;
     private Boolean newMsg;
 
@@ -23,8 +23,8 @@ public class FriendVo {
     public FriendVo transfer(Friend friend){
         FriendVo friendVo = new FriendVo();
         friendVo.setId(friend.getId());
-        friendVo.setFavatar(friend.getAvatar());
-        friendVo.setFname(friend.getName());
+        friendVo.setAvatar(friend.getAvatar());
+        friendVo.setName(friend.getName());
         friendVo.setState(Integer.valueOf(friend.getState()));
         friendVo.setNewMsg(friend.getNewMessage());
 

@@ -5,18 +5,18 @@ import lombok.Data;
 
 @Data
 public class GroupVo {
-    private String groupId;
-    private String groupName;
-    private String groupAvatar;
+    private String id;
+    private String name;
+    private String avatar;
     private String notice;
     private Integer state;
     private Boolean newMsg;
 
     public GroupVo transfer(Group group){
         GroupVo groupVo = new GroupVo();
-        groupVo.setGroupId(group.getId());
-        groupVo.setGroupName(group.getGroupName());
-        groupVo.setGroupAvatar(group.getAvatar());
+        groupVo.setId(group.getId());
+        groupVo.setName(group.getGroupName());
+        groupVo.setAvatar(group.getAvatar());
         groupVo.setNotice(group.getNotice());
         groupVo.setState(group.getState());
         groupVo.setNewMsg(group.getNewMessage());

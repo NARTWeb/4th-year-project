@@ -102,7 +102,7 @@ function rejectf(id) {
 function searchReqList() {
   if (!nodata.value && !loading.value) {
     loading.value = true;
-    showFriendRequests(token, page)
+    showFriendRequests(token.value, page)
       .then((res) => {
         if (res.data.success) {
           if (res.data.data > 0) {
@@ -135,7 +135,7 @@ function searchReqList() {
   }
 }
 function acceptFun(id) {
-  responseFriendReq(token, id, true)
+  responseFriendReq(token.value, id, true)
     .then((res) => {
       if (res.data.success) {
         reqList.splice(i, 1);
@@ -162,7 +162,7 @@ function acceptFun(id) {
     });
 }
 function rejectFun(id) {
-  responseFriendReq(token, id, false)
+  responseFriendReq(token.value, id, false)
     .then((res) => {
       if (res.data.success) {
         reqList.splice(i, 1);

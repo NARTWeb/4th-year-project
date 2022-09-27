@@ -140,7 +140,7 @@ function uploadFun() {
 }
 function create() {
   let flag = false;
-  createNewGroup(token, groupName.value)
+  createNewGroup(token.value, groupName.value)
     .then((res) => {
       if (res.data.success) {
         groupId.value = res.data.data;
@@ -170,7 +170,7 @@ function create() {
       receiverId: inviteList[i].id,
       message: "",
     };
-    sendGroupInvite(token, inviteInfo)
+    sendGroupInvite(token.value, inviteInfo)
       .then((res) => {
         if (!res.data.success) {
           ElMessage({

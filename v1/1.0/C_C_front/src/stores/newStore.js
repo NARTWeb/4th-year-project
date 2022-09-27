@@ -1,6 +1,6 @@
 import { ElMessage } from "element-plus";
 import { defineStore } from "pinia";
-import { showFriendRequests } from "@/api/friend";
+import { searchNewFriend } from "@/api/friend";
 import  useUserStore  from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import i18n from '../locals/index.js'
@@ -26,7 +26,8 @@ export const useNewStore = defineStore("newFriend", {
     loadNewFriends() {
       if (!this.loading && !this.nodata) {
         this.loading = true;
-        showFriendRequests(token, this.searchHistory, this.page)
+        console.log(token.value);
+        searchNewFriend(token.value, this.searchHistory, this.page)
           .then((res) => {
             if (res.data.success) {
               if (res.data.data.length > 0) {

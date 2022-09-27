@@ -40,10 +40,11 @@
                   <el-dropdown-item @click="changeLang()">{{
                     $t("changeLang")
                   }}</el-dropdown-item>
-                  <el-dropdown-item @click="postStatus">{{
+                  <el-dropdown-item @click="router.push({ name: 'postStatus', params: {} })">{{
                     $t("main.menu.item1")
                   }}</el-dropdown-item>
-                  <el-dropdown-item @click="checkStatus">{{
+                  <el-dropdown-item @click="router.push({name: 'myStatus'})">
+                    {{
                     $t("main.menu.item2")
                   }}</el-dropdown-item>
                   <el-dropdown-item
@@ -62,7 +63,7 @@
                   <el-dropdown-item v-else @click="showAllGroups">{{
                     $t("main.menu.item4")
                   }}</el-dropdown-item>
-                  <el-dropdown-item @click="editInfo">{{
+                  <el-dropdown-item @click="router.push({ name: 'editMyInfo', params: {} })">{{
                     $t("main.menu.item5")
                   }}</el-dropdown-item>
                   <el-dropdown-item @click="logout">{{
@@ -77,8 +78,8 @@
       <el-main class="first-main">
         <el-container>
           <el-header class="header">
-            <div class="header-text t1">{{ $t("main.bar.item1") }}</div>
-            <div class="header-text t2">{{ $t("main.bar.item2") }}</div>
+            <div class="header-text t1" @click="forceLoad(true)">{{ $t("main.bar.item1") }}</div>
+            <div class="header-text t2" @click="forceLoad(false)">{{ $t("main.bar.item2") }}</div>
             <div class="header-menu">
               <el-menu
                 class="el-menu-demo"
@@ -192,7 +193,7 @@ const gnoticeNew = ref(null);
 const rv = ref(null);
 
 function searchF() {
-  searchFriend(token, searchInput.value, friendParam.page)
+  searchFriend(token.value, searchInput.value, friendParam.page)
     .then((res) => {
       if (res.data.success) {
       } else {
@@ -229,15 +230,6 @@ function showAllGroups() {
 function logout() {
   store.logout();
 }
-function postStatus() {
-  router.push({ name: "postStatus", params: {} });
-}
-function checkStatus() {
-  router.push({ name: "myStatus" });
-}
-function editInfo() {
-  router.push({ name: "editMyInfo", params: {} });
-}
 function toSearch() {
   let temp = searchInput.value;
 
@@ -258,47 +250,48 @@ function menuClick(index) {
   });
 }
 function wSend(input) {
-  ws.send(JSON.stringify(input));
+  console.log(input);
+  //ws.send(JSON.stringify(input));
 }
 onMounted(() => {
-  ws = new WebSocket("ws://localhost/chat");
+  // ws = new WebSocket("ws://localhost:8888/chat");
 
-  ws.onopen = function () {};
+  // ws.onopen = function () {};
 
-  ws.onmessage = function (evt) {
-    alert("onMessage");
-    var dataStr = evt.data;
+  // ws.onmessage = function (evt) {
+  //   alert("onMessage");
+  //   var dataStr = evt.data;
 
-    var res = JSON.parse(dataStr);
-    let rType = res.receiverType;
-    let gid = res.receiver;
-    let sid = res.sender;
+  //   var res = JSON.parse(dataStr);
+  //   let rType = res.receiverType;
+  //   let gid = res.receiver;
+  //   let sid = res.sender;
 
-    if (rType == "friend") {
-      fnoticeNew.value.noticeNewMsg(true, sid, true);
-    } else {
-      gnoticeNew.value.noticeNewMsg(false, gid, true);
-    }
+  //   if (rType == "friend") {
+  //     fnoticeNew.value.noticeNewMsg(true, sid, true);
+  //   } else {
+  //     gnoticeNew.value.noticeNewMsg(false, gid, true);
+  //   }
 
-    if(router.currentRoute.value.name == "chatRoom") {
-      let str = router.currentRoute.value.params.id;
-      let type = roomId[0];
-      let roomId = str.slice(1);
-      if(type == "f") {
-        if(sid == roomId && rType == "friend") {
-          fnoticeNew.value.noticeNewMsg(true, sid, false);
-          rv.value.receiveMsg(res);
-        }
-      } else {
-        if(gid == roomId && rType == "group") {
-          gnoticeNew.value.noticeNewMsg(false, gid, false);
-          rv.value.receiveMsg(res);
-        }
-      }
-    }
-  };
+  //   if(router.currentRoute.value.name == "chatRoom") {
+  //     let str = router.currentRoute.value.params.id;
+  //     let type = roomId[0];
+  //     let roomId = str.slice(1);
+  //     if(type == "f") {
+  //       if(sid == roomId && rType == "friend") {
+  //         fnoticeNew.value.noticeNewMsg(true, sid, false);
+  //         rv.value.receiveMsg(res);
+  //       }
+  //     } else {
+  //       if(gid == roomId && rType == "group") {
+  //         gnoticeNew.value.noticeNewMsg(false, gid, false);
+  //         rv.value.receiveMsg(res);
+  //       }
+  //     }
+  //   }
+  // };
 
-  ws.onclose = function () {};
+  // ws.onclose = function () {};
 });
 </script>
 <style scoped>

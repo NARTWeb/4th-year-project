@@ -83,7 +83,7 @@ function uploadPics() {
 
 function post(){
     uploadPics();
-    postStatus(token, msg.value, pics)
+    postStatus(token.value, msg.value, pics)
     .then((res) =>{
         if(res.data.success) {
           alert(t('postStatus.succeed'))

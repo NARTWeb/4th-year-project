@@ -32,6 +32,7 @@ public class CommentController {
     private CommentService commentService;
 
 
+    @LogA
     @GetMapping("list/{statusId}")
     public Result showCommentList(@PathVariable String statusId) {
         CommentVo commentVo = new CommentVo();
@@ -49,6 +50,7 @@ public class CommentController {
         return Result.success(commentVos);
     }
 
+    @LogA
     @PostMapping("/post")
     public Result postComment(@RequestBody CommentVo cInfo) {
         boolean b = commentService.postComment(cInfo.getStatusId(), cInfo.getMsg(), UserThreadLocal.get().getId());

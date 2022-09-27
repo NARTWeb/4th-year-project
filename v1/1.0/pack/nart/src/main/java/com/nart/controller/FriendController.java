@@ -29,13 +29,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("friend")
-@LogA
 public class FriendController {
 
     @Autowired
     private FriendService friendService;
 
-    @GetMapping("list")
+    @LogA
+    @PostMapping("list")
     public Result showFriendList(@RequestBody PageVo page) {
         List<FriendVo> friendVos = friendService.showFriendList(
                 page.toIPage(Friend.class), UserThreadLocal.get().getId());
@@ -45,7 +45,8 @@ public class FriendController {
         return Result.success(friendVos);
     }
 
-    @GetMapping("search/{input}")
+    @LogA
+    @PostMapping("search/{input}")
     public Result searchFriend(@RequestBody PageVo page,
                                @PathVariable("input") String input) {
         List<UserVo> userVos = friendService.searchFriend(input, page.toIPage(Friend.class));
@@ -55,6 +56,7 @@ public class FriendController {
         return Result.success(userVos);
     }
 
+    @LogA
     @DeleteMapping("del/{friendId}")
     public Result delFriend(@PathVariable("friendId") String fid) {
         boolean b = friendService.delFriend(fid, UserThreadLocal.get().getId());
@@ -64,6 +66,7 @@ public class FriendController {
         return Result.fail(ErrorCode.DEL_FRIEND_ERROR);
     }
 
+    @LogA
     @GetMapping("state/{friendId}/{state}")
     public Result changeFriendState(@PathVariable("friendId") String fid,
                                     @PathVariable("state") Integer state) {
@@ -74,7 +77,8 @@ public class FriendController {
         return Result.fail(ErrorCode.CHANGE_FRIEND_STATE_ERROR);
     }
 
-    @GetMapping("reqlist")
+    @LogA
+    @PostMapping("reqlist")
     public Result showReqList(@RequestBody PageVo page) {
         List<RequestVo> requestVos = friendService.showReqList(
                 page.toIPage(FriendReq.class), UserThreadLocal.get().getId());
@@ -84,7 +88,8 @@ public class FriendController {
         return Result.success(requestVos);
     }
 
-    @GetMapping("send")
+    @LogA
+    @PostMapping("send")
     public Result sendFriendReq(@RequestBody FriendReq reqInfo) {
         boolean b = friendService.sendFriendReq(
                 reqInfo.getReceiverId(), UserThreadLocal.get().getId(), reqInfo.getMsg());
@@ -94,6 +99,7 @@ public class FriendController {
         return Result.fail(ErrorCode.SEND_FRIEND_REQ_ERROR);
     }
 
+    @LogA
     @GetMapping("resp/{requestId}/{agree}")
     public Result respFriendReq(@PathVariable("requestId") String reqId,
                                 @PathVariable("agree") Boolean agree) {
@@ -104,7 +110,8 @@ public class FriendController {
         return Result.fail(ErrorCode.RESP_FRIEND_REQ_ERROR);
     }
 
-    @GetMapping("searchNew/{input}")
+    @LogA
+    @PostMapping("searchNew/{input}")
     public Result searchNew(@RequestBody PageVo page,
                               @PathVariable("input") String input) {
         List<UserVo> userVos = friendService.searchNew(input, page);

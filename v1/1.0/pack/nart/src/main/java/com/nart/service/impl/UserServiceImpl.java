@@ -67,8 +67,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(email);
         user.setName(name);
-        String password = EncryptUtil.encryptPwd(pwd);
-        user.setPwd(password);
+        user.setPwd(pwd);
         user.setUserOnline(0);
         user.setAvatar("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png");
         int insert = UserDao.insert(user);

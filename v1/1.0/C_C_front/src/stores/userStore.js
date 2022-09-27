@@ -48,7 +48,7 @@ const useUserStore = defineStore("user", {
             if (res.data.success) {
               setToken(res.data.data);
               this.token = getToken();
-              getAvatarUname();
+              this.getAvatarUname();
               resolve();
             } else {
               ElMessage({
@@ -185,8 +185,7 @@ const useUserStore = defineStore("user", {
         signout(this.token)
           .then((res) => {
             if (res.data.success) {
-              fedLogOut();
-              removeToken();
+              this.fedLogOut();
               resolve();
             } else {
               ElMessage({
@@ -231,7 +230,7 @@ const useUserStore = defineStore("user", {
             if (res.data.success) {
               setToken(res.data.data);
               this.token = getToken();
-              getAvatarUname();
+              this.getAvatarUname();
               resolve();
             } else {
               ElMessage({

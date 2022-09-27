@@ -77,7 +77,7 @@ const tt = {
 };
 
 function getFriendInfo() {
-  showUserInfo(token, route.params.id)
+  showUserInfo(token.value, route.params.id)
   .then((res) => {
         if (res.data.success) {
             tt.value1 = res.data.data.uname;
@@ -133,7 +133,7 @@ function tList() {
 }
 function load() {
   if (!loading.value && !nodata.value) {
-    showMyStatusList(token, "", page)
+    showMyStatusList(token.value, "", page)
       .then((res) => {
         if (res.data.success) {
           if (res.data.data.length > 0) {

@@ -1,9 +1,11 @@
 package com.nart.util;
 
+import com.nart.common.LogA;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.Date;
@@ -20,6 +22,7 @@ import java.util.Map;
  * @author: ZIRUI QIAO
  * @date: 2022/8/30 16:26
  */
+@Slf4j
 public class EncryptUtil {
     private static final String salt = "2361578nart!@#";
     private static final String jwtToken = "123456Nart!@#$$";
@@ -41,8 +44,11 @@ public class EncryptUtil {
     }
 
     public static Map<String, Object> checkToken(String token){
+        log.info("checkToken: " + token);
         try {
             Jwt parse = Jwts.parser().setSigningKey(jwtToken).parse(token);
+            log.info("jwt header: " + GsonFormatter.toJsonString(parse.getHeader()));
+            log.info("jwt body: " + GsonFormatter.toJsonString(parse.getBody()));
             return (Map<String, Object>) parse.getBody();
         }catch (Exception e){
             e.printStackTrace();
@@ -56,5 +62,8 @@ public class EncryptUtil {
         System.out.println(token);
         Map<String, Object> map = EncryptUtil.checkToken(token);
         System.out.println(map.get("userId"));
+        System.out.println("9ef18e57327e49d5d09aba8f8e58e2b9");
+        System.out.println("1452a94dfb8d4c81b08c88bf3565490a");
+        System.out.println(encryptPwd("123457"));
     }
 }

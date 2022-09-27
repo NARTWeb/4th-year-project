@@ -64,6 +64,7 @@ function pressBtn() {
   margin-left: 20px;
   font-size: x-large;
   font-weight: 600;
+  color: black;
 }
 .icon:active {
     color: black;

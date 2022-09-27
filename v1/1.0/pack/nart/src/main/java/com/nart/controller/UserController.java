@@ -25,7 +25,6 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/user")
-@LogA
 public class UserController {
 
     @Autowired
@@ -33,22 +32,26 @@ public class UserController {
     @Autowired
     private LoginService loginService;
 
+    @LogA
     @PutMapping("login")
     public Result login(@RequestBody UserVo uInfo, HttpSession session) {
 //        System.out.println(uInfo);
         return loginService.login(uInfo.getUname(), uInfo.getPwd(), session);
     }
 
+    @LogA
     @PutMapping("logout")
     public Result logout(@RequestHeader("Authorization") String token) {
         return loginService.logout(token);
     }
 
+    @LogA
     @PostMapping("register")
     public Result register(@RequestBody UserVo uInfo, HttpSession session){
         return loginService.register(uInfo.getEmail(), uInfo.getUname(), uInfo.getPwd(), session);
     }
 
+    @LogA
     @GetMapping("info/{id}")
     public Result showUserInfo(@PathVariable("id") String id) {
         System.out.println(id);
@@ -66,6 +69,7 @@ public class UserController {
         return Result.success(transfer);
     }
 
+    @LogA
     @GetMapping
     public Result showUnameAvatar() {
         User user = userService.showUnameAvatar(UserThreadLocal.get().getId());
@@ -75,6 +79,7 @@ public class UserController {
         return Result.success(transfer);
     }
 
+    @LogA
     @PutMapping("changeInfo")
     public Result changeUserInfo(@RequestBody UserVo uInfo){
         boolean b = userService.changeUserInfo(uInfo, UserThreadLocal.get().getId());
