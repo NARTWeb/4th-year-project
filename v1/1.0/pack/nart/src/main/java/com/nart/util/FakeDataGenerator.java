@@ -105,7 +105,7 @@ public class FakeDataGenerator {
             FriendReq frq = new FriendReq();
             frq.setSenderId(sender);
             frq.setSenderId(receiver);
-            frq.setMsg(faker.regexify("[\\w]{0,20}"));
+            frq.setMsg(faker.regexify("\\w{0,20}"));
             frq.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
             list.add(frq);
         }
@@ -128,7 +128,7 @@ public class FakeDataGenerator {
             Status s = new Status();
             s.setSenderId(getRandomId(users));
             s.setLikes(0);
-            s.setText(faker.regexify("[\\w]{20,200}"));
+            s.setText(faker.shakespeare().asYouLikeItQuote());
             s.setPics(getRandomPics());
             s.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
             list.add(s);
@@ -160,7 +160,7 @@ public class FakeDataGenerator {
                 Comment comment = new Comment();
                 comment.setUserId(uid);
                 comment.setStatusId(statusId);
-                comment.setMsg(faker.regexify("[\\w]{5,100}"));
+                comment.setMsg(faker.shakespeare().romeoAndJulietQuote());
                 comment.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
                 list.add(comment);
             }
@@ -227,7 +227,7 @@ public class FakeDataGenerator {
         for (int i = 0; i < num; i++) {
             Group g = new Group();
             g.setAvatar(faker.avatar().image());
-            g.setNotice(faker.regexify("[\\w]{20,200}"));
+            g.setNotice(faker.regexify("\\w{20,200}"));
             g.setGroupName(faker.company().name());
             g.setUserLevel(0);
             list.add(g);
@@ -262,7 +262,7 @@ public class FakeDataGenerator {
             gi.setSenderId(sid);
             gi.setGroupId(gid);
             gi.setReceiverId(getRandomId(users, sid));
-            gi.setMsg(faker.regexify("[\\w]{0,20}"));
+            gi.setMsg(faker.regexify("\\w{0,20}"));
             gi.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
             list.add(gi);
         }
@@ -366,9 +366,9 @@ public class FakeDataGenerator {
                     if(r.nextBoolean()) {
 //                        msg.setType("text");
                         friendChat.setType("text");
-//                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
+//                        msg.setMsg(faker.regexify("\\w{5,200}"));
 
-                        friendChat.setMsg(faker.regexify("[\\w]{5,200}"));
+                        friendChat.setMsg(faker.harryPotter().quote());
                     } else {
 //                        msg.setType("picture");
                         friendChat.setType("picture");
@@ -409,7 +409,7 @@ public class FakeDataGenerator {
 //                    msg.setReceiverId(gid);
                     if(r.nextBoolean()) {
                         groupChat.setType("text");
-                        groupChat.setMsg(faker.regexify("[\\w]{5,200}"));
+                        groupChat.setMsg(faker.shakespeare().hamletQuote());
 //                        msg.setType("text");
 //                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
 

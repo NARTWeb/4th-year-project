@@ -59,11 +59,11 @@ public class LogAspect {
         // 执行时长(毫秒)
         long time = System.currentTimeMillis() - beginTime;
         // 保存日志
-        recordLog(point, time);
+        recordLog(point, time, result);
         return result;
     }
 
-    private void recordLog(ProceedingJoinPoint joinPoint, long time) {
+    private void recordLog(ProceedingJoinPoint joinPoint, long time, Object result) {
         log.info("=====================log start================================");
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
@@ -85,6 +85,7 @@ public class LogAspect {
 
         // 获取request 设置IP地址
         log.info("ip:{}", IpUtils.getIpAddr());
+        log.info("{}", result);
 
         // 打印request header和body
         // printRequest(HttpContextUtils.getHttpServletRequest(), joinPoint);

@@ -96,14 +96,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean changeUserInfo(UserVo userVo, String id) {
         User user = UserDao.selectById(id);
-        user.setName(userVo.getUname());
-        String password = EncryptUtil.encryptPwd(userVo.getPwd());
-        user.setPwd(password);
-        user.setAvatar(userVo.getAvatar());
-        user.setTel(userVo.getPhone());
-        user.setEmail(userVo.getEmail());
-        user.setAddress(userVo.getAddress());
-        user.setAge(userVo.getBirthday());
+        if(!userVo.getUname().isEmpty()){
+            user.setName(userVo.getUname());
+        }
+        if(!userVo.getPwd().isEmpty()) {
+            String password = EncryptUtil.encryptPwd(userVo.getPwd());
+            user.setPwd(password);
+        }
+        if(!userVo.getAvatar().isEmpty()) {
+            user.setAvatar(userVo.getAvatar());
+        }
+        if(!userVo.getPhone().isEmpty()) {
+            user.setTel(userVo.getPhone());
+        }
+        if(!userVo.getEmail().isEmpty()) {
+            user.setEmail(userVo.getEmail());
+        }
+        if(!userVo.getAddress().isEmpty()) {
+            user.setAddress(userVo.getAddress());
+        }
+        if(!userVo.getBirthday().isEmpty()) {
+            user.setAge(userVo.getBirthday());
+        }
         int i = UserDao.updateById(user);
         return i > 0;
     }
