@@ -48,10 +48,11 @@ public class UserController {
         return loginService.register(uInfo.getEmail(), uInfo.getUname(), uInfo.getPwd(), session);
     }
 
-    @GetMapping("info/{id}")
+    @LogA
+    @GetMapping(value="info/{id}")
     public Result showUserInfo(@PathVariable("id") String id) {
         User user;
-        if(id.isEmpty()) {
+        if(id.equals("-1")) {
             user = userService.showUserInfo(UserThreadLocal.get().getId());
         } else {
             user = userService.showUserInfo(id);

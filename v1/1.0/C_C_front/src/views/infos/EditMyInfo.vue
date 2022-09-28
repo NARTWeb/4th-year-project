@@ -3,17 +3,23 @@
     <div class="big center">
       <el-avatar class="img" :src="realAvatar" />
       <div class="small center">
-        <el-upload
-          ref="uploadRef"
+        <!-- <el-upload
+          v-model="uploadRef"
+          :on-success="uploadSuccess"
+          :on-error="uploadFail"
+          :on-change="changeUpload"
+          :before-upload="tts"
+          :headers="headers"
+          :data="formdata"
+          method="post"
           class="upload-demo"
           accept="image/jpeg,image/png,image/jpg"
-          action="string"
-          :http-request="uploadFun"
+          action="http://localhost:8888/upload"
           :limit="1"
           :auto-upload="true"
           :show-file-list="false"
-        >
-          <template #trigger>
+        > -->
+          <!-- <template #trigger>
             <el-button type="primary" round class style="margin-top: 1vh">{{
               $t("groupSetting.addAvatar")
             }}</el-button>
@@ -23,7 +29,7 @@
               {{ $t("buttons.picInfo") }}
             </div>
           </template>
-        </el-upload>
+        </el-upload> -->
       </div>
     </div>
 
@@ -33,6 +39,7 @@
           <info-item
             :label="t('infoItem.userName')"
             :reg="tt.reg1"
+            :value="userInfo.uname"
             lb="1"
             can-change
             @changeFun="changef"
@@ -42,6 +49,7 @@
           <info-item
             :label="t('infoItem.birthday')"
             :reg="tt.reg2"
+            :value="userInfo.birthday"
             lb="2"
             can-change
             @changeFun="changef"
@@ -61,6 +69,7 @@
           <info-item
             :label="t('infoItem.phone')"
             :reg="tt.reg4"
+            :value="userInfo.phone"
             lb="4"
             can-change
             @changeFun="changef"
@@ -72,6 +81,7 @@
           <info-item
             :label="t('infoItem.email')"
             :reg="tt.reg5"
+            :value="userInfo.email"
             lb="5"
             can-change
             @changeFun="changef"
@@ -81,6 +91,7 @@
           <info-item
             :label="t('infoItem.address')"
             :reg="tt.reg6"
+            :value="userInfo.address"
             lb="6"
             can-change
             @changeFun="changef"
@@ -99,28 +110,32 @@ import { storeToRefs } from "pinia";
 import InfoItem from "@/components/InfoItem.vue";
 import { format } from "@/utils/time.js";
 import { uploadPic } from "@/api/upload";
+import { ElMessage } from "element-plus";
+import { sortUserPlugins } from "vite";
 
 const store = useUserStore();
 const { avatar, name, email, tel, birthday, address} = storeToRefs(store);
 const { t } = useI18n();
 const realAvatar = ref(avatar);
 const counter = ref(0);
-const uploadRef = ref("");
+const uploadRef = ref();
 const userInfo = reactive({
-    uname: name,
-    avatar: avatar,
-    email: email, 
-    phone: tel,
-    address: address,
-    birthday: birthday,
+    uname: name.value,
+    avatar: avatar.value,
+    email: email.value, 
+    phone: tel.value,
+    address: address.value,
+    birthday: birthday.value,
     oldPwd: '',
     pwd: ''
 });
+const headers = {'Content-Type': 'multipart/form-data'};
+let formdata = new FormData();
 
 const tt = {
   reg1: /^[a-z0-9_-]{3,16}$/,
   reg2: /^\d{4}-\d{2}-\d{2}$/,
-  reg4: /^[1-9]\d{2}\s\d{3}\s\d{4}/,
+  reg4: /^[1-9]\d{2}-\d{3}-\d{4}/,
   reg6: /^[#.0-9a-zA-Z\s,-]+$/,
   reg5: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
   label1: "1",
@@ -129,9 +144,12 @@ const tt = {
   label5: "5",
   label6: "6",
 };
-
-function uploadFun() {
-  uploadPic(uploadRef)
+function tts() {
+  console.log(uploadRef);
+  console.log(formdata);
+}
+async function uploadFun() {
+  await uploadPic(formdata)
     .then((res) => {
       if (res.data.success) {
         realAvatar.value = res.data.data;
@@ -157,7 +175,35 @@ function uploadFun() {
   store.changeUserInfo(userInfo);
 }
 
-function changef(label, input) {
+function uploadSuccess(res) {
+  if (res.data.success) {
+        realAvatar.value = res.data.data;
+      } else {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+          showClose: true,
+          grouping: true,
+        });
+      }
+}
+
+function uploadFail(err) {
+  ElMessage({
+        type: "error",
+        message: t("chatInputBox.uploadPicError"),
+        showClose: true,
+        grouping: true,
+      });
+      console.log(err);
+}
+
+function changeUpload() {
+  formdata = new FormData();
+  formdata.append('image', uploadRef);
+}
+
+async function changef(label, input) {
   switch(label) {
     case tt.label1: userInfo.uname = input; break;
     case tt.label2: userInfo.birthday = input; break;
@@ -168,15 +214,12 @@ function changef(label, input) {
   store.changeUserInfo(userInfo);
 }
 
-function changep(oldPwd, newPwd) {
+async function changep(oldPwd, newPwd) {
   userInfo.oldPwd = oldPwd;
   userInfo.pwd = newPwd;
+  console.log(userInfo);
   store.changeUserInfo(userInfo);
 }
-
-onMounted(() => {
-  store.getUserInfo();
-});
 </script>
 <style scoped>
 .all {

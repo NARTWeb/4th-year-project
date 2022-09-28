@@ -62,7 +62,7 @@
                   <el-dropdown-item v-else @click="showAllGroups">{{
                     $t("main.menu.item4")
                   }}</el-dropdown-item>
-                  <el-dropdown-item @click="editInfo">{{
+                  <el-dropdown-item @click="editPInfo">{{
                     $t("main.menu.item5")
                   }}</el-dropdown-item>
                   <el-dropdown-item @click="logout">{{
@@ -113,6 +113,7 @@
                       isFriend
                       :showAll="friendShowAll"
                       :param="friendParam"
+                      @addPage="PagePlus"
                       ref="fnoticeNew"
                     ></contact-list>
                   </div>
@@ -121,6 +122,7 @@
                       :isFriend="false"
                       :showAll="groupShowAll"
                       :param="groupParam"
+                      @addPage="PagePlus"
                       ref="gnoticeNew"
                     ></contact-list>
                   </div>
@@ -242,7 +244,7 @@ function toSearch() {
   let temp = searchInput.value;
 
   if (temp == "") {
-    temp = "_[all]_";
+    temp = "";
   }
   if (Fstore.fSearchHistory != temp) {
     Fstore.fSearchHistory = temp;
@@ -256,6 +258,17 @@ function menuClick(index) {
   router.push({
     name: index,
   });
+}
+function PagePlus(isFriend) {
+  if(isFriend) {
+    friendParam.page.pageNum += 1;
+  } else {
+    groupParam.page.pageNum += 1;
+  }
+}
+function editPInfo() {
+  store.getUserInfo();
+  router.push({ name: 'editMyInfo', params: {} });
 }
 function wSend(input) {
   ws.send(JSON.stringify(input));

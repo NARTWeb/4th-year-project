@@ -163,6 +163,7 @@ function changeBtn() {
   } else {
     changeValue.value = changeValue.value == true ? false:true;
   }
+  change();
 }
 function change() {
   if (!props.isPwd) {

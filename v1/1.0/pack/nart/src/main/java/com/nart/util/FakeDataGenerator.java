@@ -2,10 +2,9 @@ package com.nart.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.javafaker.Faker;
-import com.nart.dao.GroupDao;
-import com.nart.dao.StatusDao;
-import com.nart.dao.UserDao;
+import com.nart.dao.*;
 import com.nart.pojo.*;
+import com.nart.service.impl.LoadDataInDataBaseImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.DateFormat;
@@ -44,6 +43,19 @@ public class FakeDataGenerator {
     private StatusDao statusDao;
     @Autowired
     private GroupDao groupDao;
+    @Autowired
+    private UserGroupDao userGroupDao;
+    @Autowired
+    private FriendDao friendDao;
+
+    @Autowired
+    private GroupChatDao groupChatDao;
+
+    @Autowired
+    private FriendChatDao friendChatDao;
+
+    @Autowired
+    private LoadDataInDataBaseImpl loadDataInDataBase;
 
     /**
      * @Description: generate users
@@ -58,7 +70,8 @@ public class FakeDataGenerator {
 
         for (int i = 0; i < num; i++) {
             User u = new User();
-            u.setPwd(encryptPwd(faker.internet().password(6, 18, true)));
+            String password = faker.internet().password(6, 18, true);
+            u.setPwd(encryptPwd(password));
             u.setAddress(faker.address().fullAddress());
             u.setAge(df.format(faker.date().birthday()));
             u.setAvatar(faker.avatar().image());
@@ -87,7 +100,7 @@ public class FakeDataGenerator {
             FriendReq frq = new FriendReq();
             frq.setSenderId(sender);
             frq.setSenderId(receiver);
-            frq.setMsg(faker.regexify("[\\w]{0,20}"));
+            frq.setMsg(faker.regexify("\\w{0,20}"));
             frq.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
             list.add(frq);
         }
@@ -110,7 +123,7 @@ public class FakeDataGenerator {
             Status s = new Status();
             s.setSenderId(getRandomId(users));
             s.setLikes(0);
-            s.setText(faker.regexify("[\\w]{20,200}"));
+            s.setText(faker.harryPotter().quote());
             s.setPics(getRandomPics());
             s.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
             list.add(s);
@@ -139,7 +152,7 @@ public class FakeDataGenerator {
                 Comment comment = new Comment();
                 comment.setUserId(uid);
                 comment.setStatusId(statusId);
-                comment.setMsg(faker.regexify("[\\w]{5,100}"));
+                comment.setMsg(faker.country().name());
                 comment.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
                 list.add(comment);
             }
@@ -188,7 +201,7 @@ public class FakeDataGenerator {
         for (int i = 0; i < num; i++) {
             Group g = new Group();
             g.setAvatar(faker.avatar().image());
-            g.setNotice(faker.regexify("[\\w]{20,200}"));
+            g.setNotice(faker.ancient().titan());
             g.setGroupName(faker.company().name());
             g.setUserLevel(0);
             list.add(g);
@@ -223,7 +236,7 @@ public class FakeDataGenerator {
             gi.setSenderId(sid);
             gi.setGroupId(gid);
             gi.setReceiverId(getRandomId(users, sid));
-            gi.setMsg(faker.regexify("[\\w]{0,20}"));
+            gi.setMsg(faker.regexify("\\w{0,20}"));
             gi.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
             list.add(gi);
         }
@@ -286,20 +299,40 @@ public class FakeDataGenerator {
      */
     public void generateFriendsChats(String uid, int num) {
         List<String> userFriendIds = getUserFriendIds(uid);
+//        System.out.println("朋友"+userFriendIds);
         for(String fid: userFriendIds) {
             for(int i=0; i<num; i++) {
                 if(r.nextBoolean()) {
-                    Message msg = new Message();
-                    msg.setSenderId(uid);
-                    msg.setReceiverId(fid);
+//                    Message msg = new Message();
+                    FriendChat friendChat = new FriendChat();
+
+//                    msg.setSenderId(uid);
+
+                    friendChat.setSenderId(uid);
+
+//                    msg.setReceiverId(fid);
+
+                    friendChat.setReceiverId(fid);
+
                     if(r.nextBoolean()) {
-                        msg.setType("text");
-                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
+//                        msg.setType("text");
+                        friendChat.setType("text");
+//                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
+
+                        friendChat.setMsg(faker.regexify("[\\w]{5,200}"));
                     } else {
-                        msg.setType("picture");
-                        msg.setMsg(faker.internet().image());
+//                        msg.setType("picture");
+                        friendChat.setType("picture");
+
+//                        msg.setMsg(faker.internet().image());
+                        friendChat.setMsg(faker.internet().image());
                     }
-                    msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+//                    msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+                    friendChat.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+                    int insert = friendChatDao.insert(friendChat);
+                    if (insert<0){
+                        break;
+                    }
                 }
             }
         }
@@ -317,24 +350,41 @@ public class FakeDataGenerator {
         List<String> userGroupIds = getUserGroupIds(uid);
 
         for(String gid: userGroupIds) {
-            for(int i=0; i<num; i++) {
+            for(int i=0; i<num+5; i++) {
                 if(r.nextBoolean()) {
-                    Message msg = new Message();
-                    msg.setSenderId(uid);
-                    msg.setReceiverId(gid);
+//                    Message msg = new Message();
+                    GroupChat groupChat = new GroupChat();
+                    groupChat.setGroupId(gid);
+                    groupChat.setSenderId(uid);
+//                    msg.setSenderId(uid);
+//                    msg.setReceiverId(gid);
                     if(r.nextBoolean()) {
-                        msg.setType("text");
-                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
+                        groupChat.setType("text");
+                        groupChat.setMsg(faker.regexify("[\\w]{5,200}"));
+//                        msg.setType("text");
+//                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
+
                     } else {
-                        msg.setType("picture");
-                        msg.setMsg(faker.internet().image());
+                        groupChat.setType("picture");
+                        groupChat.setMsg("picture");
+//                        msg.setType("picture");
+//                        msg.setMsg(faker.internet().image());
                     }
-                    msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
-                    int maxLevel = 0;
+                    groupChat.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+//                    msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+
+
+                    Group group = groupDao.selectById(gid);
+
+                    int maxLevel = group.getUserLevel();
                     /**
                      * maxLevel = select last_level from tb_group where id = gid
                      */
-                    msg.setLevel(r.nextInt(maxLevel));
+                    groupChat.setLevel(r.nextInt(maxLevel));
+                    int insert = groupChatDao.insert(groupChat);
+                    if (insert<0){
+                        break;
+                    }
                 }
             }
         }

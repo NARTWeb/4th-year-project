@@ -140,7 +140,7 @@ function uploadFun() {
 }
 function create() {
   let flag = false;
-  createNewGroup(token, groupName.value)
+  createNewGroup(token.value, gName.value)
     .then((res) => {
       if (res.data.success) {
         groupId.value = res.data.data;

@@ -27,7 +27,8 @@ public class WebMVCConfig implements WebMvcConfigurer {
         //跨域配置，不可设置为*，不安全, 前后端分离项目，可能域名不一致
         //本地测试 端口不一致 也算跨域
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8080", "http://localhost:3000");
+                .allowedOrigins("http://localhost:8888","http://localhost:5173", "https://s3.amazonaws.com")
+                .allowedMethods("PUT", "DELETE", "POST", "GET");
     }
 
     @Override
@@ -36,6 +37,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**/**")
                 .excludePathPatterns("/user/login")
-                .excludePathPatterns("/user/register");
+                .excludePathPatterns("/user/register")
+                .excludePathPatterns("/upload");
     }
 }

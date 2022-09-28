@@ -7,13 +7,13 @@ import i18n from '../locals/index.js'
 const useUserStore = defineStore("user", {
   state: () => {
     return {
-      token: "jkdflsf;jkadfs",
-      name: "qiao",
-      avatar: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-      email: "mikeqiao@gmail.com",
-      tel: "123456789",
-      address: "21 Glenhaven",
-      birthday: "04/13/2020",
+      token: "",
+      name: "",
+      avatar: "",
+      email: "",
+      tel: "",
+      address: "",
+      birthday: "",
       groupId: "",
       notice: "",
       groupName: "",
@@ -48,7 +48,7 @@ const useUserStore = defineStore("user", {
             if (res.data.success) {
               setToken(res.data.data);
               this.token = getToken();
-              getAvatarUname();
+              this.getUserInfo();
               resolve();
             } else {
               ElMessage({
@@ -101,51 +101,32 @@ const useUserStore = defineStore("user", {
       });
     },
     async getUserInfo() {
-      return new Promise((resolve, reject) => {
-        showUserInfo(this.token, "")
-          .then((res) => {
-            if (res.data.success) {
+      try {
+        const res = await showUserInfo(this.token, "-1");
+        if (res.data.success) {
               this.name = res.data.data.uname;
               this.avatar = res.data.data.avatar;
               this.email = res.data.data.email;
               this.birthday = res.data.data.birthday;
               this.tel = res.data.data.phone;
               this.address = res.data.data.address;
-              resolve(res.data);
             } else {
-              // this.name = "";
-              // this.avatar = "";
-              // this.email = "";
-              // this.birthday = "";
-              // this.tel = "";
-              // this.address = "";
-              // removeToken();
               ElMessage({
                 type: "error",
                 message: res.data.msg,
                 showClose: true,
                 grouping: true,
               });
-              resolve(res.data);
             }
-          })
-          .catch((error) => {
-            // this.name = "";
-            // this.avatar = "";
-            // this.email = "";
-            // this.birthday = "";
-            // this.tel = "";
-            // this.address = "";
-            // removeToken();
-            ElMessage({
-              type: "error",
-              message: i18n.global.t('user.infoError'),
-              showClose: true,
-              grouping: true,
-            });
-            reject(error);
-          });
-      });
+      } catch (err) {
+        ElMessage({
+          type: "error",
+          message: i18n.global.t('user.infoError'),
+          showClose: true,
+          grouping: true,
+        });
+        console.log(err);
+      };
     },
     async changeUserInfo(userInfo) {
       return new Promise((resolve, reject) => {
@@ -231,7 +212,7 @@ const useUserStore = defineStore("user", {
             if (res.data.success) {
               setToken(res.data.data);
               this.token = getToken();
-              getAvatarUname();
+              this.getUserInfo();
               resolve();
             } else {
               ElMessage({

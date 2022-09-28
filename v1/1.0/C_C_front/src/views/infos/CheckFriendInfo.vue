@@ -133,7 +133,7 @@ function tList() {
 }
 function load() {
   if (!loading.value && !nodata.value) {
-    showMyStatusList(token, "", page)
+    showMyStatusList(token.value, "-1", page)
       .then((res) => {
         if (res.data.success) {
           if (res.data.data.length > 0) {

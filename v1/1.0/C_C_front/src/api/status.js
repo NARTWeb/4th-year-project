@@ -27,7 +27,7 @@ export function showMyStatusList(token, uid, page) {
 
 export function showAllStatusList(token, page) {
     let type = "all";
-    let uid = "";
+    let uid = "-1";
     return req({
         headers: {'Authorization': token},
         method: 'get',

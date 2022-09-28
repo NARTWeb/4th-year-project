@@ -1,0 +1,12 @@
+delete from tb_user_like;
+delete from tb_comment;
+delete from tb_request;
+delete from tb_invitation;
+delete from tb_group_chat;
+delete from tb_friend_chat;
+delete from tb_friend;
+delete from tb_user_group;
+delete from tb_status;
+delete from tb_group;
+delete from tb_user;
+delete from tb_data_counter;

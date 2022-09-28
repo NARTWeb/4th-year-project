@@ -147,7 +147,6 @@ const props = defineProps({
 });
 const loading = ref(false);
 const nodata = ref(false);
-const pageN = ref(props.param.page.pageNum);
 const store = useUserStore();
 const { token } = storeToRefs(store);
 const minW = ref("60px");
@@ -159,6 +158,7 @@ const bgColor = reactive({
   backgroundColor: "#fef0f0",
 });
 const { t } = useI18n();
+const emit = defineEmits(["addPage"]);
 function checkType(state) {
   if (state == 2) {
     return "info";
@@ -274,7 +274,7 @@ function load() {
     let result;
     let page = {
       pageSize: props.param.page.pageSize,
-      pageNum: pageN.value,
+      pageNum: props.param.page.pageNum,
     };
     if (props.isFriend) {
       result = showFriendList(token, page);
@@ -286,10 +286,11 @@ function load() {
         if (res.data.success) {
           if (res.data.data.length <= 0) {
             nodata.value = true;
+            emit("addPage", page.pageNum + 1);
           } else {
             nodata.value = false;
             list.push(...res.data.data);
-            pageN.value += 1;
+            emit("addPage", page.pageNum + 1);
           }
         } else {
           ElMessage({
