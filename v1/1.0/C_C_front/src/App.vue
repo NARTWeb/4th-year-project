@@ -12,6 +12,7 @@ import { RouterLink, RouterView } from 'vue-router'
 .text {
   font-size: 1.5em;
   font-weight: 300;
+  color: black;
 }
 .img {
   width: 150px;

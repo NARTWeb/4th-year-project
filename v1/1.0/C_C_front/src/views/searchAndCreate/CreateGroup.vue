@@ -170,7 +170,7 @@ function create() {
       receiverId: inviteList[i].id,
       message: "",
     };
-    sendGroupInvite(token, inviteInfo)
+    sendGroupInvite(token.value, inviteInfo)
       .then((res) => {
         if (!res.data.success) {
           ElMessage({

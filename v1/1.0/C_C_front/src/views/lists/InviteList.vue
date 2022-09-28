@@ -107,7 +107,7 @@ function rejectf(id) {
 function searchReqList() {
   if (!nodata.value && !loading.value) {
     loading.value = true;
-    showGroupInvitions(token, page)
+    showGroupInvitions(token.value, page)
       .then((res) => {
         if (res.data.success) {
           if (res.data.data > 0) {
@@ -142,7 +142,7 @@ function searchReqList() {
 function acceptFun(id) {
   for (let i = 0; i < inviteList.length; i++) {
     if (id == inviteList[i].id) {
-      responseGroupInvite(token, id, true)
+      responseGroupInvite(token.value, id, true)
         .then((res) => {
           if (res.data.success) {
             inviteList.splice(i, 1);
@@ -173,7 +173,7 @@ function acceptFun(id) {
 function rejectFun(id) {
   for (let i = 0; i < inviteList.length; i++) {
     if (id == inviteList[i].id) {
-      responseGroupInvite(token, id, false)
+      responseGroupInvite(token.value, id, false)
         .then((res) => {
           if (res.data.success) {
             inviteList.splice(i, 1);

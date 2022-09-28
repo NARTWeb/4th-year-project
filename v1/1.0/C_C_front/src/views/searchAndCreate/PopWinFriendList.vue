@@ -4,7 +4,7 @@
   @close="closeWin">
     <div class="all">
       <div class="search">
-        <el-input id="searchF" :placeholder="t('FriendIHave.searchFriend')">
+        <el-input id="searchF" v-model="input" :placeholder="t('friendIHave.searchFriend')">
           <template #append>
             <el-button @click="searchFr" :icon="Search" />
           </template>
@@ -58,7 +58,7 @@ const page = reactive({
   pageSize: 5,
   pageNum: 0,
 });
-const input = ref < String > "";
+var input = ref("");
 const props = defineProps({
   dialogVisible: Boolean,
   list: Array,  
@@ -76,7 +76,7 @@ function pop() {
   dialogVisible.value = true;
 }
 function searchFr() {
-  searchFriend(token, input, page)
+  searchFriend(token.value, input.value, page)
     .then((res) => {
       if (res.data.success) {
         friendList.splice(0, friendList.length);
@@ -84,7 +84,7 @@ function searchFr() {
       } else {
         ElMessage({
           type: "error",
-          message: t("FriendIHave.searchError"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
@@ -93,7 +93,7 @@ function searchFr() {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: t("FriendIHave.searchError"),
+        message: t("friendIHave.searchError"),
         showClose: true,
         grouping: true,
       });
@@ -102,7 +102,7 @@ function searchFr() {
 function load() {
   if (!loading.value && !nodata.value) {
     loading.value = true;
-    searchFriend(token, input, page)
+    searchFriend(token.value, input.value, page)
       .then((res) => {
         if (res.data.success) {
           if (res.data.data.length > 0) {
@@ -114,7 +114,7 @@ function load() {
         } else {
           ElMessage({
             type: "error",
-            message: t("friendIHave.loadError"),
+            message: res.data.msg,
             showClose: true,
             grouping: true,
           });

@@ -8,6 +8,7 @@ import com.nart.pojo.Friend;
 import com.nart.pojo.User;
 import com.nart.service.DataCounterService;
 import com.nart.service.UserService;
+import com.nart.util.EncryptUtil;
 import com.nart.vo.PageVo;
 import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User showUserInfo(String userId) {
         User user = UserDao.selectById(userId);
+
         return user;
     }
 
@@ -94,24 +96,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean changeUserInfo(UserVo userVo, String id) {
         User user = UserDao.selectById(id);
-<<<<<<< Updated upstream
-
-        user.setName(userVo.getUname());
-        user.setPwd(userVo.getPwd());
-        user.setAvatar(userVo.getAvatar());
-        user.setTel(userVo.getPhone());
-        user.setEmail(userVo.getEmail());
-        user.setAddress(userVo.getAddress());
-        user.setAge(userVo.getBirthday());
-=======
-        if(!userVo.getUname().isEmpty()) {
+        if(!userVo.getUname().isEmpty()){
             user.setName(userVo.getUname());
         }
         if(!userVo.getPwd().isEmpty()) {
             String password = EncryptUtil.encryptPwd(userVo.getPwd());
             user.setPwd(password);
         }
-        if(!userVo.getEmail().isEmpty()) {
+        if(!userVo.getAvatar().isEmpty()) {
             user.setAvatar(userVo.getAvatar());
         }
         if(!userVo.getPhone().isEmpty()) {
@@ -126,7 +118,6 @@ public class UserServiceImpl implements UserService {
         if(!userVo.getBirthday().isEmpty()) {
             user.setAge(userVo.getBirthday());
         }
->>>>>>> Stashed changes
         int i = UserDao.updateById(user);
         return i > 0;
     }

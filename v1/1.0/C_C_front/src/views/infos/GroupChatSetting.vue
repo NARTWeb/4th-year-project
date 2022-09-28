@@ -256,7 +256,7 @@ function uploadFun() {
     });
 }
 function getMember() {
-  showMemberList(token, gId.value)
+  showMemberList(token.value, gId.value)
     .then((res) => {
       if (res.data.success) {
         memberList.push(...res.data.data);
@@ -300,7 +300,7 @@ function changeInfo(successMsg, ErrorMsg) {
     avatar: gAvatar.value,
     notice: gNotice.value,
   };
-  changeGroupInfo(token, gInfo)
+  changeGroupInfo(token.value, gInfo)
     .then((res) => {
       if (res.data.success) {
         ElMessage({
@@ -344,7 +344,7 @@ function addToList(obj) {
       receiverId: obj.id,
       message: "",
     };
-    sendGroupInvite(token, inviteInfo)
+    sendGroupInvite(token.value, inviteInfo)
       .then((res) => {
         if (!res.data.success) {
           ElMessage({

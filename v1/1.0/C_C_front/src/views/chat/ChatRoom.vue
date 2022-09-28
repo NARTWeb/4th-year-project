@@ -1,8 +1,8 @@
 <template>
   <div class="all flex">
-    <div>{{title}}</div>
+    <div class="text">{{title}}</div>
     <div class="inner-all">
-      <el-button class="to-setting" @click="toGroupInfo" plain><el-icon><Star /></el-icon></el-button>
+      <el-button class="to-setting" @click="router.push({ name: 'groupChatInfo', params: {} })" plain><el-icon><Star /></el-icon></el-button>
       <el-scrollbar height="60vh" id="all" always>
         <ul v-infinite-scroll="load" class="infinite-list">
           <li v-for="msg in msgList" :key="msg.msgId">
@@ -110,11 +110,12 @@ function tList() {
 }
 function load() {
   if (!nodata.value && !loading.value) {
+    loading.value = true;
     let result;
     if (isGroup.value) {
-      result = showGroupChatHistory(token, roomId);
+      result = showGroupChatHistory(token.value, roomId.value);
     } else {
-      result = showFriendChatHistory(token, roomId);
+      result = showFriendChatHistory(token.value, roomId.value);
     }
     result
       .then((res) => {
@@ -198,9 +199,9 @@ function sendToBack(input, type) {
   };
   let result;
   if(isGroup.value) {
-    result = sendGroupMsg(token, msgInfo);
+    result = sendGroupMsg(token.value, msgInfo);
   } else {
-    result = sendFriendMsg(token, msgInfo);
+    result = sendFriendMsg(token.value, msgInfo);
   }
   result.then((res) => {
       if (res.data.success) {
@@ -280,7 +281,7 @@ onUpdated(() => {
   load();
 });
 onBeforeUnmount(() => {
-  leaveRoom(token, roomId.value, isGroup.value)
+  leaveRoom(token.value, roomId.value, !isGroup.value)
   .then((res) => {
       if (res.data.success) {
       } else {
@@ -303,9 +304,6 @@ onBeforeUnmount(() => {
     });
 
 });
-function toGroupInfo() {
-  router.push({ name: "groupChatInfo", params: {} });
-}
 </script>
 <style scoped>
 .all {

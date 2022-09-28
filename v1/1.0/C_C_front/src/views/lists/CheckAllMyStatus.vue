@@ -110,7 +110,7 @@ function tList() {
 }
 function load() {
   if (!loading.value && !nodata.value) {
-    showMyStatusList(token, props.uid, page)
+    showMyStatusList(token.value, props.uid, page)
       .then((res) => {
         if (res.data.success) {
           if (res.data.data.length > 0) {
@@ -136,7 +136,7 @@ function load() {
         console.log(err);
       })
       .finally(() => {
-        this.loading.value = false;
+        loading.value = false;
       });
   }
 }
@@ -149,7 +149,7 @@ function del(id) {
   }
 }
 function delBack(id, i) {
-  deleteStatus(token, id)
+  deleteStatus(token.value, id)
     .then((res) => {
       if (res.data.success) {
         myStatusList.splice(i, 1);

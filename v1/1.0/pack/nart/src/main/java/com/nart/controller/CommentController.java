@@ -10,6 +10,7 @@ import com.nart.vo.CommentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,15 +32,25 @@ public class CommentController {
     private CommentService commentService;
 
 
+    @LogA
     @GetMapping("list/{statusId}")
     public Result showCommentList(@PathVariable String statusId) {
+        CommentVo commentVo = new CommentVo();
         List<Comment> Comments = commentService.showCommentList(statusId);
-        if(Comments == null) {
+
+        List<CommentVo> commentVos = new ArrayList<>();
+        for (Comment comment : Comments) {
+            CommentVo transfer = commentVo.transfer(comment);
+            commentVos.add(transfer);
+        }
+
+        if(commentVos == null) {
             return Result.fail(ErrorCode.SHOW_COMMENT_LIST_ERROR);
         }
-        return Result.success(Comments);
+        return Result.success(commentVos);
     }
 
+    @LogA
     @PostMapping("/post")
     public Result postComment(@RequestBody CommentVo cInfo) {
         boolean b = commentService.postComment(cInfo.getStatusId(), cInfo.getMsg(), UserThreadLocal.get().getId());

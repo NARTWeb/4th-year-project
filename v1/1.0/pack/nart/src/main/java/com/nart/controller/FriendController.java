@@ -8,7 +8,10 @@ import com.nart.service.FriendService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
 import com.nart.util.UserThreadLocal;
+import com.nart.vo.FriendVo;
 import com.nart.vo.PageVo;
+import com.nart.vo.RequestVo;
+import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,32 +29,34 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("friend")
-@LogA
 public class FriendController {
 
     @Autowired
     private FriendService friendService;
 
-    @GetMapping("list")
+    @LogA
+    @PostMapping("list")
     public Result showFriendList(@RequestBody PageVo page) {
-        List<Friend> Friends = friendService.showFriendList(
+        List<FriendVo> friendVos = friendService.showFriendList(
                 page.toIPage(Friend.class), UserThreadLocal.get().getId());
-        if(Friends == null) {
+        if(friendVos == null) {
             return Result.fail(ErrorCode.SHOW_FRIEND_LIST_ERROR);
         }
-        return Result.success(Friends);
+        return Result.success(friendVos);
     }
 
-    @GetMapping("search/{input}")
+    @LogA
+    @PostMapping("search/{input}")
     public Result searchFriend(@RequestBody PageVo page,
                                @PathVariable("input") String input) {
-        List<User> Users = friendService.searchFriend(input, page.toIPage(Friend.class));
-        if(Users == null) {
+        List<UserVo> userVos = friendService.searchFriend(input, page.toIPage(Friend.class));
+        if(userVos == null) {
             return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);
         }
-        return Result.success(Users);
+        return Result.success(userVos);
     }
 
+    @LogA
     @DeleteMapping("del/{friendId}")
     public Result delFriend(@PathVariable("friendId") String fid) {
         boolean b = friendService.delFriend(fid, UserThreadLocal.get().getId());
@@ -61,6 +66,7 @@ public class FriendController {
         return Result.fail(ErrorCode.DEL_FRIEND_ERROR);
     }
 
+    @LogA
     @GetMapping("state/{friendId}/{state}")
     public Result changeFriendState(@PathVariable("friendId") String fid,
                                     @PathVariable("state") Integer state) {
@@ -71,17 +77,19 @@ public class FriendController {
         return Result.fail(ErrorCode.CHANGE_FRIEND_STATE_ERROR);
     }
 
-    @GetMapping("reqlist")
+    @LogA
+    @PostMapping("reqlist")
     public Result showReqList(@RequestBody PageVo page) {
-        List<FriendReq> FriendReqs = friendService.showReqList(
+        List<RequestVo> requestVos = friendService.showReqList(
                 page.toIPage(FriendReq.class), UserThreadLocal.get().getId());
-        if(FriendReqs == null) {
+        if(requestVos == null) {
             return Result.fail(ErrorCode.SHOW_FRIEND_REQS_ERROR);
         }
-        return Result.success(FriendReqs);
+        return Result.success(requestVos);
     }
 
-    @GetMapping("send")
+    @LogA
+    @PostMapping("send")
     public Result sendFriendReq(@RequestBody FriendReq reqInfo) {
         boolean b = friendService.sendFriendReq(
                 reqInfo.getReceiverId(), UserThreadLocal.get().getId(), reqInfo.getMsg());
@@ -91,6 +99,7 @@ public class FriendController {
         return Result.fail(ErrorCode.SEND_FRIEND_REQ_ERROR);
     }
 
+    @LogA
     @GetMapping("resp/{requestId}/{agree}")
     public Result respFriendReq(@PathVariable("requestId") String reqId,
                                 @PathVariable("agree") Boolean agree) {
@@ -101,13 +110,14 @@ public class FriendController {
         return Result.fail(ErrorCode.RESP_FRIEND_REQ_ERROR);
     }
 
-    @GetMapping("searchNew/{input}")
+    @LogA
+    @PostMapping("searchNew/{input}")
     public Result searchNew(@RequestBody PageVo page,
                               @PathVariable("input") String input) {
-        List<User> Users = friendService.searchNew(input, page);
-        if(Users == null) {
+        List<UserVo> userVos = friendService.searchNew(input, page);
+        if(userVos == null) {
             return Result.success(ErrorCode.SEARCH_NEW_ERROR);
         }
-        return Result.success(Users);
+        return Result.success(userVos);
     }
 }

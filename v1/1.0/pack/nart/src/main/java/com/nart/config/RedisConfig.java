@@ -1,6 +1,9 @@
 package com.nart.config;
 
-import com.alibaba.fastjson2.support.spring.data.redis.FastJsonRedisSerializer;
+import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
+//import com.alibaba.fastjson2.support.spring.data.redis.FastJsonRedisSerializer; 用这个时报错
+//import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

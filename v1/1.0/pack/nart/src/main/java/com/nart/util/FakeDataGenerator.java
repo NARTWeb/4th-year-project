@@ -32,6 +32,9 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
  * @author: ZIRUI QIAO
  * @date: 2022/8/30 15:43
  */
+
+//补充缺失的代码
+
 @Component
 public class FakeDataGenerator {
     private final Faker faker = new Faker(Locale.CANADA);
@@ -57,6 +60,9 @@ public class FakeDataGenerator {
     @Autowired
     private LoadDataInDataBaseImpl loadDataInDataBase;
 
+    @Autowired
+    private UserLikeDao userLikeDao;
+
     /**
      * @Description: generate users
      * @param num number of users
@@ -70,8 +76,7 @@ public class FakeDataGenerator {
 
         for (int i = 0; i < num; i++) {
             User u = new User();
-            String password = faker.internet().password(6, 18, true);
-            u.setPwd(encryptPwd(password));
+            u.setPwd(encryptPwd(faker.internet().password(6, 18, true)));
             u.setAddress(faker.address().fullAddress());
             u.setAge(df.format(faker.date().birthday()));
             u.setAvatar(faker.avatar().image());
@@ -123,7 +128,7 @@ public class FakeDataGenerator {
             Status s = new Status();
             s.setSenderId(getRandomId(users));
             s.setLikes(0);
-            s.setText(faker.harryPotter().quote());
+            s.setText(faker.shakespeare().asYouLikeItQuote());
             s.setPics(getRandomPics());
             s.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
             list.add(s);
@@ -147,12 +152,15 @@ public class FakeDataGenerator {
                 /**
                  * select sid as authorId from tb_status where id = statusId
                  */
+                Status status = statusDao.selectById(statusId);
+                authorId = status.getSenderId();
+
                 List<String> userFriendIds = getUserFriendIds(authorId);
                 String uid = getRandomId(userFriendIds);
                 Comment comment = new Comment();
                 comment.setUserId(uid);
                 comment.setStatusId(statusId);
-                comment.setMsg(faker.country().name());
+                comment.setMsg(faker.shakespeare().romeoAndJulietQuote());
                 comment.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
                 list.add(comment);
             }
@@ -175,15 +183,33 @@ public class FakeDataGenerator {
         /**
          * select sid as authorId from tb_status where id = statusId
          */
+//        LambdaQueryWrapper<Status> lqw = new LambdaQueryWrapper<Status>();
+//        lqw.eq(Status::getId, statusId);
+        Status status = statusDao.selectById(statusId);
+        System.out.println(status);
+
+        authorId = status.getSenderId();
+
+        System.out.println("id"+ authorId);
+
         List<String> userFriendIds = getUserFriendIds(authorId);
+
+        System.out.println(userFriendIds);
         List<String> likedUserId = new ArrayList<>();
         for(int i=0; i<num; i++) {
             String uid = getRandomId(userFriendIds, likedUserId);
+            if ((uid==null)){
+                continue;
+            }
             if (uid.isEmpty()) return;
             if(r.nextBoolean()) {
                 /**
                  *  insert into tb_users_likes values (uid = uid, status_id = statusId);
                  */
+                UserLike userLike = new UserLike();
+                userLike.setUid(uid);
+                userLike.setStatusId(statusId);
+                userLikeDao.insert(userLike);
                 likedUserId.add(uid);
             }
         }
@@ -201,7 +227,7 @@ public class FakeDataGenerator {
         for (int i = 0; i < num; i++) {
             Group g = new Group();
             g.setAvatar(faker.avatar().image());
-            g.setNotice(faker.ancient().titan());
+            g.setNotice(faker.regexify("\\w{20,200}"));
             g.setGroupName(faker.company().name());
             g.setUserLevel(0);
             list.add(g);
@@ -262,6 +288,22 @@ public class FakeDataGenerator {
                  * tempLevel = select last_level from tb_group where id = gid;
                  * insert into tb_user_group values (sid, gid, 0, tempLevel, 0L);
                  */
+                Group group = new Group();
+                group.setId(gid);
+                group.setUserLevel(group.getUserLevel()+1);
+                groupDao.updateById(group);
+
+                Group group1 = groupDao.selectById(gid);
+                int tempLevel = group1.getUserLevel();
+
+                UserGroup userGroup = new UserGroup();
+                userGroup.setUid(sid);
+                userGroup.setGid(gid);
+                userGroup.setState(0);
+                userGroup.setJoinLevel(tempLevel);
+                userGroup.setUserLevelTime("0");
+                userGroupDao.insert(userGroup);
+
                 groupMemberIds.add(sid);
             }
         }
@@ -277,6 +319,7 @@ public class FakeDataGenerator {
      */
     public void generateFriendRelationships(String uid, int num) {
         List<String> userFriendIds = getUserFriendIds(uid);
+//        System.out.println("pengy"+userFriendIds);
         List<String> userIds = getUserIds();
         for (int i = 0; i < num; i++) {
             if(r.nextBoolean()) {
@@ -284,6 +327,12 @@ public class FakeDataGenerator {
                 /**
                  * insert into tb_friends values (uid, gid, 0, 0L);
                  */
+                Friend friend = new Friend();
+                friend.setUid(uid);
+                friend.setFid(fid);
+                friend.setState("0");
+                friend.setLeaveTime(0L);
+                friendDao.insert(friend);
                 userFriendIds.add(fid);
             }
         }
@@ -317,9 +366,9 @@ public class FakeDataGenerator {
                     if(r.nextBoolean()) {
 //                        msg.setType("text");
                         friendChat.setType("text");
-//                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
+//                        msg.setMsg(faker.regexify("\\w{5,200}"));
 
-                        friendChat.setMsg(faker.regexify("[\\w]{5,200}"));
+                        friendChat.setMsg(faker.harryPotter().quote());
                     } else {
 //                        msg.setType("picture");
                         friendChat.setType("picture");
@@ -360,7 +409,7 @@ public class FakeDataGenerator {
 //                    msg.setReceiverId(gid);
                     if(r.nextBoolean()) {
                         groupChat.setType("text");
-                        groupChat.setMsg(faker.regexify("[\\w]{5,200}"));
+                        groupChat.setMsg(faker.shakespeare().hamletQuote());
 //                        msg.setType("text");
 //                        msg.setMsg(faker.regexify("[\\w]{5,200}"));
 
@@ -416,7 +465,7 @@ public class FakeDataGenerator {
     public List<String> getStatusIds() {
         LambdaQueryWrapper<Status> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(Status::getId);
-        List<Status> objList = this.statusDao.selectList(queryWrapper);
+        List<Status> objList = statusDao.selectList(null);
         List<String> result = new ArrayList<>();
         objList.forEach((obj -> {
             result.add(obj.getId());
@@ -451,7 +500,13 @@ public class FakeDataGenerator {
 
     public List<String> getGroupMemberIds(String groupId) {
 //        List<Group> objList= this.GroupDao.selectAllMember(groupId);
+        LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
+        lqw.eq(UserGroup::getGid, groupId);
+        List<UserGroup> userGroups = userGroupDao.selectList(lqw);
         List<String> result = new ArrayList<>();
+        for (UserGroup userGroup : userGroups) {
+            result.add(userGroup.getUid());
+        }
 //        objList.forEach((obj -> {
 //            result.add(obj.getId());
 //        }));
@@ -467,7 +522,13 @@ public class FakeDataGenerator {
      */
     public List<String> getUserFriendIds(String uid) {
 //        List<User> objList= this.UserDao.selectFriends(uid);
+        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
+        lqw.eq(Friend::getUid, uid);
+        List<Friend> friends = friendDao.selectList(lqw);
         List<String> result = new ArrayList<>();
+        for (Friend friend : friends) {
+            result.add(friend.getFid());
+        }
 //        objList.forEach((obj -> {
 //            result.add(obj.getId());
 //        }));
@@ -483,7 +544,16 @@ public class FakeDataGenerator {
      */
     public List<String> getUserGroupIds(String uid) {
 //        List<Group> objList= this.GroupDao.selectGroups(uid);
+
+        LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
+        lqw.eq(UserGroup::getUid, uid);
+        List<UserGroup> userGroups = userGroupDao.selectList(lqw);
+
         List<String> result = new ArrayList<>();
+        for (UserGroup userGroup : userGroups) {
+            result.add(userGroup.getGid());
+        }
+
 //        objList.forEach((obj -> {
 //            result.add(obj.getId());
 //        }));
@@ -497,32 +567,57 @@ public class FakeDataGenerator {
      * @Author: Zirui Qiao
      * @Date: 2022/8/30 20:30
      */
+
+    //
     public void generateTestData(int num) {
-        List<User> Users = generateUsers(num * 10);
-        // write to database
-        List<FriendReq> FriendReqs = generateReqs(num * 20);
-        // write to database
-        for (String uid : getUserIds()) {
-            generateFriendRelationships(uid, num*3);
-        }
-        List<Status> Statuses = generateStatus(num * 20);
-        // write to database
+//        List<User> Users = generateUsers(num * 10);
+//        System.out.println(Users);
+//        // write to database
+//        boolean b = loadDataInDataBase.LoadListUser(Users);
+//        System.out.println("user加载"+b);
+//
+//        List<FriendReq> FriendReqs = generateReqs(num * 20);
+//        boolean b1 = loadDataInDataBase.LoadListFriendReq(FriendReqs);
+//        System.out.println("FriendReqs加载"+b1);
+//        // write to database
+//
+//        for (String uid : getUserIds()) {
+//            generateFriendRelationships(uid, num*3);
+//        }
+//        List<Status> Statuses = generateStatus(num * 20);
+//        System.out.println(Statuses);
+//        // write to database
+//        boolean b2 = loadDataInDataBase.LoadListStatus(Statuses);
+//        System.out.println("Status加载"+b2);
+
         for (String statusId : getStatusIds()) {
+//            if(statusId.equals("0")){
+//                System.out.println("jirshu");
+//                break;
+//            }
             generateLikes(statusId, num*2);
-            List<Comment> Comments = generateComment(statusId, num * 10);
+//            System.out.println("statusId"+statusId);
+//            List<Comment> Comments = generateComment(statusId, num * 2);
             //write to database
+//            boolean bt = loadDataInDataBase.LoadListComment(Comments);
+//            System.out.println("Comments加载"+bt);
         }
         //write to database
-        List<Group> Groups = generateGroup(num);
-        // write to database
-        List<GroupInvite> GroupInvites = generateInvites(num * 10);
-        // write to database
-        for (String gid : getGroupIds()) {
-            generateGroupRelationships(gid, num*3);
-        }
-        for(String uid : getUserIds()) {
-            generateFriendsChats(uid, num);
-            generateGroupsChats(uid, num);
-        }
+//        List<Group> Groups = generateGroup(num);
+//        // write to database
+//        boolean b3 = loadDataInDataBase.LoadListGroup(Groups);
+//        System.out.println("Groups加载"+b3);
+//
+//        List<GroupInvite> GroupInvites = generateInvites(num * 10);
+//        boolean b4 = loadDataInDataBase.LoadListGroupInvite(GroupInvites);
+//        System.out.println("GroupInvites加载"+b4);
+//        // write to database
+//        for (String gid : getGroupIds()) {
+//            generateGroupRelationships(gid, num*3);
+//        }
+//        for(String uid : getUserIds()) {
+//            generateFriendsChats(uid, num);
+//            generateGroupsChats(uid, num);
+//        }
     }
 }

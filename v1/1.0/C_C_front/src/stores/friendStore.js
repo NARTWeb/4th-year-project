@@ -34,7 +34,7 @@ export const useFriendStore = defineStore("friends", {
     loadNewFriends() {
       if (!this.fLoading && !this.fNodata) {
         this.fLoading = true;
-        searchFriend(token, this.fSearchHistory, this.fPage)
+        searchFriend(token.value, this.fSearchHistory, this.fPage)
           .then((res) => {
             if (res.data.success) {
               if (res.data.data.length > 0) {
@@ -72,9 +72,8 @@ export const useFriendStore = defineStore("friends", {
     },
     loadNewGFriends() {
       if (!this.gLoading && !this.gNodata) {
-        alert("here!");
         this.gLoading = true;
-        searchFriend(token, this.gSearchHistory, this.gPage)
+        searchFriend(token.value, this.gSearchHistory, this.gPage)
           .then((res) => {
             if (res.data.success) {
               if (res.data.data.length > 0) {
@@ -148,6 +147,9 @@ export const useFriendStore = defineStore("friends", {
         this.gList.splice(0, this.gList.length);
       }
       this.loadNewGFriends();
+      if(this.gList.length <= 7) {
+        return;
+      }
       this.gList = this.getGList(array);
       while(this.gList.length <= 7) {
         this.loadNewGFriends();

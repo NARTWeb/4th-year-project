@@ -1,7 +1,13 @@
 package com.nart.vo;
 
+import com.nart.dao.UserDao;
+import com.nart.pojo.FriendReq;
+import com.nart.pojo.User;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 @Data
 public class RequestVo {
     private String id;
@@ -10,5 +16,21 @@ public class RequestVo {
     private String friendName;
     private String friendAvatar;
     private String senderName;
+
+
+    public RequestVo transfer(FriendReq friendReq){
+        RequestVo requestVo = new RequestVo();
+        requestVo.setId(friendReq.getId());
+        requestVo.setFriendId(friendReq.getReceiverId());
+        requestVo.setMsg(friendReq.getMsg());
+
+
+
+
+        ;
+
+
+        return requestVo;
+    }
 
 }

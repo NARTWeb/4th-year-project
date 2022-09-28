@@ -71,7 +71,7 @@ function addBtn(id) {
 }
 function add() {
   dialogVisible.value = false;
-  sendFriendRequest(token, tempId, message.value)
+  sendFriendRequest(token.value, tempId, message.value)
     .then((res) => {
       if (res.data.success) {
         ElMessage({
@@ -79,7 +79,7 @@ function add() {
           message: t("newFriendList.addSuccess"),
           showClose: true,
         });
-        close(id);
+        close(tempId);
       } else {
         ElMessage({
           type: "error",

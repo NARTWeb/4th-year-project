@@ -5,7 +5,7 @@
         @keydown.enter="keyDown"
         rows="6"
         v-model="input"
-        style="outline: none"
+        style="outline: none; color:black;"
         :placeholder="t('chatInputBox.chat')"
       ></textarea>
     </div>

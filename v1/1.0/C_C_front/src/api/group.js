@@ -3,7 +3,7 @@ import req from "@/request";
 export function showGroupList(token, page) {
     return req({
         headers: {'Authorization':token},
-        method: 'get',
+        method: 'post',
         url: '/group/list',
         data: {
             pageSize: page.pageSize,
@@ -15,7 +15,7 @@ export function showGroupList(token, page) {
 export function showGroupInvitions(token, page) {
     return req({
         headers: {'Authorization':token},
-        method: 'get',
+        method: 'post',
         url: '/group/inviteList',
         data: {
             pageSize: page.pageSize,

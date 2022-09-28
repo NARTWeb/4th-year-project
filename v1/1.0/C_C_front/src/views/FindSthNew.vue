@@ -43,10 +43,6 @@ const page = {
 var input = ref("");
 function searchNew() {
   let temp = input.value;
-
-    if (temp == "") {
-      temp = "_[all]_";
-    }
   if (store.searchHistory != temp) {
     store.searchHistory = temp;
     store.loadFirstList();

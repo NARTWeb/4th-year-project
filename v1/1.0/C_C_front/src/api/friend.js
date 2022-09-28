@@ -3,7 +3,7 @@ import req from "@/request";
 export function showFriendList(token, page) {
     return req({
         headers: {'Authorization': token},
-        method: 'get',
+        method: 'post',
         url: '/friend/list',
         data: {
             pageSize: page.pageSize,
@@ -15,7 +15,7 @@ export function showFriendList(token, page) {
 export function searchFriend(token, input, page) {
     return req({
         headers: {'Authorization': token},
-        method: 'get',
+        method: 'post',
         url: `/friend/search/${input}`,
         data: {
             pageSize: page.pageSize,
@@ -27,7 +27,7 @@ export function searchFriend(token, input, page) {
 export function showFriendRequests(token, page) {
     return req({
         headers: {'Authorization': token},
-        method: 'get',
+        method: 'post',
         url: '/friend/reqlist',
         data: {
             pageSize: page.pageSize,
@@ -74,8 +74,8 @@ export function delFriend(token, friendId) {
 export function searchNewFriend(token, input, page) {
     return req({
         headers: {'Authorization': token},
-        method: 'get',
-        url: `/friend/del/${input}`,
+        method: 'post',
+        url: `/friend/searchNew/${input}`,
         data: {
             pageSize: page.pageSize,
             pageNum: page.pageNum

@@ -23,6 +23,7 @@ function thm(date) {
 
 export function format(date, isZh) {
     let d = new Date();
+    console.log(date);
     if(date.year == d.getFullYear()) {
         if(date.month == (d.getMonth() + 1)) {
             let dated =  d.getDate() - date.day;

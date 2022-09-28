@@ -1,6 +1,6 @@
 <template>
   <div class="all">
-    <el-dialog v-model="dialogVisible" title="t('contactList.friend.title')" width="30%" class="dialog">
+    <el-dialog v-model="dialogVisible" title="t('contactList.friend.title')" width="30%">
       <span>{{ $t("contactList.friend.del") }}{{ selectMember.name }}</span>
       <template #footer>
         <span class="dialog-footer">
@@ -48,9 +48,9 @@
                   </div>
                 </template>
                 <div style="z-index: 500">
-                  <el-button class="popLabel" text @click="toChat(member)">{{
-                    member.name
-                  }}</el-button>
+                  <el-button class="popLabel" text @click="toChat(member)">
+                    {{ showName(member.name) }}
+                  </el-button>
                   <el-button
                     type="danger"
                     :icon="Delete"
@@ -104,6 +104,7 @@
               </el-popover>
             </div>
           </li>
+          <li @click="forceLoad">load more</li>
         </ul>
       </el-scrollbar>
     </div>
@@ -270,16 +271,20 @@ function test() {
 }
 function load() {
   if (!loading.value && !nodata) {
-    loading.value = true;
+    forceLoad();
+  }
+}
+function forceLoad() {
+  loading.value = true;
     let result;
     let page = {
       pageSize: props.param.page.pageSize,
       pageNum: props.param.page.pageNum,
     };
     if (props.isFriend) {
-      result = showFriendList(token, page);
+      result = showFriendList(token.value, page);
     } else {
-      result = showGroupList(token, page);
+      result = showGroupList(token.value, page);
     }
     result
       .then((res) => {
@@ -317,9 +322,8 @@ function load() {
         console.log(err);
       })
       .finally(() => {
-        this.loading.value = false;
+        loading.value = false;
       });
-  }
 }
 function hide(member) {
   member.state = 1;
@@ -514,7 +518,14 @@ function noticeNewMsg(isFriend, id, isNew) {
     }
   }
 }
+function showName(name) {
+  if(name.length > 5) {
+    return name.substring(0, 4) + "...";
+  }
+  return name;
+}
 onMounted(() => {
+  load();
   if (props.isFriend) {
     bgColor.backgroundColor = "#fef0f0";
   } else {

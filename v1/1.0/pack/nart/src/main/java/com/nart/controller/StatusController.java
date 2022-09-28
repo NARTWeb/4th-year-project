@@ -9,7 +9,7 @@ import com.nart.pojo.Status;
 import com.nart.pojo.User;
 import com.nart.service.StatusService;
 import com.nart.util.ErrorCode;
-import com.nart.util.GsonFormatter;
+import com.nart.util.UserThreadLocal;
 import com.nart.util.Result;
 import com.nart.vo.PageVo;
 import com.nart.vo.StatusVo;
@@ -51,20 +51,21 @@ public class StatusController {
 
         StatusVo statusVo = new StatusVo();
 
-        if (type.equals("my")) {
-            if (uid.equals("UserThreadLocal.get().getId()")) {
+        if (type.equals("my")){
+            if(uid.equals("-1")) {
 //                show current User's Status
+                uid = UserThreadLocal.get().getId();
                 List<Status> statuses = statusService.showStatusList(uid, page);
                 System.out.println(statuses);
                 List<StatusVo> statusVos = new ArrayList<>();
                 for (Status status : statuses) {
-                    //StatusVo transfer = statusVo.transfer(status);
+                    StatusVo transfer = statusVo.transfer(status);
 
-                    //User user = userDao.selectById(status.getSenderId());
-                    //System.out.println(user);
+                    User user = userDao.selectById(status.getSenderId());
+                    System.out.println(user);
 
 
-                    //statusVos.add(transfer);
+                    statusVos.add(transfer);
                 }
                 return Result.success(statusVos);
             } else {
@@ -73,13 +74,13 @@ public class StatusController {
 //                System.out.println(statuses);
                 List<StatusVo> statusVos = new ArrayList<>();
                 for (Status status : statuses) {
-                    //StatusVo transfer = statusVo.transfer(status);
+                    StatusVo transfer = statusVo.transfer(status);
 
                     User user = userDao.selectById(status.getSenderId());
                     System.out.println(user);
-                    //transfer.setAvatar(user.getAvatar());
-                    //transfer.setUname(user.getName());
-                    //statusVos.add(transfer);
+                    transfer.setAvatar(user.getAvatar());
+                    transfer.setUname(user.getName());
+                    statusVos.add(transfer);
                 }
                 return Result.success(statusVos);
             }
@@ -90,6 +91,7 @@ public class StatusController {
         return Result.fail(ErrorCode.UNDEFINED);
     }
 
+    @LogA
     @PutMapping("like/{statusId}/{like}")
     public Result likeStatus(@PathVariable("statusId") String statusId,
                              @PathVariable("like") Boolean like) {
@@ -101,17 +103,21 @@ public class StatusController {
         }
     }
 
+    @LogA
     @PostMapping("post")
     public Result postStatus(@RequestBody StatusVo statusInfo) {
+        System.out.println(statusInfo);
         Status status = new Status();
         status.setSenderId(statusInfo.getUid());
         status.setText(statusInfo.getMsg());
+
 
         List<String> pics = statusInfo.getPics();
         String join = StringUtils.join(pics.toArray(), ";");
         System.out.println(join);
         status.setPics(join);
 //       status.setPics(GsonFormatter.toJsonString(statusInfo.getPics()));
+
         status.setLikes(0);
         status.setCreateDate(new Date().getTime());
         boolean b = statusService.postStatus(status);
@@ -122,6 +128,7 @@ public class StatusController {
         }
     }
 
+    @LogA
     @DeleteMapping("del/{statusId}")
     public Result delStatus(@PathVariable("statusId") String statusId) {
         boolean b = statusService.delStatus(statusId);

@@ -16,7 +16,7 @@ export function showMyStatusList(token, uid, page) {
     let type = "my";
     return req({
         headers: {'Authorization': token},
-        method: 'get',
+        method: 'post',
         url: `/status/list/${type}/${uid}`,
         data: {
             pageSize: page.pageSize,
@@ -30,7 +30,7 @@ export function showAllStatusList(token, page) {
     let uid = "-1";
     return req({
         headers: {'Authorization': token},
-        method: 'get',
+        method: 'post',
         url: `/status/list/${type}/${uid}`,
         data: {
             pageSize: page.pageSize,

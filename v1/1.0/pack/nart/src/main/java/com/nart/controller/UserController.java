@@ -25,7 +25,6 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/user")
-@LogA
 public class UserController {
 
     @Autowired
@@ -33,26 +32,31 @@ public class UserController {
     @Autowired
     private LoginService loginService;
 
+    @LogA
     @PutMapping("login")
     public Result login(@RequestBody UserVo uInfo, HttpSession session) {
+//        System.out.println(uInfo);
         return loginService.login(uInfo.getUname(), uInfo.getPwd(), session);
     }
 
+    @LogA
     @PutMapping("logout")
     public Result logout(@RequestHeader("Authorization") String token) {
         return loginService.logout(token);
     }
 
+    @LogA
     @PostMapping("register")
     public Result register(@RequestBody UserVo uInfo, HttpSession session){
         return loginService.register(uInfo.getEmail(), uInfo.getUname(), uInfo.getPwd(), session);
     }
 
     @LogA
-    @GetMapping(value="info/{id}")
+    @GetMapping("info/{id}")
     public Result showUserInfo(@PathVariable("id") String id) {
+        System.out.println(id);
         User user;
-        if(id.equals("-1")) {
+        if(id.isEmpty()) {
             user = userService.showUserInfo(UserThreadLocal.get().getId());
         } else {
             user = userService.showUserInfo(id);
@@ -60,15 +64,22 @@ public class UserController {
         if(user == null) {
             Result.fail(ErrorCode.USER_NOT_EXIST);
         }
-        return Result.success(user);
+        UserVo userVo = new UserVo();
+        UserVo transfer = userVo.transfer(user);
+        return Result.success(transfer);
     }
 
+    @LogA
     @GetMapping
     public Result showUnameAvatar() {
         User user = userService.showUnameAvatar(UserThreadLocal.get().getId());
-        return Result.success(user);
+//        System.out.println(user);
+        UserVo userVo = new UserVo();
+        UserVo transfer = userVo.transfer(user);
+        return Result.success(transfer);
     }
 
+    @LogA
     @PutMapping("changeInfo")
     public Result changeUserInfo(@RequestBody UserVo uInfo){
         boolean b = userService.changeUserInfo(uInfo, UserThreadLocal.get().getId());

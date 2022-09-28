@@ -77,7 +77,7 @@ const tt = {
 };
 
 function getFriendInfo() {
-  showUserInfo(token, route.params.id)
+  showUserInfo(token.value, route.params.id)
   .then((res) => {
         if (res.data.success) {
             tt.value1 = res.data.data.uname;

@@ -166,8 +166,7 @@ const useUserStore = defineStore("user", {
         signout(this.token)
           .then((res) => {
             if (res.data.success) {
-              fedLogOut();
-              removeToken();
+              this.fedLogOut();
               resolve();
             } else {
               ElMessage({

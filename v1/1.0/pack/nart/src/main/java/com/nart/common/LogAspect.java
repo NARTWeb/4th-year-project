@@ -85,7 +85,7 @@ public class LogAspect {
 
         // 获取request 设置IP地址
         log.info("ip:{}", IpUtils.getIpAddr());
-        log.info("result:{}", result);
+        log.info("{}", result);
 
         // 打印request header和body
         // printRequest(HttpContextUtils.getHttpServletRequest(), joinPoint);
