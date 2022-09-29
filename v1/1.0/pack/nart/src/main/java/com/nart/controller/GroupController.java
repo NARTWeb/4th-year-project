@@ -131,8 +131,8 @@ public class GroupController {
 
     @LogA
     @PostMapping("create")
-    public Result createGroup(@RequestBody String gName) {
-        boolean b = groupService.createGroup(gName, UserThreadLocal.get().getId());
+    public Result createGroup(@RequestBody String groupName) {
+        boolean b = groupService.createGroup(groupName, UserThreadLocal.get().getId());
         if(b) {
             return Result.success(null);
         }

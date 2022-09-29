@@ -3,16 +3,18 @@ package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nart.pojo.Comment;
-import com.nart.pojo.GroupChat;
-import com.nart.pojo.GroupInvite;
-import com.nart.pojo.Status;
+import com.nart.dao.FriendDao;
+import com.nart.dao.StatusDao;
+import com.nart.dao.UserDao;
+import com.nart.pojo.*;
 import com.nart.service.CommentService;
 import com.nart.service.DataCounterService;
 import com.nart.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,6 +27,15 @@ public class StatusServiceImpl implements StatusService {
 
     @Autowired
     private DataCounterService dataCounterService;
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private FriendDao friendDao;
+
+    @Autowired
+    private StatusDao statusDao;
 
     @Override
     public List<Status> showStatusList(String sid, IPage page) {
@@ -43,6 +54,31 @@ public class StatusServiceImpl implements StatusService {
 
         }
         return records;
+    }
+
+    @Override
+    public List<Status> showAllStatusList(String uid) {
+//        User user = userDao.selectById(uid);
+        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
+        lqw.eq(Friend::getUid, uid);
+        List<Friend> friends = friendDao.selectList(lqw);
+        List<String> friendIds = new ArrayList<>();
+        for (Friend friend : friends) {
+            friendIds.add(friend.getFid());
+        }
+        List<Status> Allstatuses = new ArrayList<Status>();
+        for (String friendId : friendIds) {
+            LambdaQueryWrapper<Status> lqw1 = new LambdaQueryWrapper<Status>();
+            lqw1.eq(Status::getSenderId, friendId);
+            lqw1.orderBy(true,false, Status::getCreateDate);
+            List<Status> statuses = statusDao.selectList(lqw1);
+            for (Status status : statuses) {
+                Allstatuses.add(status);
+            }
+
+        }
+        Collections.sort(Allstatuses, (a, b) -> b.getCreateDate().compareTo(a.getCreateDate()));
+        return Allstatuses;
     }
 
     @Override

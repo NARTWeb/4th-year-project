@@ -5,8 +5,7 @@
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://132.145.110.184:3306/c_c</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
+      <jdbc-url>jdbc:mysql://132.145.110.184:3306/c_c?serverTimezone=UTC</jdbc-url>
     </data-source>
   </component>
 </project>

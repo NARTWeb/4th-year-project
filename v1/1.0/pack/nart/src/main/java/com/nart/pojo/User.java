@@ -24,7 +24,7 @@ public class User {
     private String tel;
     private String address;
     private String email;
-
+    private String tpwd;
     @TableField(value = "on_line")
     private int userOnline;
 

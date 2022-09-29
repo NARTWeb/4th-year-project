@@ -20,32 +20,39 @@ public class statusServiceTest {
     }
 
     @Test
-    public void showStatusListTest(){
-        IPage<Status> page=new Page<>(1,2);
-        List<Status> Statuses = StatusService.showStatusList("1", page);
-        System.out.println(Statuses);
+    public void sshowAllStatusList(){
+        List<Status> statuses = StatusService.showAllStatusList("1574989632599367682");
+        System.out.println(statuses);
     }
 
-    @Test
-    public void TestpostStatus(){
-        Status status = new Status();
-        status.setSenderId("1");
-        status.setText("erfwf");
-        status.setPics("1122323");
-        status.setCreateDate(13232344L);
-        boolean b = StatusService.postStatus(status);
-        System.out.println(b);
-    }
 
-    @Test
-    public void TestdelStatus(){
-        boolean b = StatusService.delStatus("1564436341058641922");
-        System.out.println(b);
-    }
-    
-    @Test
-    public void TestlikeStatus(){
-        boolean b = StatusService.likeStatus("1", true);
-        System.out.println(b);
-    }
+//    @Test
+//    public void showStatusListTest(){
+//        IPage<Status> page=new Page<>(1,2);
+//        List<Status> Statuses = StatusService.showStatusList("1", page);
+//        System.out.println(Statuses);
+//    }
+//
+//    @Test
+//    public void TestpostStatus(){
+//        Status status = new Status();
+//        status.setSenderId("1");
+//        status.setText("erfwf");
+//        status.setPics("1122323");
+//        status.setCreateDate(13232344L);
+//        boolean b = StatusService.postStatus(status);
+//        System.out.println(b);
+//    }
+//
+//    @Test
+//    public void TestdelStatus(){
+//        boolean b = StatusService.delStatus("1564436341058641922");
+//        System.out.println(b);
+//    }
+//
+//    @Test
+//    public void TestlikeStatus(){
+//        boolean b = StatusService.likeStatus("1", true);
+//        System.out.println(b);
+//    }
 }

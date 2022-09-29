@@ -55,7 +55,6 @@ public class LoadDataInDataBaseImpl implements LoadDataInDataBase {
     public boolean LoadListGroup(List<Group> groupList) {
         for (Group group : groupList) {
             int insert = groupDao.insert(group);
-
         }
         return true;
     }

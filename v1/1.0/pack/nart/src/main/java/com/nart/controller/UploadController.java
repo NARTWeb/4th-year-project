@@ -2,13 +2,13 @@ package com.nart.controller;
 
 import com.nart.common.LogA;
 import com.nart.util.ErrorCode;
+import com.nart.util.FakeDataGenerator;
 import com.nart.util.upload.ImgtuUtil;
 import com.nart.util.Result;
+import com.nart.service.LoadDataInDataBase;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,6 +29,9 @@ import java.util.UUID;
 @LogA
 public class UploadController {
 
+    @Autowired
+    private LoadDataInDataBase ld;
+
     @PostMapping
     public Result upload(@RequestParam("image") MultipartFile file) throws IOException {
         String name = file.getOriginalFilename();
@@ -41,4 +44,14 @@ public class UploadController {
         return Result.fail(ErrorCode.UPLOAD_ERROR);
 
     }
+
+
+    @GetMapping("test")
+    public Result test() {
+        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
+        fakeDataGenerator.generateTestData(1);
+        return Result.success("yes");
+    }
+
+
 }

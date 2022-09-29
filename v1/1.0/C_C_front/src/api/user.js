@@ -41,7 +41,7 @@ export function showAvatarUname(token) {
     });
 }
 
-export function showUserInfo(token, id) {
+export async function showUserInfo(token, id) {
     return req({
         headers: {'Authorization':token},
         method: 'get',
