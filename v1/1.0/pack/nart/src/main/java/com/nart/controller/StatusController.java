@@ -56,14 +56,15 @@ public class StatusController {
 //                show current User's Status
                 uid = UserThreadLocal.get().getId();
                 List<Status> statuses = statusService.showStatusList(uid, page);
-                System.out.println(statuses);
+//                System.out.println(statuses);
                 List<StatusVo> statusVos = new ArrayList<>();
                 for (Status status : statuses) {
                     StatusVo transfer = statusVo.transfer(status);
 
                     User user = userDao.selectById(status.getSenderId());
-                    System.out.println(user);
-
+//                    System.out.println(user);
+                    transfer.setAvatar(user.getAvatar());
+                    transfer.setUname(user.getName());
 
                     statusVos.add(transfer);
                 }

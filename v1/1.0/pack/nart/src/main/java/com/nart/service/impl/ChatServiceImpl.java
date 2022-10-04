@@ -100,7 +100,7 @@ public class ChatServiceImpl implements ChatService {
 
         IPage iPage = FriendChatDao.selectPage(page, lqw);
         List<FriendChat> records = iPage.getRecords();
-
+        System.out.println(records);
         MessageVo messageVo = new MessageVo();
         List<MessageVo> messageVos = new ArrayList<>();
 
@@ -163,8 +163,19 @@ public class ChatServiceImpl implements ChatService {
             lqw.eq(UserGroup::getGid, roomId);
             lqw.eq(UserGroup::getUid, UserThreadLocal.get().getId());
             UserGroup userGroup = userGroupDao.selectOne(lqw);
-            String timeStamp = String.valueOf(getTimeStamp());
-            userGroup.setUserLevelTime(timeStamp);
+
+            long t = getTimeStamp();
+
+//            System.out.println(t);
+//            int statusid1 = Math.toIntExact(t);
+//            System.out.println("int"+statusid1);
+//
+//            String timeStamp = String.valueOf(statusid1);
+//            String wei = "000";
+//            String he = timeStamp+wei;
+//            System.out.println(he);
+
+            userGroup.setUserLevelTime(String.valueOf(t));
             int i = userGroupDao.updateById(userGroup);
             return i>0;
         }
