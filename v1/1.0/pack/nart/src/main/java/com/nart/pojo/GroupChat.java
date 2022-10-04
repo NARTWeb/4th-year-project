@@ -16,6 +16,6 @@ public class GroupChat {
 
     private String msg;
     private String type;
-    private Long date;
+    private String date;
     private int level;
 }

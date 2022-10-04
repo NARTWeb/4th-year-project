@@ -4,16 +4,22 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.dao.FriendDao;
+import com.nart.dao.UserGroupDao;
 import com.nart.pojo.Friend;
 import com.nart.pojo.User;
+import com.nart.pojo.UserGroup;
 import com.nart.service.DataCounterService;
 import com.nart.service.UserService;
 import com.nart.util.EncryptUtil;
+//import com.nart.util.UserThreadLocal;
+import com.nart.util.UserThreadLocal;
 import com.nart.vo.PageVo;
 import com.nart.vo.UserVo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -23,6 +29,15 @@ public class UserServiceImpl implements UserService {
     private com.nart.dao.UserDao UserDao;
     @Autowired
     private DataCounterService dataCounterService;
+
+    @Autowired
+    private FriendDao friendDao;
+
+    @Autowired
+    private UserGroupDao userGroupDao;
+
+
+
 
     @Override
     public User findUser(String uname, String pwd) {
@@ -99,7 +114,12 @@ public class UserServiceImpl implements UserService {
         if(!userVo.getUname().isEmpty()){
             user.setName(userVo.getUname());
         }
-        if(!userVo.getPwd().isEmpty()) {
+        String tpwd = user.getTpwd();
+        System.out.println(tpwd);
+        String pwd = userVo.getPwd();
+        System.out.println(pwd);
+        if(!userVo.getPwd().isEmpty() && userVo.getPwd().equals(tpwd)) {
+            user.setTpwd(userVo.getPwd());
             String password = EncryptUtil.encryptPwd(userVo.getPwd());
             user.setPwd(password);
         }
@@ -130,5 +150,43 @@ public class UserServiceImpl implements UserService {
         lqw.like(User::getName, name);
         IPage<User> userIPage1 = UserDao.selectPage(page, lqw);
         return userIPage1;
+    }
+
+    @Override
+    public boolean upDatetime(String userId) {
+//        String id = UserThreadLocal.get().getId();
+//        System.out.println(id);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        long time = timestamp.getTime();
+        System.out.println(userId);
+        System.out.println("现在的时间是  "+time);
+
+//        String userId = "1574989632599367682";
+        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
+        lqw.eq(Friend::getUid, userId);
+        List<Friend> friends = friendDao.selectList(lqw);
+
+        if (friends.size()>0){
+            for (Friend friend : friends) {
+                friend.setLeaveTime(time);
+                int i = friendDao.updateById(friend);
+            }
+        }else{
+        }
+
+
+        LambdaQueryWrapper<UserGroup> lqw1 = new LambdaQueryWrapper<UserGroup>();
+        lqw1.eq(UserGroup::getUid, userId);
+        List<UserGroup> userGroups = userGroupDao.selectList(lqw1);
+
+        if (userGroups.size()>0){
+            for (UserGroup userGroup : userGroups) {
+                userGroup.setUserLevelTime(String.valueOf(time));
+                userGroupDao.updateById(userGroup);
+            }
+        }else {
+
+        }
+        return true;
     }
 }

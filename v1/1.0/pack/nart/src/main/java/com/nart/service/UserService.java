@@ -28,4 +28,6 @@ public interface UserService {
 
     IPage<User> searchNew(String name, PageVo pageVo);
 
+    boolean upDatetime(String uid);
+
 }

@@ -48,7 +48,7 @@ public class MessageVo {
 //        messageVo.setSenderName(user.getName());
 //        messageVo.setSenderAvatar(user.getAvatar());
         DateVo dateVo = new DateVo();
-        DateVo dateToString = dateVo.getDateToString(groupChat.getDate());
+        DateVo dateToString = dateVo.getDateToString(Long.parseLong(groupChat.getDate()));
         messageVo.setSentDate(dateToString);
         messageVo.setMsg(groupChat.getMsg());
         return messageVo;

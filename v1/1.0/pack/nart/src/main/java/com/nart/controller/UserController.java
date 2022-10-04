@@ -42,7 +42,11 @@ public class UserController {
     @LogA
     @PutMapping("logout")
     public Result logout(@RequestHeader("Authorization") String token) {
+
+        userService.upDatetime(UserThreadLocal.get().getId());
         return loginService.logout(token);
+
+        //应该在这个时候更新friend和group里的离开时间
     }
 
     @LogA
@@ -76,6 +80,9 @@ public class UserController {
 //        System.out.println(user);
         UserVo userVo = new UserVo();
         UserVo transfer = userVo.transfer(user);
+
+//        userService.upDatetime(UserThreadLocal.get().getId());
+
         return Result.success(transfer);
     }
 

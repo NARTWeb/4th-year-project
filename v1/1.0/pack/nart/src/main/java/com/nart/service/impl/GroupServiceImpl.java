@@ -2,10 +2,7 @@ package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nart.dao.GroupDao;
-import com.nart.dao.GroupInviteDao;
-import com.nart.dao.UserDao;
-import com.nart.dao.UserGroupDao;
+import com.nart.dao.*;
 import com.nart.pojo.*;
 import com.nart.service.GroupService;
 import com.nart.util.UserThreadLocal;
@@ -29,6 +26,11 @@ public class GroupServiceImpl implements GroupService {
 
     @Autowired
     private GroupInviteDao groupInviteDao;
+
+    @Autowired
+    private GroupChatDao groupChatDao;
+
+
 
     @Override
     public List<UserVo> showGroupMebList(String gid) {
@@ -80,11 +82,40 @@ public class GroupServiceImpl implements GroupService {
         LambdaQueryWrapper<Group> lqw = new LambdaQueryWrapper<Group>();
         lqw.orderBy(true,false, Group::getUserLevel);
 
+
         IPage iPage = groupDao.selectPage(page, lqw);
         List<Group> records = iPage.getRecords();
         List<GroupVo> groupVos = new ArrayList<>();
         GroupVo groupVo = new GroupVo();
         for (Group record : records) {
+            String id = record.getId();
+            LambdaQueryWrapper<UserGroup> lqw1 = new LambdaQueryWrapper<UserGroup>();
+            lqw1.eq(UserGroup::getGid,id);
+            UserGroup userGroup = userGroupDao.selectOne(lqw1);
+            String userLevelTime = userGroup.getUserLevelTime();
+
+            LambdaQueryWrapper<GroupChat> lqw2 = new LambdaQueryWrapper<GroupChat>();
+            lqw2.orderBy(true,false, GroupChat::getDate);
+            lqw2.eq(GroupChat::getGroupId,id);
+
+            List<GroupChat> groupChats = groupChatDao.selectList(lqw2);
+
+            String date = groupChats.get(0).getDate();
+            Long date1 = Long.parseLong(date)/1000;
+            int date11 = Math.toIntExact(date1);
+            System.out.println(date11);
+
+
+            Long userLevelTime1 = Long.parseLong(userLevelTime)/1000;
+            int userLevelTime11 = Math.toIntExact(userLevelTime1);
+            System.out.println(userLevelTime11);
+
+
+            if (date11>userLevelTime11){
+                record.setNewMessage(true);
+            }else{
+                record.setNewMessage(false);
+            }
             GroupVo transfer = groupVo.transfer(record);
             groupVos.add(transfer);
         }
@@ -182,22 +213,46 @@ public class GroupServiceImpl implements GroupService {
     public boolean createGroup(String groupName,String uid) {
         LambdaQueryWrapper<Group> lqw = new LambdaQueryWrapper<Group>();
         lqw.eq(Group::getGroupName,groupName);
-
+        String notic = String.valueOf(Math.random() * 100);
+//        System.out.println(notic);
         Group group = new Group();
-        group.setGroupName(groupName);
+
+        if (groupName.equals("-1")){
+            group.setGroupName(null);
+            group.setNotice(notic);
+        }else{
+            group.setGroupName(groupName);
+        }
+
+
         int insert = groupDao.insert(group);
 
-        Group group1 = groupDao.selectOne(lqw);
+        if (groupName.equals("-1")){
+            LambdaQueryWrapper<Group> lqw1 = new LambdaQueryWrapper<Group>();
+            lqw1.eq(Group::getNotice,notic);
 
-        String id = group1.getId();
-        UserGroup userGroup = new UserGroup();
-        userGroup.setGid(id);
-        userGroup.setUid(uid);
-        userGroup.setJoinLevel(1);
+            Group group2 = groupDao.selectOne(lqw1);
+//            System.out.println(group2);
+            String id = group2.getId();
+            UserGroup userGroup = new UserGroup();
+            userGroup.setGid(id);
+            userGroup.setUid(uid);
+            userGroup.setJoinLevel(1);
+            int insert1 = userGroupDao.insert(userGroup);
+//            System.out.println(insert1);
 
-        int insert1 = userGroupDao.insert(userGroup);
+        }else{
+            Group group1 = groupDao.selectOne(lqw);
+            String id = group1.getId();
+            UserGroup userGroup = new UserGroup();
+            userGroup.setGid(id);
+            userGroup.setUid(uid);
+            userGroup.setJoinLevel(1);
+            int insert1 = userGroupDao.insert(userGroup);
+        }
 
-        return insert1>0;
+
+        return insert>0;
     }
 
     @Override

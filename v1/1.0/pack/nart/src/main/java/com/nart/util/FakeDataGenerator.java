@@ -422,7 +422,7 @@ public class FakeDataGenerator {
 //                        msg.setType("picture");
 //                        msg.setMsg(faker.internet().image());
                     }
-                    groupChat.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
+                    groupChat.setDate(String.valueOf(faker.date().past(94608000, TimeUnit.SECONDS).getTime()));
 //                    msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
 
 

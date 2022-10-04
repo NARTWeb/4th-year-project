@@ -36,6 +36,13 @@ public class userTest {
         fakeDataGenerator.generateTestData(1);
     }
 
+    @Test
+    public void updatetime(){
+//        userService.upDatetime();
+
+
+    }
+
 //    @Test
 //    public void setLoadDataInDataBase(){
 //        List<User> Users = new ArrayList<>();
