@@ -8,7 +8,6 @@ import com.nart.dao.StatusDao;
 import com.nart.dao.UserDao;
 import com.nart.pojo.Friend;
 import com.nart.pojo.FriendReq;
-import com.nart.pojo.GroupChat;
 import com.nart.pojo.User;
 import com.nart.service.ChatService;
 import com.nart.service.FriendService;
@@ -79,8 +78,8 @@ public class FriendServiceImpl implements FriendService {
         for (Friend record : records) {
             FriendVo transfer = friendVo.transfer(record);
 
-            User user = userDao.selectById(record.getUid());
-            transfer.setUname(user.getName());
+//            User user = userDao.selectById(record.getUid());
+//            transfer.setUname(user.getName());
 
             friendVos.add(transfer);
         }

@@ -2,8 +2,6 @@
 
 # User Operation
 
-
-
 ## 1. sign in API
 
 API URL: /user/login
@@ -14,10 +12,10 @@ request type: PUT
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| uname      | String     | username    |
-| pwd        | String     | password    |
+| param name | param type           | description |
+| ---------- | -------------------- | ----------- |
+| uname      | String (RequestBody) | username    |
+| pwd        | String (RequestBody) | password    |
 
 return data:
 
@@ -69,11 +67,11 @@ request type: POST
 
 request params:
 
-| param name | param type | description   |
-| ---------- | ---------- | ------------- |
-| uname      | String     | username      |
-| pwd        | String     | password      |
-| email      | String     | email address |
+| param name | param type           | description   |
+| ---------- | -------------------- | ------------- |
+| uname      | String (RequestBody) | username      |
+| pwd        | String (RequestBody) | password      |
+| email      | String (RequestBody) | email address |
 
 return data:
 
@@ -133,9 +131,9 @@ request type: GET
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-|            |            |             |
+| param name | param type            | description                     |
+| ---------- | --------------------- | ------------------------------- |
+| id         | String (PathVariable) | user id or -1: the current user |
 
 return data:
 
@@ -168,16 +166,16 @@ request type: PUT
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| avatar     | String     |             |
-| uname      | String     |             |
-| oldPwd     | String     |             |
-| pwd        | String     |             |
-| email      | String     |             |
-| birthday   | String     |             |
-| phone      | String     |             |
-| address    | String     |             |
+| param name | param type | description (if null, ignore)                |
+| ---------- | ---------- | -------------------------------------------- |
+| avatar     | String     |                                              |
+| uname      | String     |                                              |
+| oldPwd     | String     | compare with the user old pwd                |
+| pwd        | String     | user new pwd, only change when old pwd match |
+| email      | String     |                                              |
+| birthday   | String     |                                              |
+| phone      | String     |                                              |
+| address    | String     |                                              |
 
 return data:
 
@@ -194,22 +192,20 @@ return data:
 
 # Group Operation
 
-
-
 ## 7. showGroupList API
 
 API URL: /group/list
 
 corresponding method: GroupController -> showGroupList()
 
-request type: GET
+request type: POST
 
 request params:
 
-| param name | param type | description      |
-| ---------- | ---------- | ---------------- |
-| pageSize   | int        | page size        |
-| pageNum    | int        | current page num |
+| param name | param type        | description      |
+| ---------- | ----------------- | ---------------- |
+| pageSize   | int (RequestBody) | page size        |
+| pageNum    | int (RequestBody) | current page num |
 
 return data:
 
@@ -221,14 +217,18 @@ return data:
     "data": {
         {
         	"id": String,
+        	"state": int, // 1: hide; 2: mute; 0: normal
+        	"newMsg": Boolean, // if there are any new msg in the group after user's leave_time
         	"avatar": String,
-        	"groupName": String,
+        	"name": String,
         	"notice": String
     	},
     	{
     		"id": String,
+        	"state": int,
+        	"newMsg": Boolean,
         	"avatar": String,
-        	"groupName": String,
+        	"name": String,
         	"notice": String
 		}
     }
@@ -243,14 +243,14 @@ API URL: /group/inviteList
 
 corresponding method: GroupController -> showInviteList()
 
-request type: GET
+request type: POST
 
 request params:
 
-| param name | param type | description      |
-| ---------- | ---------- | ---------------- |
-| pageSize   | int        | page size        |
-| pageNum    | int        | current page num |
+| param name | param type        | description      |
+| ---------- | ----------------- | ---------------- |
+| pageSize   | int (RequestBody) | page size        |
+| pageNum    | int (RequestBody) | current page num |
 
 return data:
 
@@ -292,10 +292,10 @@ request type: PUT
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| groupId    | String     | group's id  |
-| state      | int        | 1: hide     |
+| param name | param type            | description |
+| ---------- | --------------------- | ----------- |
+| groupId    | String (PathVariable) | group's id  |
+| state      | int (PathVariable)    | 1: hide     |
 
 return data:
 
@@ -320,10 +320,10 @@ request type: PUT
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| groupId    | String     | group's id  |
-| state      | int        | 2: mute     |
+| param name | param type            | description |
+| ---------- | --------------------- | ----------- |
+| groupId    | String (PathVariable) | group's id  |
+| state      | int (PathVariable)    | 2: mute     |
 
 return data:
 
@@ -338,7 +338,35 @@ return data:
 
 
 
-## 11. leaveGroup API
+## 11. unsetGroup API
+
+API URL: /group/state
+
+corresponding method: GroupController -> changeGroupState()
+
+request type: PUT
+
+request params:
+
+| param name | param type            | description |
+| ---------- | --------------------- | ----------- |
+| groupId    | String (PathVariable) | group's id  |
+| state      | int (PathVariable)    | 0: normal   |
+
+return data:
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": null
+}
+```
+
+
+
+## 12. leaveGroup API
 
 API URL: /group/del
 
@@ -348,9 +376,9 @@ request type: DELETE
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| groupId    | String     | group's id  |
+| param name | param type            | description |
+| ---------- | --------------------- | ----------- |
+| groupId    | String (PathVariable) | group's id  |
 
 return data:
 
@@ -365,7 +393,7 @@ return data:
 
 
 
-## 12. showMemberList API
+## 13. showMemberList API
 
 API URL: /group/memberList
 
@@ -375,11 +403,11 @@ request type: GET
 
 request params:
 
-| param name | param type | description      |
-| ---------- | ---------- | ---------------- |
-| groupId    | String     | group's id       |
-| pageSize   | int        | page size        |
-| pageNum    | int        | current page num |
+| param name | param type            | description |
+| ---------- | --------------------- | ----------- |
+| groupId    | String (PathVariable) | group's id  |
+
+
 
 return data:
 
@@ -405,7 +433,7 @@ return data:
 
 
 
-## 13. createNewGroup API
+## 14. createNewGroup API
 
 API URL: /group/create
 
@@ -415,9 +443,9 @@ request type: POST
 
 request params:
 
-| param name | param type | description  |
-| ---------- | ---------- | ------------ |
-| groupName  | String     | group's name |
+| param name | param type            | description                    |
+| ---------- | --------------------- | ------------------------------ |
+| groupName  | String (PathVariable) | group's name, -1 means no name |
 
 return data:
 
@@ -432,22 +460,22 @@ return data:
 
 
 
-## 14. changeGroupInfo API
+## 15. changeGroupInfo API
 
-API URL: /group/info
+API URL: /group/changeInfo
 
 corresponding method: GroupController -> changeGroupInfo()
 
-request type: GET
+request type: PUT
 
 request params:
 
-| param name  | param type | description |
-| ----------- | ---------- | ----------- |
-| groupId     | String     | group's id  |
-| groupName   | String     |             |
-| groupAvatar | String     |             |
-| notice      | String     |             |
+| param name  | param type           | description |
+| ----------- | -------------------- | ----------- |
+| groupId     | String (RequestBody) | group's id  |
+| groupName   | String (RequestBody) |             |
+| groupAvatar | String (RequestBody) |             |
+| notice      | String (RequestBody) |             |
 
 return data:
 
@@ -462,7 +490,7 @@ return data:
 
 
 
-## 15. sendGroupInvite API
+## 16. sendGroupInvite API
 
 API URL: /group/send
 
@@ -472,12 +500,11 @@ request type: POST
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| groupId    | String     | group's id  |
-| senderId   | String     |             |
-| receiverId | String     |             |
-| msg        | String     |             |
+| param name | param type           | description   |
+| ---------- | -------------------- | ------------- |
+| groupId    | String (RequestBody) | group's id    |
+| receiverId | String (RequestBody) | receiver's id |
+| msg        | String (RequestBody) | sent msg      |
 
 return data:
 
@@ -492,9 +519,9 @@ return data:
 
 
 
-## 16. responseGroupInvite API
+## 17. responseGroupInvite API
 
-API URL: /group/resq
+API URL: /group/resp
 
 corresponding method: GroupController -> respGroupInvite()
 
@@ -502,10 +529,10 @@ request type: PUT
 
 request params:
 
-| param name | param type | description           |
-| ---------- | ---------- | --------------------- |
-| inviteId   | String     | group invitation's id |
-| agree      | Boolean    | accept/reject         |
+| param name | param type             | description           |
+| ---------- | ---------------------- | --------------------- |
+| inviteId   | String (PathVariable)  | group invitation's id |
+| agree      | Boolean (PathVariable) | accept/reject         |
 
 return data:
 
@@ -522,22 +549,20 @@ return data:
 
 # Friend Operation
 
-
-
-## 17. showFriendList API
+## 18. showFriendList API
 
 API URL: /friend/list
 
 corresponding method: FriendController -> showFriendList()
 
-request type: GET
+request type: POST
 
 request params:
 
-| param name | param type | description      |
-| ---------- | ---------- | ---------------- |
-| pageSize   | int        | page size        |
-| pageNum    | int        | current page num |
+| param name | param type        | description      |
+| ---------- | ----------------- | ---------------- |
+| pageSize   | int (RequestBody) | page size        |
+| pageNum    | int (RequestBody) | current page num |
 
 return data:
 
@@ -549,13 +574,17 @@ return data:
     "data": {
         {
         	"id": String,
-        	"uname": String,
+        	"state": int, 
+        	"newMsg": Boolean,
+        	"name": String,
         	"avatar": String,
         	"state": Integer
     	},
     	{
     		"id": String,
-        	"uname": String,
+        	"state": int, 
+        	"newMsg": Boolean,
+        	"name": String,
         	"avatar": String,
         	"state": Integer
 		}
@@ -565,21 +594,21 @@ return data:
 
 
 
-## 18. searchFriend API
+## 19. searchFriend API
 
 API URL: /friend/search
 
 corresponding method: FriendController -> searchFriend()
 
-request type: GET
+request type: POST
 
 request params:
 
-| param name | param type | description      |
-| ---------- | ---------- | ---------------- |
-| input      | String     | input            |
-| pageSize   | int        | page size        |
-| pageNum    | int        | current page num |
+| param name | param type            | description      |
+| ---------- | --------------------- | ---------------- |
+| input      | String (PathVariable) | input            |
+| pageSize   | int (RequestBody)     | page size        |
+| pageNum    | int (RequestBody)     | current page num |
 
 return data:
 
@@ -607,20 +636,20 @@ return data:
 
 
 
-## 19. showFriendRequests API
+## 20. showFriendRequests API
 
 API URL: /friend/reqlist
 
 corresponding method: FriendController -> showReqList()
 
-request type: GET
+request type: POST
 
 request params:
 
-| param name | param type | description      |
-| ---------- | ---------- | ---------------- |
-| pageSize   | int        | page size        |
-| pageNum    | int        | current page num |
+| param name | param type        | description      |
+| ---------- | ----------------- | ---------------- |
+| pageSize   | int (RequestBody) | page size        |
+| pageNum    | int (RequestBody) | current page num |
 
 return data:
 
@@ -650,7 +679,7 @@ return data:
 
 
 
-## 20. hideFriend API
+## 21. hideFriend API
 
 API URL: /friend/state
 
@@ -660,10 +689,10 @@ request type: PUT
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| friendId   | String     | friend's id |
-| state      | int        | 1:hide      |
+| param name | param type            | description |
+| ---------- | --------------------- | ----------- |
+| friendId   | String (PathVariable) | friend's id |
+| state      | int (PathVariable)    | 1:hide      |
 
 return data:
 
@@ -678,9 +707,9 @@ return data:
 
 
 
-## 21. muteFriend API
+## 22. muteFriend API
 
-API URL: /friend/mute
+API URL: /friend/state
 
 corresponding method: FriendController -> changeFriendState()
 
@@ -688,10 +717,10 @@ request type: PUT
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| friendId   | String     | friend's id |
-| state      | int        | 2:mute      |
+| param name | param type            | description |
+| ---------- | --------------------- | ----------- |
+| friendId   | String (PathVariable) | friend's id |
+| state      | int (PathVariable)    | 2:mute      |
 
 return data:
 
@@ -706,7 +735,35 @@ return data:
 
 
 
-## 22. deleteFriend API
+## 23. unsetFriend API
+
+API URL: /friend/state
+
+corresponding method: FriendController -> changeFriendState()
+
+request type: PUT
+
+request params:
+
+| param name | param type            | description |
+| ---------- | --------------------- | ----------- |
+| friendId   | String (PathVariable) | friend's id |
+| state      | int (PathVariable)    | 0:normal    |
+
+return data:
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": null
+}
+```
+
+
+
+## 24. deleteFriend API
 
 API URL: /friend/del
 
@@ -716,9 +773,9 @@ request type: DELETE
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| friendId   | String     | friend's id |
+| param name | param type            | description |
+| ---------- | --------------------- | ----------- |
+| friendId   | String (PathVariable) | friend's id |
 
 return data:
 
@@ -733,21 +790,21 @@ return data:
 
 
 
-## 23. searchNewFriend API
+## 25. searchNewFriend API
 
 API URL: /friend/searchNew
 
 corresponding method: FriendController -> searchNew()
 
-request type: GET
+request type: POST
 
 request params:
 
-| param name                | param type | description      |
-| ------------------------- | ---------- | ---------------- |
-| input (email/phone/uname) | String     | group's id       |
-| pageSize                  | int        | page size        |
-| pageNum                   | int        | current page num |
+| param name                | param type            | description      |
+| ------------------------- | --------------------- | ---------------- |
+| input (email/phone/uname) | String (PathVariable) | group's id       |
+| pageSize                  | int (RequestBody)     | page size        |
+| pageNum                   | int (RequestBody)     | current page num |
 
 return data:
 
@@ -773,7 +830,7 @@ return data:
 
 
 
-## 24. sendFriendRequest API
+## 26. sendFriendRequest API
 
 API URL: /friend/send
 
@@ -783,10 +840,10 @@ request type: POST
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| receiverId | String     |             |
-| msg        | String     |             |
+| param name | param type           | description |
+| ---------- | -------------------- | ----------- |
+| receiverId | String (RequestBody) |             |
+| msg        | String (RequestBody) |             |
 
 return data:
 
@@ -801,7 +858,7 @@ return data:
 
 
 
-## 25. responseFriendReq API
+## 27. responseFriendReq API
 
 API URL: /friend/resp
 
@@ -811,10 +868,10 @@ request type: POST
 
 request params:
 
-| param name | param type | description  |
-| ---------- | ---------- | ------------ |
-| requestId  | String     |              |
-| agree      | Boolean    | agree/reject |
+| param name | param type             | description  |
+| ---------- | ---------------------- | ------------ |
+| requestId  | String (PathVariable)  |              |
+| agree      | Boolean (PathVariable) | agree/reject |
 
 return data:
 
@@ -831,9 +888,7 @@ return data:
 
 # Status&Comment Operation
 
-
-
-## 26. uploadPic API
+## 28. uploadPic API
 
 API URL: /upload
 
@@ -860,7 +915,7 @@ return data:
 
 
 
-## 27. postStatus API
+## 29. postStatus API
 
 API URL: /status/post
 
@@ -870,10 +925,10 @@ request type: POST
 
 request params:
 
-| param name | param type | description                        |
-| ---------- | ---------- | ---------------------------------- |
-| msg        | String     | status message(maybe null)         |
-| pics       | String     | picture addresses, separate by `;` |
+| param name | param type           | description                        |
+| ---------- | -------------------- | ---------------------------------- |
+| msg        | String (RequestBody) | status message(maybe null)         |
+| pics       | String (RequestBody) | picture addresses, separate by `;` |
 
 return data:
 
@@ -888,7 +943,7 @@ return data:
 
 
 
-## 28. showStatusList API
+## 30. showStatusList API
 
 API URL: /status/list
 
@@ -898,11 +953,12 @@ request type: POST
 
 request params:
 
-| param name | param type | description             |
-| ---------- | ---------- | ----------------------- |
-| type       | String     | my status or all status |
-| pageSize   | int        | page size               |
-| pageNum    | int        | current page num        |
+| param name | param type            | description         |
+| ---------- | --------------------- | ------------------- |
+| type       | String (PathVariable) | "my" / "all"        |
+| uid        | String (PathVariable) | user id; -1: ignore |
+| pageSize   | int (RequestBody)     | page size           |
+| pageNum    | int (RequestBody)     | current page num    |
 
 return data:(in descending chronological order)
 
@@ -927,7 +983,7 @@ return data:(in descending chronological order)
     		"likes": int,
     		"liked": Boolean,
             "msg": String,
-            "pics": String,
+            "pics": Array<String>,
             "comments":{
 				{
                 	"commentId": String,
@@ -970,7 +1026,7 @@ return data:(in descending chronological order)
     		"likes": int,
             "liked": Boolean,
             "msg": String,
-            "pics": String,
+            "pics": Array<String>,
             "comments":{
 				{
                 	"commentId": String,
@@ -1004,7 +1060,7 @@ return data:(in descending chronological order)
 
 
 
-## 29. deleteStatus API
+## 31. deleteStatus API
 
 API URL: /status/del
 
@@ -1014,9 +1070,9 @@ request type: DELETE
 
 request params:
 
-| param name | param type | description   |
-| ---------- | ---------- | ------------- |
-| statusId   | String     | a status's id |
+| param name | param type            | description   |
+| ---------- | --------------------- | ------------- |
+| statusId   | String (PathVariable) | a status's id |
 
 return data:
 
@@ -1031,7 +1087,7 @@ return data:
 
 
 
-## 30. likeStatus API
+## 32. likeStatus API
 
 API URL: /status/like
 
@@ -1041,10 +1097,10 @@ request type: PUT
 
 request params:
 
-| param name | param type | description   |
-| ---------- | ---------- | ------------- |
-| statusId   | String     | a status's id |
-| like       | Boolean    | true          |
+| param name | param type             | description   |
+| ---------- | ---------------------- | ------------- |
+| statusId   | String (PathVariable)  | a status's id |
+| like       | Boolean (PathVariable) | true          |
 
 return data:
 
@@ -1059,7 +1115,7 @@ return data:
 
 
 
-## 31. dislikeStatus API
+## 33. dislikeStatus API
 
 API URL: /status/like
 
@@ -1069,10 +1125,10 @@ request type: PUT
 
 request params:
 
-| param name | param type | description   |
-| ---------- | ---------- | ------------- |
-| statusId   | String     | a status's id |
-| like       | Boolean    | false         |
+| param name | param type             | description   |
+| ---------- | ---------------------- | ------------- |
+| statusId   | String (PathVariable)  | a status's id |
+| like       | Boolean (PathVariable) | false         |
 
 return data:
 
@@ -1087,19 +1143,19 @@ return data:
 
 
 
-## 32. showCommentList API
+## 34. showCommentList API
 
 API URL: /Comment/list
 
 corresponding method:  CommentController -> showCommentList()
 
-request type: POST
+request type: GET
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| statusId   | String     |             |
+| param name | param type            | description |
+| ---------- | --------------------- | ----------- |
+| statusId   | String (PathVariable) |             |
 
 return data:(in descending chronological order)
 
@@ -1139,7 +1195,7 @@ return data:(in descending chronological order)
 
 
 
-## 33. postComment API
+## 35. postComment API
 
 API URL: /comment/post
 
@@ -1149,10 +1205,10 @@ request type: POST
 
 request params:
 
-| param name | param type | description |
-| ---------- | ---------- | ----------- |
-| statusId   | String     |             |
-| msg        | String     | a text      |
+| param name | param type           | description |
+| ---------- | -------------------- | ----------- |
+| statusId   | String (RequestBody) |             |
+| msg        | String (RequestBody) | a text      |
 
 return data:
 
@@ -1169,22 +1225,22 @@ return data:
 
 # Chat Operation
 
+## 36. showFriendChatHistory API
 
-
-## 34. showHistoryList API
-
-API URL: /chat/history
+API URL: /chat/history/\${type}/\${chatId}
 
 corresponding method:  CommentController -> showHistory()
 
-request type: GET
+request type: POST
 
 request params:
 
-| param name | param type | description                                        |
-| ---------- | ---------- | -------------------------------------------------- |
-| chatId     | String     | a friend / group id                                |
-| type       | String     | **friend**: friend id   \|   **group**: a group id |
+| param name | param type            | description      |
+| ---------- | --------------------- | ---------------- |
+| chatId     | String (PathVariable) | a friend id      |
+| type       | String (PathVariable) | **"friend"**     |
+| pageNum    | int (RequestBody)     | current page num |
+| pageSize   | int (RequestBody)     | page size        |
 
 return data: (in descending chronological order)
 
@@ -1207,7 +1263,8 @@ return data: (in descending chronological order)
                 "min": int,
             },
     		"msg": String,
-            "msgType": String
+            "msgType": String, // "text" / "picture"
+    		"isMe": Boolean,
     	},
 		{
         	"msgId": String,
@@ -1222,7 +1279,8 @@ return data: (in descending chronological order)
                 "min": int,
             },
     		"msg": String,
-            "msgType": String
+            "msgType": String, // "text" / "picture"
+    		"isMe": Boolean,
     	},
     }
 }
@@ -1230,7 +1288,70 @@ return data: (in descending chronological order)
 
 
 
-## 35. sendMsg  \*\*\*\*API
+## 37. showGroupChatHistory API
+
+API URL: /chat/history/\${type}/\${chatId}
+
+corresponding method:  CommentController -> showHistory()
+
+request type: POST
+
+request params:
+
+| param name | param type            | description      |
+| ---------- | --------------------- | ---------------- |
+| chatId     | String (PathVariable) | a group id       |
+| type       | String (PathVariable) | **"group"**      |
+| pageNum    | int (RequestBody)     | current page num |
+| pageSize   | int (RequestBody)     | page size        |
+
+return data: (in descending chronological order)
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": {
+        {
+        	"msgId": String,
+        	"senderId": String,
+        	"senderName": String,
+        	"senderAvatar": String,
+        	"sentDate": {
+                "year":int,
+                "month":int,
+                "day": int,
+                "hour": int,
+                "min": int,
+            },
+    		"msg": String,
+            "msgType": String, // "text" / "picture"
+    		"isMe": Boolean,
+    	},
+		{
+        	"msgId": String,
+        	"senderId": String,
+        	"senderName": String,
+        	"senderAvatar": String,
+        	"sentDate": {
+                "year":int,
+                "month":int,
+                "day": int,
+                "hour": int,
+                "min": int,
+            },
+    		"msg": String,
+            "msgType": String, // "text" / "picture"
+    		"isMe": Boolean,
+    	},
+    }
+}
+```
+
+
+
+## 38. sendFriendMsg  API
 
 API URL: /chat/send
 
@@ -1238,12 +1359,12 @@ request type: POST
 
 request params:
 
-| param name | param type | description                        |
-| ---------- | ---------- | ---------------------------------- |
-| receiverId | String     | a user/ a group's id               |
-| type       | String     | the receiver is a group or a user? |
-| msg        | String     | chat message                       |
-| msgType    | String     | message type (text/picture)        |
+| param name | param type           | description                     |
+| ---------- | -------------------- | ------------------------------- |
+| chatId     | String (RequestBody) | a user's id                     |
+| type       | String (RequestBody) | **"friend"**                    |
+| msg        | String (RequestBody) | chat message                    |
+| msgType    | String (RequestBody) | message type ("text"/"picture") |
 
 return data:
 
@@ -1258,19 +1379,20 @@ return data:
 
 
 
-## 36. receiveDetailMsg \*\*\*\*API
+## 39. sendGroupMsg  API
 
-API URL: /chat/receiveDetail
+API URL: /chat/send
 
-request type: GET
+request type: POST
 
 request params:
 
-| param name | param type | description                        |
-| ---------- | ---------- | ---------------------------------- |
-| chatId     | String     | a friend chat/ group chat id       |
-| receiverId | String     | a user/ a group's id               |
-| type       | String     | the receiver is a group or a user? |
+| param name | param type           | description                     |
+| ---------- | -------------------- | ------------------------------- |
+| chatId     | String (RequestBody) | a group's id                    |
+| type       | String (RequestBody) | **"group"**                     |
+| msg        | String (RequestBody) | chat message                    |
+| msgType    | String (RequestBody) | message type ("text"/"picture") |
 
 return data:
 
@@ -1279,35 +1401,24 @@ return data:
     "success": true,
     "code": 200,
     "msg": "success",
-    "data": {
-        "senderId": String,
-        "senderAvatar": String,
-        "senderName": String,
-        "sentDate": {
-            "year":int,
-            "month":int,
-            "day": int,
-            "hour": int,
-            "min": int
-        },
-        "msg": String,
-        "msgType": String
-    }
+    "data": null
 }
 ```
 
-## 37. receiveNotice  \*\*\*\*API
 
-API URL: /chat/receiveNotice
 
-request type: GET
+## 40. leaveRoom API
+
+API URL: /chat/leaveRoom/\${roomId}/\${isFriend}
+
+request type: PUT
 
 request params:
 
-| param name | param type | description                        |
-| ---------- | ---------- | ---------------------------------- |
-| chatId     | String     | a friend/ group id                 |
-| type       | String     | the receiver is a group or a user? |
+| param name | param type             | description                |
+| ---------- | ---------------------- | -------------------------- |
+| roomId     | String (PathVariable)  | a friend/group's id        |
+| isFriend   | Boolean (PathVariable) | is a friend or not (group) |
 
 return data:
 
@@ -1316,6 +1427,11 @@ return data:
     "success": true,
     "code": 200,
     "msg": "success",
-    "data": Boolean
+    "data": null
 }
 ```
+
+
+
+
+

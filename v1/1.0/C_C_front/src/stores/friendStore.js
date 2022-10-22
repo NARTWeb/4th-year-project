@@ -34,7 +34,12 @@ export const useFriendStore = defineStore("friends", {
     loadNewFriends() {
       if (!this.fLoading && !this.fNodata) {
         this.fLoading = true;
-        searchFriend(token.value, this.fSearchHistory, this.fPage)
+        let temp = this.fSearchHistory;
+        console.log("temp " + temp);
+        if(temp == undefined || temp == "") {
+          temp = "-1";
+        }
+        searchFriend(token.value, temp, this.fPage)
           .then((res) => {
             if (res.data.success) {
               if (res.data.data.length > 0) {
@@ -73,7 +78,12 @@ export const useFriendStore = defineStore("friends", {
     loadNewGFriends() {
       if (!this.gLoading && !this.gNodata) {
         this.gLoading = true;
-        searchFriend(token.value, this.gSearchHistory, this.gPage)
+        let temp = this.gSearchHistory;
+        console.log("temp " + temp);
+        if(temp == undefined || temp == "") {
+          temp = "-1";
+        }
+        searchFriend(token.value, temp, this.gPage)
           .then((res) => {
             if (res.data.success) {
               if (res.data.data.length > 0) {

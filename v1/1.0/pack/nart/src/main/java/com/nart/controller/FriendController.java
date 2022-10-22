@@ -3,7 +3,6 @@ package com.nart.controller;
 import com.nart.common.LogA;
 import com.nart.pojo.Friend;
 import com.nart.pojo.FriendReq;
-import com.nart.pojo.User;
 import com.nart.service.FriendService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
@@ -49,11 +48,19 @@ public class FriendController {
     @PostMapping("search/{input}")
     public Result searchFriend(@RequestBody PageVo page,
                                @PathVariable("input") String input) {
-        List<UserVo> userVos = friendService.searchFriend(input, page.toIPage(Friend.class));
-        if(userVos == null) {
-            return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);
+        if(input.equals("-1")) {
+            List<FriendVo> userVos = friendService.showFriendList(page.toIPage(Friend.class), UserThreadLocal.get().getId());
+            if(userVos == null) {
+                return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);
+            }
+            return Result.success(userVos);
+        } else {
+            List<UserVo> userVos = friendService.searchFriend(input, page.toIPage(Friend.class));
+            if(userVos == null) {
+                return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);
+            }
+            return Result.success(userVos);
         }
-        return Result.success(userVos);
     }
 
     @LogA

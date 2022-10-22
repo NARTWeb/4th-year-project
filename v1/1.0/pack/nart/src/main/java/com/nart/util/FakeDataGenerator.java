@@ -375,7 +375,7 @@ public class FakeDataGenerator {
                     friendChat.setReceiverId(fid);
 
                     if(r.nextBoolean()) {
-//                        msg.setType("text");
+//                        msg.getMsgType("text");
                         friendChat.setType("text");
 //                        msg.setMsg(faker.regexify("\\w{5,200}"));
 

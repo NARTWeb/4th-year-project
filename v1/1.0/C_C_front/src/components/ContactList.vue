@@ -291,11 +291,11 @@ function forceLoad() {
         if (res.data.success) {
           if (res.data.data.length <= 0) {
             nodata.value = true;
-            emit("addPage", page.pageNum + 1);
+            emit("addPage", props.isFriend);
           } else {
             nodata.value = false;
             list.push(...res.data.data);
-            emit("addPage", page.pageNum + 1);
+            emit("addPage", props.isFriend);
           }
         } else {
           ElMessage({
@@ -330,9 +330,9 @@ function hide(member) {
   selectMember = {};
   let result;
   if (props.isFriend) {
-    result = hideFriend(token, member.id);
+    result = hideFriend(token.value, member.id);
   } else {
-    result = hideGroup(token, member.id);
+    result = hideGroup(token.value, member.id);
   }
   result
     .then((res) => {
@@ -369,9 +369,9 @@ function mute(member) {
   selectMember = {};
   let result;
   if (props.isFriend) {
-    result = muteFriend(token, member.id);
+    result = muteFriend(token.value, member.id);
   } else {
-    result = muteGroup(token, member.id);
+    result = muteGroup(token.value, member.id);
   }
   result
     .then((res) => {
@@ -408,9 +408,9 @@ function unset(member) {
   selectMember = {};
   let result;
   if (props.isFriend) {
-    result = unsetFriend(token, member.id);
+    result = unsetFriend(token.value, member.id);
   } else {
-    result = unsetGroup(token, member.id);
+    result = unsetGroup(token.value, member.id);
   }
   result
     .then((res) => {
@@ -446,9 +446,9 @@ function del(id) {
   dialogVisible.value = false;
   let result;
   if (props.isFriend) {
-    result = delFriend(token, id);
+    result = delFriend(token.value, id);
   } else {
-    result = leaveGroup(token, id);
+    result = leaveGroup(token.value, id);
   }
   result
     .then((res) => {
@@ -525,13 +525,13 @@ function showName(name) {
   return name;
 }
 onMounted(() => {
-  load();
   if (props.isFriend) {
     bgColor.backgroundColor = "#fef0f0";
   } else {
     bgColor.backgroundColor = "#faecd8";
     minW.value = "90px";
   }
+  forceLoad();
 });
 watch(
   () => list.length,

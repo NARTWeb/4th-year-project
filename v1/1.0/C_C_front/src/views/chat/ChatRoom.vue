@@ -1,9 +1,8 @@
 <template>
   <div class="all flex">
-    <div class="text">{{title}}</div>
     <div class="inner-all">
       <el-button class="to-setting" @click="router.push({ name: 'groupChatInfo', params: {} })" plain><el-icon><Star /></el-icon></el-button>
-      <el-scrollbar height="60vh" id="all" always>
+      <el-scrollbar height="55vh" id="all" always>
         <ul v-infinite-scroll="load" class="infinite-list">
           <li v-for="msg in msgList" :key="msg.msgId">
             <chat-message
@@ -58,7 +57,7 @@ const nodata = ref(false);
 const showSetting = ref("");
 const showSetting2 = ref("");
 const page = reactive({
-  pageNum: 0,
+  pageNum: 1,
   pageSize: 10,
 });
 var title = ref("");
@@ -113,9 +112,9 @@ function load() {
     loading.value = true;
     let result;
     if (isGroup.value) {
-      result = showGroupChatHistory(token.value, roomId.value);
+      result = showGroupChatHistory(token.value, roomId.value, page);
     } else {
-      result = showFriendChatHistory(token.value, roomId.value);
+      result = showFriendChatHistory(token.value, roomId.value, page);
     }
     result
       .then((res) => {
@@ -124,7 +123,7 @@ function load() {
             nodata.value = true;
           } else {
             nodata.value = false;
-            msgList.unshift(...res.data.data);
+            msgList.unshift(...res.data.data.reverse());
             page.pageNum += 1;
           }
         } else {
@@ -271,11 +270,17 @@ function setParam() {
   }
   roomId.value = temp.toString();
   title.value = isGroup.value ? "Group " : "Friend ";
+  nodata.value = false;
+  loading.value = false;
+  page.pageNum = 1;
+  page.pageSize = 10;
 }
 onMounted(() => {
+  console.log("mount");
   setParam();
 });
 onUpdated(() => {
+  console.log("update");
   setParam();
   msgList.splice(0, msgList.length);
   load();

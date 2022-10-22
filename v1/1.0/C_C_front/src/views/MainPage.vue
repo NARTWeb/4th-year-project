@@ -176,13 +176,13 @@ var searchInput = ref("");
 var friendParam = reactive({
   page: {
     pageSize: 10,
-    pageNum: 0,
+    pageNum: 1,
   },
 });
 var groupParam = reactive({
   page: {
     pageSize: 10,
-    pageNum: 0,
+    pageNum: 1,
   },
 });
 var lang = "zh";

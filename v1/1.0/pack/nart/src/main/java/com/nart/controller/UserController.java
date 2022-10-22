@@ -56,7 +56,7 @@ public class UserController {
     public Result showUserInfo(@PathVariable("id") String id) {
         System.out.println(id);
         User user;
-        if(id.isEmpty()) {
+        if(id.equals("-1")) {
             user = userService.showUserInfo(UserThreadLocal.get().getId());
         } else {
             user = userService.showUserInfo(id);

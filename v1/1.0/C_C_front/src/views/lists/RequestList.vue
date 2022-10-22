@@ -105,7 +105,7 @@ function searchReqList() {
     showFriendRequests(token.value, page)
       .then((res) => {
         if (res.data.success) {
-          if (res.data.data > 0) {
+          if (res.data.data.length > 0) {
             reqList.push(...res.data.data);
             page.pageNum += 1;
           } else {
@@ -192,7 +192,7 @@ watch(
   () => reqList.length,
   (length) => {
     if (length <= 5) {
-      testList();
+      searchReqList();
     }
   }
 );
