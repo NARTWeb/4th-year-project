@@ -1,17 +1,13 @@
 package com.nart.vo;
 
-import com.nart.dao.UserDao;
 import com.nart.pojo.Friend;
-import com.nart.pojo.User;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Data
 public class FriendVo {
     private String id;
-    private String uname;
     private String name;
     private String avatar;
     private Integer state;

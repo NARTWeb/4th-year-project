@@ -76,7 +76,12 @@ function pop() {
   dialogVisible.value = true;
 }
 function searchFr() {
-  searchFriend(token.value, input.value, page)
+  let temp = input.value;
+  console.log("temp " + temp);
+  if(temp == undefined || temp == "") {
+    temp = "-1";
+  }
+  searchFriend(token.value, temp, page)
     .then((res) => {
       if (res.data.success) {
         friendList.splice(0, friendList.length);
@@ -98,40 +103,6 @@ function searchFr() {
         grouping: true,
       });
     });
-}
-function load() {
-  if (!loading.value && !nodata.value) {
-    loading.value = true;
-    searchFriend(token.value, input.value, page)
-      .then((res) => {
-        if (res.data.success) {
-          if (res.data.data.length > 0) {
-            friendList.push(...res.data.data);
-            page.pageNum += 1;
-          } else {
-            nodata.value = true;
-          }
-        } else {
-          ElMessage({
-            type: "error",
-            message: res.data.msg,
-            showClose: true,
-            grouping: true,
-          });
-        }
-      })
-      .catch((err) => {
-        ElMessage({
-          type: "error",
-          message: t("friendIHave.loadError"),
-          showClose: true,
-          grouping: true,
-        });
-      })
-      .finally(() => {
-        loading.value = false;
-      });
-  }
 }
 function tLoad() {
   console.log("tLoad");

@@ -41,7 +41,7 @@ export function hideFriend(token, friendId) {
     return req({
         headers: {'Authorization': token},
         method: 'put',
-        url: `/friend/state${friendId}/${state}`
+        url: `/friend/state/${friendId}/${state}`
     })
 }
 
@@ -50,7 +50,7 @@ export function muteFriend(token, friendId) {
     return req({
         headers: {'Authorization': token},
         method: 'put',
-        url: `/friend/state${friendId}/${state}`
+        url: `/friend/state/${friendId}/${state}`
     })
 }
 
@@ -59,7 +59,7 @@ export function unsetFriend(token, friendId) {
     return req({
         headers: {'Authorization': token},
         method: 'put',
-        url: `/friend/state${friendId}/${state}`
+        url: `/friend/state/${friendId}/${state}`
     })
 }
 

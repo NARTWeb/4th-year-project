@@ -1,10 +1,8 @@
 package com.nart.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.common.LogA;
 import com.nart.pojo.Group;
 import com.nart.pojo.GroupInvite;
-import com.nart.pojo.User;
 import com.nart.pojo.UserGroup;
 import com.nart.service.GroupService;
 import com.nart.util.ErrorCode;
@@ -17,7 +15,6 @@ import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -130,8 +127,8 @@ public class GroupController {
     }
 
     @LogA
-    @PostMapping("create")
-    public Result createGroup(@RequestBody String groupName) {
+    @PostMapping("create/{groupName}")
+    public Result createGroup(@PathVariable("groupName") String groupName) {
         boolean b = groupService.createGroup(groupName, UserThreadLocal.get().getId());
         if(b) {
             return Result.success(null);

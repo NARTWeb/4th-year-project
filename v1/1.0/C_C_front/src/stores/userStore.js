@@ -163,6 +163,7 @@ const useUserStore = defineStore("user", {
     },
     logout() {
       return new Promise((resolve, reject) => {
+        removeToken();
         signout(this.token)
           .then((res) => {
             if (res.data.success) {
@@ -198,7 +199,6 @@ const useUserStore = defineStore("user", {
         this.tel = "";
         this.address = "";
         this.token = "";
-        removeToken();
         resolve();
       }).catch((error) => {
         reject(error);

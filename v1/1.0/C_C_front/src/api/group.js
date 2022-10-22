@@ -68,13 +68,13 @@ export function showMemberList(token, groupId) {
 }
 
 export function createNewGroup(token, groupName) {
+    if(groupName == undefined || groupName == "") {
+        groupName = "-1";
+    }
     return req({
         headers: {'Authorization':token},
         method: 'post',
-        url: '/group/create',
-        data: {
-            groupName
-        }
+        url: `/group/create/${groupName}`
     });
 }
 

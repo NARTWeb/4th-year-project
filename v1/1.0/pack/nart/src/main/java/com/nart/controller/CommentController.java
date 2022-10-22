@@ -25,7 +25,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("comment")
-@LogA
 public class CommentController {
 
     @Autowired

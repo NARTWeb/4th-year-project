@@ -110,7 +110,7 @@ function searchReqList() {
     showGroupInvitions(token.value, page)
       .then((res) => {
         if (res.data.success) {
-          if (res.data.data > 0) {
+          if (res.data.data.length > 0) {
             inviteList.push(...res.data.data);
             page.pageNum += 1;
           } else {
@@ -205,7 +205,7 @@ watch(
   () => inviteList.length,
   (length) => {
     if (length <= 5) {
-      testList();
+      searchReqList();
     }
   }
 );

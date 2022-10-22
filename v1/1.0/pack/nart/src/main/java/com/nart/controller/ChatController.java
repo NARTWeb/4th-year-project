@@ -1,13 +1,14 @@
 package com.nart.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.common.LogA;
 import com.nart.pojo.FriendChat;
 import com.nart.pojo.GroupChat;
 import com.nart.service.ChatService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
+import com.nart.util.UserThreadLocal;
 import com.nart.vo.MessageVo;
+import com.nart.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,40 +27,40 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("chat")
-@LogA
 public class ChatController {
 
     @Autowired
     private ChatService chatService;
 
-
-    @GetMapping("history/{type}/{chatId}")
+    @LogA
+    @PostMapping("history/{type}/{chatId}")
     public Result showHistory(@PathVariable String type,
-                              @PathVariable String chatId) {
+                              @PathVariable String chatId,
+                              @RequestBody PageVo page) {
         if(type.equals("friend")) {
-            List<MessageVo> messageVos = chatService.showFriendHistory(chatId, new Page());
+            List<MessageVo> messageVos = chatService.showFriendHistory(chatId, page.toIPage(FriendChat.class));
 
             if(messageVos == null) {
                 return Result.fail(ErrorCode.SHOW_FRIEND_CHAT_HISTORY_ERROR);
             }
             return Result.success(messageVos);
         } else {
-            List<MessageVo> messageVos = chatService.showGroupHistory(chatId, new Page());
+            List<MessageVo> messageVos = chatService.showGroupHistory(chatId, page.toIPage(GroupChat.class));
             if(messageVos == null) {
                 return Result.fail(ErrorCode.SHOW_GROUP_CHAT_HISTORY_ERROR);
             }
             return Result.success(messageVos);
         }
     }
-
+    @LogA
     @PostMapping("send")
     public Result sendMsg(@RequestBody MessageVo msgInfo) {
         if(msgInfo.getType().equals("friend")) {
             FriendChat friendChat = new FriendChat();
             friendChat.setReceiverId(msgInfo.getChatId());
-            friendChat.setSenderId(msgInfo.getSenderId());
+            friendChat.setSenderId(UserThreadLocal.get().getId());
             friendChat.setMsg(msgInfo.getMsg());
-            friendChat.setType(msgInfo.getType());
+            friendChat.setType(msgInfo.getMsgType());
             friendChat.setDate(new Date().getTime());
             boolean b = chatService.sendFriendMsg(friendChat);
             if(b) {
@@ -69,9 +70,9 @@ public class ChatController {
         } else {
             GroupChat groupChat = new GroupChat();
             groupChat.setGroupId(msgInfo.getChatId());
-            groupChat.setSenderId(msgInfo.getSenderId());
+            groupChat.setSenderId(UserThreadLocal.get().getId());
             groupChat.setMsg(msgInfo.getMsg());
-            groupChat.setType(msgInfo.getType());
+            groupChat.setType(msgInfo.getMsgType());
             groupChat.setDate(new Date().getTime());
             boolean b = chatService.sendGroupMsg(groupChat);
             if(b) {
@@ -80,7 +81,7 @@ public class ChatController {
             return Result.fail(ErrorCode.SEND_GROUP_CHAT_HISTORY_ERROR);
         }
     }
-
+    @LogA
     @PutMapping("leaveRoom/{roomId}/{isFriend}")
     public Result leaveRoom(@PathVariable String roomId,
                             @PathVariable Boolean isFriend) {

@@ -79,7 +79,7 @@ export default {
       uname: "",
       pwd: "",
       store: useUserStore(),
-      unameReg: /^[\w-]{3,16}$/,
+      unameReg: /^[\w-.]{3,28}$/,
       pwdReg: /^[\w-]{6,18}$/,
     };
   },

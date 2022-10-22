@@ -22,7 +22,7 @@
           >
             <template #trigger>
               <el-icon class="addp" :size="25"
-                ><Picture /></el-icon></template
+                ><Picture/></el-icon></template
           ></el-upload>
         </div>
       </div>

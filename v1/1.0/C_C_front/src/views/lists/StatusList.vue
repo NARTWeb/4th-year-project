@@ -10,8 +10,8 @@
             :message="status.msg"
             :pictures="status.pics"
             :comments="status.comments"
-            :heart="status.heart"
-            :heartNum="status.heartNum"
+            :heart="status.liked"
+            :heartNum="status.likes"
             :date="status.createDate"
             :uid="status.uid"
           ></status-item>

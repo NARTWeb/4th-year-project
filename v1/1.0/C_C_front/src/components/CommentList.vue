@@ -3,7 +3,7 @@
         <div v-for="comment in props.commentList" :key="comment.id" class="each">
             <span class="text first">{{comment.uname}}: </span>
             <span class="text">{{comment.msg}}</span>
-            <span id="date">{{comment.date}}</span>
+            <span id="date">{{comment.commnetDate}}</span>
         </div>
     </div>
 </template>

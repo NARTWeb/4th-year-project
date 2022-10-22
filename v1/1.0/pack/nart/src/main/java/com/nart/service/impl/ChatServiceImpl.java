@@ -3,7 +3,6 @@ package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-
 import com.nart.dao.FriendDao;
 import com.nart.dao.GroupDao;
 import com.nart.dao.UserDao;
@@ -12,6 +11,7 @@ import com.nart.pojo.*;
 import com.nart.service.ChatService;
 import com.nart.service.DataCounterService;
 import com.nart.util.RedisUtil;
+import com.nart.util.UserThreadLocal;
 import com.nart.vo.MessageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -161,6 +161,7 @@ public class ChatServiceImpl implements ChatService {
         }else {
             LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
             lqw.eq(UserGroup::getGid, roomId);
+            lqw.eq(UserGroup::getUid, UserThreadLocal.get().getId());
             UserGroup userGroup = userGroupDao.selectOne(lqw);
             String timeStamp = String.valueOf(getTimeStamp());
             userGroup.setUserLevelTime(timeStamp);

@@ -1,17 +1,15 @@
 package com.nart.vo;
 
-import com.nart.dao.UserDao;
 import com.nart.pojo.FriendChat;
 import com.nart.pojo.GroupChat;
-import com.nart.pojo.User;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Data
 public class MessageVo {
     private String msgId;
+    private String msgType;
     private String type;
     private String chatId;
     private String senderId;
@@ -24,7 +22,7 @@ public class MessageVo {
     public MessageVo Ftransfer(FriendChat friendChat){
         MessageVo messageVo = new MessageVo();
         messageVo.setMsgId(String.valueOf(friendChat.getId()));
-        messageVo.setType(friendChat.getType());
+        messageVo.setMsgType(friendChat.getType());
         messageVo.setChatId(friendChat.getReceiverId());
         messageVo.setSenderId(friendChat.getSenderId());
 
@@ -43,7 +41,7 @@ public class MessageVo {
     public MessageVo Gtransfer(GroupChat groupChat){
         MessageVo messageVo = new MessageVo();
         messageVo.setMsgId(String.valueOf(groupChat.getId()));
-        messageVo.setType(groupChat.getType());
+        messageVo.setMsgType(groupChat.getType());
         messageVo.setChatId(groupChat.getGroupId());
         messageVo.setSenderId(groupChat.getSenderId());
 //        User user = userDao.selectById(groupChat.getSenderId());
