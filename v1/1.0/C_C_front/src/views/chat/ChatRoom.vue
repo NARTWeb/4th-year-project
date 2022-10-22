@@ -160,9 +160,9 @@ function wsSend(input, type) {
   let json = {
     "msg": input,
     "msgType": type,
-    "sender": token,
-    "senderName": name,
-    "senderAvatar": avatar,
+    "sender": token.value,
+    "senderName": name.value,
+    "senderAvatar": avatar.value,
     "receiver": roomId.value,
     "receiverType": roomType
   };

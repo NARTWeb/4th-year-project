@@ -260,7 +260,7 @@ function PagePlus(isFriend) {
 }
 function editPInfo() {
   store.getUserInfo();
-  router.push({ name: 'editMyInfo', params: {} });
+  router.push({ name: 'editMyInfo'});
 }
 function wSend(input) {
   console.log(input);

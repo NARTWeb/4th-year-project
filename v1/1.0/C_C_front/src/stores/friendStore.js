@@ -22,11 +22,11 @@ export const useFriendStore = defineStore("friends", {
       counter: 0,
       fPage: {
         pageSize: 8,
-        pageNum: 0,
+        pageNum: 1,
       },
       gPage: {
         pageSize: 8,
-        pageNum: 0,
+        pageNum: 1,
       },
     };
   },
@@ -122,7 +122,7 @@ export const useFriendStore = defineStore("friends", {
     loadFirstList() {
       this.fLoading = false;
       this.fNodata = false;
-      this.fPage.pageNum = 0;
+      this.fPage.pageNum = 1;
       this.counter = 0;
       if (this.fList != undefined) {
         this.fList.splice(0, this.fList.length);
@@ -151,7 +151,7 @@ export const useFriendStore = defineStore("friends", {
     loadFirstGList(array) {
       this.gLoading = false;
       this.gNodata = false;
-      this.gPage.pageNum = 0;
+      this.gPage.pageNum = 1;
       this.counter = 0;
       if (this.gList != undefined) {
         this.gList.splice(0, this.gList.length);

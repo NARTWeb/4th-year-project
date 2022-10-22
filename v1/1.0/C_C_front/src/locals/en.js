@@ -30,6 +30,7 @@ export default{
         muteErr: "fail to mute",
         unsetErr: "fail to unset",
         delErr: "fail to delete",
+        loadError: "fail to load",
         friend: {
             ListError: "fail to load Friend List",
             hideError: "fail to hide Friend",

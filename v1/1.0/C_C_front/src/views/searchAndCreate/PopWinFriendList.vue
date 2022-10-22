@@ -13,11 +13,11 @@
       <div class="list">
         <el-scrollbar height="65vh" id="all">
           <ul v-infinite-scroll="tLoad" class="infinite-list">
-            <li v-for="friend in gList" :key="friend.id">
+            <li v-for="friend in friendList" :key="friend.id">
               <result-item
                 :avatar="friend.avatar"
                 :id="friend.id"
-                :username="friend.uname"
+                :username="friend.name"
                 :button-label="t('memberList.add')"
                 @delItem="close"
                 @btnFunc="addBtn"
@@ -56,7 +56,7 @@ const loading = ref(false);
 const nodata = ref(false);
 const page = reactive({
   pageSize: 5,
-  pageNum: 0,
+  pageNum: 1,
 });
 var input = ref("");
 const props = defineProps({

@@ -75,7 +75,6 @@ public class StatusServiceImpl implements StatusService {
             for (Status status : statuses) {
                 Allstatuses.add(status);
             }
-
         }
         Collections.sort(Allstatuses, (a, b) -> b.getCreateDate().compareTo(a.getCreateDate()));
         return Allstatuses;

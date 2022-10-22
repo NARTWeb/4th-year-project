@@ -38,7 +38,7 @@ const page = {
   loading: false,
   nodata: false,
   pageSize: 6,
-  pageNum: 0,
+  pageNum: 1,
 };
 var input = ref("");
 function searchNew() {

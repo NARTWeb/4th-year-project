@@ -149,6 +149,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public boolean sendInvite(GroupInvite groupInvite) {
+        groupInvite.setSenderId(UserThreadLocal.get().getId());
         int insert = groupInviteDao.insert(groupInvite);
         return insert>0;
     }

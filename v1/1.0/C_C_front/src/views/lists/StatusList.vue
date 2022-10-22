@@ -40,7 +40,7 @@ const loading = ref(false);
 const nodata = ref(false);
 const page = reactive({
   pageSize: 5,
-  pageNum: 0,
+  pageNum: 1,
 });
 
 function tList() {

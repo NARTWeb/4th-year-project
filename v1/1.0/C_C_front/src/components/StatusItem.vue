@@ -21,7 +21,7 @@
     </div>
     <div id="down">
       <div :class="iconClass" @click="sendLike" id="like"></div>
-      <span v-show="like" style="font-weight: 100">{{ props.heartNum }}</span>
+      <span v-show="like" style="font-weight: 100">{{ props.heartNum + 1}}</span>
       <el-button round type="primary" @click="startCom">...</el-button>
     </div>
     <div id="bottom">
@@ -107,7 +107,7 @@ function makeCom() {
 }
 
 function sendComment() {
-  postComment(token, props.statusId, input.value)
+  postComment(token.value, props.statusId, input.value)
     .then((res) => {
       if (res.data.success) {
         ElMessage({
@@ -118,7 +118,7 @@ function sendComment() {
         });
         let comment = {
           id: res.data.data,
-          uname: name,
+          uname: name.value,
           msg: input.value,
           date: now(),
         };
@@ -149,11 +149,11 @@ function sendLike() {
   tempLike = tempLike ? false : true;
   let result, errMsg, succeedMsg;
   if (tempLike) {
-    result = likeStatus(token, props.statusId);
+    result = likeStatus(token.value, props.statusId);
     succeedMsg = t("postComment.like");
     errMsg = t("postComment.likeFail");
   } else {
-    result = dislikeStatus(token, props.statusId);
+    result = dislikeStatus(token.value, props.statusId);
     succeedMsg = t("postComment.dislike");
     errMsg = t("postComment.dislikeFail");
   }

@@ -1,12 +1,12 @@
 <template>
   <div class="all">
-    <el-dialog v-model="dialogVisible" title="t('contactList.friend.title')" width="30%">
+    <el-dialog v-model="dialogVisible" :title="$t('contactList.friend.title')" width="30%">
       <span>{{ $t("contactList.friend.del") }}{{ selectMember.name }}</span>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">{{ $t("buttons.cancel") }}</el-button>
           <el-button type="primary" @click="del(selectMember.id)"
-            >{{ $t("buttons.confrim") }}</el-button
+            >{{ $t("buttons.confirm") }}</el-button
           >
         </span>
       </template>
@@ -315,7 +315,7 @@ function forceLoad() {
         }
         ElMessage({
           type: "error",
-          message: t("contactList.friend.loadErr"),
+          message: t("contactList.loadError"),
           showClose: true,
           grouping: true,
         });
@@ -356,7 +356,7 @@ function hide(member) {
       }
       ElMessage({
         type: "error",
-        message: t("contactList.friend.hideErr"),
+        message: t("contactList.friend.hideError"),
         showClose: true,
         grouping: true,
       });
@@ -395,7 +395,7 @@ function mute(member) {
       }
       ElMessage({
         type: "error",
-        message: t("contactList.friend.muteErr"),
+        message: t("contactList.friend.muteError"),
         showClose: true,
         grouping: true,
       });
@@ -434,7 +434,7 @@ function unset(member) {
       }
       ElMessage({
         type: "error",
-        message: t("contactList.friend.unsetErr"),
+        message: t("contactList.friend.unsetError"),
         showClose: true,
         grouping: true,
       });
@@ -476,7 +476,7 @@ function del(id) {
       }
       ElMessage({
         type: "error",
-        message: t("contactList.friend.delErr"),
+        message: t("contactList.friend.delError"),
         showClose: true,
         grouping: true,
       });
@@ -519,6 +519,7 @@ function noticeNewMsg(isFriend, id, isNew) {
   }
 }
 function showName(name) {
+  name = String(name);
   if(name.length > 5) {
     return name.substring(0, 4) + "...";
   }

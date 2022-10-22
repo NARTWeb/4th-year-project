@@ -1,11 +1,10 @@
 package com.nart.vo;
 
 //import com.nart.dao.UserDao;
+
 import com.nart.pojo.Comment;
 import com.nart.pojo.Status;
-import com.nart.pojo.User;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -69,6 +68,9 @@ public class StatusVo {
 
         List<Comment> commentList = status.getCommentList();
 //        List<CommentVo> comments = statusVo.getComments();
+        if(commentList == null) {
+            return statusVo;
+        }
         List<CommentVo> comments = new ArrayList<>();
 
         for (Comment comment : commentList) {

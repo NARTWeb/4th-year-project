@@ -85,10 +85,23 @@ public class StatusController {
                 return Result.success(statusVos);
             }
         } else {
+            uid = UserThreadLocal.get().getId();
+            List<Status> statuses = statusService.showAllStatusList(uid);
 //            List<Status> statuses = statusService.showStatusList(uid, page);
 //            return Result.success(statuses);
+            List<StatusVo> statusVos = new ArrayList<>();
+            for (Status status : statuses) {
+                StatusVo transfer = statusVo.transfer(status);
+
+                User user = userDao.selectById(status.getSenderId());
+                System.out.println(user);
+                transfer.setAvatar(user.getAvatar());
+                transfer.setUname(user.getName());
+                statusVos.add(transfer);
+            }
+            return Result.success(statusVos);
         }
-        return Result.fail(ErrorCode.UNDEFINED);
+        //return Result.fail(ErrorCode.UNDEFINED);
     }
 
     @LogA

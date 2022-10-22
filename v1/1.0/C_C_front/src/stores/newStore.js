@@ -18,7 +18,7 @@ export const useNewStore = defineStore("newFriend", {
       counter: 0,
       page: {
         pageSize: 7,
-        pageNum: 0,
+        pageNum: 1,
       },
     };
   },
@@ -66,7 +66,7 @@ export const useNewStore = defineStore("newFriend", {
     loadFirstList() {
       this.loading = false;
       this.nodata = false;
-      this.page.pageNum = 0;
+      this.page.pageNum = 1;
       this.counter = 0;
       if (this.nfList != undefined) {
         this.nfList.splice(0, this.nfList.length);

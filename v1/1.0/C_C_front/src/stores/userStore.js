@@ -100,33 +100,34 @@ const useUserStore = defineStore("user", {
           });
       });
     },
-    async getUserInfo() {
-      try {
-        const res = await showUserInfo(this.token, "-1");
-        if (res.data.success) {
-              this.name = res.data.data.uname;
-              this.avatar = res.data.data.avatar;
-              this.email = res.data.data.email;
-              this.birthday = res.data.data.birthday;
-              this.tel = res.data.data.phone;
-              this.address = res.data.data.address;
-            } else {
-              ElMessage({
-                type: "error",
-                message: res.data.msg,
-                showClose: true,
-                grouping: true,
-              });
-            }
-      } catch (err) {
-        ElMessage({
-          type: "error",
-          message: i18n.global.t('user.infoError'),
-          showClose: true,
-          grouping: true,
+    getUserInfo() {
+        showUserInfo(this.token, "-1")
+          .then((res) => {
+          if (res.data.success) {
+                this.name = res.data.data.uname;
+                this.avatar = res.data.data.avatar;
+                this.email = res.data.data.email;
+                this.birthday = res.data.data.birthday;
+                this.tel = res.data.data.phone;
+                this.address = res.data.data.address;
+              } else {
+                ElMessage({
+                  type: "error",
+                  message: res.data.msg,
+                  showClose: true,
+                  grouping: true,
+                });
+              }
+            })
+        .catch((err) => {
+          ElMessage({
+            type: "error",
+            message: i18n.global.t('user.infoError'),
+            showClose: true,
+            grouping: true,
+          });
+          console.log(err);
         });
-        console.log(err);
-      };
     },
     async changeUserInfo(userInfo) {
       return new Promise((resolve, reject) => {
