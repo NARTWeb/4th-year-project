@@ -99,9 +99,9 @@ public class FriendServiceImpl implements FriendService {
 //        IPage<User> userIPage = userService.searchNew(name, pageVo);
 //        List<User> records = userIPage.getRecords();
 
-//        String id = UserThreadLocal.get().getId();
-        String id = "1574989632599367682";
-        System.out.println(id);
+        String id = UserThreadLocal.get().getId();
+//        String id = "1574989632599367682";
+//        System.out.println(id);
         LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
         lqw.eq(Friend::getUid, id);
         List<Friend> friends = friendDao.selectList(lqw);
