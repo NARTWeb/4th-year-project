@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.pojo.Status;
 import com.nart.service.StatusService;
+import net.minidev.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -22,16 +24,18 @@ public class statusServiceTest {
     @Test
     public void sshowAllStatusList(){
         List<Status> statuses = StatusService.showAllStatusList("1574989632599367682");
+        long time = new Date().getTime();
+        System.out.println(time);
         System.out.println(statuses);
     }
 
 
-//    @Test
-//    public void showStatusListTest(){
-//        IPage<Status> page=new Page<>(1,2);
-//        List<Status> Statuses = StatusService.showStatusList("1", page);
-//        System.out.println(Statuses);
-//    }
+    @Test
+    public void showStatusListTest(){
+        IPage<Status> page=new Page<>(1,2);
+        List<Status> Statuses = StatusService.showStatusList("1574989632599367682", page);
+        System.out.println(Statuses);
+    }
 //
 //    @Test
 //    public void TestpostStatus(){

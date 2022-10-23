@@ -79,46 +79,29 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<GroupVo> showGroupList(IPage page) {
-        LambdaQueryWrapper<Group> lqw = new LambdaQueryWrapper<Group>();
-        lqw.orderBy(true,false, Group::getUserLevel);
+        String id = UserThreadLocal.get().getId();
+//        String id ="1574989639117316098";
+        LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
+//        lqw.orderBy(true,false, UserGroup::getUserLevel);
+        lqw.eq(UserGroup::getUid,id);
+        IPage iPage = userGroupDao.selectPage(page, lqw);
 
+        List<UserGroup> records = iPage.getRecords();
 
-        IPage iPage = groupDao.selectPage(page, lqw);
-        List<Group> records = iPage.getRecords();
-        List<GroupVo> groupVos = new ArrayList<>();
+        List<Group> groupList = new ArrayList<>();
+        for (UserGroup record : records) {
+            String gid = record.getGid();
+            Group group = groupDao.selectById(gid);
+            groupList.add(group);
+        }
+
         GroupVo groupVo = new GroupVo();
-        for (Group record : records) {
-            String id = record.getId();
-            LambdaQueryWrapper<UserGroup> lqw1 = new LambdaQueryWrapper<UserGroup>();
-            lqw1.eq(UserGroup::getGid,id);
-            UserGroup userGroup = userGroupDao.selectOne(lqw1);
-            String userLevelTime = userGroup.getUserLevelTime();
-
-            LambdaQueryWrapper<GroupChat> lqw2 = new LambdaQueryWrapper<GroupChat>();
-            lqw2.orderBy(true,false, GroupChat::getDate);
-            lqw2.eq(GroupChat::getGroupId,id);
-
-            List<GroupChat> groupChats = groupChatDao.selectList(lqw2);
-
-            String date = groupChats.get(0).getDate();
-            Long date1 = Long.parseLong(date)/1000;
-            int date11 = Math.toIntExact(date1);
-            System.out.println(date11);
-
-
-            Long userLevelTime1 = Long.parseLong(userLevelTime)/1000;
-            int userLevelTime11 = Math.toIntExact(userLevelTime1);
-            System.out.println(userLevelTime11);
-
-
-            if (date11>userLevelTime11){
-                record.setNewMessage(true);
-            }else{
-                record.setNewMessage(false);
-            }
-            GroupVo transfer = groupVo.transfer(record);
+        List<GroupVo> groupVos = new ArrayList<>();
+        for (Group group : groupList) {
+            GroupVo transfer = groupVo.transfer(group);
             groupVos.add(transfer);
         }
+
         return groupVos;
     }
 
@@ -181,6 +164,8 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public boolean sendInvite(GroupInvite groupInvite) {
         groupInvite.setSenderId(UserThreadLocal.get().getId());
+
+        groupInvite.setDate(new Date().getTime());
         int insert = groupInviteDao.insert(groupInvite);
         return insert>0;
     }
@@ -197,7 +182,8 @@ public class GroupServiceImpl implements GroupService {
             UserGroup userGroup = new UserGroup();
             userGroup.setGid(groupId);
             userGroup.setUid(rid);
-
+            Group group = groupDao.selectById(groupId);
+            userGroup.setJoinLevel(group.getUserLevel()+1);
             int insert = userGroupDao.insert(userGroup);
 
             groupInviteDao.deleteById(InviteId);

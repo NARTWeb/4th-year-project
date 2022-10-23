@@ -73,7 +73,7 @@ public class ChatController {
             groupChat.setSenderId(UserThreadLocal.get().getId());
             groupChat.setMsg(msgInfo.getMsg());
             groupChat.setType(msgInfo.getMsgType());
-            groupChat.setDate(new Date().getTime());
+            groupChat.setDate(String.valueOf(new Date().getTime()));
             boolean b = chatService.sendGroupMsg(groupChat);
             if(b) {
                 return Result.success(null);

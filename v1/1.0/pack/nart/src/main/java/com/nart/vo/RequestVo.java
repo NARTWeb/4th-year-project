@@ -21,7 +21,7 @@ public class RequestVo {
     public RequestVo transfer(FriendReq friendReq){
         RequestVo requestVo = new RequestVo();
         requestVo.setId(friendReq.getId());
-        requestVo.setFriendId(friendReq.getReceiverId());
+        requestVo.setFriendId(friendReq.getSenderId());
         requestVo.setMsg(friendReq.getMsg());
 
 

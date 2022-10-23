@@ -11,7 +11,7 @@ public class MessageVo {
     private String msgId;
     private String msgType;
     private String type;
-    private String msgType;
+
     private String chatId;
     private String senderId;
     private String senderName;

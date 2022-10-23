@@ -66,6 +66,7 @@ public class StatusServiceImpl implements StatusService {
         for (Friend friend : friends) {
             friendIds.add(friend.getFid());
         }
+        friendIds.add(uid);
         List<Status> Allstatuses = new ArrayList<Status>();
         for (String friendId : friendIds) {
             LambdaQueryWrapper<Status> lqw1 = new LambdaQueryWrapper<Status>();
@@ -77,6 +78,16 @@ public class StatusServiceImpl implements StatusService {
             }
         }
         Collections.sort(Allstatuses, (a, b) -> b.getCreateDate().compareTo(a.getCreateDate()));
+
+        for (Status record : Allstatuses) {
+            if(record.getLikes()!=0){
+                record.setUserLike(true);
+            }
+            String id = record.getId();
+            List<Comment> Comments = commentService.showCommentList(id);
+            record.setCommentList(Comments);
+
+        }
         return Allstatuses;
     }
 

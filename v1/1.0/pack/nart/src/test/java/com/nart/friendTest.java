@@ -1,25 +1,41 @@
-//package com.nart;
-//
-//import com.baomidou.mybatisplus.core.metadata.IPage;
-//import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-//import com.nart.pojo.Friend;
-//import com.nart.pojo.FriendReq;
-//import com.nart.pojo.User;
-//import com.nart.service.FriendService;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//
-//import java.util.List;
-//
-//@SpringBootTest
-//public class friendTest {
-//    @Test
-//    void contextLoads() {
-//    }
-//    @Autowired
-//    private FriendService friendService;
-//
+package com.nart;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.nart.pojo.Friend;
+import com.nart.pojo.FriendReq;
+import com.nart.pojo.User;
+import com.nart.service.FriendService;
+import com.nart.vo.RequestVo;
+import com.nart.vo.UserVo;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+
+@SpringBootTest
+public class friendTest {
+    @Test
+    void contextLoads() {
+    }
+    @Autowired
+    private FriendService friendService;
+
+    @Test
+    public void showReqList(){
+        IPage<Friend> page=new Page<>(1,10);
+        List<RequestVo> requestVos = friendService.showReqList(page, "1574989636705591298");
+        System.out.println(requestVos);
+    }
+
+    @Test
+    public void searchFriend(){
+        IPage<Friend> page=new Page<>(1,2);
+        List<UserVo> userVos = friendService.searchFriend("c", page);
+        System.out.println(userVos);
+    }
+
 //    @Test
 //    public void TestshowFriendList(){
 //        IPage<Friend> page=new Page<>(1,2);
@@ -64,5 +80,5 @@
 //        boolean b = friendService.respFriendReq("1", true);
 //        System.out.println(b);
 //    }
-//
-//}
+
+}

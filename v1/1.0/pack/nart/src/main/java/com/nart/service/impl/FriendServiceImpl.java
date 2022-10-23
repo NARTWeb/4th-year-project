@@ -13,6 +13,7 @@ import com.nart.service.ChatService;
 import com.nart.service.FriendService;
 import com.nart.service.StatusService;
 import com.nart.service.UserService;
+import com.nart.util.UserThreadLocal;
 import com.nart.vo.FriendVo;
 import com.nart.vo.PageVo;
 import com.nart.vo.RequestVo;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -89,15 +91,33 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<UserVo> searchFriend(String name, IPage page) {
-        PageVo pageVo = new PageVo();
-        pageVo.setPageNum((int) page.getCurrent());
-        pageVo.setPageSize((int) page.getSize());
-        IPage<User> userIPage = userService.searchNew(name, pageVo);
-        List<User> records = userIPage.getRecords();
+//        PageVo pageVo = new PageVo();
+//        pageVo.setPageNum((int) page.getCurrent());
+//        pageVo.setPageSize((int) page.getSize());
 
+
+//        IPage<User> userIPage = userService.searchNew(name, pageVo);
+//        List<User> records = userIPage.getRecords();
+
+//        String id = UserThreadLocal.get().getId();
+        String id = "1574989632599367682";
+        System.out.println(id);
+        LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
+        lqw.eq(Friend::getUid, id);
+        List<Friend> friends = friendDao.selectList(lqw);
+        List<User> friendName = new ArrayList<>();
+
+        for (Friend friend : friends) {
+            String fid = friend.getFid();
+            User user = userDao.selectById(fid);
+            String name1 = user.getName();
+            if (name1.contains(name)){
+                friendName.add(user);
+            }
+        }
         UserVo userVo = new UserVo();
         List<UserVo> userVos = new ArrayList<>();
-        for (User record : records) {
+        for (User record : friendName) {
             UserVo transfer = userVo.transfer(record);
             userVos.add(transfer);
         }
@@ -130,7 +150,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<RequestVo> showReqList(IPage page, String sid) {
-        System.out.println(sid);
+//        System.out.println(sid);
         LambdaQueryWrapper<FriendReq> lqw = new LambdaQueryWrapper<FriendReq>();
         lqw.eq(FriendReq::getReceiverId, sid);
 
@@ -144,7 +164,7 @@ public class FriendServiceImpl implements FriendService {
         for (FriendReq record : records) {
             RequestVo transfer = requestVo.transfer(record);
 
-            User user = userDao.selectById(record.getReceiverId());
+            User user = userDao.selectById(record.getSenderId());
             transfer.setFriendName(user.getName());
             transfer.setFriendAvatar(user.getAvatar());
 
@@ -165,6 +185,7 @@ public class FriendServiceImpl implements FriendService {
         friendReq.setMsg(msg);
         friendReq.setReceiverId(rid);
         friendReq.setSenderId(sid);
+        friendReq.setDate(new Date().getTime());
         int insert = friendReqDAO.insert(friendReq);
 
         return insert>0;
