@@ -95,18 +95,21 @@ public class FriendServiceImpl implements FriendService {
 //        pageVo.setPageNum((int) page.getCurrent());
 //        pageVo.setPageSize((int) page.getSize());
 
-
 //        IPage<User> userIPage = userService.searchNew(name, pageVo);
 //        List<User> records = userIPage.getRecords();
 
         String id = UserThreadLocal.get().getId();
-//        String id = "1574989632599367682";
+//        String id = "1574989638660136961";
 //        System.out.println(id);
         LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
         lqw.eq(Friend::getUid, id);
         List<Friend> friends = friendDao.selectList(lqw);
         List<User> friendName = new ArrayList<>();
 
+//        System.out.println(friends);
+//        for (Friend friend : friends) {
+//
+//        }
         for (Friend friend : friends) {
             String fid = friend.getFid();
             User user = userDao.selectById(fid);
@@ -122,7 +125,16 @@ public class FriendServiceImpl implements FriendService {
             userVos.add(transfer);
         }
 
-        return userVos;
+        int pageNumber = Math.toIntExact(page.getCurrent());
+        int size = Math.toIntExact(page.getSize());
+        int start = (pageNumber -1) * size;
+        int end  = size + start;
+        System.out.println(userVos);
+        List<UserVo> userVos1 = userVos.subList(start,end);
+
+        return userVos1;
+        
+        
     }
 
     @Override

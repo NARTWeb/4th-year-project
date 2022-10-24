@@ -31,7 +31,7 @@ public class friendTest {
 
     @Test
     public void searchFriend(){
-        IPage<Friend> page=new Page<>(1,2);
+        IPage<Friend> page=new Page<>(1,1);
         List<UserVo> userVos = friendService.searchFriend("c", page);
         System.out.println(userVos);
     }
