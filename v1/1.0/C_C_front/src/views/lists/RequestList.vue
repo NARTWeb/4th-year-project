@@ -138,7 +138,7 @@ function acceptFun(id) {
   responseFriendReq(token.value, id, true)
     .then((res) => {
       if (res.data.success) {
-        reqList.splice(i, 1);
+        acceptf(id);
       } else {
         ElMessage({
           type: "error",
@@ -165,7 +165,7 @@ function rejectFun(id) {
   responseFriendReq(token.value, id, false)
     .then((res) => {
       if (res.data.success) {
-        reqList.splice(i, 1);
+        acceptf(id);
       } else {
         ElMessage({
           type: "error",
