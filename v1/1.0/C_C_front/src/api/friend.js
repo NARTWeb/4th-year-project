@@ -98,7 +98,7 @@ export function sendFriendRequest(token, receiverId, msg) {
 export function responseFriendReq(token, requestId, agree) {
     return req({
         headers: {'Authorization': token},
-        method: 'post',
+        method: 'get',
         url: `/friend/resp/${requestId}/${agree}`
     })
 }

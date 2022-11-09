@@ -84,9 +84,9 @@ export function changeGroupInfo(token, groupInfo) {
         method: 'put',
         url: '/group/changeInfo',
         data: {
-            groupId: groupInfo.id,
-            groupName: groupInfo.name,
-            groupAvatar: groupInfo.avatar,
+            id: groupInfo.id,
+            name: groupInfo.name,
+            avatar: groupInfo.avatar,
             notice: groupInfo.notice
         }
     });
