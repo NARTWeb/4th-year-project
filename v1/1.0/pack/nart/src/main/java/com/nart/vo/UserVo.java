@@ -13,6 +13,8 @@ public class UserVo {
     private String birthday;
     private String phone;
     private String address;
+    private int power;
+    private int lock;
 
     public UserVo transfer(User user){
         UserVo userVo =  new UserVo();
@@ -24,6 +26,8 @@ public class UserVo {
         userVo.setBirthday(user.getAge());
         userVo.setPhone(user.getTel());
         userVo.setAddress(user.getAddress());
+        userVo.setPower(user.getPower());
+        userVo.setLock(user.getLock());
         return userVo;
     }
 }

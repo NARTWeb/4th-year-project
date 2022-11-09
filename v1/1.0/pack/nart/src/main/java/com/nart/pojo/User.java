@@ -25,6 +25,8 @@ public class User {
     private String address;
     private String email;
     private String tpwd;
+    private int power;
+    private int lock;
     @TableField(value = "on_line")
     private int userOnline;
 

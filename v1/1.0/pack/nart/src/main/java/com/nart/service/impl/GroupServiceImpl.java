@@ -30,6 +30,9 @@ public class GroupServiceImpl implements GroupService {
     @Autowired
     private GroupChatDao groupChatDao;
 
+    @Autowired
+    private FriendDao friendDao;
+
 
 
     @Override
@@ -164,7 +167,11 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public boolean sendInvite(GroupInvite groupInvite) {
         groupInvite.setSenderId(UserThreadLocal.get().getId());
+        String tb_friendId = groupInvite.getReceiverId();
 
+        Friend friend = friendDao.selectById(tb_friendId);
+
+        groupInvite.setReceiverId(friend.getFid());
         groupInvite.setDate(new Date().getTime());
         int insert = groupInviteDao.insert(groupInvite);
         return insert>0;

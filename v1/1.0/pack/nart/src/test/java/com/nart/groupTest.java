@@ -30,7 +30,7 @@ public class groupTest {
         groupInvite.setSenderId("1574989632599367682");
         groupInvite.setGroupId("1574990494298169346");
         groupInvite.setMsg("test");
-        groupInvite.setReceiverId("1574989636311326722");
+        groupInvite.setReceiverId("1574989639444471809");
         boolean b = groupService.sendInvite(groupInvite);
         System.out.println(b);
     }
