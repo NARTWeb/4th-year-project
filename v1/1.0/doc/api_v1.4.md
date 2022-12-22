@@ -1,4 +1,26 @@
-#  API
+# HTTP Response Structure
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": data
+}
+```
+
+
+
+| Parameter Name | Description                                                  |
+| -------------- | ------------------------------------------------------------ |
+| "success"      | Describes whether the request is success.<br/>return true if request success, otherwise return false |
+| "code"         | Return 200 if request success, <br/>otherwise return the error code, <br/>usually 5 digits(e.g. 10101) |
+| "msg"          | returns "Request Success" if request success, <br/>Otherwise, returns the error message,<br/>For Example, "username or password format incorrect" |
+| "data"         | The payload of the HTTP response, data type could vary.      |
+
+
+
+#  Client API
 
 # User Operation
 
@@ -1433,5 +1455,193 @@ return data:
 
 
 
+# Admin API
+
+## 41. showUserNum API
+
+API URL: /admin/userNum
+
+request type: GET
+
+request params:
+
+| param name | param type | description |
+| ---------- | ---------- | ----------- |
+|            |            |             |
+
+return data:
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": 372  //total user amount 
+}
+```
 
 
+
+## 42. showOnlineUserNum API
+
+API URL: /admin/onlineUserNum
+
+request type: GET
+
+request params:
+
+| param name | param type | description |
+| ---------- | ---------- | ----------- |
+|            |            |             |
+
+return data:
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": 73  //online user amount 
+}
+```
+
+
+
+## 43. showStatusNum API
+
+API URL: /admin/statusNum
+
+request type: GET
+
+request params:
+
+| param name | param type | description |
+| ---------- | ---------- | ----------- |
+|            |            |             |
+
+return data:
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": 73  // total status amount 
+}
+```
+
+
+
+## 44. showCommentNum API
+
+API URL: /admin/commentNum
+
+request type: GET
+
+request params:
+
+| param name | param type | description |
+| ---------- | ---------- | ----------- |
+|            |            |             |
+
+return data:
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": 73  //total comments amount 
+}
+```
+
+
+
+## 45. showMessageNum API
+
+API URL: /admin/msgNum
+
+request type: GET
+
+request params:
+
+| param name | param type | description |
+| ---------- | ---------- | ----------- |
+|            |            |             |
+
+return data:
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": 73  //total chat message sent amount 
+}
+```
+
+
+
+## 46. searchUser API
+
+API URL: /admin/searchUser
+
+request type: POST
+
+request params:
+
+| param name | param type           | description                            |
+| ---------- | -------------------- | -------------------------------------- |
+| username   | String (RequestBody) | The searched user name, -1 if show all |
+| pageSize   | int (RequestBody)    | page size                              |
+| pageNum    | int (RequestBody)    | current page num                       |
+
+return data:
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": {
+        {
+        	"id": String,
+        	"name": String,
+        	"avatar": String,
+        	'blocked': int
+    	},
+    	{
+        	"id": String,
+        	"name": String,
+        	"avatar": String,
+        	'blocked': int
+    	}
+    } 
+}
+```
+
+
+
+## 47. blockUser API
+
+API URL: /admin/block/\${userId}/${isBlock}
+
+request type: PUT
+
+request params:
+
+| param name | param type            | description                             |
+| ---------- | --------------------- | --------------------------------------- |
+| userId     | string (PathVariable) | The user's id whose going to be blocked |
+| isBlock    | int (PathVariable)    | 1: Block user; 0: Unblock user          |
+
+return data:
+
+```json
+{
+    "success": true,
+    "code": 200,
+    "msg": "success",
+    "data": null
+}
+```

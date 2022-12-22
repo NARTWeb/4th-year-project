@@ -130,11 +130,17 @@ public class FriendServiceImpl implements FriendService {
         int start = (pageNumber -1) * size;
         int end  = size + start;
         System.out.println(userVos);
-        List<UserVo> userVos1 = userVos.subList(start,end);
+        List<UserVo> userVos1;
+        if(start > userVos.size()) {
+            userVos1 = new ArrayList<>();
+            return userVos1;
+        }
+        if(end > userVos.size()) {
+            end = userVos.size();
+        }
+        userVos1 = userVos.subList(start,end);
 
         return userVos1;
-        
-        
     }
 
     @Override
