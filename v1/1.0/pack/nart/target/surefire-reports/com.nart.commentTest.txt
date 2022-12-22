@@ -1,0 +1,18 @@
+-------------------------------------------------------------------------------
+Test set: com.nart.commentTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 15.6 s <<< FAILURE! - in com.nart.commentTest
+testpostComment  Time elapsed: 1.93 s  <<< ERROR!
+org.springframework.dao.DataIntegrityViolationException: 
+
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`c_c`.`tb_comment`, CONSTRAINT `tb_comment_ibfk_1` FOREIGN KEY (`sid`) REFERENCES `tb_user` (`id`))
+### The error may exist in com/nart/dao/CommentDao.java (best guess)
+### The error may involve com.nart.dao.CommentDao.insert-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO tb_comment  ( id, msg, status_id, date, sid )  VALUES  ( ?, ?, ?, ?, ? )
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`c_c`.`tb_comment`, CONSTRAINT `tb_comment_ibfk_1` FOREIGN KEY (`sid`) REFERENCES `tb_user` (`id`))
+; Cannot add or update a child row: a foreign key constraint fails (`c_c`.`tb_comment`, CONSTRAINT `tb_comment_ibfk_1` FOREIGN KEY (`sid`) REFERENCES `tb_user` (`id`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`c_c`.`tb_comment`, CONSTRAINT `tb_comment_ibfk_1` FOREIGN KEY (`sid`) REFERENCES `tb_user` (`id`))
+	at com.nart.commentTest.testpostComment(commentTest.java:37)
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`c_c`.`tb_comment`, CONSTRAINT `tb_comment_ibfk_1` FOREIGN KEY (`sid`) REFERENCES `tb_user` (`id`))
+	at com.nart.commentTest.testpostComment(commentTest.java:37)
+

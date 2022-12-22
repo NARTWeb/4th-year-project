@@ -1,19 +1,12 @@
 package com.nart;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nart.pojo.User;
 import com.nart.service.LoadDataInDataBase;
 import com.nart.service.UserService;
 import com.nart.util.FakeDataGenerator;
-import com.nart.vo.PageVo;
-import com.nart.vo.UserVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootTest
 public class userTest {
@@ -31,16 +24,14 @@ public class userTest {
     @Autowired
     private LoadDataInDataBase loadDataInDataBase;
 
-    @Test
-    public void setFakeDataGenerator(){
-        fakeDataGenerator.generateTestData(1);
-    }
+//    @Test
+//    public void setFakeDataGenerator(){
+//        fakeDataGenerator.generateTestData(1);
+//    }
 
     @Test
     public void updatetime(){
 //        userService.upDatetime();
-
-
     }
 
 //    @Test
