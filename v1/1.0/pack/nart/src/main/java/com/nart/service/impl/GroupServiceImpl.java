@@ -25,6 +25,9 @@ public class GroupServiceImpl implements GroupService {
     private GroupDao groupDao;
 
     @Autowired
+    private FriendDao friendDao;
+
+    @Autowired
     private GroupInviteDao groupInviteDao;
 
     @Autowired

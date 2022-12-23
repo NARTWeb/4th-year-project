@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: com.nart.groupTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.09 s <<< FAILURE! - in com.nart.groupTest
+showGroupList  Time elapsed: 0.004 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.nart.groupTest.showGroupList(groupTest.java:47)
+
+resp  Time elapsed: 0.079 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.nart.groupTest.resp(groupTest.java:41)
+
+send  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.nart.groupTest.send(groupTest.java:34)
+

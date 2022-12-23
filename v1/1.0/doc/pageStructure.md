@@ -261,7 +261,7 @@
    </table>
    ```
 
-## Status 
+## Status
 
 ```vue
 <table>
