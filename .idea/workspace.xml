@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="82f70ce6-e37a-44fe-8495-dc9b5481b67a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/v1/1.0/doc/NART.drawio" beforeDir="false" afterPath="$PROJECT_DIR$/v1/1.0/doc/NART.drawio" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/v1/1.0/doc/api_v1.3.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/v1/1.0/doc/pageStructure.md" beforeDir="false" afterPath="$PROJECT_DIR$/v1/1.0/doc/pageStructure.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/v1/1.0/pack/nart/src/main/java/com/nart/service/impl/FriendServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/v1/1.0/pack/nart/src/main/java/com/nart/service/impl/FriendServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/v1/1.0/pack/nart/src/main/java/com/nart/service/impl/GroupServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/v1/1.0/pack/nart/src/main/java/com/nart/service/impl/GroupServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/v1/1.0/pack/nart/target/classes/com/nart/service/impl/FriendServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/v1/1.0/pack/nart/target/classes/com/nart/service/impl/FriendServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/v1/1.0/pack/nart/target/classes/com/nart/service/impl/GroupServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/v1/1.0/pack/nart/target/classes/com/nart/service/impl/GroupServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/v1/1.0/pack/nart/target/classes/redis/dump.rdb" beforeDir="false" afterPath="$PROJECT_DIR$/v1/1.0/pack/nart/target/classes/redis/dump.rdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,14 +28,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/GitHub/C_C"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/v1/1.0/pack" />
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
@@ -59,11 +51,13 @@
       <workItem from="1666481827106" duration="32000" />
       <workItem from="1666481870266" duration="9000" />
       <workItem from="1671732071005" duration="70000" />
+      <workItem from="1671757379002" duration="20000" />
+      <workItem from="1671757415690" duration="49000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -75,5 +69,12 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1671757462895">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1671757462895" />
   </component>
 </project>
