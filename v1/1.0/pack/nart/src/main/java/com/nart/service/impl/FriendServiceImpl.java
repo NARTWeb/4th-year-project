@@ -161,7 +161,7 @@ public class FriendServiceImpl implements FriendService {
 
 
         Friend friend = new Friend();
-        friend.setState(String.valueOf(state));
+        friend.setState(state);
         int update = friendDao.update(friend, lqw);
         return update>0;
     }

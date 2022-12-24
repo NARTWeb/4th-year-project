@@ -74,7 +74,7 @@ public class FriendController {
     }
 
     @LogA
-    @GetMapping("state/{friendId}/{state}")
+    @PutMapping("state/{friendId}/{state}")
     public Result changeFriendState(@PathVariable("friendId") String fid,
                                     @PathVariable("state") Integer state) {
         boolean b = friendService.changeFriendState(fid, UserThreadLocal.get().getId(), state);

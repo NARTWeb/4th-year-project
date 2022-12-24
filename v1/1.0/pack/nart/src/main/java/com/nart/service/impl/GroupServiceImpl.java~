@@ -33,6 +33,10 @@ public class GroupServiceImpl implements GroupService {
     @Autowired
     private GroupChatDao groupChatDao;
 
+    @Autowired
+    private FriendDao friendDao;
+
+
 
     @Override
     public List<UserVo> showGroupMebList(String gid) {

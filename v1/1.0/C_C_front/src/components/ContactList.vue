@@ -291,7 +291,6 @@ function forceLoad() {
         if (res.data.success) {
           if (res.data.data.length <= 0) {
             nodata.value = true;
-            emit("addPage", props.isFriend);
           } else {
             nodata.value = false;
             list.push(...res.data.data);

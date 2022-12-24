@@ -12,7 +12,7 @@ public class Friend {
     private String id;
     private String uid;
     private String fid;
-    private String state;
+    private Integer state;
     @TableField(value = "leave_time")
     private Long leaveTime;
 
