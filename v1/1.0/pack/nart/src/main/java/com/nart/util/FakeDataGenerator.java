@@ -6,12 +6,10 @@ import com.nart.dao.*;
 import com.nart.pojo.*;
 import com.nart.service.impl.LoadDataInDataBaseImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import com.nart.pojo.User;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -332,7 +330,7 @@ public class FakeDataGenerator {
                 Friend friend = new Friend();
                 friend.setUid(uid);
                 friend.setFid(fid);
-                friend.setState("0");
+                friend.setState(0);
                 friend.setLeaveTime(0L);
                 friendDao.insert(friend);
                 userFriendIds.add(fid);

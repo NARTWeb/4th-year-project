@@ -20,15 +20,15 @@ public class User {
     private String avatar;
     @TableField(value = "uname")
     private String name;
-    private String age;
     private String tel;
     private String address;
     private String email;
-    private String tpwd;
-    private int power;
-    private int lock;
+    private String age;
     @TableField(value = "on_line")
-    private int userOnline;
+    private Integer userOnline;
+    private String tpwd;
+    private Integer power;
+    //private Integer lock;
 
     @TableField(exist = false)
     private List<Friend> friendList;

@@ -18,7 +18,7 @@ public class FriendVo {
 
     public FriendVo transfer(Friend friend){
         FriendVo friendVo = new FriendVo();
-        friendVo.setId(friend.getId());
+        friendVo.setId(friend.getFid());
         friendVo.setAvatar(friend.getAvatar());
         friendVo.setName(friend.getName());
         friendVo.setState(Integer.valueOf(friend.getState()));

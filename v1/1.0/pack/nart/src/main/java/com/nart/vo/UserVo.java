@@ -13,7 +13,7 @@ public class UserVo {
     private String birthday;
     private String phone;
     private String address;
-    private int power;
+    private Integer power;
     private int lock;
 
     public UserVo transfer(User user){
@@ -27,7 +27,7 @@ public class UserVo {
         userVo.setPhone(user.getTel());
         userVo.setAddress(user.getAddress());
         userVo.setPower(user.getPower());
-        userVo.setLock(user.getLock());
+        //userVo.setLock(user.getLock());
         return userVo;
     }
 }

@@ -21,10 +21,10 @@ spring:
             max-request-size: 20MB
             max-file-size: 2MB
 
-
 #        关闭驼峰转换，因为使用@TableField()
 mybatis-plus:
     configuration:
         map-underscore-to-camel-case: false
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     mapper-locations: classpath:dao/*.xml
 
