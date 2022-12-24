@@ -12,6 +12,7 @@ import com.nart.service.AdminService;
 import com.nart.service.ChatService;
 import com.nart.service.DataCounterService;
 import com.nart.util.RedisUtil;
+import com.nart.util.Result;
 import com.nart.util.UserThreadLocal;
 import com.nart.vo.MessageVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,85 @@ public class AdminServiceImpl implements AdminService {
     private UserGroupDao userGroupDao;
 
 
+    @Override
+    public List<User> showAllUserInfo() {
+        List<User> users = userDao.selectList(null);
+        return users;
+    }
 
+    @Override
+    public int showAllUserNum() {
+        List<User> users = userDao.selectList(null);
+        int size = users.size();
+        return size;
+    }
 
+    @Override
+    public List<User> showOnlineUserInfo() {
+        LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<User>();
+        lqw.eq(User::getUserOnline, 1);
+        List<User> users = userDao.selectList(lqw);
+
+        return users;
+    }
+
+    @Override
+    public int showOnlineUserNum() {
+        return 0;
+    }
+
+    @Override
+    public List<Status> showAllStatusInfo() {
+        return null;
+    }
+
+    @Override
+    public int showAllStatusNum() {
+        return 0;
+    }
+
+    @Override
+    public List<Comment> showAllCommentInfo() {
+        return null;
+    }
+
+    @Override
+    public int showAllCommentNum() {
+        return 0;
+    }
+
+    @Override
+    public User searchUser(String id) {
+        return null;
+    }
+
+    @Override
+    public boolean blockUser(String id) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteStatus(String id) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteComment(String id) {
+        return false;
+    }
+
+    @Override
+    public Result logOut() {
+        return null;
+    }
+
+    @Override
+    public Result logIn() {
+        return null;
+    }
+
+    @Override
+    public boolean checkAdmin() {
+        return false;
+    }
 }
