@@ -11,7 +11,7 @@
               :message="msg.msg"
               :type="msg.msgType"
               :time="format(msg.sentDate, false)"
-              :isMe="msg.isMe"
+              :isMe="isMe(msg.senderName)"
               :is-group="isGroup"
               :id="msg.msgId"
               :uid="msg.senderId"
@@ -275,17 +275,15 @@ function setParam() {
   page.pageNum = 1;
   page.pageSize = 10;
 }
-onMounted(() => {
-  console.log("mount");
-  setParam();
-});
-onUpdated(() => {
-  console.log("update");
-  setParam();
-  msgList.splice(0, msgList.length);
-  load();
-});
-onBeforeUnmount(() => {
+function isMe(uname) {
+  if(store.name == uname) {
+    return true;
+  } else {
+    return false;
+  }
+}
+function leave() {
+  console.log("leave Time!!!!!!!!!!!!!!!!!!!");
   leaveRoom(token.value, roomId.value, !isGroup.value)
   .then((res) => {
       if (res.data.success) {
@@ -307,7 +305,20 @@ onBeforeUnmount(() => {
       });
       console.log(err);
     });
-
+}
+onMounted(() => {
+  console.log("mount");
+  setParam();
+});
+onUpdated(() => {
+  console.log("update");
+  leave();
+  setParam();
+  msgList.splice(0, msgList.length);
+  load();
+});
+onBeforeUnmount(() => {
+  leave();
 });
 </script>
 <style scoped>

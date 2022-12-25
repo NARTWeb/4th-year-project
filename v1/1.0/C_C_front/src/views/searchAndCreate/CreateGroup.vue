@@ -164,6 +164,8 @@ function create() {
       console.log(err);
     });
 
+  console.log(groupId.value);
+
   for (let i = 0; i < inviteList.length; i++) {
     let inviteInfo = {
       groupId: groupId.value,

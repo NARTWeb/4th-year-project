@@ -124,16 +124,17 @@ public class StatusController {
     public Result postStatus(@RequestBody StatusVo statusInfo) {
         System.out.println(statusInfo);
         Status status = new Status();
-        status.setSenderId(statusInfo.getUid());
+        status.setSenderId(UserThreadLocal.get().getId());
         status.setText(statusInfo.getMsg());
 
 
         List<String> pics = statusInfo.getPics();
-        String join = StringUtils.join(pics.toArray(), ";");
-        System.out.println(join);
-        status.setPics(join);
+        if(pics != null) {
+            String join = StringUtils.join(pics.toArray(), ";");
+            System.out.println(join);
+            status.setPics(join);
 //       status.setPics(GsonFormatter.toJsonString(statusInfo.getPics()));
-
+        }
         status.setLikes(0);
         status.setCreateDate(new Date().getTime());
         boolean b = statusService.postStatus(status);

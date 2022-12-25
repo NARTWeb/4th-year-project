@@ -14,7 +14,7 @@
           >
             <li>
               <my-status-item
-                :isMine="status.isMine"
+                :isMine="isMine(status.uname)"
                 :message="status.msg"
                 :pictures="status.pics"
                 :id="status.statusId"
@@ -174,6 +174,13 @@ function delBack(id, i) {
     .finally(() => {
       return;
     });
+}
+function isMine(uname) {
+  if(uname == store.name) {
+    return true;
+  } else {
+    return false;
+  }
 }
 </script>
 <style scoped>

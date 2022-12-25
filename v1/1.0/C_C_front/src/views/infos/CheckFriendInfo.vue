@@ -2,14 +2,14 @@
   <div class="all">
     <div class="top">
       <div class="avatar">
-        <el-avatar class="img" :src="tt.avatar" />
+        <el-avatar class="img" :src="friendAvatar" />
       </div>
       <div class="info">
         <div class="uname">
-          <info-item :label="t('infoItem.userName')" :value="tt.value1"></info-item>
+          <info-item :label="t('infoItem.userName')" :value="friendName"></info-item>
         </div>
         <div class="uemail">
-          <info-item :label="t('infoItem.email')" :value="tt.value2"></info-item>
+          <info-item :label="t('infoItem.email')" :value="friendEmail"></info-item>
         </div>
       </div>
     </div>
@@ -69,20 +69,17 @@ const page = reactive({
   pageSize: 5,
   pageNum: 1,
 });
-const tt = {
-  value1: "testName",
-  value2: "testEmail@gmail.com",
-  avatar:
-        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-};
+const friendName = ref("FriendName");
+const friendEmail = ref("FriendEmail@gmail.com");
+const friendAvatar = ref("test.jpg");
 
 function getFriendInfo() {
   showUserInfo(token.value, route.params.id)
   .then((res) => {
         if (res.data.success) {
-            tt.value1 = res.data.data.uname;
-            tt.value2 = res.data.data.email;
-            tt.avatar = res.data.data.avatar;
+          friendName.value = res.data.data.uname;
+          friendEmail.value = res.data.data.email;
+          friendAvatar.value = res.data.data.avatar;
         } else {
           ElMessage({
             type: "error",
@@ -159,7 +156,7 @@ function load() {
         console.log(err);
       })
       .finally(() => {
-        this.loading.value = false;
+        loading.value = false;
       });
   }
 }
