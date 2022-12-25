@@ -130,8 +130,12 @@ public class GroupController {
     @PostMapping("create/{groupName}")
     public Result createGroup(@PathVariable("groupName") String groupName) {
         boolean b = groupService.createGroup(groupName, UserThreadLocal.get().getId());
+
         if(b) {
-            return Result.success(null);
+            Group group = groupService.findGroup(groupName);
+            String id = group.getId();
+
+            return Result.success(id); // return gid
         }
         return Result.fail(ErrorCode.CREATE_GROUP_ERROR);
     }

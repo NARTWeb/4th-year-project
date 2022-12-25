@@ -153,7 +153,11 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public boolean leaveRoom(String roomId, Boolean isF) {
         if (isF){
-            Friend friend = friendDao.selectById(roomId);
+            LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
+            lqw.eq(Friend::getFid, roomId);
+            lqw.eq(Friend::getUid, UserThreadLocal.get().getId());
+
+            Friend friend = friendDao.selectOne(lqw);
             long timeStamp = getTimeStamp();
             friend.setLeaveTime(timeStamp);
             int i = friendDao.updateById(friend);

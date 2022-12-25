@@ -163,14 +163,10 @@ public class GroupServiceImpl implements GroupService {
         return inviteVos;
     }
 
+    // groupInvite contain gid rid msg,need sid
     @Override
     public boolean sendInvite(GroupInvite groupInvite) {
         groupInvite.setSenderId(UserThreadLocal.get().getId());
-        String tb_friendId = groupInvite.getReceiverId();
-
-        Friend friend = friendDao.selectById(tb_friendId);
-
-        groupInvite.setReceiverId(friend.getFid());
         groupInvite.setDate(new Date().getTime());
         int insert = groupInviteDao.insert(groupInvite);
         return insert>0;
@@ -280,6 +276,14 @@ public class GroupServiceImpl implements GroupService {
         }
 
         return ids;
+    }
+
+    @Override
+    public Group findGroup(String groupName) {
+        LambdaQueryWrapper<Group> lqw = new LambdaQueryWrapper<Group>();
+        lqw.eq(Group::getGroupName,groupName);
+        Group group = groupDao.selectOne(lqw);
+        return group;
     }
 
 
