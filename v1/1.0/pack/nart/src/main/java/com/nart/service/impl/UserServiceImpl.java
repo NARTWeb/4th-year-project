@@ -64,7 +64,6 @@ public class UserServiceImpl implements UserService {
         int userOnline = user1.getUserOnline();
         if (userOnline == 1) {
             User user = new User();
-
             user.setId(userId);
             user.setUserOnline(0);
             int i = UserDao.updateById(user);
@@ -94,7 +93,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User showUserInfo(String userId) {
         User user = UserDao.selectById(userId);
-
         return user;
     }
 

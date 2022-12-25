@@ -1,12 +1,16 @@
 package com.nart;
 
 
+import com.nart.pojo.User;
+import com.nart.service.AdminService;
 import com.nart.service.LoadDataInDataBase;
 import com.nart.service.UserService;
 import com.nart.util.FakeDataGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest
 public class userTest {
@@ -24,6 +28,27 @@ public class userTest {
     @Autowired
     private LoadDataInDataBase loadDataInDataBase;
 
+    @Autowired
+    private AdminService adminService;
+
+    @Test
+    public void showAllUserInfo(){
+        List<User> users = adminService.showAllUserInfo();
+        System.out.println(users);
+
+    }
+
+    @Test
+    public void showAllUserNum(){
+        int i = adminService.showAllUserNum();
+        System.out.println(i);
+    }
+
+    @Test
+    public void showOnlineUserInfo(){
+        List<User> users = adminService.showOnlineUserInfo();
+        System.out.println(users);
+    }
 //    @Test
 //    public void setFakeDataGenerator(){
 //        fakeDataGenerator.generateTestData(1);
