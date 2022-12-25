@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { ElMessage } from "element-plus";
 
@@ -172,6 +172,11 @@ function change() {
     emit("changePwd", oldP.value, newP.value);
   }
 }
+watch(()=>props.value, (newValue)=>{
+  v.value = newValue;
+}, {
+  deep:true
+})
 </script>
 <style scoped>
 .error3 {

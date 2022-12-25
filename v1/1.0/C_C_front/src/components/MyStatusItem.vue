@@ -1,5 +1,5 @@
 <template>
-  <div class="all">
+  <div class="mall">
     <div id="left">
       <div>
         <span class="text">{{ message }}</span>
@@ -36,7 +36,7 @@ function delStatus() {
 }
 </script>
 <style scoped>
-.all {
+.mall {
   display: -webkit-flex; /* Safari */
   display: flex;
   justify-content: space-between;

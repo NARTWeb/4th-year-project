@@ -31,6 +31,7 @@
       <div @click="popInfo">
         <div class="avatar">
           <el-avatar :src="avatar" @click="popInfo" />
+          <div class="sender">{{ name }}</div>
         </div>
       </div>
       <div class="wrap w2">
@@ -57,7 +58,9 @@
 </template>
 <script setup>
 import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 const router = useRouter();
+const route = useRoute();
 const props = defineProps({
   avatar: String,
   name: String,
@@ -74,7 +77,8 @@ function popInfo() {
   if (props.isGroup) {
     return;
   } else {
-    router.push({ name: "friendInfo", params: { id: props.uid } });
+    var realId = String(route.params.id).substr(1);
+    router.push({ name: "friendInfo", params: { id: realId } });
   }
 }
 </script>
@@ -83,6 +87,10 @@ function popInfo() {
   max-width: 55vw;
 }
 .text {
+  word-wrap: break-word;
+}
+.sender {
+  color: black;
   word-wrap: break-word;
 }
 .bubble {
@@ -98,7 +106,7 @@ function popInfo() {
 }
 .bubble div.avatar {
   display: block;
-  height: 44px;
+  height: 94px;
   width: 44px;
   border-radius: 2px;
   overflow: hidden;

@@ -104,6 +104,7 @@ const useUserStore = defineStore("user", {
         showUserInfo(this.token, "-1")
           .then((res) => {
           if (res.data.success) {
+                console.log("getUserInfo success!");
                 this.name = res.data.data.uname;
                 this.avatar = res.data.data.avatar;
                 this.email = res.data.data.email;

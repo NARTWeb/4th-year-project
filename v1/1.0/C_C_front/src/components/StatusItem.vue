@@ -75,7 +75,7 @@ const input = computed({
     return comment.value;
   },
   set(newValue) {
-    comment.value = newValue.trim();
+    comment.value = newValue;
   },
 });
 function likeS() {
@@ -99,7 +99,7 @@ function makeCom() {
   let comment = {
     id: "738291",
     uname: name,
-    msg: input.value,
+    msg: input.value.trim(),
     date: now(),
   };
   commentList.unshift(comment);

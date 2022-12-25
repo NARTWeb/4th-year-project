@@ -58,13 +58,14 @@ public class StatusVo {
 
         // statusVo pics
         String pics = status.getPics();
-        List<String> p = new ArrayList<>();
-        StringTokenizer st = new StringTokenizer(pics,";");
-        while(st.hasMoreElements()){
-            p.add(st.nextToken());
+        if (pics != null) {
+            List<String> p = new ArrayList<>();
+            StringTokenizer st = new StringTokenizer(pics,";");
+            while(st.hasMoreElements()){
+                p.add(st.nextToken());
+            }
+            statusVo.setPics(p);
         }
-        statusVo.setPics(p);
-
 
         List<Comment> commentList = status.getCommentList();
 //        List<CommentVo> comments = statusVo.getComments();
