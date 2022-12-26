@@ -3,14 +3,9 @@ package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nart.dao.FriendDao;
-import com.nart.dao.GroupDao;
-import com.nart.dao.UserDao;
-import com.nart.dao.UserGroupDao;
+import com.nart.dao.*;
 import com.nart.pojo.*;
-import com.nart.service.AdminService;
-import com.nart.service.ChatService;
-import com.nart.service.DataCounterService;
+import com.nart.service.*;
 import com.nart.util.RedisUtil;
 import com.nart.util.Result;
 import com.nart.util.UserThreadLocal;
@@ -18,6 +13,7 @@ import com.nart.vo.MessageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.jws.soap.SOAPBinding;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +32,16 @@ public class AdminServiceImpl implements AdminService {
     private UserDao userDao;
 
     @Autowired
+    private CommentDao commentDao;
+
+    @Autowired
     private GroupDao groupDao;
+
+    @Autowired
+    private StatusDao statusDao;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private DataCounterService dataCounterService;
@@ -48,6 +53,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private UserGroupDao userGroupDao;
+
+    @Autowired
+    private StatusService statusService;
+
+
 
 
     @Override
@@ -74,47 +84,79 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public int showOnlineUserNum() {
-        return 0;
+        LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<User>();
+        lqw.eq(User::getUserOnline, 1);
+        List<User> users = userDao.selectList(lqw);
+        int size = users.size();
+        return size;
     }
 
     @Override
     public List<Status> showAllStatusInfo() {
-        return null;
+        LambdaQueryWrapper<Status> lqw1 = new LambdaQueryWrapper<Status>();
+        lqw1.orderBy(true,false, Status::getCreateDate);
+        List<Status> statuses = statusDao.selectList(lqw1);
+        for (Status status : statuses) {
+            String id = status.getId();
+            List<Comment> comments = commentService.showCommentList(id);
+            status.setCommentList(comments);
+        }
+        return statuses;
     }
 
     @Override
     public int showAllStatusNum() {
-        return 0;
+        List<Status> statuses = statusDao.selectList(null);
+        int size = statuses.size();
+        return size;
     }
 
     @Override
     public List<Comment> showAllCommentInfo() {
-        return null;
+        List<Comment> comments = commentDao.selectList(null);
+        return comments;
     }
 
     @Override
     public int showAllCommentNum() {
-        return 0;
+        List<Comment> comments = commentDao.selectList(null);
+        return comments.size();
     }
 
     @Override
     public User searchUser(String id) {
-        return null;
+        User user = userDao.selectById(id);
+        return user;
     }
 
     @Override
     public boolean blockUser(String id) {
-        return false;
+        User user = userDao.selectById(id);
+        user.setLock(1);
+        int i = userDao.updateById(user);
+        return i>0;
     }
+
 
     @Override
     public boolean deleteStatus(String id) {
-        return false;
+        Status status = statusDao.selectById(id);
+        String id1 = status.getId();
+        LambdaQueryWrapper<Comment> lqw = new LambdaQueryWrapper<Comment>();
+        lqw.eq(Comment::getStatusId, id1);
+        List<Comment> comments = commentDao.selectList(lqw);
+        for (Comment comment : comments) {
+            commentDao.deleteById(comment.getId());
+        }
+        int i = statusDao.deleteById(id1);
+        return i>0;
     }
 
     @Override
     public boolean deleteComment(String id) {
-        return false;
+
+        int i = commentDao.deleteById(id);
+        return i>0;
     }
 
     @Override
