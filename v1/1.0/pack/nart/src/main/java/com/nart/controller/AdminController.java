@@ -1,6 +1,7 @@
 package com.nart.controller;
 
 import com.nart.common.LogA;
+import com.nart.pojo.Status;
 import com.nart.pojo.User;
 import com.nart.service.AdminService;
 import com.nart.service.LoginService;
@@ -8,6 +9,7 @@ import com.nart.service.UserService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
 import com.nart.util.UserThreadLocal;
+import com.nart.vo.StatusVo;
 import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +41,73 @@ public class AdminController {
         }
 
         return Result.success(userVos);
+    }
+
+    @LogA
+    @GetMapping("allUserNum")
+    public Result showAllUserNum(){
+        int i = adminService.showAllUserNum();
+        if (i<0){
+            Result.fail(ErrorCode.UNDEFINED);
+        }
+
+        return Result.success(i);
+    }
+
+    @LogA
+    @GetMapping("onlineUser")
+    public Result showOnlineUserInfo(){
+        List<User> users = adminService.showOnlineUserInfo();
+
+        List<UserVo> userVos = new ArrayList<>();
+        UserVo userVo = new UserVo();
+        for (User user : users) {
+            UserVo transfer = userVo.transfer(user);
+            userVos.add(transfer);
+        }
+        if(userVos == null) {
+            Result.fail(ErrorCode.USER_NOT_EXIST);
+        }
+        return Result.success(userVos);
+    }
+
+    @LogA
+    @GetMapping("onlineUserNum")
+    public Result showOnlineUserNum(){
+        int i = adminService.showOnlineUserNum();
+
+        if (i<0){
+            Result.fail(ErrorCode.UNDEFINED);
+        }
+
+        return Result.success(i);
+    }
+
+    @LogA
+    @GetMapping("allStatus")
+    public Result showAllStatusInfo(){
+
+        List<Status> statuses = adminService.showAllStatusInfo();
+        List<StatusVo> statusVos = new ArrayList<>();
+        StatusVo statusVo = new StatusVo();
+        for (Status status : statuses) {
+            StatusVo transfer = statusVo.transfer(status);
+            statusVos.add(transfer);
+        }
+        if(statusVos == null) {
+            Result.fail(ErrorCode.UNDEFINED);
+        }
+        return Result.success(statusVos);
+    }
+
+    @LogA
+    @GetMapping("allStatusNum")
+    public Result showAllStatusNum(){
+        int i = adminService.showAllStatusNum();
+        if (i<0){
+            Result.fail(ErrorCode.UNDEFINED);
+        }
+        return Result.success(i);
     }
 
 //
