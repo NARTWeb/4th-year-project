@@ -14,6 +14,7 @@ const CheckAllMyStatus = () => import('@/views/lists/CheckAllMyStatus.vue')
 const ChatRoom = () => import('@/views/chat/ChatRoom.vue')
 const CheckFriendInfo = () => import('@/views/infos/CheckFriendInfo.vue')
 const EditMyInfo = () => import('@/views/infos/EditMyInfo.vue')
+const testVue = () => import('@/views/infos/testVue.vue')
 const GroupChatSetting = () => import('@/views/infos/GroupChatSetting.vue')
 const Login = () => import('@/views/loginAndRegister/Login.vue')
 const Register = () => import('@/views/loginAndRegister/Register.vue')
@@ -97,6 +98,11 @@ const router = createRouter({
           path: '/editMyInfo',
           name: 'editMyInfo',
           component: EditMyInfo
+        },
+        {
+          path: '/testVue',
+          name: 'testVue',
+          component: testVue
         },
         {
           path: '/groupChatInfo',

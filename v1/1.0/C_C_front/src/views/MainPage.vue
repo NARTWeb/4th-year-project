@@ -259,7 +259,7 @@ function PagePlus(isFriend) {
   }
 }
 function editPInfo() {
-  store.getUserInfo();
+  //store.getUserInfo();
   router.push({ name: 'editMyInfo'});
 }
 function wSend(input) {

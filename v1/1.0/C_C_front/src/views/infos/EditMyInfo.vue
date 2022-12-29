@@ -3,7 +3,7 @@
     <div class="big center">
       <el-avatar class="img" :src="realAvatar" />
       <div class="small center">
-        <!-- <el-upload
+        <el-upload
           v-model="uploadRef"
           :on-success="uploadSuccess"
           :on-error="uploadFail"
@@ -18,8 +18,8 @@
           :limit="1"
           :auto-upload="true"
           :show-file-list="false"
-        > -->
-          <!-- <template #trigger>
+        >
+          <template #trigger>
             <el-button type="primary" round class style="margin-top: 1vh">{{
               $t("groupSetting.addAvatar")
             }}</el-button>
@@ -29,7 +29,7 @@
               {{ $t("buttons.picInfo") }}
             </div>
           </template>
-        </el-upload> -->
+        </el-upload>
       </div>
     </div>
 
@@ -102,16 +102,15 @@
   </div>
 </template>
 <script setup>
-import { onMounted } from "vue";
-import { reactive, ref, watch } from "vue";
-import { useI18n } from "vue-i18n";
 import useUserStore from "@/stores/userStore";
 import { storeToRefs } from "pinia";
+import { useI18n } from "vue-i18n";
+import { reactive, ref, watch } from "vue";
 import InfoItem from "@/components/InfoItem.vue";
-import { format } from "@/utils/time.js";
-import { uploadPic } from "@/api/upload";
 import { ElMessage } from "element-plus";
-import { sortUserPlugins } from "vite";
+import { format } from "@/utils/time.js";
+import { onMounted } from "vue";
+import { uploadPic } from "@/api/upload";
 
 const store = useUserStore();
 const { avatar, name, email, tel, birthday, address} = storeToRefs(store);
@@ -129,7 +128,6 @@ const userInfo = reactive({
     oldPwd: '',
     pwd: ''
 });
-const headers = {'Content-Type': 'multipart/form-data'};
 let formdata = new FormData();
 
 const tt = {
