@@ -21,32 +21,49 @@ public class groupTest {
     @Autowired
     private GroupService groupService;
 
+    @Test
+    public void sendInvite(){
+        GroupInvite groupInvite = new GroupInvite();
+        groupInvite.setReceiverId("1574989639444471809");
+        groupInvite.setMsg("ttt");
+        groupInvite.setGroupId("1574990490691067906");
+        groupService.sendInvite(groupInvite);
+
+    }
+    @Test
+    public void findGroup(){
+        Group api = groupService.findGroup("api");
+        System.out.println(api);
+    }
+
+
+
 //    status.setCreateDate(new Date().getTime());
 
-    @Test
-    public void send(){
-        GroupInvite groupInvite =new GroupInvite();
-        groupInvite.setId("1");
-        groupInvite.setSenderId("1574989632599367682");
-        groupInvite.setGroupId("1574990494298169346");
-        groupInvite.setMsg("test");
-        groupInvite.setReceiverId("1574989639444471809");
-        boolean b = groupService.sendInvite(groupInvite);
-        System.out.println(b);
-    }
-
-    @Test
-    public void resp(){
-
-        groupService.respGroupInvite("1574990495602597890",true);
-    }
-
-    @Test
-    public void showGroupList(){
-        IPage<UserGroup> page=new Page<>(1,10);
-        List<GroupVo> groupVos = groupService.showGroupList(page);
-        System.out.println(groupVos);
-    }
+//    @Test
+//    public void send(){
+//        GroupInvite groupInvite =new GroupInvite();
+//        groupInvite.setId("1");
+//        groupInvite.setSenderId("1574989632599367682");
+//        groupInvite.setGroupId("1574990494298169346");
+//        groupInvite.setMsg("test");
+//        groupInvite.setReceiverId("1574989639444471809");
+//        boolean b = groupService.sendInvite(groupInvite);
+//        System.out.println(b);
+//    }
+//
+//    @Test
+//    public void resp(){
+//
+//        groupService.respGroupInvite("1574990495602597890",true);
+//    }
+//
+//    @Test
+//    public void showGroupList(){
+//        IPage<UserGroup> page=new Page<>(1,10);
+//        List<GroupVo> groupVos = groupService.showGroupList(page);
+//        System.out.println(groupVos);
+//    }
 
 
 //    @Test

@@ -33,4 +33,6 @@ public interface GroupService {
     boolean joinGroup(String groupId);
 
     Set<String> findAllMembers(String gid);
+
+    Group findGroup(String groupName);
 }

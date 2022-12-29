@@ -1,11 +1,25 @@
 package com.nart;
 
+import com.nart.pojo.Status;
+import com.nart.service.StatusService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest
 public class statusServiceTest {
-//    @Autowired
-//    private StatusService StatusService;
+    @Autowired
+    private StatusService statusService;
+
+
+    @Test
+    public void showAllStatusList(){
+        List<Status> statuses = statusService.showAllStatusList("1574989639444471809");
+        System.out.println(statuses);
+    }
+
 //    @Test
 //    void contextLoads() {
 //    }

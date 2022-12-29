@@ -28,7 +28,7 @@ public class User {
     private Integer userOnline;
     private String tpwd;
     private Integer power;
-    //private Integer lock;
+    private Integer lock;
 
     @TableField(exist = false)
     private List<Friend> friendList;

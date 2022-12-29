@@ -1,11 +1,13 @@
 package com.nart;
 
 
+import com.nart.pojo.Comment;
 import com.nart.pojo.User;
 import com.nart.service.AdminService;
 import com.nart.service.LoadDataInDataBase;
 import com.nart.service.UserService;
 import com.nart.util.FakeDataGenerator;
+import net.minidev.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,6 +33,22 @@ public class userTest {
     @Autowired
     private AdminService adminService;
 
+    @Test
+    public void showAllStatusNum(){
+        int i = adminService.showAllStatusNum();
+        System.out.println(i);
+    }
+
+    @Test
+    public void showAllCommentInfo(){
+        List<Comment> comments = adminService.showAllCommentInfo();
+        System.out.println(comments);
+    }
+    @Test
+    public void showOnlineUserNum(){
+        int i = adminService.showOnlineUserNum();
+        System.out.println(i);
+    }
     @Test
     public void showAllUserInfo(){
         List<User> users = adminService.showAllUserInfo();

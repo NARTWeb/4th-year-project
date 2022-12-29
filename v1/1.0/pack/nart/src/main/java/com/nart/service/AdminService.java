@@ -26,12 +26,16 @@ public interface AdminService {
 
     int showAllCommentNum();
 
+    //user id
     User searchUser(String id);
 
+    //user id
     boolean blockUser(String id);
 
+    // status id
     boolean deleteStatus(String id);
 
+    //comment id
     boolean deleteComment(String id);
 
     Result logOut();
