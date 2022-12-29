@@ -40,6 +40,11 @@ public class userTest {
     }
 
     @Test
+    public void lock(){
+        boolean b = adminService.blockUser("1574989632599367682");
+        System.out.println(b);
+    }
+    @Test
     public void showAllCommentInfo(){
         List<Comment> comments = adminService.showAllCommentInfo();
         System.out.println(comments);
