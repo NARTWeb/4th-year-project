@@ -43,7 +43,7 @@
                   <el-dropdown-item @click="router.push({ name: 'postStatus', params: {} })">{{
                     $t("main.menu.item1")
                   }}</el-dropdown-item>
-                  <el-dropdown-item @click="router.push({name: 'myStatus'})">
+                  <el-dropdown-item @click="router.push({name: 'testVue'})"> <!-- myStatus -->
                     {{
                     $t("main.menu.item2")
                   }}</el-dropdown-item>

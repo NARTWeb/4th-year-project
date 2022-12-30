@@ -35,7 +35,6 @@ export const useFriendStore = defineStore("friends", {
       if (!this.fLoading && !this.fNodata) {
         this.fLoading = true;
         let temp = this.fSearchHistory;
-        console.log("temp " + temp);
         if(temp == undefined || temp == "") {
           temp = "-1";
         }
@@ -79,7 +78,6 @@ export const useFriendStore = defineStore("friends", {
       if (!this.gLoading && !this.gNodata) {
         this.gLoading = true;
         let temp = this.gSearchHistory;
-        console.log("temp " + temp);
         if(temp == undefined || temp == "") {
           temp = "-1";
         }

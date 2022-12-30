@@ -7,12 +7,13 @@
       :before-close="clearBtn"
     >
       <div style="width: 40%">
-        <el-input :placeholder="t('infoItem.oldPwd')" v-model="oldPwd" />
-        <el-input :placeholder="t('infoItem.newPwd')" v-model="newPwd" />
+        <el-input :placeholder="t('infoItem.oldPwd')" v-model="oldPwd" type="password"/>
+        <el-input :placeholder="t('infoItem.newPwd')" v-model="newPwd" type="password"/>
         <el-input
           :placeholder="t('infoItem.newPwd2')"
           v-model="newPwd2"
           @input="checkPwd"
+          type="password"
         />
         <div class="error3">{{ $t("infoItem.notMatch") }}</div>
       </div>

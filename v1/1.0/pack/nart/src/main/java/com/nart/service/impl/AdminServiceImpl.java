@@ -2,22 +2,19 @@ package com.nart.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.dao.*;
-import com.nart.pojo.*;
-import com.nart.service.*;
+import com.nart.pojo.Comment;
+import com.nart.pojo.Status;
+import com.nart.pojo.User;
+import com.nart.service.AdminService;
+import com.nart.service.CommentService;
+import com.nart.service.DataCounterService;
+import com.nart.service.StatusService;
 import com.nart.util.RedisUtil;
 import com.nart.util.Result;
-import com.nart.util.UserThreadLocal;
-import com.nart.vo.MessageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.jws.soap.SOAPBinding;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -132,7 +129,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean blockUser(String id) {
         User user = userDao.selectById(id);
-        user.setLock(1);
+        //user.setBanned(1);
         int i = userDao.updateById(user);
         return i>0;
     }

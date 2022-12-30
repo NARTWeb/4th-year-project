@@ -4,9 +4,19 @@
       <ul v-infinite-scroll="load" class="infinite-list">
         <li v-for="f in fList" :key="f.id">
           <result-item
+            v-if="f.uname"
             :avatar="f.avatar"
             :id="f.id"
             :username="f.uname"
+            :button-label="t('friendIHave.chat')"
+            @delItem="close"
+            @btnFunc="chatBtn"
+          ></result-item>
+          <result-item
+            v-else
+            :avatar="f.avatar"
+            :id="f.id"
+            :username="f.name"
             :button-label="t('friendIHave.chat')"
             @delItem="close"
             @btnFunc="chatBtn"
@@ -44,6 +54,7 @@ function chatBtn(id) {
 }
 function load() {
   friendStore.loadNewFriends();
+  console.log(fList);
 }
 </script>
 <style scoped>

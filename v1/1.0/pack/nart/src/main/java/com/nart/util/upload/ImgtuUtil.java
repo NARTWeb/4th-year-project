@@ -40,11 +40,11 @@ public class ImgtuUtil {
     static final String IMGTU_PASSWORD = "q1a2z3";
     static final String IMGTU_ALBUMID = "fpQv6";
 
-    static final private String IMGTU_INIT_URL = "https://imgtu.com/init";
+    static final private String IMGTU_INIT_URL = "https://imgse.com/init";
 
-    static final private String IMGTU_LOGIN_URL = "https://imgtu.com/login";
+    static final private String IMGTU_LOGIN_URL = "https://imgse.com/login";
 
-    static final private String IMGTU_OPERATE_URL = "https://imgtu.com/json";
+    static final private String IMGTU_OPERATE_URL = "https://imgse.com/json";
 
     static final private Pattern SESSION_ID_PATTERN = Pattern.compile("PHPSESSID=([^;]*); path=/; HttpOnly");
 
@@ -156,7 +156,8 @@ public class ImgtuUtil {
             headers.put("content-type", "application/x-www-form-urlencoded");
             headers.put("connection", "keep-alive");
 
-            CloseableHttpResponse httpResponse = HttpUtil.post(IMGTU_LOGIN_URL, new HashMap<>(0), headers, "login-subject=" + IMGTU_USER_NAME + "&password=" + IMGTU_PASSWORD + "&auth_token=" + authToken);
+            CloseableHttpResponse httpResponse = HttpUtil.post(IMGTU_LOGIN_URL, new HashMap<>(0), headers,
+                    "login-subject=" + IMGTU_USER_NAME + "&password=" + IMGTU_PASSWORD + "&auth_token=" + authToken);
 
             Header[] responseHeaders = httpResponse.getAllHeaders();
             for (Header header : responseHeaders) {
@@ -175,6 +176,7 @@ public class ImgtuUtil {
                 return true;
             } else {
                 log.error("Imgtu [LOGIN]：× StatusCode:" + httpResponse.getStatusLine().getStatusCode());
+                log.error("Imgtu [LOGIN]：× response:" + httpResponse);
                 return false;
             }
         }
@@ -280,6 +282,10 @@ public class ImgtuUtil {
     public static String uploadPic(byte[] bytes, String fileName) throws IOException {
         JsonObject testFile = upload(bytes, fileName, FileType.checkType(fileName));
         assert testFile != null;
+        Object x = testFile.get("status_code");
+        if (x.toString().equals("400")) {
+            return "400";
+        }
         JsonObject image1 = testFile.getAsJsonObject("image");
         assert image1 != null;
         JsonObject image = image1.getAsJsonObject("image");
@@ -290,5 +296,12 @@ public class ImgtuUtil {
         log.info("short url: " + asString);
 
         return asString;
+    }
+
+    public static String deletePic(String id) throws IOException {
+        JsonObject jsonObject = delete(id);
+        assert jsonObject != null;
+        Object x = jsonObject.get("status_code");
+        return "";
     }
 }

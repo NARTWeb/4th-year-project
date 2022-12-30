@@ -33,16 +33,33 @@ public class UploadController {
     private LoadDataInDataBase ld;
 
     @PostMapping
-    public Result upload(@RequestParam("image") MultipartFile file) throws IOException {
+    public Result upload(@RequestPart("file") MultipartFile file) throws IOException {
         String name = file.getOriginalFilename();
         String suffix = StringUtils.substringAfterLast(name, ".");
         String fileName = UUID.randomUUID().toString() + "." + suffix;
         String s = ImgtuUtil.uploadPic(file.getBytes(), fileName);
+
         if(StringUtils.isNotBlank(s)) {
+            if(s.equals("400")) {
+                return Result.fail(ErrorCode.UPLOAD_REPEAT_ERROR);
+            }
             return Result.success(s);
         }
         return Result.fail(ErrorCode.UPLOAD_ERROR);
 
+    }
+
+    @PutMapping("delete/{id}")
+    public Result delete(@PathVariable("id") String id) throws IOException {
+        String s = ImgtuUtil.deletePic(id);
+
+        if(StringUtils.isNotBlank(s)) {
+            if(s.equals("400")) {
+                return Result.fail(ErrorCode.UPLOAD_REPEAT_ERROR);
+            }
+            return Result.success(s);
+        }
+        return Result.fail(ErrorCode.UPLOAD_DELETE_ERROR);
     }
 
 
