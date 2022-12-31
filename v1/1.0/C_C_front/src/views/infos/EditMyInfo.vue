@@ -16,10 +16,10 @@
           accept="image/jpeg,image/png,image/jpg"
           action="http://localhost:8888/upload"
           :limit="1"
-          :auto-upload="true"
+          :auto-upload="false"
           :show-file-list="false"
         >
-          <template #trigger>
+          <template #trigger>n 
             <el-button type="primary" round class style="margin-top: 1vh">{{
               $t("groupSetting.addAvatar")
             }}</el-button>

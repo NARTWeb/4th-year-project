@@ -6,8 +6,8 @@
       action="#"
       accept="image/png,image/gif,image/jpg,image/jpeg"
       :file-list="file"
-      list-type="picture-card"
       :auto-upload="false"
+      :show-file-list="false"
       :on-change="handleChange"
     >
       <i class="el-icon-plus"></i>
@@ -33,7 +33,6 @@ function handleChange(f, fileList) {
   reader.onload = (e) => {
     file.push({ name: f.raw.name, url: e.target.result });
   };
-  // state.file.push(file.raw)
   file.push(f.raw);
   fileList = file;
 }

@@ -5,7 +5,7 @@
         @keydown.enter="keyDown"
         rows="6"
         v-model="input"
-        style="outline: none; color:black;"
+        style="outline: none; color: black"
         :placeholder="t('chatInputBox.chat')"
       ></textarea>
     </div>
@@ -14,27 +14,30 @@
         <div>
           <el-upload
             ref="uploadRef"
+            :limit="1"
+            action="#"
+            accept="image/png,image/gif,image/jpg,image/jpeg"
+            :file-list="file"
             class="upload-demo"
-            :on-change="addPhoto"
-            action=""
+            :on-change="handleChange"
             :auto-upload="false"
-            accept="image/jpeg,image/png,image/jpg"
           >
             <template #trigger>
-              <el-icon class="addp" :size="25"
-                ><Picture/></el-icon></template
+              <el-icon class="addp" :size="25"><Picture /></el-icon></template
           ></el-upload>
         </div>
       </div>
       <div class="bottom">
-        <el-button round type="primary" @click="sendMsg">{{ $t("chatInputBox.send") }}</el-button>
+        <el-button round type="primary" @click="sendMsg">{{
+          $t("chatInputBox.send")
+        }}</el-button>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, watch} from "vue";
-import type { UploadInstance } from 'element-plus'
+import { ref, watch, reactive } from "vue";
+import type { UploadInstance } from "element-plus";
 import { uploadPic } from "@/api/upload.js";
 import { ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
@@ -44,11 +47,21 @@ const { t } = useI18n();
 const input = ref("");
 const uploadRef = ref<UploadInstance>();
 const uploaded = ref(false);
-const img = ref('https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100');
+const img = ref(
+  "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
+);
+const file = reactive([]);
 
-function addPhoto() {
-  //uploadFun();
-  uploaded.value = true;
+let picSet: String;
+
+async function handleChange(f, fileList) {
+  let reader = new FileReader();
+  reader.readAsDataURL(f.raw);
+  reader.onload = (e) => {
+    file.push({ name: f.raw.name, url: e.target.result });
+  };
+  file.push(f.raw);
+  submitUpload();
 }
 function clearText() {
   input.value = "";
@@ -63,39 +76,40 @@ function keyDown(e) {
     sendMsg();
   }
 }
-function uploadFun() {
-  uploadPic(uploadRef)
-    .then((res) => {
-      if (res.data.success) {
-        img.value = res.data.data;
-      } else {
+function submitUpload() {
+    let formData = new FormData();
+    let f = file;
+    for (let i = 0; i < f.length; i++) {
+      formData.append("file", f[i]);
+    }
+    // send request
+    uploadPic(formData)
+      .then((res) => {
+        if (res.data.success) {
+          picSet = res.data.data;
+          console.log("picSet: " + picSet);
+          emit("addPic", picSet);
+          file.length = 0;
+          uploadRef.value!.clearFiles();
+        } else {
+          ElMessage({
+            type: "error",
+            message: res.data.msg,
+            showClose: true,
+            grouping: true,
+          });
+        }
+      })
+      .catch((err) => {
         ElMessage({
           type: "error",
-          message: res.data.msg,
+          message: t("chatInputBox.uploadPicError"),
           showClose: true,
           grouping: true,
         });
-      }
-    })
-    .catch((err) => {
-      ElMessage({
-        type: "error",
-        message: t('chatInputBox.uploadPicError'),
-        showClose: true,
-        grouping: true,
+        console.log(err);
       });
-      console.log(err);
-    }).finally(
-        emit("addPic", img.value)
-    );
 }
-watch(uploaded, (newValue) => {
-  if(newValue) {
-    uploadFun();
-    uploadRef.value!.clearFiles();
-    uploaded.value = false;
-  }
-})
 </script>
 <style scoped>
 .all {
