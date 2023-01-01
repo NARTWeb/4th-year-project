@@ -95,7 +95,8 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public List<MessageVo> showFriendHistory(String Id, IPage page) {
         LambdaQueryWrapper<FriendChat> lqw = new LambdaQueryWrapper<FriendChat>();
-        lqw.eq(FriendChat::getSenderId, Id).or().eq(FriendChat::getReceiverId, Id);
+        lqw.eq(FriendChat::getSenderId, Id).or().eq(FriendChat::getReceiverId,UserThreadLocal.get().getId());
+        lqw.eq(FriendChat::getSenderId, UserThreadLocal.get().getId()).or().eq(FriendChat::getReceiverId,Id);
         lqw.orderBy(true,false, FriendChat::getDate);
 
         IPage iPage = FriendChatDao.selectPage(page, lqw);

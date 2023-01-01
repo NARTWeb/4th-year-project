@@ -28,9 +28,7 @@ public class User {
     private Integer userOnline;
     private String tpwd;
     private Integer power;
-    //@TableField(value = "lock")
-    //private Integer banned;
-
+    private Integer state;
     @TableField(exist = false)
     private List<Friend> friendList;
     @TableField(exist = false)

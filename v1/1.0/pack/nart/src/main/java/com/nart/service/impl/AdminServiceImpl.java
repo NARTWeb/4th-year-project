@@ -129,7 +129,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean blockUser(String id) {
         User user = userDao.selectById(id);
-        //user.setBanned(1);
+        user.setState(1);
         int i = userDao.updateById(user);
         return i>0;
     }
