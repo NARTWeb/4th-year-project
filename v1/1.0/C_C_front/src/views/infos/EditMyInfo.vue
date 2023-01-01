@@ -310,6 +310,9 @@ async function changep(oldPwd, newPwd) {
 .center {
   text-align: center;
 }
+.img {
+  border-radius: 50%;
+}
 @media screen and (min-height: 670px) {
   .img {
     width: 150px;

@@ -11,12 +11,14 @@ import com.nart.pojo.UserGroup;
 import com.nart.service.DataCounterService;
 import com.nart.service.UserService;
 import com.nart.util.EncryptUtil;
+import com.nart.util.UserThreadLocal;
 import com.nart.vo.PageVo;
 import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -140,10 +142,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public IPage<User> searchNew(String name, PageVo pageVo) {
 
+        LambdaQueryWrapper<Friend> lqwFriend = new LambdaQueryWrapper<Friend>();
+        lqwFriend.eq(Friend::getUid, UserThreadLocal.get().getId());
+        List<Friend> myFriends = friendDao.selectList(lqwFriend);
+        List<String> myFriendIds = new ArrayList<>();
+        myFriends.forEach(f -> {
+            myFriendIds.add(f.getFid());
+        });
+
         IPage<User> page = new Page<>(pageVo.getPageNum(), pageVo.getPageSize());
         LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<User>();
-        lqw.like(User::getName, name);
+        lqw.like(User::getName, name).notIn(User::getId, myFriendIds);
         IPage<User> userIPage1 = UserDao.selectPage(page, lqw);
+
         return userIPage1;
     }
 

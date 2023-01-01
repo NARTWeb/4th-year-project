@@ -1,10 +1,18 @@
 <template>
-  <el-dialog v-model="dialogVisible" :title="t('popWin.AddFriend')" width="60%" 
-  @open="openWin"
-  @close="closeWin">
+  <el-dialog
+    v-model="dialogVisible"
+    :title="t('popWin.AddFriend')"
+    width="60%"
+    @open="openWin"
+    @close="closeWin"
+  >
     <div class="all">
       <div class="search">
-        <el-input id="searchF" v-model="input" :placeholder="t('friendIHave.searchFriend')">
+        <el-input
+          id="searchF"
+          v-model="input"
+          :placeholder="t('friendIHave.searchFriend')"
+        >
           <template #append>
             <el-button @click="searchFr" :icon="Search" />
           </template>
@@ -12,9 +20,23 @@
       </div>
       <div class="list">
         <el-scrollbar height="65vh" id="all">
-          <ul v-infinite-scroll="tLoad" class="infinite-list">
-            <li v-for="friend in friendList" :key="friend.id">
+          <ul
+            v-infinite-scroll="tLoad"
+            class="infinite-list"
+            :infinite-scroll-distance="10"
+          >
+            <li v-for="friend in gList" :key="friend.id">
               <result-item
+                v-if="friend.uname"
+                :avatar="friend.avatar"
+                :id="friend.id"
+                :username="friend.uname"
+                :button-label="t('memberList.add')"
+                @delItem="close"
+                @btnFunc="addBtn"
+              ></result-item>
+              <result-item
+                v-else
                 :avatar="friend.avatar"
                 :id="friend.id"
                 :username="friend.name"
@@ -55,13 +77,13 @@ const friendList = reactive([]);
 const loading = ref(false);
 const nodata = ref(false);
 const page = reactive({
-  pageSize: 5,
+  pageSize: 7,
   pageNum: 1,
 });
 var input = ref("");
 const props = defineProps({
   dialogVisible: Boolean,
-  list: Array,  
+  list: Array,
 });
 const emit = defineEmits(["closeWin", "addFun"]);
 
@@ -78,7 +100,7 @@ function pop() {
 function searchFr() {
   let temp = input.value;
   //console.log("temp " + temp);
-  if(temp == undefined || temp == "") {
+  if (temp == undefined || temp == "") {
     temp = "-1";
   }
   searchFriend(token.value, temp, page)
@@ -86,6 +108,7 @@ function searchFr() {
       if (res.data.success) {
         friendList.splice(0, friendList.length);
         friendList.push(...res.data.data);
+        Fstore.gList = getDiff(friendList, props.list);
       } else {
         ElMessage({
           type: "error",
@@ -129,6 +152,6 @@ function openWin() {
   padding: 0;
 }
 .list {
-    width: 100%;
+  width: 100%;
 }
 </style>

@@ -88,7 +88,7 @@ public class StatusController {
         } else {
             uid = UserThreadLocal.get().getId();
             List<Status> statuses;
-            statuses = statusService.showAllStatusList(uid);
+            statuses = statusService.showAllStatusList(uid, page);
             //List<Status> statuses = statusService.showAllStatusList(uid);
 //            List<Status> statuses = statusService.showStatusList(uid, page);
 //            return Result.success(statuses);

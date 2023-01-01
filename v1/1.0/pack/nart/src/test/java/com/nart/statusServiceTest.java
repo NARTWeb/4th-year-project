@@ -1,6 +1,9 @@
 package com.nart;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nart.pojo.Status;
+import com.nart.pojo.User;
 import com.nart.service.StatusService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,8 @@ public class statusServiceTest {
 
     @Test
     public void showAllStatusList(){
-        List<Status> statuses = statusService.showAllStatusList("1574989639444471809");
+        IPage<User> page = new Page<>(1, 5);
+        List<Status> statuses = statusService.showAllStatusList("1574989639444471809", page);
         System.out.println(statuses);
     }
 

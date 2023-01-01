@@ -147,8 +147,8 @@ public class FriendServiceImpl implements FriendService {
     public boolean delFriend(String fid,String uid) {
         LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
         lqw.eq(Friend::getFid, fid);
+        lqw.eq(Friend::getUid, uid).or();
         lqw.eq(Friend::getFid, uid);
-        lqw.eq(Friend::getUid, uid);
         lqw.eq(Friend::getUid, fid);
         int delete = friendDao.delete(lqw);
 
@@ -223,6 +223,7 @@ public class FriendServiceImpl implements FriendService {
             friend.setFid(senderId);
             friend.setUid(ReceiverId);
             friendDao.insert(friend);
+            friend.setId(null);
             friend.setFid(ReceiverId);
             friend.setUid(senderId);
             friendDao.insert(friend);
