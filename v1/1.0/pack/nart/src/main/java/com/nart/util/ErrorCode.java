@@ -56,6 +56,7 @@ public enum ErrorCode {
     UPLOAD_ERROR(80401, "upload picture failed"),
     UPLOAD_REPEAT_ERROR(80402, "upload repeat"),
     UPLOAD_DELETE_ERROR(80403, "delete picture fail"),
+    ALREADY_DELETE_ERROR(80404, "already deleted"),
     TOKEN_ERROR(90001, "token illegal"),
 
     /**

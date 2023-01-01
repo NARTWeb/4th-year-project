@@ -32,12 +32,12 @@ public class UploadController {
     @Autowired
     private LoadDataInDataBase ld;
 
-    @PostMapping
-    public Result upload(@RequestPart("file") MultipartFile file) throws IOException {
+    @PostMapping("{album}")
+    public Result upload(@RequestPart("file") MultipartFile file, @PathVariable("album") Integer album) throws IOException {
         String name = file.getOriginalFilename();
         String suffix = StringUtils.substringAfterLast(name, ".");
         String fileName = UUID.randomUUID().toString() + "." + suffix;
-        String s = ImgtuUtil.uploadPic(file.getBytes(), fileName);
+        String s = ImgtuUtil.uploadPic(file.getBytes(), fileName, album);
 
         if(StringUtils.isNotBlank(s)) {
             if(s.equals("400")) {
@@ -46,7 +46,6 @@ public class UploadController {
             return Result.success(s);
         }
         return Result.fail(ErrorCode.UPLOAD_ERROR);
-
     }
 
     @PutMapping("delete/{id}")
@@ -54,14 +53,13 @@ public class UploadController {
         String s = ImgtuUtil.deletePic(id);
 
         if(StringUtils.isNotBlank(s)) {
-            if(s.equals("400")) {
-                return Result.fail(ErrorCode.UPLOAD_REPEAT_ERROR);
-            }
-            return Result.success(s);
+            if(s.equals("400"))
+                return Result.fail(ErrorCode.ALREADY_DELETE_ERROR);
+            else if (s.equals("200"))
+                return Result.success(s);
         }
         return Result.fail(ErrorCode.UPLOAD_DELETE_ERROR);
     }
-
 
     @GetMapping("test")
     public Result test() {

@@ -120,7 +120,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(localStorage.getItem('token'));
+  //console.log(localStorage.getItem('token'));
 	if (!localStorage.getItem('token')) {
 		if (to.name == "login" || to.name == "register") {
 			next();

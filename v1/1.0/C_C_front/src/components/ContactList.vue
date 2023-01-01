@@ -176,6 +176,7 @@ function detectHidden(state) {
   }
   return "infinite-list-item";
 }
+// test contact list with fake data
 function test() {
   const testList = [
     {
@@ -269,11 +270,13 @@ function test() {
   }
   loading.value = false;
 }
+// load contact list function
 function load() {
   if (!loading.value && !nodata) {
     forceLoad();
   }
 }
+// load function
 function forceLoad() {
   loading.value = true;
     let result;
@@ -324,6 +327,7 @@ function forceLoad() {
         loading.value = false;
       });
 }
+// hide a contact member
 function hide(member) {
   member.state = 1;
   selectMember = {};
@@ -363,6 +367,7 @@ function hide(member) {
     })
     .finally(() => {});
 }
+// mute a contact member
 function mute(member) {
   member.state = 2;
   selectMember = {};
@@ -402,6 +407,7 @@ function mute(member) {
     })
     .finally(() => {});
 }
+// unset a contact member to primative state
 function unset(member) {
   member.state = 0;
   selectMember = {};
@@ -441,6 +447,7 @@ function unset(member) {
     })
     .finally(() => {});
 }
+// delete a contact member from the contact list
 function del(id) {
   dialogVisible.value = false;
   let result;
@@ -483,6 +490,7 @@ function del(id) {
     })
     .finally(() => {});
 }
+// go to the contact member chatroom
 function toChat(member) {
   member.newMsg = false;
   if (props.isFriend) {
@@ -498,6 +506,7 @@ function toChat(member) {
     router.push({ name: "chatRoom", params: { id: "g" + member.id } });
   }
 }
+// update new message if there are
 function noticeNewMsg(isFriend, id, isNew) {
   if(isFriend) {
     if(props.isFriend) {
@@ -517,6 +526,7 @@ function noticeNewMsg(isFriend, id, isNew) {
     }
   }
 }
+// show contact member name
 function showName(name) {
   name = String(name);
   if(name.length > 5) {

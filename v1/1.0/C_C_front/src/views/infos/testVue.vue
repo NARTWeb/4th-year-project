@@ -7,7 +7,6 @@
       accept="image/png,image/gif,image/jpg,image/jpeg"
       :file-list="file"
       :auto-upload="false"
-      :show-file-list="false"
       :on-change="handleChange"
     >
       <i class="el-icon-plus"></i>
@@ -45,7 +44,7 @@ function submitUpload() {
   }
 
   // send request
-  uploadPic(formData)
+  uploadPic(formData, 3)
     .then((res) => {
       if (res.data.success) {
         realAvatar.value = res.data.data;
@@ -72,6 +71,9 @@ function submitUpload() {
 }
 
 function del(url:String) {
+  if (url == "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png") {
+    return;
+  }
   let head = url.lastIndexOf("/") + 1;
   let tail = url.lastIndexOf(".");
   let id = url.substring(head, tail);

@@ -92,7 +92,7 @@ function uploadPics() {
         let formData = new FormData();
         formData.append("file", f[i]);
         formData.append("file", f[i+1]);
-        uploadPic(formData)
+        uploadPic(formData, 0)
           .then((res) => {
             if (res.data.success) {
               pics.push(res.data.data);

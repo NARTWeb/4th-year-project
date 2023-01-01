@@ -40,6 +40,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/user/login")
                 .excludePathPatterns("/user/register")
                 .excludePathPatterns("/upload")
-                .excludePathPatterns("/upload/test");
+                .excludePathPatterns("/upload/*")
+                .excludePathPatterns("/upload/delete/*");
     }
 }

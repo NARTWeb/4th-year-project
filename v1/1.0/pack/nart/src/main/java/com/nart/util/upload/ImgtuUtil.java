@@ -36,9 +36,12 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public class ImgtuUtil {
-    static final String IMGTU_USER_NAME = "zirui";
-    static final String IMGTU_PASSWORD = "q1a2z3";
-    static final String IMGTU_ALBUMID = "fpQv6";
+    static final String IMGTU_USER_NAME = "nart";
+    static final String IMGTU_PASSWORD = "123456";
+    static final String CHAT_ALBUMID = "4Yrex";
+    static final String STATUS_ALBUMID = "4YBO1";
+    static final String GROUPS_ALBUMID = "4Y0yR";
+    static final String USERS_ALBUMID = "4Ywl9";
 
     static final private String IMGTU_INIT_URL = "https://imgse.com/init";
 
@@ -192,7 +195,7 @@ public class ImgtuUtil {
         }
     }
 
-    public static JsonObject upload(byte[] bytes, String fileName, ContentType fileType) throws IOException {
+    public static JsonObject upload(byte[] bytes, String fileName, ContentType fileType, String album) throws IOException {
         log.info("-------->>>> PicBeds - Upload <<<<--------");
         if (!ensureLogin()) {
             log.error("Imgtu [UPLOAD]：fail：Service unavailable");
@@ -212,7 +215,7 @@ public class ImgtuUtil {
             params.put("timestamp", new StringBody(Long.toString(System.currentTimeMillis()), ContentType.MULTIPART_FORM_DATA));
             params.put("auth_token", new StringBody(authToken, ContentType.MULTIPART_FORM_DATA));
             params.put("nsfw", new StringBody("0", ContentType.MULTIPART_FORM_DATA));
-            params.put("album_id", new StringBody(IMGTU_ALBUMID, ContentType.MULTIPART_FORM_DATA));
+            params.put("album_id", new StringBody(album, ContentType.MULTIPART_FORM_DATA));
 
             CloseableHttpResponse httpResponse = HttpUtil.multipart(IMGTU_OPERATE_URL, new HashMap<>(0), headers, params);
             String httpRawString = EntityUtils.toString(httpResponse.getEntity());
@@ -263,7 +266,7 @@ public class ImgtuUtil {
         return loginTimestamp + LOGIN_VALID_DURATION < System.currentTimeMillis();
     }
 
-    public static String uploadPic(File file, String fileName) throws IOException {
+    public static String uploadPic(File file, String fileName, Integer album) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] bytes = new byte[0];
         try {
@@ -276,11 +279,18 @@ public class ImgtuUtil {
         } finally {
             baos.close();
         }
-        return uploadPic(bytes, fileName);
+        return uploadPic(bytes, fileName, album);
     }
 
-    public static String uploadPic(byte[] bytes, String fileName) throws IOException {
-        JsonObject testFile = upload(bytes, fileName, FileType.checkType(fileName));
+    public static String uploadPic(byte[] bytes, String fileName, Integer album) throws IOException {
+        String albumId;
+        switch (album) {
+            case 0: albumId = STATUS_ALBUMID; break;
+            case 1: albumId = USERS_ALBUMID; break;
+            case 2: albumId = GROUPS_ALBUMID; break;
+            default: albumId = CHAT_ALBUMID;
+        }
+        JsonObject testFile = upload(bytes, fileName, FileType.checkType(fileName), albumId);
         assert testFile != null;
         Object x = testFile.get("status_code");
         if (x.toString().equals("400")) {
@@ -302,6 +312,6 @@ public class ImgtuUtil {
         JsonObject jsonObject = delete(id);
         assert jsonObject != null;
         Object x = jsonObject.get("status_code");
-        return "";
+        return x.toString();
     }
 }

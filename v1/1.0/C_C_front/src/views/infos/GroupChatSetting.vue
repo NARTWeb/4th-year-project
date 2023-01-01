@@ -14,12 +14,14 @@
         <div class="add-btn">
           <el-upload
             ref="uploadRef"
+            :on-change="handleChange"
+            :on-exceed="handleExceed"
             class="upload-demo"
             accept="image/jpeg,image/png,image/jpg"
-            action="string"
-            :http-request="uploadFun"
+            action="#"
+            :file-list="file"
             :limit="1"
-            :auto-upload="true"
+            :auto-upload="false"
             :show-file-list="false"
           >
             <template #trigger>
@@ -103,12 +105,15 @@
         </div>
       </div>
     </div>
-    <PopWinFriendList :dialog-visible="dialogFormVisible" :list="inviteList"
+    <PopWinFriendList
+      :dialog-visible="dialogFormVisible"
+      :list="inviteList"
       @closeWin="closePop"
-      @addFun="addToList"></PopWinFriendList>
+      @addFun="addToList"
+    ></PopWinFriendList>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { onMounted } from "vue";
 import { reactive, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
@@ -116,13 +121,17 @@ import useUserStore from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import InfoItem from "@/components/InfoItem.vue";
 import { format } from "@/utils/time.js";
-import { showMemberList } from "@/api/group.js";
+import {
+  showMemberList,
+  changeGroupInfo,
+  sendGroupInvite,
+} from "@/api/group.js";
 import { ElMessage } from "element-plus";
 import { Plus, Minus } from "@element-plus/icons-vue";
-import { changeGroupInfo } from "@/api/group";
-import { uploadPic } from "@/api/upload";
+import { uploadPic, deletePic } from "@/api/upload";
 import PopWinFriendList from "@/views/searchAndCreate/PopWinFriendList.vue";
-import { sendGroupInvite } from "@/api/group";
+import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
+import { genFileId } from "element-plus";
 
 const store = useUserStore();
 const { token } = storeToRefs(store);
@@ -132,11 +141,13 @@ const gNotice = ref(store.getNotice);
 const gAvatar = ref(store.getGroupAvatar);
 const { t } = useI18n();
 const counter = ref(0);
-const memberList = reactive([]);
+const memberList = reactive([] as []);
 const inviteList = reactive([]);
 var imgParent = ref("circle");
-const uploadRef = ref("");
 const dialogFormVisible = ref(false);
+
+const uploadRef = ref<UploadInstance>();
+const file = reactive([]);
 
 function toPopWin() {
   dialogFormVisible.value = true;
@@ -231,30 +242,120 @@ function test() {
     memberList.push(...testList);
   }
 }
-function uploadFun() {
-  uploadPic(uploadRef)
-    .then((res) => {
-      if (res.data.success) {
-        gAvatar.value = res.data.data;
-      } else {
-        ElMessage({
-          type: "error",
-          message: res.data.msg,
-          showClose: true,
-          grouping: true,
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage({
-        type: "error",
-        message: t("chatInputBox.uploadPicError"),
-        showClose: true,
-        grouping: true,
-      });
-      console.log(err);
-    });
+// picture list length exceed 1 logic
+const handleExceed: UploadProps["onExceed"] = (files) => {
+  uploadRef.value!.clearFiles();
+  const file = files[0] as UploadRawFile;
+  file.uid = genFileId();
+  uploadRef.value!.handleStart(file);
 }
+// picture list change logic
+function handleChange(f, fileList) {
+  let reader = new FileReader();
+  reader.readAsDataURL(f.raw);
+  reader.onload = (e) => {
+    file.push({ name: f.raw.name, url: e.target.result });
+  };
+  file.push(f.raw);
+  fileList = file;
+  uploadFun();
+}
+// delete original picture from cloud
+function del(url: String) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (
+        url ==
+        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+      ) {
+        resolve("No need to delete");
+      }
+      if (!url.startsWith("https://s1.ax1x.com")) {
+        resolve("Cannot Delete");
+      }
+      let head = url.lastIndexOf("/") + 1;
+      let tail = url.lastIndexOf(".");
+      let id = url.substring(head, tail);
+
+      deletePic(id)
+        .then((res) => {
+          if (res.data.success) {
+            ElMessage({
+              type: "success",
+              message: t("chatInputBox.deletePicSuccess"),
+              showClose: true,
+              grouping: true,
+            });
+            resolve("Delete Success");
+          } else {
+            ElMessage({
+              type: "error",
+              message: res.data.msg,
+              showClose: true,
+              grouping: true,
+            });
+            resolve("Delete Fail");
+          }
+        })
+        .catch((err) => {
+          ElMessage({
+            type: "error",
+            message: t("chatInputBox.deletePicError"),
+            showClose: true,
+            grouping: true,
+          });
+          console.log(err);
+          resolve("Delete Error");
+        });
+    }, 500);
+  });
+}
+// upload new picture to cloud
+function submitUpload() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let formData = new FormData();
+      let f = file;
+      for (let i = 0; i < f.length; i++) {
+        formData.append("file", f[i]);
+      }
+      // send request
+      uploadPic(formData, 2)
+        .then((res) => {
+          if (res.data.success) {
+            gAvatar.value = res.data.data;
+            resolve("Upload New Avatar Success!");
+          } else {
+            ElMessage({
+              type: "error",
+              message: res.data.msg,
+              showClose: true,
+              grouping: true,
+            });
+          }
+        })
+        .catch((err) => {
+          ElMessage({
+            type: "error",
+            message: t("chatInputBox.uploadPicError"),
+            showClose: true,
+            grouping: true,
+          });
+          console.log(err);
+        });
+    }, 500);
+  });
+}
+// overall upload picture logic
+async function uploadFun() {
+  await del(gAvatar.value);
+  await submitUpload();
+  file.length = 0;
+  uploadRef.value!.clearFiles();
+  store.groupAvatar = gAvatar.value;
+  changeGAvatar();
+}
+// get group members HTTP
 function getMember() {
   showMemberList(token.value, gId.value)
     .then((res) => {
@@ -278,21 +379,25 @@ function getMember() {
       });
     });
 }
+// change group name
 function changeGName() {
   changeInfo(t("groupSetting.changeName"), t("groupSetting.changeNameError"));
 }
+// change group notice
 function changeGNotice() {
   changeInfo(
     t("groupSetting.changeNotice"),
     t("groupSetting.changeNoticeError")
   );
 }
+// change group avatar
 function changeGAvatar() {
   changeInfo(
     t("groupSetting.changeAvatar"),
     t("groupSetting.changeAvatarError")
   );
 }
+// change group info: common code in change functions
 function changeInfo(successMsg, ErrorMsg) {
   const gInfo = {
     id: gId.value,
@@ -328,43 +433,47 @@ function changeInfo(successMsg, ErrorMsg) {
       console.log(err);
     });
 }
+// kickout group members [not used]
 function delMember() {
   imgParent.value =
     imgParent.value == "circle" ? "del-circle circle" : "circle";
 }
+// on delete member mode
 function onDel() {
   if (imgParent.value == "circle") {
     return;
   }
 }
+// invite new group members
 function addToList(obj) {
   inviteList.push(obj);
   let inviteInfo = {
-      groupId: gId.value,
-      receiverId: obj.id,
-      message: "",
-    };
-    sendGroupInvite(token.value, inviteInfo)
-      .then((res) => {
-        if (!res.data.success) {
-          ElMessage({
-            type: "error",
-            message: res.data.msg,
-            showClose: true,
-            grouping: true,
-          });
-        }
-      })
-      .catch((err) => {
+    groupId: gId.value,
+    receiverId: obj.id,
+    message: "",
+  };
+  sendGroupInvite(token.value, inviteInfo)
+    .then((res) => {
+      if (!res.data.success) {
         ElMessage({
           type: "error",
-          message: t("createGroup.inviteError"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
-        console.log(err);
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+        type: "error",
+        message: t("createGroup.inviteError"),
+        showClose: true,
+        grouping: true,
       });
+      console.log(err);
+    });
 }
+// show hover is working
 function showHover() {
   alert("hover");
 }
@@ -410,9 +519,9 @@ onMounted(() => {
     height: 300px;
   }
 }
-@media screen and (max-height: 699px) and (min-height: 600px){
+@media screen and (max-height: 699px) and (min-height: 600px) {
   .member {
-   height: 200px;
+    height: 200px;
   }
 }
 @media screen and (max-height: 599px) {
@@ -434,7 +543,7 @@ onMounted(() => {
 .avatar-and-members {
   flex-flow: row nowrap;
 }
-@media screen and (max-height:540px) {
+@media screen and (max-height: 540px) {
   .avatar-and-members {
     margin-top: -20px;
   }
@@ -518,7 +627,7 @@ img {
     top: -40px;
   }
 }
-@media screen and (max-height: 909px){
+@media screen and (max-height: 909px) {
   .changeable {
     width: 100%;
     padding: 0;
@@ -537,9 +646,9 @@ img {
   }
   @media screen and (max-height: 599px) {
     .changeable {
-    width: 100%;
-    padding: 0;
-    margin-top: -50px;
+      width: 100%;
+      padding: 0;
+      margin-top: -50px;
     }
   }
 }

@@ -1,13 +1,13 @@
 import req from "@/request";
 
-export function uploadPic(pic) {
+export function uploadPic(pic, album) {
   return req({
     headers: {
       "Content-Type":
         "multipart/form-data;boundary=<calculated when request is sent",
     },
     contentType: "application/json",
-    url: "/upload",
+    url: `/upload/${album}`,
     method: "post",
     data: pic,
   });

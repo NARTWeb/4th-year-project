@@ -68,6 +68,10 @@ function clearText() {
 }
 function saveToSession(msg) {}
 function sendMsg() {
+  input.value = input.value.trim();
+  if (input.value.length == 0) {
+    return;
+  }
   emit("sendMsg", input.value, "text");
   clearText();
 }
@@ -83,7 +87,7 @@ function submitUpload() {
       formData.append("file", f[i]);
     }
     // send request
-    uploadPic(formData)
+    uploadPic(formData, 3)
       .then((res) => {
         if (res.data.success) {
           picSet = res.data.data;
