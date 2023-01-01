@@ -1,6 +1,7 @@
 package com.nart.controller;
 
 import com.nart.common.LogA;
+import com.nart.pojo.Comment;
 import com.nart.pojo.Status;
 import com.nart.pojo.User;
 import com.nart.service.AdminService;
@@ -9,6 +10,7 @@ import com.nart.service.UserService;
 import com.nart.util.ErrorCode;
 import com.nart.util.Result;
 import com.nart.util.UserThreadLocal;
+import com.nart.vo.CommentVo;
 import com.nart.vo.StatusVo;
 import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class AdminController {
 
     @LogA
     @GetMapping("allUser")
-    public Result showAllUserInfo(){
+    public Result showAllUserInfo() {
         List<User> users = adminService.showAllUserInfo();
         List<UserVo> userVos = new ArrayList<>();
         UserVo userVo = new UserVo();
@@ -36,7 +38,7 @@ public class AdminController {
             UserVo transfer = userVo.transfer(user);
             userVos.add(transfer);
         }
-        if(userVos == null) {
+        if (userVos == null) {
             Result.fail(ErrorCode.USER_NOT_EXIST);
         }
 
@@ -45,9 +47,9 @@ public class AdminController {
 
     @LogA
     @GetMapping("allUserNum")
-    public Result showAllUserNum(){
+    public Result showAllUserNum() {
         int i = adminService.showAllUserNum();
-        if (i<0){
+        if (i < 0) {
             Result.fail(ErrorCode.UNDEFINED);
         }
 
@@ -56,7 +58,7 @@ public class AdminController {
 
     @LogA
     @GetMapping("onlineUser")
-    public Result showOnlineUserInfo(){
+    public Result showOnlineUserInfo() {
         List<User> users = adminService.showOnlineUserInfo();
 
         List<UserVo> userVos = new ArrayList<>();
@@ -65,7 +67,7 @@ public class AdminController {
             UserVo transfer = userVo.transfer(user);
             userVos.add(transfer);
         }
-        if(userVos == null) {
+        if (userVos == null) {
             Result.fail(ErrorCode.USER_NOT_EXIST);
         }
         return Result.success(userVos);
@@ -73,10 +75,10 @@ public class AdminController {
 
     @LogA
     @GetMapping("onlineUserNum")
-    public Result showOnlineUserNum(){
+    public Result showOnlineUserNum() {
         int i = adminService.showOnlineUserNum();
 
-        if (i<0){
+        if (i < 0) {
             Result.fail(ErrorCode.UNDEFINED);
         }
 
@@ -85,7 +87,7 @@ public class AdminController {
 
     @LogA
     @GetMapping("allStatus")
-    public Result showAllStatusInfo(){
+    public Result showAllStatusInfo() {
 
         List<Status> statuses = adminService.showAllStatusInfo();
         List<StatusVo> statusVos = new ArrayList<>();
@@ -94,7 +96,7 @@ public class AdminController {
             StatusVo transfer = statusVo.transfer(status);
             statusVos.add(transfer);
         }
-        if(statusVos == null) {
+        if (statusVos == null) {
             Result.fail(ErrorCode.UNDEFINED);
         }
         return Result.success(statusVos);
@@ -102,13 +104,85 @@ public class AdminController {
 
     @LogA
     @GetMapping("allStatusNum")
-    public Result showAllStatusNum(){
+    public Result showAllStatusNum() {
         int i = adminService.showAllStatusNum();
-        if (i<0){
+        if (i < 0) {
             Result.fail(ErrorCode.UNDEFINED);
         }
         return Result.success(i);
     }
+
+    @LogA
+    @GetMapping("allComment")
+    public Result showAllCommentInfo() {
+
+        List<Comment> comments = adminService.showAllCommentInfo();
+
+        List<CommentVo> commentVos = new ArrayList<>();
+        CommentVo commentVo = new CommentVo();
+        for (Comment comment : comments) {
+            CommentVo transfer = commentVo.transfer(comment);
+            commentVos.add(transfer);
+        }
+        if (commentVos == null) {
+            Result.fail(ErrorCode.UNDEFINED);
+        }
+        return Result.success(commentVos);
+    }
+
+    @LogA
+    @GetMapping("allCommentNum")
+    public Result showAllCommentNum() {
+        int i = adminService.showAllCommentNum();
+        if (i < 0) {
+            Result.fail(ErrorCode.UNDEFINED);
+        }
+        return Result.success(i);
+    }
+
+    @LogA
+    @GetMapping("searchUser/{id}")
+    public Result searchUser(@PathVariable("id") String id) {
+        User user = adminService.searchUser(id);
+
+        if (user == null) {
+            Result.fail(ErrorCode.UNDEFINED);
+        }
+        return Result.success(user);
+    }
+
+    @LogA
+    @GetMapping("blockUser/{id}")
+    public Result blockUser(@PathVariable("id") String id) {
+        boolean b = adminService.blockUser(id);
+        if (b == false) {
+            Result.fail(ErrorCode.UNDEFINED);
+        }
+        return Result.success(b);
+    }
+
+    @LogA
+    @GetMapping("deleteStatus/{id}")
+    public Result deleteStatus(@PathVariable("id") String id) {
+
+        boolean b = adminService.deleteStatus(id);
+        if (b == false) {
+            Result.fail(ErrorCode.UNDEFINED);
+        }
+        return Result.success(b);
+    }
+
+    @LogA
+    @GetMapping("deleteComment/{id}")
+    public Result deleteComment(@PathVariable("id") String id) {
+        boolean b = adminService.deleteComment(id);
+
+        if (b == false) {
+            Result.fail(ErrorCode.UNDEFINED);
+        }
+        return Result.success(b);
+    }
+
 
 //
 //    @LogA
@@ -163,7 +237,7 @@ public class AdminController {
 //        userService.upDatetime(UserThreadLocal.get().getId());
 
 //        return Result.success(transfer);
-    }
+//    }
 
 //    @LogA
 //    @PutMapping("changeInfo")
@@ -175,3 +249,4 @@ public class AdminController {
 //        return Result.fail(ErrorCode.CHANGE_INFO_ERROR);
 //    }
 //}
+    }
