@@ -14,6 +14,7 @@ const CheckAllMyStatus = () => import('@/views/lists/CheckAllMyStatus.vue')
 const ChatRoom = () => import('@/views/chat/ChatRoom.vue')
 const CheckFriendInfo = () => import('@/views/infos/CheckFriendInfo.vue')
 const EditMyInfo = () => import('@/views/infos/EditMyInfo.vue')
+const testVue = () => import('@/views/infos/testVue.vue')
 const GroupChatSetting = () => import('@/views/infos/GroupChatSetting.vue')
 const Login = () => import('@/views/loginAndRegister/Login.vue')
 const Register = () => import('@/views/loginAndRegister/Register.vue')
@@ -99,6 +100,11 @@ const router = createRouter({
           component: EditMyInfo
         },
         {
+          path: '/testVue',
+          name: 'testVue',
+          component: testVue
+        },
+        {
           path: '/groupChatInfo',
           name: 'groupChatInfo',
           component: GroupChatSetting
@@ -114,7 +120,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(localStorage.getItem('token'));
+  //console.log(localStorage.getItem('token'));
 	if (!localStorage.getItem('token')) {
 		if (to.name == "login" || to.name == "register") {
 			next();

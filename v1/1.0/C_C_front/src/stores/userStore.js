@@ -36,10 +36,20 @@ const useUserStore = defineStore("user", {
   },
   actions: {
     updategroupInfo(gInfo){
-      this.groupId = gInfo.gid;
-      this.notice = gInfo.note;
-      this.groupName = gInfo.gName;
-      this.groupAvatar = gInfo.gAvatar;
+      if (gInfo != null && gInfo != {}) {
+        if(gInfo.gid != null && gInfo.gid != ""){
+          this.groupId = gInfo.gid;
+        }
+        if(gInfo.notice != null && gInfo.notice != ""){
+          this.notice = gInfo.note;
+        }
+        if(gInfo.gName != null && gInfo.gName != ""){
+          this.groupName = gInfo.gName;
+        }
+        if(gInfo.gAvatar != null && gInfo.gAvatar != ""){
+          this.groupAvatar = gInfo.gAvatar;
+        }
+      }
     },
     login(user) {
       return new Promise((resolve, reject) => {

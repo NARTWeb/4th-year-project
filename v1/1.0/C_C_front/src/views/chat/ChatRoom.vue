@@ -63,6 +63,7 @@ const page = reactive({
 var title = ref("");
 const emit = defineEmits(["wSend"]);
 
+// test loading chat history with fake data
 function tList() {
   if(msgList.length > 30) {
     return;
@@ -107,6 +108,7 @@ function tList() {
     counter.value += 2;
   }
 }
+// load chat history function 
 function load() {
   if (!nodata.value && !loading.value) {
     loading.value = true;
@@ -155,6 +157,7 @@ function load() {
       });
   }
 }
+// websocket send message function
 function wsSend(input, type) {
   let roomType = isGroup.value ? "group" : "friend";
   let json = {
@@ -168,6 +171,7 @@ function wsSend(input, type) {
   };
   emit("wSend", json);
 }
+// prepare sending message 
 function sendMsg(input, type) {
     let date = new Date();
     let tempMsg = {
@@ -190,6 +194,7 @@ function sendMsg(input, type) {
     wsSend(input, type);
     sendToBack(input, type);
 }
+// HTTP send message function
 function sendToBack(input, type) {
   let msgInfo = {
     chatId: roomId.value,
@@ -224,6 +229,7 @@ function sendToBack(input, type) {
     })
     .finally(() => {});
 }
+// receive message
 function receiveMsg(msgInfo) {
   let date = new Date();
   let tempMsg = {
@@ -244,9 +250,11 @@ function receiveMsg(msgInfo) {
   }
   msgList.push(tempMsg);
 }
+// send picture message
 function addPic(img) {
   sendMsg(img, "img");
 }
+// set page parameters
 function setParam() {
   let str = route.params.id;
   let temp = "";
@@ -275,6 +283,7 @@ function setParam() {
   page.pageNum = 1;
   page.pageSize = 10;
 }
+// check if uname is the current user
 function isMe(uname) {
   if(store.name == uname) {
     return true;
@@ -282,8 +291,9 @@ function isMe(uname) {
     return false;
   }
 }
+// leave room and update leave time
 function leave() {
-  console.log("leave Time!!!!!!!!!!!!!!!!!!!");
+  //console.log("leave Time!!!!!!!!!!!!!!!!!!!");
   leaveRoom(token.value, roomId.value, !isGroup.value)
   .then((res) => {
       if (res.data.success) {
@@ -307,11 +317,11 @@ function leave() {
     });
 }
 onMounted(() => {
-  console.log("mount");
+  //console.log("mount");
   setParam();
 });
 onUpdated(() => {
-  console.log("update");
+  //console.log("update");
   leave();
   setParam();
   msgList.splice(0, msgList.length);

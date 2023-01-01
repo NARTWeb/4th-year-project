@@ -11,7 +11,7 @@
           <div v-if="props.type == 'text'" class="text">
             {{ props.message }}
           </div>
-          <div v-else-if="props.type == 'picture'">
+          <div v-else-if="props.type == 'img'">
             <el-image
               class="img"
               :src="props.message"
@@ -39,7 +39,7 @@
           <div v-if="props.type == 'text'" class="text">
             {{ props.message }}
           </div>
-          <div v-else-if="props.type == 'picture'">
+          <div v-else-if="props.type == 'img'">
             <el-image
               class="img"
               :src="props.message"

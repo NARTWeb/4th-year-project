@@ -10,12 +10,14 @@
             <div class="text">{{ $t("createGroup.avatarLabel") }}</div>
             <el-upload
               ref="uploadRef"
+              :on-change="handleChange"
+              :on-exceed="handleExceed"
               class="upload-demo"
               accept="image/jpeg,image/png,image/jpg"
-              action="string"
-              :http-request="uploadFun"
+              action="#"
+              :file-list="file"
               :limit="1"
-              :auto-upload="true"
+              :auto-upload="false"
               :show-file-list="false"
             >
               <template #trigger>
@@ -78,16 +80,18 @@
     ></PopWinFriendList>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { computed, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { uploadPic } from "@/api/upload";
+import { uploadPic, deletePic } from "@/api/upload";
 import { createNewGroup, sendGroupInvite } from "@/api/group";
 import { storeToRefs } from "pinia";
 import useUserStore from "@/stores/userStore";
 import { ElMessage } from "element-plus";
+import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
 import PopWinFriendList from "./PopWinFriendList.vue";
+import { genFileId } from 'element-plus'
 
 const dialogFormVisible = ref(false);
 const store = useUserStore();
@@ -97,50 +101,130 @@ const { t } = useI18n();
 const img = ref(
   "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
 );
-const uploadRef = ref("");
-var gName = ref("");
-const groupName = computed({
-  get() {
-    return gName.value;
-  },
-  set(newValue) {
-    gName.value = newValue.trim();
-  },
-});
+const inviteList = reactive([]);
+const groupId = ref("");
+const groupName = ref('');
 const placeholder = computed({
   get() {
     return t("createGroup.groupNameHolder");
   },
 });
-const inviteList = reactive([]);
-const groupId = ref("");
-function uploadFun() {
-  uploadPic(uploadRef)
-    .then((res) => {
-      if (res.data.success) {
-        img.value = res.data.data;
-      } else {
-        ElMessage({
-          type: "error",
-          message: res.data.msg,
-          showClose: true,
-          grouping: true,
-        });
+
+const uploadRef = ref<UploadInstance>();
+const file = reactive([]);
+
+const handleExceed: UploadProps['onExceed'] = (files) => {
+  uploadRef.value!.clearFiles()
+  const file = files[0] as UploadRawFile
+  file.uid = genFileId()
+  uploadRef.value!.handleStart(file)
+}
+function handleChange(f, fileList) {
+  let reader = new FileReader();
+  reader.readAsDataURL(f.raw);
+  reader.onload = (e) => {
+    file.push({ name: f.raw.name, url: e.target.result });
+  };
+  file.push(f.raw);
+  fileList = file;
+  uploadFun();
+}
+function del(url: String) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (
+        url ==
+        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+      ) {
+        resolve("No need to delete");
       }
-    })
-    .catch((err) => {
-      ElMessage({
-        type: "error",
-        message: t("chatInputBox.uploadPicError"),
-        showClose: true,
-        grouping: true,
-      });
-      console.log(err);
-    });
+      if (
+        !url.startsWith('https://s1.ax1x.com')
+      ) {
+        resolve("Cannot Delete");
+      }
+      let head = url.lastIndexOf("/") + 1;
+      let tail = url.lastIndexOf(".");
+      let id = url.substring(head, tail);
+
+      deletePic(id)
+        .then((res) => {
+          if (res.data.success) {
+            ElMessage({
+              type: "success",
+              message: t("chatInputBox.deletePicSuccess"),
+              showClose: true,
+              grouping: true,
+            });
+            resolve("Delete Success");
+          } else {
+            ElMessage({
+              type: "error",
+              message: res.data.msg,
+              showClose: true,
+              grouping: true,
+            });
+            resolve("Delete Fail");
+          }
+        })
+        .catch((err) => {
+          ElMessage({
+            type: "error",
+            message: t("chatInputBox.deletePicError"),
+            showClose: true,
+            grouping: true,
+          });
+          console.log(err);
+          resolve("Delete Error");
+        });
+    }, 500);
+  });
+}
+function submitUpload() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let formData = new FormData();
+      let f = file;
+      for (let i = 0; i < f.length; i++) {
+        formData.append("file", f[i]);
+      }
+      
+      // send request
+      uploadPic(formData, 2)
+        .then((res) => {
+          if (res.data.success) {
+            img.value = res.data.data;
+            resolve("Upload New Avatar Success!");
+          } else {
+            ElMessage({
+              type: "error",
+              message: res.data.msg,
+              showClose: true,
+              grouping: true,
+            });
+          }
+        })
+        .catch((err) => {
+          ElMessage({
+            type: "error",
+            message: t("chatInputBox.uploadPicError"),
+            showClose: true,
+            grouping: true,
+          });
+          console.log(err);
+        });
+    }, 500);
+  });
+}
+async function uploadFun() {
+  await del(img.value);
+  await submitUpload();
+  file.length = 0;
+  uploadRef.value!.clearFiles();
 }
 function create() {
   let flag = false;
-  createNewGroup(token.value, gName.value)
+  createNewGroup(token.value, groupName.value.trim())
     .then((res) => {
       if (res.data.success) {
         groupId.value = res.data.data;
@@ -193,15 +277,15 @@ function create() {
         console.log(err);
       });
   }
-  if(flag) {
+  if (flag) {
     const info = {
-    gid: groupId.value,
-    note: "",
-    gName: gName,
-    gAvatar: img.value,
-  };
-  store.updategroupInfo(info);
-  router.push({ name: "chatRoom", params: { id: "g" + groupId.value } });
+      gid: groupId.value,
+      note: "",
+      gName: groupName.value.trim(),
+      gAvatar: img.value,
+    };
+    store.updategroupInfo(info);
+    router.push({ name: "chatRoom", params: { id: "g" + groupId.value } });
   }
 }
 function addToList(obj) {

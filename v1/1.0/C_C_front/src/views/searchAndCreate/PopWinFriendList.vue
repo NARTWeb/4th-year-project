@@ -77,7 +77,7 @@ function pop() {
 }
 function searchFr() {
   let temp = input.value;
-  console.log("temp " + temp);
+  //console.log("temp " + temp);
   if(temp == undefined || temp == "") {
     temp = "-1";
   }
@@ -105,14 +105,14 @@ function searchFr() {
     });
 }
 function tLoad() {
-  console.log("tLoad");
+  //console.log("tLoad");
   return Fstore.loadNewGFriends();
 }
 function closeWin() {
   emit("closeWin");
 }
 function openWin() {
-  console.log(props.list);
+  //console.log(props.list);
   Fstore.loadFirstGList(props.list);
 }
 </script>
