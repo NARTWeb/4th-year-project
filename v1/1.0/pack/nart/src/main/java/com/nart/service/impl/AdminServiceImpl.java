@@ -14,9 +14,11 @@ import com.nart.util.RedisUtil;
 import com.nart.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
@@ -56,17 +58,19 @@ public class AdminServiceImpl implements AdminService {
 
 
 
-
+//    @Transactional
     @Override
     public List<User> showAllUserInfo() {
         List<User> users = userDao.selectList(null);
         return users;
     }
 
+//    @Transactional
     @Override
     public int showAllUserNum() {
         List<User> users = userDao.selectList(null);
         int size = users.size();
+//        int i = 1/0;
         return size;
     }
 
@@ -126,10 +130,21 @@ public class AdminServiceImpl implements AdminService {
         return user;
     }
 
+
     @Override
     public boolean blockUser(String id) {
         User user = userDao.selectById(id);
         user.setState(1);
+        int i = userDao.updateById(user);
+        return i>0;
+    }
+
+
+    @Override
+    public boolean setonline(String id) {
+        User user = userDao.selectById(id);
+        user.setUserOnline(1);
+        int a = 1/0;
         int i = userDao.updateById(user);
         return i>0;
     }
@@ -170,4 +185,6 @@ public class AdminServiceImpl implements AdminService {
     public boolean checkAdmin() {
         return false;
     }
+
+
 }

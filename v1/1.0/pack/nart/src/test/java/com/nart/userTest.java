@@ -40,6 +40,12 @@ public class userTest {
     }
 
     @Test
+    public void test(){
+        adminService.blockUser("1574989632599367682");
+        adminService.setonline("1574989632599367682");
+
+    }
+    @Test
     public void lock(){
         boolean b = adminService.blockUser("1574989632599367682");
         System.out.println(b);
