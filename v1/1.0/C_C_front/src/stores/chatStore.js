@@ -53,11 +53,11 @@ export const useChatStore = defineStore("chat", {
         }
       }
       if (count < pageSize) {
-        // if(isFriend) {
-        //     loadFriend();
-        // } else {
-        //     loadGroup();
-        // }
+        if(isFriend) {
+            loadFriend();
+        } else {
+            loadGroup();
+        }
         test(isFriend);
       }
     },

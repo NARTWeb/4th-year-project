@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nart.service.GroupService;
 import com.nart.util.EncryptUtil;
 import com.nart.util.GsonFormatter;
-import com.nart.util.RedisUtil;
 import com.nart.vo.WSMsg;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,9 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -28,6 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @ServerEndpoint(value="/chat",configurator = GetHttpSessionConfigurator.class)
 @Component
+@Slf4j
 public class ChatEndPoint {
     // stores all online users
     private static final Map<String, ChatEndPoint> onlineUsers = new ConcurrentHashMap<>();
@@ -47,6 +50,10 @@ public class ChatEndPoint {
         String uid = (String) httpSession.getAttribute("uid");
 
         onlineUsers.put(uid, this);
+        onlineUsers.forEach((key, value) -> {
+            String temp = key + ": " + value.toString();
+            log.info(temp);
+        });
     }
 
     private void broadcastAllUsers(WSMsg wsMsg, Set<String> receivers) {

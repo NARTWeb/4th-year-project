@@ -1,6 +1,5 @@
 package com.nart.util;
 
-import com.nart.common.LogA;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -44,11 +43,11 @@ public class EncryptUtil {
     }
 
     public static Map<String, Object> checkToken(String token){
-        log.info("checkToken: " + token);
+//        log.info("checkToken: " + token);
         try {
             Jwt parse = Jwts.parser().setSigningKey(jwtToken).parse(token);
-            log.info("jwt header: " + GsonFormatter.toJsonString(parse.getHeader()));
-            log.info("jwt body: " + GsonFormatter.toJsonString(parse.getBody()));
+//            log.info("jwt header: " + GsonFormatter.toJsonString(parse.getHeader()));
+//            log.info("jwt body: " + GsonFormatter.toJsonString(parse.getBody()));
             return (Map<String, Object>) parse.getBody();
         }catch (Exception e){
             e.printStackTrace();

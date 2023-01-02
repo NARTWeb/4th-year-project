@@ -43,7 +43,7 @@
                   <el-dropdown-item @click="router.push({ name: 'postStatus', params: {} })">{{
                     $t("main.menu.item1")
                   }}</el-dropdown-item>
-                  <el-dropdown-item @click="router.push({name: 'testVue'})"> <!-- myStatus -->
+                  <el-dropdown-item @click="router.push({name: 'myStatus'})"> <!-- myStatus -->
                     {{
                     $t("main.menu.item2")
                   }}</el-dropdown-item>
@@ -69,6 +69,8 @@
                   <el-dropdown-item @click="logout">{{
                     $t("main.menu.item6")
                   }}</el-dropdown-item>
+                  <el-dropdown-item @click="router.push({name: 'testVue'})"> <!-- myStatus -->
+                    test websocket</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -267,44 +269,6 @@ function wSend(input) {
   //ws.send(JSON.stringify(input));
 }
 onMounted(() => {
-  // ws = new WebSocket("ws://localhost:8888/chat");
-
-  // ws.onopen = function () {};
-
-  // ws.onmessage = function (evt) {
-  //   alert("onMessage");
-  //   var dataStr = evt.data;
-
-  //   var res = JSON.parse(dataStr);
-  //   let rType = res.receiverType;
-  //   let gid = res.receiver;
-  //   let sid = res.sender;
-
-  //   if (rType == "friend") {
-  //     fnoticeNew.value.noticeNewMsg(true, sid, true);
-  //   } else {
-  //     gnoticeNew.value.noticeNewMsg(false, gid, true);
-  //   }
-
-  //   if(router.currentRoute.value.name == "chatRoom") {
-  //     let str = router.currentRoute.value.params.id;
-  //     let type = roomId[0];
-  //     let roomId = str.slice(1);
-  //     if(type == "f") {
-  //       if(sid == roomId && rType == "friend") {
-  //         fnoticeNew.value.noticeNewMsg(true, sid, false);
-  //         rv.value.receiveMsg(res);
-  //       }
-  //     } else {
-  //       if(gid == roomId && rType == "group") {
-  //         gnoticeNew.value.noticeNewMsg(false, gid, false);
-  //         rv.value.receiveMsg(res);
-  //       }
-  //     }
-  //   }
-  // };
-
-  // ws.onclose = function () {};
 });
 </script>
 <style scoped>

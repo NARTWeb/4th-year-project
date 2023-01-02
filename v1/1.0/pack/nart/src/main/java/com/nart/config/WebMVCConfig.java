@@ -22,13 +22,16 @@ public class WebMVCConfig implements WebMvcConfigurer {
 
     @Autowired
     private LoginInterceptor loginInterceptor;
+
+    public static String IPADDR = "localhost";
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         //跨域配置，不可设置为*，不安全, 前后端分离项目，可能域名不一致
         //本地测试 端口不一致 也算跨域
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8888","http://localhost:5173",
-                        "https://imgse.com", "https://s1.ax1x.com")
+                .allowedOrigins("http://" + IPADDR + ":8888","http://" + IPADDR + ":5173",
+                        "https://imgse.com", "https://s1.ax1x.com",
+                        "ws://" + IPADDR + ":8888/chat")
                 .allowedMethods("PUT", "DELETE", "POST", "GET");
     }
 
