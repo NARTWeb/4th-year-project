@@ -11,8 +11,10 @@ import net.minidev.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 
 @SpringBootTest
 public class userTest {
@@ -40,6 +42,7 @@ public class userTest {
     }
 
     @Test
+
     public void test(){
         adminService.blockUser("1574989632599367682");
         adminService.setonline("1574989632599367682");

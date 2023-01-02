@@ -58,19 +58,16 @@ public class AdminServiceImpl implements AdminService {
 
 
 
-//    @Transactional
     @Override
     public List<User> showAllUserInfo() {
         List<User> users = userDao.selectList(null);
         return users;
     }
 
-//    @Transactional
     @Override
     public int showAllUserNum() {
         List<User> users = userDao.selectList(null);
         int size = users.size();
-//        int i = 1/0;
         return size;
     }
 
@@ -144,8 +141,8 @@ public class AdminServiceImpl implements AdminService {
     public boolean setonline(String id) {
         User user = userDao.selectById(id);
         user.setUserOnline(1);
-        int a = 1/0;
         int i = userDao.updateById(user);
+//        int a = 1/0;
         return i>0;
     }
 
