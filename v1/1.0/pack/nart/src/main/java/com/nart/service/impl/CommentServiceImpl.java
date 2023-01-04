@@ -25,8 +25,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> showCommentList(String statusId) {
         LambdaQueryWrapper<Comment> lqw = new LambdaQueryWrapper<Comment>();
-
-        lqw.eq(Comment::getStatusId, Long.valueOf(statusId));
+//
+        lqw.eq(Comment::getStatusId,statusId);
         lqw.orderBy(true,false, Comment::getCreateDate);
 
         List<Comment> Comments = CommentDao.selectList(lqw);
