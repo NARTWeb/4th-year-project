@@ -14,9 +14,11 @@ import com.nart.util.RedisUtil;
 import com.nart.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+//@Transactional
 @Service
 public class AdminServiceImpl implements AdminService {
     private final FriendChatDao friendChatDao;
@@ -58,7 +60,6 @@ public class AdminServiceImpl implements AdminService {
         this.statusService = statusService;
         this.userGroupDao = userGroupDao;
     }
-
 
     @Override
     public List<User> showAllUserInfo() {
@@ -122,11 +123,22 @@ public class AdminServiceImpl implements AdminService {
         return userDao.selectById(id);
     }
 
+
     @Override
     public boolean blockUser(String id) {
         User user = userDao.selectById(id);
         user.setState(1);
         int i = userDao.updateById(user);
+        return i>0;
+    }
+
+
+    @Override
+    public boolean setonline(String id) {
+        User user = userDao.selectById(id);
+        user.setUserOnline(1);
+        int i = userDao.updateById(user);
+//        int a = 1/0;
         return i>0;
     }
 
@@ -166,4 +178,6 @@ public class AdminServiceImpl implements AdminService {
     public boolean checkAdmin() {
         return false;
     }
+
+
 }

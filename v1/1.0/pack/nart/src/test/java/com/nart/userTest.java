@@ -1,9 +1,13 @@
 package com.nart;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.nart.dao.CommentDao;
 import com.nart.pojo.Comment;
+import com.nart.pojo.Status;
 import com.nart.pojo.User;
 import com.nart.service.AdminService;
+import com.nart.service.CommentService;
 import com.nart.service.LoadDataInDataBase;
 import com.nart.service.UserService;
 import com.nart.util.FakeDataGenerator;
@@ -11,8 +15,10 @@ import net.minidev.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 
 @SpringBootTest
 public class userTest {
@@ -33,12 +39,32 @@ public class userTest {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private CommentDao commentDao;
+
+    @Test
+    public void commentTest(){
+
+        List<Comment> comments = commentService.showCommentList("1574989661011582978");
+        System.out.println(comments);
+
+    }
     @Test
     public void showAllStatusNum(){
         int i = adminService.showAllStatusNum();
         System.out.println(i);
     }
 
+    @Test
+
+    public void test(){
+
+        adminService.setonline("1574989632599367682");
+
+    }
     @Test
     public void lock(){
         boolean b = adminService.blockUser("1574989632599367682");

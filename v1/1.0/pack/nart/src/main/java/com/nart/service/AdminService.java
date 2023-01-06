@@ -43,4 +43,6 @@ public interface AdminService {
     Result logIn();
 
     boolean checkAdmin();
+
+    boolean setonline(String id);
 }
