@@ -3,10 +3,7 @@ package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nart.dao.FriendDao;
-import com.nart.dao.GroupDao;
-import com.nart.dao.UserDao;
-import com.nart.dao.UserGroupDao;
+import com.nart.dao.*;
 import com.nart.pojo.*;
 import com.nart.service.ChatService;
 import com.nart.service.DataCounterService;
@@ -24,28 +21,33 @@ import java.util.List;
 
 @Service
 public class ChatServiceImpl implements ChatService {
-    @Autowired
-    private com.nart.dao.FriendChatDao FriendChatDao;
+    private final FriendChatDao friendChatDao;
+    private final GroupChatDao groupChatDao;
+    private final UserDao userDao;
+    private final GroupDao groupDao;
+    private final DataCounterService dataCounterService;
+    private final RedisUtil redisUtil;
+    private final FriendDao friendDao;
+    private final UserGroupDao userGroupDao;
 
     @Autowired
-    private com.nart.dao.GroupChatDao GroupChatDao;
-
-    @Autowired
-    private UserDao userDao;
-
-    @Autowired
-    private GroupDao groupDao;
-
-    @Autowired
-    private DataCounterService dataCounterService;
-    @Autowired
-    private RedisUtil redisUtil;
-
-    @Autowired
-    private  FriendDao friendDao;
-
-    @Autowired
-    private UserGroupDao userGroupDao;
+    public ChatServiceImpl(FriendChatDao friendChatDao,
+                           GroupChatDao groupChatDao,
+                           UserDao userDao,
+                           GroupDao groupDao,
+                           DataCounterService dataCounterService,
+                           RedisUtil redisUtil,
+                           FriendDao friendDao,
+                           UserGroupDao userGroupDao) {
+        this.friendChatDao = friendChatDao;
+        this.groupChatDao = groupChatDao;
+        this.userDao = userDao;
+        this.groupDao = groupDao;
+        this.dataCounterService = dataCounterService;
+        this.redisUtil = redisUtil;
+        this.friendDao = friendDao;
+        this.userGroupDao = userGroupDao;
+    }
 
     @Override
     public boolean sendFriendMsg(FriendChat friendChat) {
@@ -54,7 +56,7 @@ public class ChatServiceImpl implements ChatService {
 //        String id = UserThreadLocal.get().getId();
 //        Object o = redisUtil.get(id);
 
-        int insert = FriendChatDao.insert(friendChat);
+        int insert = friendChatDao.insert(friendChat);
         dataCounterService.updateMessageAmount(true);
         return insert>0;
     }
@@ -68,26 +70,26 @@ public class ChatServiceImpl implements ChatService {
         Group group = groupDao.selectById(groupId);
         int userLevel = group.getUserLevel();
         groupChat.setLevel(userLevel);
-        int insert = GroupChatDao.insert(groupChat);
+        int insert = groupChatDao.insert(groupChat);
         dataCounterService.updateMessageAmount(true);
         return insert>0;
     }
 
     @Override
-    public List<FriendChat> recivicefriendMsg(String reciviceId, IPage page) {
+    public List<FriendChat> receiveFriendMsg(String receiveId, IPage page) {
 
         LambdaQueryWrapper<FriendChat> lqw = new LambdaQueryWrapper<FriendChat>();
-        lqw.eq(FriendChat::getReceiverId, reciviceId);
-        IPage iPage = FriendChatDao.selectPage(page, lqw);
+        lqw.eq(FriendChat::getReceiverId, receiveId);
+        IPage iPage = friendChatDao.selectPage(page, lqw);
         List<FriendChat> records = iPage.getRecords();
         return records;
     }
 
     @Override
-    public List<GroupChat> recivicegroupMsg(String reciviceId, IPage page) {
+    public List<GroupChat> receiveGroupMsg(String receiveId, IPage page) {
         LambdaQueryWrapper<GroupChat> lqw = new LambdaQueryWrapper<GroupChat>();
-        lqw.eq(GroupChat::getGroupId, reciviceId);
-        IPage iPage = GroupChatDao.selectPage(page, lqw);
+        lqw.eq(GroupChat::getGroupId, receiveId);
+        IPage iPage = groupChatDao.selectPage(page, lqw);
         List<GroupChat> records = iPage.getRecords();
         return records;
     }
@@ -99,7 +101,7 @@ public class ChatServiceImpl implements ChatService {
         lqw.eq(FriendChat::getSenderId, UserThreadLocal.get().getId()).eq(FriendChat::getReceiverId,Id);
         lqw.orderBy(true,false, FriendChat::getDate);
 
-        IPage iPage = FriendChatDao.selectPage(page, lqw);
+        IPage iPage = friendChatDao.selectPage(page, lqw);
         List<FriendChat> records = iPage.getRecords();
         //System.out.println(records);
         MessageVo messageVo = new MessageVo();
@@ -128,7 +130,7 @@ public class ChatServiceImpl implements ChatService {
         //按照最近和level最大来输出聊天记录
         lqw.orderBy(true,false, GroupChat::getLevel, GroupChat::getDate);
 
-        IPage iPage = GroupChatDao.selectPage(page, lqw);
+        IPage iPage = groupChatDao.selectPage(page, lqw);
         List<GroupChat> records = iPage.getRecords();
 
         MessageVo messageVo = new MessageVo();
@@ -180,14 +182,36 @@ public class ChatServiceImpl implements ChatService {
 //            String he = timeStamp+wei;
 //            System.out.println(he);
 
-            userGroup.setUserLevelTime(String.valueOf(t));
+            userGroup.setUserLevelTime(t);
             int i = userGroupDao.updateById(userGroup);
             return i>0;
         }
 
     }
 
-    public long getTimeStamp() {
+    @Override
+    public boolean existNewMsg(String id, Boolean isF, Long leaveTime) {
+        if (isF){
+            LambdaQueryWrapper<FriendChat> lqw = new LambdaQueryWrapper<>();
+            lqw.eq(FriendChat::getSenderId, id)
+                    .eq(FriendChat::getReceiverId, UserThreadLocal.get().getId())
+                    .ge(FriendChat::getDate, leaveTime);
+
+            FriendChat friendChat = friendChatDao.selectOne(lqw);
+            if (friendChat != null) return true;
+            else return false;
+        }else {
+            LambdaQueryWrapper<GroupChat> lqw = new LambdaQueryWrapper<>();
+            lqw.eq(GroupChat::getGroupId, id)
+                    .ge(GroupChat::getDate, leaveTime);
+
+            GroupChat groupChat = groupChatDao.selectOne(lqw);
+            if (groupChat != null) return true;
+            else return false;
+        }
+    }
+
+    private long getTimeStamp() {
         String currentDate = getCurrentDate();
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = new Date();
@@ -200,11 +224,13 @@ public class ChatServiceImpl implements ChatService {
         return s;
     }
 
-    public static String getCurrentDate() {
+    private static String getCurrentDate() {
         Date d = new Date();
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return sf.format(d);
     }
+
+
 
 
 }

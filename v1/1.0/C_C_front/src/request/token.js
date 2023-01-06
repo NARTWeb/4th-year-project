@@ -12,3 +12,5 @@ export function removeToken() {
   //console.log("remove token: ");
   return localStorage.removeItem("token");
 }
+
+export const url = 'localhost:8888';

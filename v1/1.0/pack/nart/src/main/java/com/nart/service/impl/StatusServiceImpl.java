@@ -21,20 +21,24 @@ import java.util.List;
 @Service
 public class StatusServiceImpl implements StatusService {
 
-    @Autowired
-    private CommentService commentService;
+    private final CommentService commentService;
+
+    private final DataCounterService dataCounterService;
+
+    private final UserDao userDao;
+
+    private final FriendDao friendDao;
+
+    private final StatusDao statusDao;
 
     @Autowired
-    private DataCounterService dataCounterService;
-
-    @Autowired
-    private UserDao userDao;
-
-    @Autowired
-    private FriendDao friendDao;
-
-    @Autowired
-    private StatusDao statusDao;
+    public StatusServiceImpl(CommentService commentService, DataCounterService dataCounterService, UserDao userDao, FriendDao friendDao, StatusDao statusDao) {
+        this.commentService = commentService;
+        this.dataCounterService = dataCounterService;
+        this.userDao = userDao;
+        this.friendDao = friendDao;
+        this.statusDao = statusDao;
+    }
 
     @Override
     public List<Status> showStatusList(String sid, IPage page) {

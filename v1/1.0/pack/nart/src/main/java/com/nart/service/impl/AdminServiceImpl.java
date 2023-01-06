@@ -19,64 +19,64 @@ import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-    @Autowired
-    private com.nart.dao.FriendChatDao FriendChatDao;
+    private final FriendChatDao friendChatDao;
+    private final GroupChatDao groupChatDao;
+    private final UserDao userDao;
+    private final CommentDao commentDao;
+    private final GroupDao groupDao;
+    private final StatusDao statusDao;
+    private final CommentService commentService;
+    private final DataCounterService dataCounterService;
+    private final RedisUtil redisUtil;
+    private final FriendDao friendDao;
+    private final UserGroupDao userGroupDao;
+    private final StatusService statusService;
 
     @Autowired
-    private com.nart.dao.GroupChatDao GroupChatDao;
-
-    @Autowired
-    private UserDao userDao;
-
-    @Autowired
-    private CommentDao commentDao;
-
-    @Autowired
-    private GroupDao groupDao;
-
-    @Autowired
-    private StatusDao statusDao;
-
-    @Autowired
-    private CommentService commentService;
-
-    @Autowired
-    private DataCounterService dataCounterService;
-    @Autowired
-    private RedisUtil redisUtil;
-
-    @Autowired
-    private  FriendDao friendDao;
-
-    @Autowired
-    private UserGroupDao userGroupDao;
-
-    @Autowired
-    private StatusService statusService;
-
-
+    public AdminServiceImpl(UserDao userDao,
+                            FriendChatDao friendChatDao,
+                            GroupChatDao groupChatDao,
+                            CommentDao commentDao,
+                            GroupDao groupDao,
+                            StatusDao statusDao,
+                            CommentService commentService,
+                            DataCounterService dataCounterService,
+                            RedisUtil redisUtil,
+                            FriendDao friendDao,
+                            StatusService statusService,
+                            UserGroupDao userGroupDao) {
+        this.userDao = userDao;
+        this.friendChatDao = friendChatDao;
+        this.groupChatDao = groupChatDao;
+        this.commentDao = commentDao;
+        this.groupDao = groupDao;
+        this.statusDao = statusDao;
+        this.commentService = commentService;
+        this.dataCounterService = dataCounterService;
+        this.redisUtil = redisUtil;
+        this.friendDao = friendDao;
+        this.statusService = statusService;
+        this.userGroupDao = userGroupDao;
+    }
 
 
     @Override
     public List<User> showAllUserInfo() {
-        List<User> users = userDao.selectList(null);
-        return users;
+        return userDao.selectList(null);
     }
 
     @Override
     public int showAllUserNum() {
         List<User> users = userDao.selectList(null);
-        int size = users.size();
-        return size;
+        return users.size();
     }
 
     @Override
     public List<User> showOnlineUserInfo() {
         LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<User>();
         lqw.eq(User::getUserOnline, 1);
-        List<User> users = userDao.selectList(lqw);
 
-        return users;
+        return userDao.selectList(lqw);
     }
 
     @Override
@@ -84,8 +84,7 @@ public class AdminServiceImpl implements AdminService {
         LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<User>();
         lqw.eq(User::getUserOnline, 1);
         List<User> users = userDao.selectList(lqw);
-        int size = users.size();
-        return size;
+        return users.size();
     }
 
     @Override
@@ -104,14 +103,12 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int showAllStatusNum() {
         List<Status> statuses = statusDao.selectList(null);
-        int size = statuses.size();
-        return size;
+        return statuses.size();
     }
 
     @Override
     public List<Comment> showAllCommentInfo() {
-        List<Comment> comments = commentDao.selectList(null);
-        return comments;
+        return commentDao.selectList(null);
     }
 
     @Override
@@ -122,8 +119,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public User searchUser(String id) {
-        User user = userDao.selectById(id);
-        return user;
+        return userDao.selectById(id);
     }
 
     @Override

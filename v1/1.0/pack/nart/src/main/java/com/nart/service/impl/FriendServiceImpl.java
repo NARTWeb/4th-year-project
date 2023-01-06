@@ -4,14 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.dao.FriendDao;
 import com.nart.dao.FriendReqDao;
-import com.nart.dao.StatusDao;
 import com.nart.dao.UserDao;
 import com.nart.pojo.Friend;
 import com.nart.pojo.FriendReq;
 import com.nart.pojo.User;
 import com.nart.service.ChatService;
 import com.nart.service.FriendService;
-import com.nart.service.StatusService;
 import com.nart.service.UserService;
 import com.nart.util.UserThreadLocal;
 import com.nart.vo.FriendVo;
@@ -28,25 +26,24 @@ import java.util.List;
 @Service
 public class FriendServiceImpl implements FriendService {
 
-    @Autowired
-    private FriendDao friendDao;
+    private final FriendDao friendDao;
+    private final UserDao userDao;
+    private final UserService userService;
+    private final FriendReqDao friendReqDAO;
+    private final ChatService chatService;
 
     @Autowired
-    private UserDao userDao;
-
-    @Autowired
-    private StatusDao statusDao;
-    @Autowired
-    private StatusService statusService;
-
-    @Autowired
-    private ChatService chatService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private FriendReqDao friendReqDAO;
+    public FriendServiceImpl(FriendDao friendDao,
+                             UserDao userDao,
+                             UserService userService,
+                             FriendReqDao friendReqDAO,
+                             ChatService chatService) {
+        this.friendDao = friendDao;
+        this.userDao = userDao;
+        this.userService = userService;
+        this.friendReqDAO = friendReqDAO;
+        this.chatService = chatService;
+    }
 
 
     @Override
@@ -70,7 +67,8 @@ public class FriendServiceImpl implements FriendService {
             }else {
                 record.setOnline(false);
             }
-
+            boolean hasNewMsg = chatService.existNewMsg(fid, true, record.getLeaveTime());
+            record.setNewMessage(hasNewMsg);
 //            record.setStatusList(statusService.showStatusList(userId ,page));
 //            record.setChatHistory(chatService.showFriendHistory(user.getId(),page));
 

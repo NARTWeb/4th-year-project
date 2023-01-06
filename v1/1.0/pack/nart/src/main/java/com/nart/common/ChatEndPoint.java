@@ -5,9 +5,9 @@ import com.nart.config.WebSocketConfig;
 import com.nart.service.GroupService;
 import com.nart.util.EncryptUtil;
 import com.nart.util.GsonFormatter;
+import com.nart.util.SpringUtil;
 import com.nart.vo.WSMsg;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -35,13 +35,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChatEndPoint {
     // stores all online users
     private static final Map<String, ChatEndPoint> onlineUsers = new ConcurrentHashMap<>();
-
     private Session session;
-
     private HttpSession httpSession;
 
-    @Autowired
-    private GroupService groupService;
+    private GroupService getGroupService() {
+        GroupService gsi = (GroupService) SpringUtil.getBean("groupServiceImpl");
+        return gsi;
+    }
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) {
@@ -49,7 +49,7 @@ public class ChatEndPoint {
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         this.httpSession = httpSession;
         String uid = (String) httpSession.getAttribute("uid");
-
+        uid = uid.substring(5);
         onlineUsers.put(uid, this);
         onlineUsers.forEach((key, value) -> {
             String temp = key + ": " + value.toString();
@@ -60,13 +60,15 @@ public class ChatEndPoint {
     private void broadcastAllUsers(WSMsg wsMsg, Set<String> receivers) {
         // find all online userIds
         Map<String, ChatEndPoint> onlineUsers1 = onlineUsers;
-        Set<String> ids = onlineUsers1.keySet();
+        Set<String> ids = new HashSet<String>(onlineUsers1.keySet());
+
         // find intersections between online users and target users;
-        //ids.retainAll(receivers);
+        ids.retainAll(receivers);
+        ids.remove(wsMsg.getSender());
         try {
             // send to all
-            for(String id: receivers){ //ids){
-                ChatEndPoint chatEndPoint = onlineUsers.get("uid: " + id);
+            for(String id: ids){
+                ChatEndPoint chatEndPoint = onlineUsers.get(id);
                 chatEndPoint.session.getBasicRemote().sendText(GsonFormatter.toJsonString(wsMsg));
             }
         } catch (IOException e) {
@@ -97,7 +99,8 @@ public class ChatEndPoint {
             if(receiverType.equals("friend")) {
                 receivers.add(receiver);
             } else {
-                receivers.addAll(groupService.findAllMembers(receiver));
+                GroupService gs = getGroupService();
+                receivers.addAll(gs.findAllMembers(receiver));
             }
 
             broadcastAllUsers(msg, receivers);

@@ -25,12 +25,16 @@ import java.util.Map;
 @Service
 public class LoginServiceImpl implements LoginService {
 
+    private final UserService userService;
+    private final RedisUtil redisUtil;
+    private final DataCounterService dataCounterService;
+
     @Autowired
-    private UserService userService;
-    @Autowired
-    private RedisUtil redisUtil;
-    @Autowired
-    private DataCounterService dataCounterService;
+    public LoginServiceImpl(UserService userService, RedisUtil redisUtil, DataCounterService dataCounterService) {
+        this.userService = userService;
+        this.redisUtil = redisUtil;
+        this.dataCounterService = dataCounterService;
+    }
 
     @Override
     public Result login(String uname, String pwd, HttpSession session) {

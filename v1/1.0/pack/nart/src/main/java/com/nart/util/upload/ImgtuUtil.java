@@ -42,35 +42,23 @@ public class ImgtuUtil {
     static final String STATUS_ALBUMID = "4YBO1";
     static final String GROUPS_ALBUMID = "4Y0yR";
     static final String USERS_ALBUMID = "4Ywl9";
-
     static final private String IMGTU_INIT_URL = "https://imgse.com/init";
-
     static final private String IMGTU_LOGIN_URL = "https://imgse.com/login";
-
     static final private String IMGTU_OPERATE_URL = "https://imgse.com/json";
-
     static final private Pattern SESSION_ID_PATTERN = Pattern.compile("PHPSESSID=([^;]*); path=/; HttpOnly");
-
     static final private Pattern AUTH_TOKEN_PATTERN = Pattern.compile("PF\\.obj\\.config\\.auth_token = \"([0-9a-f]{40})\";");
-
     static final private Pattern KEEP_LOGIN_PATTERN = Pattern.compile("KEEP_LOGIN=([^;]*);");
-
     static final private long INIT_VALID_DURATION = 15L * 60 * 1000;
-
     static final private long LOGIN_VALID_DURATION = 30L * 24 * 60 * 60 * 1000;
 
     @Getter
     static private String sessionId;
-
     @Getter
     static private String authToken;
-
     @Getter
     static private String keepLogin;
-
     @Getter
     static private long initTimestamp = 0;
-
     @Getter
     static private long loginTimestamp = 0;
 

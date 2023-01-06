@@ -121,8 +121,9 @@ export default {
           username: uname,
           password: pwd
         }
-        this.store.login(user)
-        this.$router.push('/');
+        this.store.login(user).then(() => {
+          this.$router.push('/');
+        })
       }
     },
   },

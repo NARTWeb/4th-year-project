@@ -135,7 +135,9 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
-                <router-view @fathre="wSend"></router-view>
+                <router-view @fathre="wSend" v-slot="{Component}">
+                  <component ref="order" :is="Component"/>
+                </router-view>
               </el-main>
             </el-container>
           </el-main>
@@ -164,6 +166,7 @@ import InfoItem from "@/components/InfoItem.vue";
 import ChatRoom from "@/views/chat/ChatRoom.vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
+import { url } from '@/request/token'
 
 const pics = reactive([
   "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
@@ -200,6 +203,7 @@ const { t } = useI18n();
 const { locale } = useI18n();
 const fnoticeNew = ref();
 const gnoticeNew = ref();
+const order = ref();
 
 function searchF() {
   searchFriend(token.value, searchInput.value, friendParam.page)
@@ -277,7 +281,7 @@ function wSend(input) {
 }
 onMounted(() => {
   if (ws == "") {
-    ws = new WebSocket("ws://localhost:8888/chat");
+    ws = new WebSocket("ws://" + url + "/chat");
     ws.onopen = function () {
       console.log("ws open");
     };
@@ -304,11 +308,11 @@ onMounted(() => {
         let type = str[0];
         let roomId = str.slice(1);
 
-        let matchedComponents = router.currentRoute.value.matched;
-        let child = router.currentRoute.value.matched[1];
-        let setup = child.components.default.setup
-        console.log(setup.params);
-        console.log(child.components.default.setup.__props);
+        // let matchedComponents = router.currentRoute.value.matched;
+        // let child = router.currentRoute.value.matched[1];
+        // let setup = child.components.default.va
+        // console.log(setup.params);
+        // console.log(child.components.default.setup.__props);
         // let child = matchedComponents.find(
         //   (c) => c.components.default == ChatRoom
         // );
@@ -318,23 +322,35 @@ onMounted(() => {
           if (sid == roomId && rType == "friend") {
             fnoticeNew.value.noticeNewMsg(true, sid, false);
             store.setNewMsg(res);
-            if (setup[receiveMsg] && typeof setup[receiveMsg] == 'function') {
-              setup[receiveMsg](res);
-            }
+            order.value.receiveMsg(res);
+            // if (setup[receiveMsg] && typeof setup[receiveMsg] == 'function') {
+            //   setup[receiveMsg](res);
+            // }
           }
         } else {
           if (gid == roomId && rType == "group") {
             gnoticeNew.value.noticeNewMsg(false, gid, false);
             store.setNewMsg(res);
-            if (setup[receiveMsg] && setup[receiveMsg] == 'function') {
-              setup[receiveMsg](res);
-            }
+            order.value.receiveMsg(res);
+            // if (setup[receiveMsg] && setup[receiveMsg] == 'function') {
+            //   setup[receiveMsg](res);
+            // }
           }
         }
       }
     };
     console.log("ws set up!!");
     console.log(ws);
+  }
+  window.onbeforeunload= (e) => {
+    e = e || window.event;
+    if(e) {
+      e.returnValue = 'Close Notice';
+    }
+    ws = "";
+    store.logout().then(() => {
+      return 'Close Notice';
+    })
   }
 });
 </script>

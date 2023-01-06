@@ -193,6 +193,7 @@ const useUserStore = defineStore("user", {
                 showClose: true,
                 grouping: true,
               });
+              resolve();
             }
           })
           .catch((error) => {
@@ -202,11 +203,11 @@ const useUserStore = defineStore("user", {
               showClose: true,
               grouping: true,
             });
-            reject(error);
+            resolve(error);
           });
       });
     },
-    // 前端 登出
+    // front-end logout
     fedLogOut() {
       return new Promise((resolve) => {
         this.name = "";

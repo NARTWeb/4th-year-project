@@ -233,6 +233,8 @@ function submitUpload() {
               showClose: true,
               grouping: true,
             });
+            file.length = 0;
+            reject
           }
         })
         .catch((err) => {
@@ -243,6 +245,8 @@ function submitUpload() {
             grouping: true,
           });
           console.log(err);
+          file.length = 0;
+          reject
         });
     }, 500);
   });
