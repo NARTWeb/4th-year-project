@@ -13,13 +13,15 @@ public interface ChatService {
 
     boolean sendGroupMsg(GroupChat groupChat);
 
-    List<FriendChat> recivicefriendMsg(String reciviceId, IPage page);
+    List<FriendChat> receiveFriendMsg(String reciviceId, IPage page);
 
-    List<GroupChat> recivicegroupMsg(String reciviceId, IPage page);
+    List<GroupChat> receiveGroupMsg(String reciviceId, IPage page);
 
     List<MessageVo> showFriendHistory(String Id, IPage page);
 
     List<MessageVo> showGroupHistory(String gId, IPage page);
 
     boolean leaveRoom (String roomId, Boolean isF);
+
+    boolean existNewMsg(String id, Boolean isF, Long leaveTime);
 }

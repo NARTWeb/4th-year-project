@@ -92,13 +92,15 @@ span {
 }
 #s2 {
   font-weight: 600;
+  color: black;
 }
 #s3 {
   float: left;
+  color: black;
 }
 #s4 {
   margin-left: 20px;
-  color: #c8c9cc;
+  color: black;
 }
 .right-btn1 {
   margin-left: 5vw;

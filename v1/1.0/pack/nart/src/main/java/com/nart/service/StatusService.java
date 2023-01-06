@@ -6,7 +6,7 @@ import com.nart.pojo.Status;
 import java.util.List;
 
 public interface StatusService {
-    List<Status> showAllStatusList(String uid);
+    List<Status> showAllStatusList(String uid, IPage page);
 
     List<Status> showStatusList(String sid, IPage page);
 

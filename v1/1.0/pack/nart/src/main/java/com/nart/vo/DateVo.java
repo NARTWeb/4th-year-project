@@ -16,7 +16,7 @@ public class DateVo {
     //时间戳转换为字符串
     public DateVo getDateToString(long time) {
 
-        System.out.println(time);
+        //System.out.println(time);
 
         String s = String.valueOf(time);
         String res;
@@ -26,7 +26,7 @@ public class DateVo {
         Date date = new Date(lt);
         //将时间调整为yyyy-MM-dd HH:mm:ss时间样式
         res = simpleDateFormat.format(date);
-        System.out.println(res);
+        //System.out.println(res);
         DateVo dateVo = new DateVo();
         return createDateVo(res,dateVo);
 

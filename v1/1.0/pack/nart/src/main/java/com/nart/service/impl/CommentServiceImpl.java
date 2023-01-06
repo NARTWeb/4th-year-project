@@ -1,6 +1,8 @@
 package com.nart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.nart.dao.CommentDao;
+import com.nart.dao.UserDao;
 import com.nart.pojo.Comment;
 import com.nart.pojo.User;
 import com.nart.service.CommentService;
@@ -13,14 +15,18 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-    @Autowired
-    private com.nart.dao.CommentDao CommentDao;
+    private final CommentDao commentDao;
+
+    private final UserDao userDao;
+
+    private final DataCounterService dataCounterService;
 
     @Autowired
-    private com.nart.dao.UserDao UserDao;
-
-    @Autowired
-    private DataCounterService dataCounterService;
+    public CommentServiceImpl(CommentDao commentDao, UserDao userDao, DataCounterService dataCounterService) {
+        this.commentDao = commentDao;
+        this.userDao = userDao;
+        this.dataCounterService = dataCounterService;
+    }
 
     @Override
     public List<Comment> showCommentList(String statusId) {
@@ -29,10 +35,10 @@ public class CommentServiceImpl implements CommentService {
         lqw.eq(Comment::getStatusId,statusId);
         lqw.orderBy(true,false, Comment::getCreateDate);
 
-        List<Comment> Comments = CommentDao.selectList(lqw);
+        List<Comment> Comments = commentDao.selectList(lqw);
         for (Comment comment : Comments) {
             String userId = comment.getUserId();
-            User user = UserDao.selectById(userId);
+            User user = userDao.selectById(userId);
             String name = user.getName();
             comment.setUname(name);
         }
@@ -51,6 +57,6 @@ public class CommentServiceImpl implements CommentService {
         System.out.println(l);
         Comment.setCreateDate(createTime);
         dataCounterService.updateCommentAmount(true);
-        return CommentDao.insert(Comment) > 0;
+        return commentDao.insert(Comment) > 0;
     }
 }

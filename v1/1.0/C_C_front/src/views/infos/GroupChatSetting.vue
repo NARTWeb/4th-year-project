@@ -144,7 +144,7 @@ const counter = ref(0);
 const memberList = reactive([] as []);
 const inviteList = reactive([]);
 var imgParent = ref("circle");
-const dialogFormVisible = ref(false);
+const dialogFormVisible = ref(false); 
 
 const uploadRef = ref<UploadInstance>();
 const file = reactive([]);
@@ -155,6 +155,7 @@ function toPopWin() {
 function closePop() {
   dialogFormVisible.value = false;
 }
+// test group members with fake data
 function test() {
   const testList = [
     {
@@ -361,6 +362,9 @@ function getMember() {
     .then((res) => {
       if (res.data.success) {
         memberList.push(...res.data.data);
+        for(let i=0; i<memberList.length; i++) {
+          inviteList.push(memberList[i]);
+        }
       } else {
         ElMessage({
           type: "error",

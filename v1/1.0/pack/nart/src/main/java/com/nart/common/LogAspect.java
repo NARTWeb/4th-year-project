@@ -30,7 +30,7 @@ import java.util.Enumeration;
  * @Description: TODO
  * @version: v1.8.0
  * @author: ZIRUI QIAO
- * @date: 2022/7/27 13:30
+ * @date: 2022/12/28 13:30
  */
 @Component
 @Aspect
@@ -59,7 +59,7 @@ public class LogAspect {
         // 执行时长(毫秒)
         long time = System.currentTimeMillis() - beginTime;
         // 保存日志
-        recordLog(point, time, result);
+        //recordLog(point, time, result);
         return result;
     }
 

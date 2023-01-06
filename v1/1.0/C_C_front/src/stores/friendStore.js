@@ -21,11 +21,11 @@ export const useFriendStore = defineStore("friends", {
       gList: [],
       counter: 0,
       fPage: {
-        pageSize: 8,
+        pageSize: 7,
         pageNum: 1,
       },
       gPage: {
-        pageSize: 8,
+        pageSize: 7,
         pageNum: 1,
       },
     };
@@ -74,7 +74,7 @@ export const useFriendStore = defineStore("friends", {
           });
       }
     },
-    loadNewGFriends() {
+    loadNewGFriends(array) {
       if (!this.gLoading && !this.gNodata) {
         this.gLoading = true;
         let temp = this.gSearchHistory;
@@ -86,9 +86,10 @@ export const useFriendStore = defineStore("friends", {
             if (res.data.success) {
               if (res.data.data.length > 0) {
                 if (this.gList == undefined) {
-                    this.gList = res.data.data;
+                    this.gList = this.getDiff(res.data.data, array);
                 } else {
                     this.gList.push(...res.data.data);
+                    this.gList = this.getDiff(this.gList, array);
                 }
                 this.gPage.pageNum += 1;
               } else {
@@ -154,8 +155,8 @@ export const useFriendStore = defineStore("friends", {
       if (this.gList != undefined) {
         this.gList.splice(0, this.gList.length);
       }
-      this.loadNewGFriends();
-      if(this.gList.length <= 7) {
+      this.loadNewGFriends(array);
+      if(this.gList.length < 7) {
         return;
       }
       this.gList = this.getGList(array);
@@ -184,8 +185,12 @@ export const useFriendStore = defineStore("friends", {
       }
     },
     getGList(array) {
-      let difference = this.gList.filter(function(obj) {
-        return !array.some(function(obj2) {
+      return this.getDiff(this.gList, array);
+    },
+    // find all in arr1 but not in arr2
+    getDiff(arr1, arr2) {
+      let difference = arr1.filter(function(obj) {
+        return !arr2.some(function(obj2) {
           return obj.id == obj2.id;
         })
       });

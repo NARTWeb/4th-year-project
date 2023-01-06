@@ -40,13 +40,14 @@
                   <el-dropdown-item @click="changeLang()">{{
                     $t("changeLang")
                   }}</el-dropdown-item>
-                  <el-dropdown-item @click="router.push({ name: 'postStatus', params: {} })">{{
-                    $t("main.menu.item1")
-                  }}</el-dropdown-item>
-                  <el-dropdown-item @click="router.push({name: 'testVue'})"> <!-- myStatus -->
-                    {{
-                    $t("main.menu.item2")
-                  }}</el-dropdown-item>
+                  <el-dropdown-item
+                    @click="router.push({ name: 'postStatus', params: {} })"
+                    >{{ $t("main.menu.item1") }}</el-dropdown-item
+                  >
+                  <el-dropdown-item @click="router.push({ name: 'myStatus' })">
+                    <!-- myStatus -->
+                    {{ $t("main.menu.item2") }}</el-dropdown-item
+                  >
                   <el-dropdown-item
                     v-if="friendShowAll"
                     @click="showAllFriends"
@@ -69,6 +70,10 @@
                   <el-dropdown-item @click="logout">{{
                     $t("main.menu.item6")
                   }}</el-dropdown-item>
+                  <el-dropdown-item @click="router.push({ name: 'testVue' })">
+                    <!-- myStatus -->
+                    test websocket</el-dropdown-item
+                  >
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -130,7 +135,9 @@
                 </div>
               </el-aside>
               <el-main width="90vw" class="mainPart">
-                <router-view ref="rv" @fathre="wSend"></router-view>
+                <router-view @fathre="wSend" v-slot="{Component}">
+                  <component ref="order" :is="Component"/>
+                </router-view>
               </el-main>
             </el-container>
           </el-main>
@@ -142,6 +149,7 @@
 <script setup>
 import { onMounted, onUpdated, reactive, ref } from "vue";
 import useUserStore from "@/stores/userStore";
+import useChatStore from "@/stores/chatStore";
 import { useFriendStore } from "@/stores/friendStore.js";
 import { storeToRefs } from "pinia";
 import { Search } from "@element-plus/icons-vue";
@@ -155,8 +163,10 @@ import StatusItem from "@/components/StatusItem.vue";
 import ChatMessage from "@/components/ChatMessage.vue";
 import MyStatusItem from "@/components/MyStatusItem.vue";
 import InfoItem from "@/components/InfoItem.vue";
+import ChatRoom from "@/views/chat/ChatRoom.vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
+import { url } from '@/request/token'
 
 const pics = reactive([
   "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
@@ -166,12 +176,13 @@ const pics = reactive([
   "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
 ]);
 
+var ws = "";
 const router = useRouter();
 const store = useUserStore();
+const chatStore = useChatStore();
 const Fstore = useFriendStore();
 const { name, avatar, token } = storeToRefs(store);
 
-var ws;
 var searchInput = ref("");
 var friendParam = reactive({
   page: {
@@ -190,9 +201,9 @@ var friendShowAll = ref(false);
 var groupShowAll = ref(false);
 const { t } = useI18n();
 const { locale } = useI18n();
-const fnoticeNew = ref(null);
-const gnoticeNew = ref(null);
-const rv = ref(null);
+const fnoticeNew = ref();
+const gnoticeNew = ref();
+const order = ref();
 
 function searchF() {
   searchFriend(token.value, searchInput.value, friendParam.page)
@@ -231,6 +242,8 @@ function showAllGroups() {
 }
 function logout() {
   store.logout();
+  ws = "";
+  router.push({ name: "login" });
 }
 function toSearch() {
   let temp = searchInput.value;
@@ -252,7 +265,7 @@ function menuClick(index) {
   });
 }
 function PagePlus(isFriend) {
-  if(isFriend) {
+  if (isFriend) {
     friendParam.page.pageNum += 1;
   } else {
     groupParam.page.pageNum += 1;
@@ -260,51 +273,85 @@ function PagePlus(isFriend) {
 }
 function editPInfo() {
   //store.getUserInfo();
-  router.push({ name: 'editMyInfo'});
+  router.push({ name: "editMyInfo" });
 }
 function wSend(input) {
   console.log(input);
-  //ws.send(JSON.stringify(input));
+  ws.send(JSON.stringify(input));
 }
 onMounted(() => {
-  // ws = new WebSocket("ws://localhost:8888/chat");
+  if (ws == "") {
+    ws = new WebSocket("ws://" + url + "/chat");
+    ws.onopen = function () {
+      console.log("ws open");
+    };
+    ws.onclose = function () {
+      console.log("ws close");
+    };
+    ws.onmessage = function (evt) {
+      //alert("onMessage");
+      var dataStr = evt.data;
 
-  // ws.onopen = function () {};
+      var res = JSON.parse(dataStr);
+      let rType = res.receiverType;
+      let gid = res.receiver;
+      let sid = res.sender;
 
-  // ws.onmessage = function (evt) {
-  //   alert("onMessage");
-  //   var dataStr = evt.data;
+      if (rType == "friend") {
+        fnoticeNew.value.noticeNewMsg(true, sid, true);
+      } else {
+        gnoticeNew.value.noticeNewMsg(false, gid, true);
+      }
 
-  //   var res = JSON.parse(dataStr);
-  //   let rType = res.receiverType;
-  //   let gid = res.receiver;
-  //   let sid = res.sender;
+      if (router.currentRoute.value.name == "chatRoom") {
+        let str = router.currentRoute.value.params.id;
+        let type = str[0];
+        let roomId = str.slice(1);
 
-  //   if (rType == "friend") {
-  //     fnoticeNew.value.noticeNewMsg(true, sid, true);
-  //   } else {
-  //     gnoticeNew.value.noticeNewMsg(false, gid, true);
-  //   }
+        // let matchedComponents = router.currentRoute.value.matched;
+        // let child = router.currentRoute.value.matched[1];
+        // let setup = child.components.default.va
+        // console.log(setup.params);
+        // console.log(child.components.default.setup.__props);
+        // let child = matchedComponents.find(
+        //   (c) => c.components.default == ChatRoom
+        // );
+        //console.log();
 
-  //   if(router.currentRoute.value.name == "chatRoom") {
-  //     let str = router.currentRoute.value.params.id;
-  //     let type = roomId[0];
-  //     let roomId = str.slice(1);
-  //     if(type == "f") {
-  //       if(sid == roomId && rType == "friend") {
-  //         fnoticeNew.value.noticeNewMsg(true, sid, false);
-  //         rv.value.receiveMsg(res);
-  //       }
-  //     } else {
-  //       if(gid == roomId && rType == "group") {
-  //         gnoticeNew.value.noticeNewMsg(false, gid, false);
-  //         rv.value.receiveMsg(res);
-  //       }
-  //     }
-  //   }
-  // };
-
-  // ws.onclose = function () {};
+        if (type == "f") {
+          if (sid == roomId && rType == "friend") {
+            fnoticeNew.value.noticeNewMsg(true, sid, false);
+            store.setNewMsg(res);
+            order.value.receiveMsg(res);
+            // if (setup[receiveMsg] && typeof setup[receiveMsg] == 'function') {
+            //   setup[receiveMsg](res);
+            // }
+          }
+        } else {
+          if (gid == roomId && rType == "group") {
+            gnoticeNew.value.noticeNewMsg(false, gid, false);
+            store.setNewMsg(res);
+            order.value.receiveMsg(res);
+            // if (setup[receiveMsg] && setup[receiveMsg] == 'function') {
+            //   setup[receiveMsg](res);
+            // }
+          }
+        }
+      }
+    };
+    console.log("ws set up!!");
+    console.log(ws);
+  }
+  window.onbeforeunload= (e) => {
+    e = e || window.event;
+    if(e) {
+      e.returnValue = 'Close Notice';
+    }
+    ws = "";
+    store.logout().then(() => {
+      return 'Close Notice';
+    })
+  }
 });
 </script>
 <style scoped>

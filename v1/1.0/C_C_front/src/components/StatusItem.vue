@@ -21,7 +21,7 @@
     </div>
     <div id="down">
       <div :class="iconClass" @click="sendLike" id="like"></div>
-      <span v-show="like" style="font-weight: 100">{{ props.heartNum + 1}}</span>
+      <span v-show="like" style="font-weight: 100; color:black">{{ props.heartNum + 1}}</span>
       <el-button round type="primary" @click="startCom">...</el-button>
     </div>
     <div id="bottom">

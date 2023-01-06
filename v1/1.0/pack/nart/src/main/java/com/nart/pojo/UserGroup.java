@@ -14,7 +14,7 @@ public class UserGroup {
     @TableField(value = "join_level")
     private int joinLevel;
     @TableField(value = "user_level_time")
-    private String userLevelTime;
+    private Long userLevelTime;
 
 
 }

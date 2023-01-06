@@ -48,14 +48,14 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = request.getHeader("Authorization");
-        System.out.println("token: " + token);
+//        System.out.println("token: " + token);
 
-        log.info("=================request start===========================");
+//        log.info("=================request start===========================");
         String requestURI = request.getRequestURI();
-        log.info("request uri:{}",requestURI);
-        log.info("request method:{}",request.getMethod());
-        log.info("token:{}", token);
-        log.info("=================request end===========================");
+//        log.info("request uri:{}",requestURI);
+//        log.info("request method:{}",request.getMethod());
+//        log.info("token:{}", token);
+//        log.info("=================request end===========================");
 
         if(StringUtils.isBlank(token)) {
             noLogin(response);

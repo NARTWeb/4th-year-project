@@ -301,7 +301,7 @@ public class FakeDataGenerator {
                 userGroup.setGid(gid);
                 userGroup.setState(0);
                 userGroup.setJoinLevel(tempLevel);
-                userGroup.setUserLevelTime("0");
+                userGroup.setUserLevelTime(0L);
                 userGroupDao.insert(userGroup);
 
                 groupMemberIds.add(sid);

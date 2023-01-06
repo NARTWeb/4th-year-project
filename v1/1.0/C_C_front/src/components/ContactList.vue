@@ -1,13 +1,19 @@
 <template>
   <div class="all">
-    <el-dialog v-model="dialogVisible" :title="$t('contactList.friend.title')" width="30%">
+    <el-dialog
+      v-model="dialogVisible"
+      :title="$t('contactList.friend.title')"
+      width="30%"
+    >
       <span>{{ $t("contactList.friend.del") }}{{ selectMember.name }}</span>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">{{ $t("buttons.cancel") }}</el-button>
-          <el-button type="primary" @click="del(selectMember.id)"
-            >{{ $t("buttons.confirm") }}</el-button
-          >
+          <el-button @click="dialogVisible = false">{{
+            $t("buttons.cancel")
+          }}</el-button>
+          <el-button type="primary" @click="del(selectMember.id)">{{
+            $t("buttons.confirm")
+          }}</el-button>
         </span>
       </template>
     </el-dialog>
@@ -30,7 +36,7 @@
                     <el-badge
                       is-dot
                       class="item"
-                      :hidden="member.newMsg"
+                      :hidden="!member.newMsg"
                       :type="checkType(member.state)"
                     >
                       <el-avatar
@@ -112,7 +118,7 @@
 </template>
 <script setup>
 import { reactive, ref, watch } from "vue";
-import  useUserStore  from "@/stores/userStore";
+import useUserStore from "@/stores/userStore";
 import { storeToRefs } from "pinia";
 import { Delete } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
@@ -185,7 +191,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
       state: 2,
-      notice: 'dhsajkdshajdklhsjlafk'
+      notice: "dhsajkdshajdklhsjlafk",
     },
     {
       id: "3642178321",
@@ -193,7 +199,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg",
       state: 0,
-      notice: 'dhsajkdshajdklhsjlafk'
+      notice: "dhsajkdshajdklhsjlafk",
     },
     {
       id: "3642178321",
@@ -201,7 +207,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg",
       state: 1,
-      notice: 'dhsajkdshajdklhsjlafk'
+      notice: "dhsajkdshajdklhsjlafk",
     },
     {
       id: "3642178321",
@@ -209,7 +215,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg",
       state: 1,
-      notice: 'dhsajkdshajdklhsjlafk'
+      notice: "dhsajkdshajdklhsjlafk",
     },
     {
       id: "3642178321",
@@ -217,7 +223,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg",
       state: 0,
-      notice: 'dhsajkdshajdklhsjlafk'
+      notice: "dhsajkdshajdklhsjlafk",
     },
     {
       id: "3642178321",
@@ -225,7 +231,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg",
       state: 1,
-      notice: 'dhsajkdshajdklhsjlafk'
+      notice: "dhsajkdshajdklhsjlafk",
     },
     {
       id: "3642178321",
@@ -233,7 +239,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg",
       state: 0,
-      notice: 'dhsajkdshajdklhsjlafk'
+      notice: "dhsajkdshajdklhsjlafk",
     },
     {
       id: "3642178321",
@@ -241,7 +247,7 @@ function test() {
       avatar:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
       state: 0,
-      notice: 'dhsajkdshajdklhsjlafk'
+      notice: "dhsajkdshajdklhsjlafk",
     },
     {
       id: "3642178321",
@@ -249,7 +255,7 @@ function test() {
       avatar:
         "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
       state: 0,
-      notice: 'dhsajkdshajdklhsjlafk'
+      notice: "dhsajkdshajdklhsjlafk",
     },
     {
       id: "3642178321",
@@ -257,7 +263,7 @@ function test() {
       avatar:
         "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
       state: 0,
-      notice: 'dhsajkdshajdklhsjlafk'
+      notice: "dhsajkdshajdklhsjlafk",
     },
   ];
   if (props.param.page.pageNum == 10) {
@@ -279,53 +285,53 @@ function load() {
 // load function
 function forceLoad() {
   loading.value = true;
-    let result;
-    let page = {
-      pageSize: props.param.page.pageSize,
-      pageNum: props.param.page.pageNum,
-    };
-    if (props.isFriend) {
-      result = showFriendList(token.value, page);
-    } else {
-      result = showGroupList(token.value, page);
-    }
-    result
-      .then((res) => {
-        if (res.data.success) {
-          if (res.data.data.length <= 0) {
-            nodata.value = true;
-          } else {
-            nodata.value = false;
-            list.push(...res.data.data);
-            emit("addPage", props.isFriend);
-          }
+  let result;
+  let page = {
+    pageSize: props.param.page.pageSize,
+    pageNum: props.param.page.pageNum,
+  };
+  if (props.isFriend) {
+    result = showFriendList(token.value, page);
+  } else {
+    result = showGroupList(token.value, page);
+  }
+  result
+    .then((res) => {
+      if (res.data.success) {
+        if (res.data.data.length <= 0) {
+          nodata.value = true;
         } else {
-          ElMessage({
-            type: "error",
-            message: res.data.msg,
-            showClose: true,
-            grouping: true,
-          });
+          nodata.value = false;
+          list.push(...res.data.data);
+          emit("addPage", props.isFriend);
         }
-      })
-      .catch((err) => {
-        let msg;
-        if (props.isFriend) {
-          msg = t("contactList.friend.ListError");
-        } else {
-          msg = t("contactList.group.ListError");
-        }
+      } else {
         ElMessage({
           type: "error",
-          message: t("contactList.loadError"),
+          message: res.data.msg,
           showClose: true,
           grouping: true,
         });
-        console.log(err);
-      })
-      .finally(() => {
-        loading.value = false;
+      }
+    })
+    .catch((err) => {
+      let msg;
+      if (props.isFriend) {
+        msg = t("contactList.friend.ListError");
+      } else {
+        msg = t("contactList.group.ListError");
+      }
+      ElMessage({
+        type: "error",
+        message: t("contactList.loadError"),
+        showClose: true,
+        grouping: true,
       });
+      console.log(err);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 }
 // hide a contact member
 function hide(member) {
@@ -492,7 +498,7 @@ function del(id) {
 }
 // go to the contact member chatroom
 function toChat(member) {
-  member.newMsg = false;
+  setNewMsg(member.id, false);
   if (props.isFriend) {
     router.push({ name: "chatRoom", params: { id: "f" + member.id } });
   } else {
@@ -507,29 +513,30 @@ function toChat(member) {
   }
 }
 // update new message if there are
-function noticeNewMsg(isFriend, id, isNew) {
-  if(isFriend) {
-    if(props.isFriend) {
-      for(let i=0; i<list.length; i++) {
-        if(list[i].id == id) {
-          list[i].newMsg == isNew;
-        }
-      }
+const noticeNewMsg = (isFriend, id, show) => {
+  if (isFriend) {
+    if (props.isFriend) {
+      setNewMsg(id, show);
     }
   } else {
-    if(!props.isFriend) {
-      for(let i=0; i<list.length; i++) {
-        if(list[i].id == id) {
-          list[i].newMsg == isNew;
-        }
-      }
+    if (!props.isFriend) {
+      setNewMsg(id, show);
+    }
+  }
+};
+// set the id with no new message
+function setNewMsg(id, show) {
+  for (let i = 0; i < list.length; i++) {
+    if (list[i].id == id) {
+      list[i].newMsg = show;
+      //console.log(list[i]);
     }
   }
 }
 // show contact member name
 function showName(name) {
   name = String(name);
-  if(name.length > 5) {
+  if (name.length > 5) {
     return name.substring(0, 4) + "...";
   }
   return name;
@@ -551,6 +558,9 @@ watch(
     }
   }
 );
+defineExpose({
+  noticeNewMsg,
+});
 </script>
 <style scoped>
 .main-scroll {
