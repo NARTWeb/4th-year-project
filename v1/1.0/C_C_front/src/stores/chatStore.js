@@ -14,27 +14,18 @@ const { token } = storeToRefs(store);
 export const useChatStore = defineStore("chat", {
   state: () => {
     return {
-      ws: "",
       isFriendRoom: true,
       chatroomId: "",
     };
   },
   actions: {
-    setupWS() {
-      if (ws == "") {
-        var ws = new WebSocket("ws://localhost/chat");
-        ws.onopen = function () {};
-        ws.onmessage = function (evt) {
-          var dataStr = evt.data;
-          var res = JSON.parse(dataStr);
-          if (res.isSystem) {
-            //
-          } else {
-
-          }
-        };
-        ws.onclose = function () {};
-      }
+    setupWS(ws) {
+      
+      
+    },
+    logoutWs(ws) {
+      ws = "",
+      this.chatroomId = ""
     },
     checkList(isFriend) {
       let list;
@@ -61,11 +52,13 @@ export const useChatStore = defineStore("chat", {
         test(isFriend);
       }
     },
-    async wsSend(msg) {
-      this.ws.send(msg);
+    wsSend(msg) {
+        this.ws.send(JSON.stringify(msg));
     },
   },
   persist: {
     enabled: true,
   },
 });
+
+export default useChatStore;

@@ -72,6 +72,7 @@ import tool from "@/utils/tool.js";
 import { signin } from "@/api/user";
 import { ElMessage } from 'element-plus'
 import  useUserStore  from "@/stores/userStore";
+import  useChatStore  from "../../stores/chatStore";
 
 export default {
   data() {
@@ -79,6 +80,7 @@ export default {
       uname: "",
       pwd: "",
       store: useUserStore(),
+      chatStore: useChatStore(),
       unameReg: /^[\w-.]{3,28}$/,
       pwdReg: /^[\w-]{6,18}$/,
     };
@@ -119,7 +121,7 @@ export default {
           username: uname,
           password: pwd
         }
-        this.store.login(user);
+        this.store.login(user)
         this.$router.push('/');
       }
     },

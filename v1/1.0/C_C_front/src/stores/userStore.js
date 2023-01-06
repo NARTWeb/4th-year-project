@@ -18,6 +18,7 @@ const useUserStore = defineStore("user", {
       notice: "",
       groupName: "",
       groupAvatar: "",
+      newMsg: "",
     };
   },
   getters :{
@@ -35,6 +36,9 @@ const useUserStore = defineStore("user", {
     },
   },
   actions: {
+    setNewMsg(newVal){
+      this.newMsg = newVal;
+    },
     updategroupInfo(gInfo){
       if (gInfo != null && gInfo != {}) {
         if(gInfo.gid != null && gInfo.gid != ""){
@@ -58,8 +62,8 @@ const useUserStore = defineStore("user", {
             if (res.data.success) {
               setToken(res.data.data);
               this.token = getToken();
-              this.getUserInfo();
-              resolve();
+              let id = this.getUserInfo();
+              resolve(id);
             } else {
               ElMessage({
                 type: "error",
@@ -121,6 +125,7 @@ const useUserStore = defineStore("user", {
                 this.birthday = res.data.data.birthday;
                 this.tel = res.data.data.phone;
                 this.address = res.data.data.address;
+                return res.data.data.id;
               } else {
                 ElMessage({
                   type: "error",

@@ -507,7 +507,7 @@ function toChat(member) {
   }
 }
 // update new message if there are
-function noticeNewMsg(isFriend, id, isNew) {
+const noticeNewMsg = (isFriend, id, isNew) => {
   if(isFriend) {
     if(props.isFriend) {
       for(let i=0; i<list.length; i++) {
@@ -551,6 +551,9 @@ watch(
     }
   }
 );
+defineExpose({
+  noticeNewMsg
+})
 </script>
 <style scoped>
 .main-scroll {

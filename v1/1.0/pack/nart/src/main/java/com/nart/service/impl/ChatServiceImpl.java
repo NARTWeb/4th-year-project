@@ -101,7 +101,7 @@ public class ChatServiceImpl implements ChatService {
 
         IPage iPage = FriendChatDao.selectPage(page, lqw);
         List<FriendChat> records = iPage.getRecords();
-        System.out.println(records);
+        //System.out.println(records);
         MessageVo messageVo = new MessageVo();
         List<MessageVo> messageVos = new ArrayList<>();
 

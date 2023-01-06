@@ -1,7 +1,12 @@
 <template>
   <div class="all flex">
     <div class="inner-all">
-      <el-button class="to-setting" @click="router.push({ name: 'groupChatInfo', params: {} })" plain><el-icon><Star /></el-icon></el-button>
+      <el-button
+        class="to-setting"
+        @click="router.push({ name: 'groupChatInfo', params: {} })"
+        plain
+        ><el-icon><Star /></el-icon
+      ></el-button>
       <el-scrollbar height="55vh" id="all" always>
         <ul v-infinite-scroll="load" class="infinite-list">
           <li v-for="msg in msgList" :key="msg.msgId">
@@ -21,22 +26,26 @@
       </el-scrollbar>
     </div>
     <div class="input-box">
-        <chat-input-box
-            @add-pic="addPic"
-            @send-msg="sendMsg">
-        </chat-input-box>
+      <chat-input-box @add-pic="addPic" @send-msg="sendMsg"> </chat-input-box>
     </div>
   </div>
 </template>
 <script setup>
 import { ElMessage } from "element-plus";
-import { ref, reactive, onMounted, onUpdated, onBeforeUnmount, onUnmounted } from "vue";
+import {
+  ref,
+  reactive,
+  onMounted,
+  onUpdated,
+  onBeforeUnmount,
+  watch,
+} from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { showGroupChatHistory, showFriendChatHistory } from "@/api/chat";
-import  useUserStore  from "@/stores/userStore";
+import useUserStore from "@/stores/userStore";
 import { storeToRefs } from "pinia";
-import { sendGroupMsg, sendFriendMsg, leaveRoom} from "@/api/chat";
+import { sendGroupMsg, sendFriendMsg, leaveRoom } from "@/api/chat";
 
 import ChatMessage from "@/components/ChatMessage.vue";
 import ChatInputBox from "@/components/ChatInputBox.vue";
@@ -46,7 +55,7 @@ const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
-const { token, avatar, name } = storeToRefs(store);
+const { token, avatar, name, getNewMsg } = storeToRefs(store);
 const counter = ref(0);
 const mins = 30;
 const msgList = reactive([]);
@@ -61,11 +70,32 @@ const page = reactive({
   pageSize: 10,
 });
 var title = ref("");
-const emit = defineEmits(["wSend"]);
+const emit = defineEmits(["fathre"]);
 
+// receive message
+function receiveMsg(msgInfo) {
+  let date = new Date();
+  let tempMsg = {
+    msgId: "-1",
+    senderId: msgInfo.sender,
+    senderName: msgInfo.senderName,
+    senderAvatar: msgInfo.senderAvatar,
+    sentDate: {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+      hour: date.getHours(),
+      min: date.getMinutes() + 1,
+    },
+    isMe: false,
+    msg: msgInfo.msg,
+    msgType: msgInfo.msgType,
+  };
+  msgList.push(tempMsg);
+}
 // test loading chat history with fake data
 function tList() {
-  if(msgList.length > 30) {
+  if (msgList.length > 30) {
     return;
   }
   for (let i = 0; i < page.pageSize; i++) {
@@ -108,7 +138,7 @@ function tList() {
     counter.value += 2;
   }
 }
-// load chat history function 
+// load chat history function
 function load() {
   if (!nodata.value && !loading.value) {
     loading.value = true;
@@ -161,53 +191,54 @@ function load() {
 function wsSend(input, type) {
   let roomType = isGroup.value ? "group" : "friend";
   let json = {
-    "msg": input,
-    "msgType": type,
-    "sender": token.value,
-    "senderName": name.value,
-    "senderAvatar": avatar.value,
-    "receiver": roomId.value,
-    "receiverType": roomType
+    msg: input,
+    msgType: type,
+    sender: token.value,
+    senderName: name.value,
+    senderAvatar: avatar.value,
+    receiver: roomId.value,
+    receiverType: roomType,
   };
-  emit("wSend", json);
+  emit("fathre", json);
 }
-// prepare sending message 
+// prepare sending message
 function sendMsg(input, type) {
-    let date = new Date();
-    let tempMsg = {
-        msgId : "-1",
-        senderId: "-1",
-        senderName: name,
-        senderAvatar: avatar,
-        sentDate: {
-          year: date.getFullYear(),
-          month: date.getMonth() + 1,
-          day: date.getDate(),
-          hour: date.getHours(),
-          min: date.getMinutes() + 1,
-        },
-        isMe: true,
-        msg: input,
-        msgType: type,
-    }
-    msgList.push(tempMsg);
-    wsSend(input, type);
-    sendToBack(input, type);
+  let date = new Date();
+  let tempMsg = {
+    msgId: "-1",
+    senderId: "-1",
+    senderName: name,
+    senderAvatar: avatar,
+    sentDate: {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+      hour: date.getHours(),
+      min: date.getMinutes() + 1,
+    },
+    isMe: true,
+    msg: input,
+    msgType: type,
+  };
+  msgList.push(tempMsg);
+  wsSend(input, type);
+  sendToBack(input, type);
 }
 // HTTP send message function
 function sendToBack(input, type) {
   let msgInfo = {
     chatId: roomId.value,
-    msg: input, 
-    msgType: type
+    msg: input,
+    msgType: type,
   };
   let result;
-  if(isGroup.value) {
+  if (isGroup.value) {
     result = sendGroupMsg(token.value, msgInfo);
   } else {
     result = sendFriendMsg(token.value, msgInfo);
   }
-  result.then((res) => {
+  result
+    .then((res) => {
       if (res.data.success) {
       } else {
         ElMessage({
@@ -228,27 +259,6 @@ function sendToBack(input, type) {
       console.log(err);
     })
     .finally(() => {});
-}
-// receive message
-function receiveMsg(msgInfo) {
-  let date = new Date();
-  let tempMsg = {
-    msgId : "-1",
-    senderId: msgInfo.sender,
-    senderName: msgInfo.senderName,
-    senderAvatar: msgInfo.senderAvatar,
-    sentDate: {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
-      hour: date.getHours(),
-      min: date.getMinutes() + 1,
-    },
-    isMe: false,
-    msg: msgInfo.msg,
-    msgType: msgInfo.msgType
-  }
-  msgList.push(tempMsg);
 }
 // send picture message
 function addPic(img) {
@@ -285,7 +295,7 @@ function setParam() {
 }
 // check if uname is the current user
 function isMe(uname) {
-  if(store.name == uname) {
+  if (store.name == uname) {
     return true;
   } else {
     return false;
@@ -295,7 +305,7 @@ function isMe(uname) {
 function leave() {
   //console.log("leave Time!!!!!!!!!!!!!!!!!!!");
   leaveRoom(token.value, roomId.value, !isGroup.value)
-  .then((res) => {
+    .then((res) => {
       if (res.data.success) {
       } else {
         ElMessage({
@@ -330,26 +340,35 @@ onUpdated(() => {
 onBeforeUnmount(() => {
   leave();
 });
+watch(getNewMsg, (value) => {
+  if (value != "") {
+    receiveMsg(value);
+    store.setNewMsg("");
+  }
+});
+defineExpose({
+  receiveMsg,
+});
 </script>
 <style scoped>
 .all {
-    width:100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 .flex {
-display: -webkit-flex; /* Safari */
+  display: -webkit-flex; /* Safari */
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
 }
 #all {
-    transform: rotate(180deg);
-    direction: ltr;
+  transform: rotate(180deg);
+  direction: ltr;
 }
 .inner-all {
-    width: 100%;
-    height: 200px;
-    flex: auto;
+  width: 100%;
+  height: 200px;
+  flex: auto;
 }
 .infinite-list {
   display: -webkit-flex; /* Safari */
@@ -376,5 +395,3 @@ display: -webkit-flex; /* Safari */
   transform: rotate(180deg);
 }
 </style>
-
-

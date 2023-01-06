@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Description: TODO
  * @version: v1.8.0
  * @author: ZIRUI QIAO
- * @date: 2022/9/1 13:05
+ * @date: 2022/12/25 13:05
  */
 @Configuration
 public class WebMVCConfig implements WebMvcConfigurer {
@@ -29,10 +29,15 @@ public class WebMVCConfig implements WebMvcConfigurer {
         //跨域配置，不可设置为*，不安全, 前后端分离项目，可能域名不一致
         //本地测试 端口不一致 也算跨域
         registry.addMapping("/**")
-                .allowedOrigins("http://" + IPADDR + ":8888","http://" + IPADDR + ":5173",
-                        "https://imgse.com", "https://s1.ax1x.com",
+                .allowedOrigins(
+                        "http://" + IPADDR + ":8888",
+                        "http://" + IPADDR + ":5173",
+                        "https://imgse.com",
+                        "https://s1.ax1x.com",
                         "ws://" + IPADDR + ":8888/chat")
-                .allowedMethods("PUT", "DELETE", "POST", "GET");
+                .allowedMethods("PUT", "DELETE", "POST", "GET")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 
     @Override

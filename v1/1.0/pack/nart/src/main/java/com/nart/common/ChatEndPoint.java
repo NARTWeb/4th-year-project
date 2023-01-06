@@ -1,6 +1,7 @@
 package com.nart.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nart.config.WebSocketConfig;
 import com.nart.service.GroupService;
 import com.nart.util.EncryptUtil;
 import com.nart.util.GsonFormatter;
@@ -26,9 +27,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Description: TODO
  * @version: v1.8.0
  * @author: ZIRUI QIAO
- * @date: 2022/9/3 11:05
+ * @date: 2022/12/29 11:05
  */
-@ServerEndpoint(value="/chat",configurator = GetHttpSessionConfigurator.class)
+@ServerEndpoint(value="/chat",configurator = WebSocketConfig.class)
 @Component
 @Slf4j
 public class ChatEndPoint {
@@ -58,13 +59,14 @@ public class ChatEndPoint {
 
     private void broadcastAllUsers(WSMsg wsMsg, Set<String> receivers) {
         // find all online userIds
-        Set<String> ids = onlineUsers.keySet();
+        Map<String, ChatEndPoint> onlineUsers1 = onlineUsers;
+        Set<String> ids = onlineUsers1.keySet();
         // find intersections between online users and target users;
-        ids.retainAll(receivers);
+        //ids.retainAll(receivers);
         try {
             // send to all
-            for(String id: ids){
-                ChatEndPoint chatEndPoint = onlineUsers.get(id);
+            for(String id: receivers){ //ids){
+                ChatEndPoint chatEndPoint = onlineUsers.get("uid: " + id);
                 chatEndPoint.session.getBasicRemote().sendText(GsonFormatter.toJsonString(wsMsg));
             }
         } catch (IOException e) {
@@ -82,7 +84,10 @@ public class ChatEndPoint {
             ObjectMapper mapper = new ObjectMapper();
             WSMsg msg = mapper.readValue(message, WSMsg.class);
             String sid = msg.getSender();
-            sid = (String) EncryptUtil.checkToken(sid).get("userId");
+            Map<String, Object> stringObjectMap = EncryptUtil.checkToken(sid);
+            if (stringObjectMap != null) {
+                sid = ((Long) stringObjectMap.get("userId")).toString();
+            }
             msg.setSender(sid);
 
             Set<String> receivers = new HashSet<>();

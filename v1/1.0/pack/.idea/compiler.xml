@@ -11,13 +11,13 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="nart" target="1.8" />
-      <module name="pack" target="1.8" />
+      <module name="testWs" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="nart" options="-parameters" />
+      <module name="testWs" options="-parameters" />
     </option>
   </component>
 </project>

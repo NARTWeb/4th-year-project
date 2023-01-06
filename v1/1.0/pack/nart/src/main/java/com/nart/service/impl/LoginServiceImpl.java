@@ -37,9 +37,9 @@ public class LoginServiceImpl implements LoginService {
         if (StringUtils.isBlank(uname) || StringUtils.isBlank(pwd)) {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         }
-        System.out.println("未加密" + pwd);
+        //System.out.println("未加密" + pwd);
         String password = EncryptUtil.encryptPwd(pwd);
-        System.out.println("密码"+password);
+        //System.out.println("密码"+password);
         User user = userService.findUser(uname, password);
 //        System.out.println(user);
 
@@ -48,7 +48,11 @@ public class LoginServiceImpl implements LoginService {
         }
         String token = EncryptUtil.createToken(Long.parseLong(user.getId()));
         redisUtil.set("TOKEN_" + token, user, RedisUtil.DEFAULT_EXPIRE);
+
+        //System.out.println("user: " + (String) session.getAttribute("user"));
+        //System.out.println("session isNew? " + session.isNew() );
         session.setAttribute("uid", "uid: " + user.getId());
+        //System.out.println((String) session.getAttribute("uid"));
 
         dataCounterService.updateOnlineUserAmount(true);
         return Result.success(token);
