@@ -6,8 +6,7 @@ import com.nart.dao.*;
 import com.nart.pojo.Group;
 import com.nart.pojo.GroupInvite;
 import com.nart.pojo.User;
-import com.nart.pojo.UserGroup;
-import com.nart.service.ChatService;
+import com.nart.pojo.*;
 import com.nart.service.GroupService;
 import com.nart.util.UserThreadLocal;
 import com.nart.vo.GroupVo;
@@ -27,6 +26,7 @@ public class GroupServiceImpl implements GroupService {
     private final GroupDao groupDao;
     private final GroupInviteDao groupInviteDao;
     private final ChatService chatService;
+
 
     @Autowired
     public GroupServiceImpl(UserGroupDao userGroupDao,
