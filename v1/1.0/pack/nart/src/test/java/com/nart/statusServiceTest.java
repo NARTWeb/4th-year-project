@@ -20,7 +20,7 @@ public class statusServiceTest {
     @Test
     public void showAllStatusList(){
         IPage<User> page = new Page<>(1, 5);
-        List<Status> statuses = statusService.showAllStatusList("1574989639444471809", page);
+        List<Status> statuses = statusService.showAllStatusList("1574989636705591298", page);
         System.out.println(statuses);
     }
 

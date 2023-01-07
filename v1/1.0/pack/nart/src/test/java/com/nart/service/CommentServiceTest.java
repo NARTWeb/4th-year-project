@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 //@Resource
 @Rollback
@@ -30,7 +30,7 @@ class CommentServiceTest {
     void showCommentList() {
 
         List<Comment> comments = commentService.showCommentList("1574989661011582978");
-//        System.out.println(comments);
+        System.out.println(comments);
 
         List<Comment> C = new ArrayList<>();
         Comment comment = new Comment();
