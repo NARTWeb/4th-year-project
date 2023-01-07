@@ -11,9 +11,10 @@ import com.nart.vo.InviteVo;
 import com.nart.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-
+@Transactional
 @Service
 public class GroupServiceImpl implements GroupService {
 

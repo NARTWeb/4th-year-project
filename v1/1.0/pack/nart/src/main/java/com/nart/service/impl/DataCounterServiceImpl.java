@@ -4,7 +4,9 @@ package com.nart.service.impl;
 import com.nart.service.DataCounterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Service
 public class DataCounterServiceImpl implements DataCounterService {
 
