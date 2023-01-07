@@ -12,18 +12,22 @@ import java.util.List;
 @Service
 public class LoadDataInDataBaseImpl implements LoadDataInDataBase {
 
+    private final UserDao userDao;
+    private final FriendReqDao friendReqDao;
+    private final StatusDao statusDao;
+    private final GroupDao groupDao;
+    private final CommentDao commentDao;
+    private final GroupInviteDao groupInviteDao;
+
     @Autowired
-    private UserDao userDao;
-    @Autowired
-    private FriendReqDao friendReqDao;
-    @Autowired
-    private StatusDao statusDao;
-    @Autowired
-    private GroupDao groupDao;
-    @Autowired
-    private CommentDao commentDao;
-    @Autowired
-    private GroupInviteDao groupInviteDao;
+    public LoadDataInDataBaseImpl(UserDao userDao, FriendReqDao friendReqDao, StatusDao statusDao, GroupDao groupDao, CommentDao commentDao, GroupInviteDao groupInviteDao) {
+        this.userDao = userDao;
+        this.friendReqDao = friendReqDao;
+        this.statusDao = statusDao;
+        this.groupDao = groupDao;
+        this.commentDao = commentDao;
+        this.groupInviteDao = groupInviteDao;
+    }
 
 
     @Override

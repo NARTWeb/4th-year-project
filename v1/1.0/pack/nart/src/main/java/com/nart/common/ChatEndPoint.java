@@ -1,19 +1,22 @@
 package com.nart.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nart.config.WebSocketConfig;
 import com.nart.service.GroupService;
 import com.nart.util.EncryptUtil;
 import com.nart.util.GsonFormatter;
-import com.nart.util.RedisUtil;
+import com.nart.util.SpringUtil;
 import com.nart.vo.WSMsg;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -24,20 +27,21 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Description: TODO
  * @version: v1.8.0
  * @author: ZIRUI QIAO
- * @date: 2022/9/3 11:05
+ * @date: 2022/12/29 11:05
  */
-@ServerEndpoint(value="/chat",configurator = GetHttpSessionConfigurator.class)
+@ServerEndpoint(value="/chat",configurator = WebSocketConfig.class)
 @Component
+@Slf4j
 public class ChatEndPoint {
     // stores all online users
     private static final Map<String, ChatEndPoint> onlineUsers = new ConcurrentHashMap<>();
-
     private Session session;
-
     private HttpSession httpSession;
 
-    @Autowired
-    private GroupService groupService;
+    private GroupService getGroupService() {
+        GroupService gsi = (GroupService) SpringUtil.getBean("groupServiceImpl");
+        return gsi;
+    }
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) {
@@ -45,15 +49,22 @@ public class ChatEndPoint {
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         this.httpSession = httpSession;
         String uid = (String) httpSession.getAttribute("uid");
-
+        uid = uid.substring(5);
         onlineUsers.put(uid, this);
+        onlineUsers.forEach((key, value) -> {
+            String temp = key + ": " + value.toString();
+            log.info(temp);
+        });
     }
 
     private void broadcastAllUsers(WSMsg wsMsg, Set<String> receivers) {
         // find all online userIds
-        Set<String> ids = onlineUsers.keySet();
+        Map<String, ChatEndPoint> onlineUsers1 = onlineUsers;
+        Set<String> ids = new HashSet<String>(onlineUsers1.keySet());
+
         // find intersections between online users and target users;
         ids.retainAll(receivers);
+        ids.remove(wsMsg.getSender());
         try {
             // send to all
             for(String id: ids){
@@ -75,7 +86,10 @@ public class ChatEndPoint {
             ObjectMapper mapper = new ObjectMapper();
             WSMsg msg = mapper.readValue(message, WSMsg.class);
             String sid = msg.getSender();
-            sid = (String) EncryptUtil.checkToken(sid).get("userId");
+            Map<String, Object> stringObjectMap = EncryptUtil.checkToken(sid);
+            if (stringObjectMap != null) {
+                sid = ((Long) stringObjectMap.get("userId")).toString();
+            }
             msg.setSender(sid);
 
             Set<String> receivers = new HashSet<>();
@@ -85,7 +99,8 @@ public class ChatEndPoint {
             if(receiverType.equals("friend")) {
                 receivers.add(receiver);
             } else {
-                receivers.addAll(groupService.findAllMembers(receiver));
+                GroupService gs = getGroupService();
+                receivers.addAll(gs.findAllMembers(receiver));
             }
 
             broadcastAllUsers(msg, receivers);

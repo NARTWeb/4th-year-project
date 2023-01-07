@@ -1,110 +1,82 @@
 <template>
   <div>
-    <el-upload
-      ref="upload"
-      :limit="1"
-      action="#"
-      accept="image/png,image/gif,image/jpg,image/jpeg"
-      :file-list="file"
-      :auto-upload="false"
-      :on-change="handleChange"
-    >
-      <i class="el-icon-plus"></i>
-    </el-upload>
-    <el-button type="success" @click="submitUpload">upload</el-button>
+    <el-button @click="wSend">
+      send
+    </el-button>
   </div>
 </template>
-<script setup lang="ts">
-import { uploadPic, deletePic } from "@/api/upload";
-import { reactive, ref, watch } from "vue";
-import { ElMessage } from "element-plus";
-import { useI18n } from "vue-i18n";
-import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
+<script setup>
+import { useRouter } from "vue-router";
+import { onMounted, onUpdated, reactive, ref } from "vue";
+import { RouterLink, RouterView } from "vue-router";
+import  useUserStore  from "@/stores/userStore";
+import  useChatStore  from "@/stores/chatStore";
+import { storeToRefs } from "pinia";
 
-const { t } = useI18n();
+const router = useRouter();
+const store = useUserStore();
+const chatStore = useChatStore();
+const { token, avatar, name } = storeToRefs(store);
+// const rv = ref(null);
+// const fnoticeNew = ref(null);
+// const gnoticeNew = ref(null);
 
-const file = reactive([]);
-const upload = ref<UploadInstance>();
-
-function handleChange(f, fileList) {
-  let reader = new FileReader();
-  reader.readAsDataURL(f.raw);
-  reader.onload = (e) => {
-    file.push({ name: f.raw.name, url: e.target.result });
+// function wSend(input) {
+//   console.log(input);
+//   ws.send(JSON.stringify(input));
+// }
+function wsSend(input, type) {
+  let roomType = "friend";
+  let json = {
+    "msg": input,
+    "msgType": type,
+    "sender": token.value,
+    "senderName": name.value,
+    "senderAvatar": avatar.value,
+    "receiver": "1606447871244648449",
+    "receiverType": roomType
   };
-  file.push(f.raw);
-  fileList = file;
+  return json;
 }
 
-function submitUpload() {
-  let formData = new FormData();
-  let f = file;
-  for (let i = 0; i < f.length; i++) {
-    formData.append("file", f[i]);
-  }
-
-  // send request
-  uploadPic(formData, 3)
-    .then((res) => {
-      if (res.data.success) {
-        realAvatar.value = res.data.data;
-      } else {
-        ElMessage({
-          type: "error",
-          message: res.data.msg,
-          showClose: true,
-          grouping: true,
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage({
-        type: "error",
-        message: t("chatInputBox.uploadPicError"),
-        showClose: true,
-        grouping: true,
-      });
-      console.log(err);
-    });
-  file.length = 0;
-  upload.value!.clearFiles();
+function wSend() {
+  let msg = wsSend("just Test", "text")
+  chatStore.wsSend(msg);
+  // ws.onopen = () =>ws.send(JSON.stringify(msg));
 }
 
-function del(url:String) {
-  if (url == "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png") {
-    return;
-  }
-  let head = url.lastIndexOf("/") + 1;
-  let tail = url.lastIndexOf(".");
-  let id = url.substring(head, tail);
 
-  deletePic(id)
-    .then((res) => {
-      if (res.data.success) {
-        ElMessage({
-          type: "success",
-          message: t("chatInputBox.deletePicSuccess"),
-          showClose: true,
-          grouping: true,
-        });
-      } else {
-        ElMessage({
-          type: "error",
-          message: res.data.msg,
-          showClose: true,
-          grouping: true,
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage({
-        type: "error",
-        message: t("chatInputBox.deletePicError"),
-        showClose: true,
-        grouping: true,
-      });
-      console.log(err);
-    });
-}
+// ws.onmessage = function (evt) {
+//   alert("onMessage");
+//   var dataStr = evt.data;
+
+//   var res = JSON.parse(dataStr);
+//   let rType = res.receiverType;
+//   let gid = res.receiver;
+//   let sid = res.sender;
+
+//   if (rType == "friend") {
+//     fnoticeNew.value.noticeNewMsg(true, sid, true);
+//   } else {
+//     gnoticeNew.value.noticeNewMsg(false, gid, true);
+//   }
+
+//   if (router.currentRoute.value.name == "chatRoom") {
+//     let str = router.currentRoute.value.params.id;
+//     let type = str[0];
+//     let roomId = str.slice(1);
+//     if (type == "f") {
+//       if (sid == roomId && rType == "friend") {
+//         fnoticeNew.value.noticeNewMsg(true, sid, false);
+//         rv.value.receiveMsg(res);
+//       }
+//     } else {
+//       if (gid == roomId && rType == "group") {
+//         gnoticeNew.value.noticeNewMsg(false, gid, false);
+//         rv.value.receiveMsg(res);
+//       }
+//     }
+//   }
+// };
 </script>
 <style scoped></style>

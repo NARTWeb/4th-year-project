@@ -3,7 +3,11 @@ package com.nart.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nart.dao.*;
-import com.nart.pojo.*;
+import com.nart.pojo.Group;
+import com.nart.pojo.GroupInvite;
+import com.nart.pojo.User;
+import com.nart.pojo.UserGroup;
+import com.nart.service.ChatService;
 import com.nart.service.GroupService;
 import com.nart.util.UserThreadLocal;
 import com.nart.vo.GroupVo;
@@ -18,21 +22,24 @@ import java.util.*;
 @Service
 public class GroupServiceImpl implements GroupService {
 
-    @Autowired
-    private UserGroupDao userGroupDao;
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private GroupDao groupDao;
+    private final UserGroupDao userGroupDao;
+    private final UserDao userDao;
+    private final GroupDao groupDao;
+    private final GroupInviteDao groupInviteDao;
+    private final ChatService chatService;
 
     @Autowired
-    private FriendDao friendDao;
-
-    @Autowired
-    private GroupInviteDao groupInviteDao;
-
-    @Autowired
-    private GroupChatDao groupChatDao;
+    public GroupServiceImpl(UserGroupDao userGroupDao,
+                            UserDao userDao,
+                            GroupDao groupDao,
+                            GroupInviteDao groupInviteDao,
+                            ChatService chatService) {
+        this.userGroupDao = userGroupDao;
+        this.userDao = userDao;
+        this.groupDao = groupDao;
+        this.groupInviteDao = groupInviteDao;
+        this.chatService = chatService;
+    }
 
 
     @Override
@@ -95,6 +102,8 @@ public class GroupServiceImpl implements GroupService {
         for (UserGroup record : records) {
             String gid = record.getGid();
             Group group = groupDao.selectById(gid);
+            boolean hasNewMsg = chatService.existNewMsg(gid, false, record.getUserLevelTime());
+            group.setNewMessage(hasNewMsg);
             groupList.add(group);
         }
 

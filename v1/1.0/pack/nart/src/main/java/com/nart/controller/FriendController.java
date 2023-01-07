@@ -49,7 +49,10 @@ public class FriendController {
     public Result searchFriend(@RequestBody PageVo page,
                                @PathVariable("input") String input) {
         if(input.equals("-1")) {
-            List<FriendVo> userVos = friendService.showFriendList(page.toIPage(Friend.class), UserThreadLocal.get().getId());
+            List<FriendVo> userVos = friendService.showFriendList(
+                    page.toIPage(Friend.class),
+                    UserThreadLocal.get().getId()
+            );
             if(userVos == null) {
                 return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);
             }

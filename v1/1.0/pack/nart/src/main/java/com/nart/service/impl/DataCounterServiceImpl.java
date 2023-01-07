@@ -1,6 +1,7 @@
 package com.nart.service.impl;
 
 
+import com.nart.dao.DataCounterDao;
 import com.nart.service.DataCounterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,15 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class DataCounterServiceImpl implements DataCounterService {
 
     @Autowired
-    private com.nart.dao.DataCounterDao DataCounterDao;
+    private DataCounterDao dataCounterDao;
 
     @Override
     public int updateUserAmount(boolean increase) {
         if (increase) {
-            DataCounterDao.updateUserAmount(1);
+            dataCounterDao.updateUserAmount(1);
             return 1;
         } else {
-            DataCounterDao.updateUserAmountm(1);
+            dataCounterDao.updateUserAmountm(1);
             return 2;
         }
 
@@ -28,11 +29,11 @@ public class DataCounterServiceImpl implements DataCounterService {
     @Override
     public int updateOnlineUserAmount(boolean increase) {
         if (increase) {
-            DataCounterDao.updateOnlineUserAmount(1);
+            dataCounterDao.updateOnlineUserAmount(1);
 
             return 1;
         } else {
-            DataCounterDao.updateOnlineUserAmountm(1);
+            dataCounterDao.updateOnlineUserAmountm(1);
             return 2;
         }
     }
@@ -40,11 +41,11 @@ public class DataCounterServiceImpl implements DataCounterService {
     @Override
     public int updateStatusAmount(boolean increase) {
         if (increase) {
-            DataCounterDao.updateStatusAmount(1);
+            dataCounterDao.updateStatusAmount(1);
 
             return 1;
         } else {
-            DataCounterDao.updateStatusAmountm(1);
+            dataCounterDao.updateStatusAmountm(1);
             return 2;
         }
     }
@@ -52,11 +53,11 @@ public class DataCounterServiceImpl implements DataCounterService {
     @Override
     public int updateCommentAmount(boolean increase) {
         if (increase) {
-            DataCounterDao.updateCommentAmount(1);
+            dataCounterDao.updateCommentAmount(1);
 
             return 1;
         } else {
-            DataCounterDao.updateCommentAmountm(1);
+            dataCounterDao.updateCommentAmountm(1);
             return 2;
         }
     }
@@ -64,11 +65,11 @@ public class DataCounterServiceImpl implements DataCounterService {
     @Override
     public int updateMessageAmount(boolean increase) {
         if (increase) {
-            DataCounterDao.updateMessageAmount(1);
+            dataCounterDao.updateMessageAmount(1);
 
             return 1;
         } else {
-            DataCounterDao.updateMessageAmountm(1);
+            dataCounterDao.updateMessageAmountm(1);
             return 2;
         }
     }

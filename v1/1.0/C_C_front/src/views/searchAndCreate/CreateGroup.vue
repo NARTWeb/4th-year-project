@@ -38,7 +38,7 @@
           <div class="header-input">
             <el-input
               v-model="groupName"
-              :placeholder="placeholder"
+              :placeholder="pholder"
               size="large"
             ></el-input>
           </div>
@@ -85,13 +85,13 @@ import { computed, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { uploadPic, deletePic } from "@/api/upload";
-import { createNewGroup, sendGroupInvite } from "@/api/group";
+import { createNewGroup, sendGroupInvite, changeGroupInfo } from "@/api/group";
 import { storeToRefs } from "pinia";
 import useUserStore from "@/stores/userStore";
 import { ElMessage } from "element-plus";
 import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
 import PopWinFriendList from "./PopWinFriendList.vue";
-import { genFileId } from 'element-plus'
+import { genFileId } from "element-plus";
 
 const dialogFormVisible = ref(false);
 const store = useUserStore();
@@ -103,22 +103,28 @@ const img = ref(
 );
 const inviteList = reactive([]);
 const groupId = ref("");
-const groupName = ref('');
-const placeholder = computed({
+const groupName = ref("");
+const pholder = computed<String>({
   get() {
     return t("createGroup.groupNameHolder");
+  },
+  set(val) {
+    return;
   },
 });
 
 const uploadRef = ref<UploadInstance>();
 const file = reactive([]);
+var flag = false;
 
-const handleExceed: UploadProps['onExceed'] = (files) => {
-  uploadRef.value!.clearFiles()
-  const file = files[0] as UploadRawFile
-  file.uid = genFileId()
-  uploadRef.value!.handleStart(file)
-}
+// picture list length exceed 1 logic
+const handleExceed: UploadProps["onExceed"] = (files) => {
+  uploadRef.value!.clearFiles();
+  const file = files[0] as UploadRawFile;
+  file.uid = genFileId();
+  uploadRef.value!.handleStart(file);
+};
+// picture list change logic
 function handleChange(f, fileList) {
   let reader = new FileReader();
   reader.readAsDataURL(f.raw);
@@ -129,6 +135,7 @@ function handleChange(f, fileList) {
   fileList = file;
   uploadFun();
 }
+// delete original picture from cloud
 function del(url: String) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -138,9 +145,7 @@ function del(url: String) {
       ) {
         resolve("No need to delete");
       }
-      if (
-        !url.startsWith('https://s1.ax1x.com')
-      ) {
+      if (!url.startsWith("https://s1.ax1x.com")) {
         resolve("Cannot Delete");
       }
       let head = url.lastIndexOf("/") + 1;
@@ -180,6 +185,7 @@ function del(url: String) {
     }, 500);
   });
 }
+// upload new picture to cloud
 function submitUpload() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -188,7 +194,7 @@ function submitUpload() {
       for (let i = 0; i < f.length; i++) {
         formData.append("file", f[i]);
       }
-      
+
       // send request
       uploadPic(formData, 2)
         .then((res) => {
@@ -216,19 +222,87 @@ function submitUpload() {
     }, 500);
   });
 }
+// overall upload picture logic
 async function uploadFun() {
   await del(img.value);
   await submitUpload();
   file.length = 0;
   uploadRef.value!.clearFiles();
 }
-function create() {
-  let flag = false;
-  createNewGroup(token.value, groupName.value.trim())
+// send creat Group HTTP request
+function createGroup() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      flag = false;
+      createNewGroup(token.value, groupName.value.trim())
+        .then((res) => {
+          if (res.data.success) {
+            groupId.value = res.data.data;
+            flag = true;
+            resolve("got groupId");
+          } else {
+            ElMessage({
+              type: "error",
+              message: res.data.msg,
+              showClose: true,
+              grouping: true,
+            });
+            reject;
+          }
+        })
+        .catch((err) => {
+          ElMessage({
+            type: "error",
+            message: t("createGroup.createError"),
+            showClose: true,
+            grouping: true,
+          });
+          console.log(err);
+          reject;
+        });
+    }, 500);
+  });
+}
+// send each member HTTP invite
+function sendInvite(inviteInfo) {
+  sendGroupInvite(token.value, inviteInfo)
+    .then((res) => {
+      if (!res.data.success) {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+          showClose: true,
+          grouping: true,
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+        type: "error",
+        message: t("createGroup.inviteError"),
+        showClose: true,
+        grouping: true,
+      });
+      console.log(err);
+    });
+}
+// change group avatar HTTP
+function changeInfo(successMsg, ErrorMsg) {
+  const gInfo = {
+    id: groupId.value,
+    name: groupName.value.trim(),
+    avatar: img.value,
+    notice: "",
+  };
+  changeGroupInfo(token.value, gInfo)
     .then((res) => {
       if (res.data.success) {
-        groupId.value = res.data.data;
-        flag = true;
+        ElMessage({
+          type: "success",
+          message: successMsg,
+          showClose: true,
+          grouping: true,
+        });
       } else {
         ElMessage({
           type: "error",
@@ -241,14 +315,21 @@ function create() {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: t("createGroup.createError"),
+        message: ErrorMsg,
         showClose: true,
         grouping: true,
       });
       console.log(err);
     });
-
+}
+// overall create group logic
+async function create() {
+  await createGroup();
   console.log(groupId.value);
+  changeInfo(
+    t("groupSetting.changeAvatar"),
+    t("groupSetting.changeAvatarError")
+  );
 
   for (let i = 0; i < inviteList.length; i++) {
     let inviteInfo = {
@@ -256,26 +337,7 @@ function create() {
       receiverId: inviteList[i].id,
       message: "",
     };
-    sendGroupInvite(token.value, inviteInfo)
-      .then((res) => {
-        if (!res.data.success) {
-          ElMessage({
-            type: "error",
-            message: res.data.msg,
-            showClose: true,
-            grouping: true,
-          });
-        }
-      })
-      .catch((err) => {
-        ElMessage({
-          type: "error",
-          message: t("createGroup.inviteError"),
-          showClose: true,
-          grouping: true,
-        });
-        console.log(err);
-      });
+    sendInvite(inviteInfo);
   }
   if (flag) {
     const info = {

@@ -58,7 +58,7 @@ public class UserController {
     @LogA
     @GetMapping("info/{id}")
     public Result showUserInfo(@PathVariable("id") String id) {
-        System.out.println(id);
+        //System.out.println(id);
         User user;
         if(id.equals("-1")) {
             user = userService.showUserInfo(UserThreadLocal.get().getId());

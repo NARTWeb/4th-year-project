@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * @Description: TODO
  * @version: v1.8.0
  * @author: ZIRUI QIAO
- * @date: 2022/9/2 14:22
+ * @date: 2022/12/25 14:22
  */
 @Configuration
 public class RedisConfig {
