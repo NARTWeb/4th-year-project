@@ -254,6 +254,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<Friend> findAllFriends(String uid) {
+        String id = UserThreadLocal.get().getId();
         LambdaQueryWrapper<Friend> lqw = new LambdaQueryWrapper<Friend>();
         lqw.select(Friend::getFid).eq(Friend::getUid, uid);
         lqw.orderBy(true,false, Friend::getLeaveTime);

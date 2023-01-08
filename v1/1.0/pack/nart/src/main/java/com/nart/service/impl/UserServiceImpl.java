@@ -118,9 +118,9 @@ public class UserServiceImpl implements UserService {
             user.setName(userVo.getUname());
         }
         String tpwd = user.getTpwd();
-        System.out.println(tpwd);
+//        System.out.println(tpwd);
         String pwd = userVo.getPwd();
-        System.out.println(pwd);
+//        System.out.println(pwd);
         if(!userVo.getPwd().isEmpty() && userVo.getPwd().equals(tpwd)) {
             user.setTpwd(userVo.getPwd());
             String password = EncryptUtil.encryptPwd(userVo.getPwd());
