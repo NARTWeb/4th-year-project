@@ -23,11 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 public class IpUtils {
 
     /**
-     * 获取IP地址
+     * Get IP address
      * <p>
-     * 使用Nginx等反向代理软件， 则不能通过request.getRemoteAddr()获取IP地址
-     * 如果使用了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP地址，
-     * X-Forwarded-For中第一个非unknown的有效IP字符串，则为真实IP地址
+     * If you are using a reverse proxy such as Nginx, you cannot get an IP address with request.getRemoteAddr().
+     * If you are using a multi-level reverse proxy, there is not just one X-Forwarded-For value, but a string of IP addresses.
+     * The first valid IP string in the X-Forwarded-For that is not unknown is the real IP address
      */
     public static String getIpAddr(HttpServletRequest request) {
         String ip = null, unknown = "unknown", separator = ",";
@@ -53,7 +53,7 @@ public class IpUtils {
             log.error("IpUtils ERROR ", e);
         }
 
-        // 使用代理，则获取第一个IP地址
+        // Using a proxy, the first IP address is obtained
         if (StringUtils.isNotEmpty(ip) && ip.length() > maxLength) {
             int idx = ip.indexOf(separator);
             if (idx > 0) {
@@ -65,7 +65,7 @@ public class IpUtils {
     }
 
     /**
-     * 获取ip地址
+     * Get ip address
      *
      * @return
      */

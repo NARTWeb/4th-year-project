@@ -49,83 +49,86 @@ import java.util.List;
     public Result searchFriend(@RequestBody PageVo page,
                                @PathVariable(&quot;input&quot;) String input) {
 <span class="nc bnc" id="L51" title="All 2 branches missed.">        if(input.equals(&quot;-1&quot;)) {</span>
-<span class="nc" id="L52">            List&lt;FriendVo&gt; userVos = friendService.showFriendList(page.toIPage(Friend.class), UserThreadLocal.get().getId());</span>
-<span class="nc bnc" id="L53" title="All 2 branches missed.">            if(userVos == null) {</span>
-<span class="nc" id="L54">                return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);</span>
+<span class="nc" id="L52">            List&lt;FriendVo&gt; userVos = friendService.showFriendList(</span>
+<span class="nc" id="L53">                    page.toIPage(Friend.class),</span>
+<span class="nc" id="L54">                    UserThreadLocal.get().getId()</span>
+            );
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            if(userVos == null) {</span>
+<span class="nc" id="L57">                return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);</span>
             }
-<span class="nc" id="L56">            return Result.success(userVos);</span>
+<span class="nc" id="L59">            return Result.success(userVos);</span>
         } else {
-<span class="nc" id="L58">            List&lt;UserVo&gt; userVos = friendService.searchFriend(input, page.toIPage(Friend.class));</span>
-<span class="nc bnc" id="L59" title="All 2 branches missed.">            if(userVos == null) {</span>
-<span class="nc" id="L60">                return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);</span>
+<span class="nc" id="L61">            List&lt;UserVo&gt; userVos = friendService.searchFriend(input, page.toIPage(Friend.class));</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if(userVos == null) {</span>
+<span class="nc" id="L63">                return Result.success(ErrorCode.SEARCH_FRIEND_ERROR);</span>
             }
-<span class="nc" id="L62">            return Result.success(userVos);</span>
+<span class="nc" id="L65">            return Result.success(userVos);</span>
         }
     }
 
     @LogA
     @DeleteMapping(&quot;del/{friendId}&quot;)
     public Result delFriend(@PathVariable(&quot;friendId&quot;) String fid) {
-<span class="nc" id="L69">        boolean b = friendService.delFriend(fid, UserThreadLocal.get().getId());</span>
-<span class="nc bnc" id="L70" title="All 2 branches missed.">        if(b) {</span>
-<span class="nc" id="L71">            return Result.success(null);</span>
+<span class="nc" id="L72">        boolean b = friendService.delFriend(fid, UserThreadLocal.get().getId());</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if(b) {</span>
+<span class="nc" id="L74">            return Result.success(null);</span>
         }
-<span class="nc" id="L73">        return Result.fail(ErrorCode.DEL_FRIEND_ERROR);</span>
+<span class="nc" id="L76">        return Result.fail(ErrorCode.DEL_FRIEND_ERROR);</span>
     }
 
     @LogA
-    @GetMapping(&quot;state/{friendId}/{state}&quot;)
+    @PutMapping(&quot;state/{friendId}/{state}&quot;)
     public Result changeFriendState(@PathVariable(&quot;friendId&quot;) String fid,
                                     @PathVariable(&quot;state&quot;) Integer state) {
-<span class="nc" id="L80">        boolean b = friendService.changeFriendState(fid, UserThreadLocal.get().getId(), state);</span>
-<span class="nc bnc" id="L81" title="All 2 branches missed.">        if(b) {</span>
-<span class="nc" id="L82">            return Result.success(null);</span>
+<span class="nc" id="L83">        boolean b = friendService.changeFriendState(fid, UserThreadLocal.get().getId(), state);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if(b) {</span>
+<span class="nc" id="L85">            return Result.success(null);</span>
         }
-<span class="nc" id="L84">        return Result.fail(ErrorCode.CHANGE_FRIEND_STATE_ERROR);</span>
+<span class="nc" id="L87">        return Result.fail(ErrorCode.CHANGE_FRIEND_STATE_ERROR);</span>
     }
 
     @LogA
     @PostMapping(&quot;reqlist&quot;)
     public Result showReqList(@RequestBody PageVo page) {
-<span class="nc" id="L90">        List&lt;RequestVo&gt; requestVos = friendService.showReqList(</span>
-<span class="nc" id="L91">                page.toIPage(FriendReq.class), UserThreadLocal.get().getId());</span>
-<span class="nc bnc" id="L92" title="All 2 branches missed.">        if(requestVos == null) {</span>
-<span class="nc" id="L93">            return Result.fail(ErrorCode.SHOW_FRIEND_REQS_ERROR);</span>
+<span class="nc" id="L93">        List&lt;RequestVo&gt; requestVos = friendService.showReqList(</span>
+<span class="nc" id="L94">                page.toIPage(FriendReq.class), UserThreadLocal.get().getId());</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if(requestVos == null) {</span>
+<span class="nc" id="L96">            return Result.fail(ErrorCode.SHOW_FRIEND_REQS_ERROR);</span>
         }
-<span class="nc" id="L95">        return Result.success(requestVos);</span>
+<span class="nc" id="L98">        return Result.success(requestVos);</span>
     }
 
     @LogA
     @PostMapping(&quot;send&quot;)
     public Result sendFriendReq(@RequestBody FriendReq reqInfo) {
-<span class="nc" id="L101">        boolean b = friendService.sendFriendReq(</span>
-<span class="nc" id="L102">                reqInfo.getReceiverId(), UserThreadLocal.get().getId(), reqInfo.getMsg());</span>
-<span class="nc bnc" id="L103" title="All 2 branches missed.">        if(b) {</span>
-<span class="nc" id="L104">            return Result.success(null);</span>
+<span class="nc" id="L104">        boolean b = friendService.sendFriendReq(</span>
+<span class="nc" id="L105">                reqInfo.getReceiverId(), UserThreadLocal.get().getId(), reqInfo.getMsg());</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if(b) {</span>
+<span class="nc" id="L107">            return Result.success(null);</span>
         }
-<span class="nc" id="L106">        return Result.fail(ErrorCode.SEND_FRIEND_REQ_ERROR);</span>
+<span class="nc" id="L109">        return Result.fail(ErrorCode.SEND_FRIEND_REQ_ERROR);</span>
     }
 
     @LogA
     @GetMapping(&quot;resp/{requestId}/{agree}&quot;)
     public Result respFriendReq(@PathVariable(&quot;requestId&quot;) String reqId,
                                 @PathVariable(&quot;agree&quot;) Boolean agree) {
-<span class="nc" id="L113">        boolean b = friendService.respFriendReq(reqId, agree);</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">        if(b) {</span>
-<span class="nc" id="L115">            return Result.success(null);</span>
+<span class="nc" id="L116">        boolean b = friendService.respFriendReq(reqId, agree);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if(b) {</span>
+<span class="nc" id="L118">            return Result.success(null);</span>
         }
-<span class="nc" id="L117">        return Result.fail(ErrorCode.RESP_FRIEND_REQ_ERROR);</span>
+<span class="nc" id="L120">        return Result.fail(ErrorCode.RESP_FRIEND_REQ_ERROR);</span>
     }
 
     @LogA
     @PostMapping(&quot;searchNew/{input}&quot;)
     public Result searchNew(@RequestBody PageVo page,
                               @PathVariable(&quot;input&quot;) String input) {
-<span class="nc" id="L124">        List&lt;UserVo&gt; userVos = friendService.searchNew(input, page);</span>
-<span class="nc bnc" id="L125" title="All 2 branches missed.">        if(userVos == null) {</span>
-<span class="nc" id="L126">            return Result.success(ErrorCode.SEARCH_NEW_ERROR);</span>
+<span class="nc" id="L127">        List&lt;UserVo&gt; userVos = friendService.searchNew(input, page);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if(userVos == null) {</span>
+<span class="nc" id="L129">            return Result.success(ErrorCode.SEARCH_NEW_ERROR);</span>
         }
-<span class="nc" id="L128">        return Result.success(userVos);</span>
+<span class="nc" id="L131">        return Result.success(userVos);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

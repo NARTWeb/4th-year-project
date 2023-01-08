@@ -13,16 +13,16 @@ import lombok.Data;
  * @author: ZIRUI QIAO
  * @date: 2022/8/31 13:27
  */
-<span class="nc bnc" id="L16" title="All 38 branches missed.">@Data</span>
-<span class="nc" id="L17">@AllArgsConstructor</span>
+<span class="pc bpc" id="L16" title="25 of 38 branches missed.">@Data</span>
+<span class="fc" id="L17">@AllArgsConstructor</span>
 public class Result {
-<span class="nc" id="L19">    private Boolean success;</span>
-<span class="nc" id="L20">    private Integer code;</span>
-<span class="nc" id="L21">    private String msg;</span>
-<span class="nc" id="L22">    private Object data;</span>
+<span class="fc" id="L19">    private Boolean success;</span>
+<span class="fc" id="L20">    private Integer code;</span>
+<span class="fc" id="L21">    private String msg;</span>
+<span class="fc" id="L22">    private Object data;</span>
 
     public static Result success(Object data) {
-<span class="nc" id="L25">        return new Result(true, 200, &quot;success&quot;, data);</span>
+<span class="fc" id="L25">        return new Result(true, 200, &quot;success&quot;, data);</span>
     }
 
     public static Result fail(int code, String msg) {
@@ -30,7 +30,7 @@ public class Result {
     }
 
     public static Result fail(ErrorCode errorCode) {
-<span class="nc" id="L33">        return new Result(false, errorCode.getCode(), errorCode.getMsg(), null);</span>
+<span class="fc" id="L33">        return new Result(false, errorCode.getCode(), errorCode.getMsg(), null);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

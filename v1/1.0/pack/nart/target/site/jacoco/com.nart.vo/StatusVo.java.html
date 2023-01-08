@@ -58,80 +58,81 @@ public class StatusVo {
 
         // statusVo pics
 <span class="nc" id="L60">        String pics = status.getPics();</span>
-<span class="nc" id="L61">        List&lt;String&gt; p = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L62">        StringTokenizer st = new StringTokenizer(pics,&quot;;&quot;);</span>
-<span class="nc bnc" id="L63" title="All 2 branches missed.">        while(st.hasMoreElements()){</span>
-<span class="nc" id="L64">            p.add(st.nextToken());</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (pics != null) {</span>
+<span class="nc" id="L62">            List&lt;String&gt; p = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L63">            StringTokenizer st = new StringTokenizer(pics,&quot;;&quot;);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            while(st.hasMoreElements()){</span>
+<span class="nc" id="L65">                p.add(st.nextToken());</span>
+            }
+<span class="nc" id="L67">            statusVo.setPics(p);</span>
         }
-<span class="nc" id="L66">        statusVo.setPics(p);</span>
 
-
-<span class="nc" id="L69">        List&lt;Comment&gt; commentList = status.getCommentList();</span>
+<span class="nc" id="L70">        List&lt;Comment&gt; commentList = status.getCommentList();</span>
 //        List&lt;CommentVo&gt; comments = statusVo.getComments();
-<span class="nc bnc" id="L71" title="All 2 branches missed.">        if(commentList == null) {</span>
-<span class="nc" id="L72">            return statusVo;</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if(commentList == null) {</span>
+<span class="nc" id="L73">            return statusVo;</span>
         }
-<span class="nc" id="L74">        List&lt;CommentVo&gt; comments = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L75">        List&lt;CommentVo&gt; comments = new ArrayList&lt;&gt;();</span>
 
-<span class="nc bnc" id="L76" title="All 2 branches missed.">        for (Comment comment : commentList) {</span>
-<span class="nc" id="L77">            CommentVo commentVo = new CommentVo();</span>
-<span class="nc" id="L78">            commentVo.setStatusId(comment.getStatusId());</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        for (Comment comment : commentList) {</span>
+<span class="nc" id="L78">            CommentVo commentVo = new CommentVo();</span>
+<span class="nc" id="L79">            commentVo.setStatusId(comment.getStatusId());</span>
 
-<span class="nc" id="L80">            Long createDate1 = comment.getCreateDate();</span>
-<span class="nc" id="L81">            String dateToString1 = getDateToString(createDate1);</span>
-<span class="nc" id="L82">            DateVo date = new DateVo();</span>
-<span class="nc" id="L83">            DateVo dateVo2 = createDateVo(dateToString1, date);</span>
-<span class="nc" id="L84">            commentVo.setCreateDate(dateVo2);</span>
-<span class="nc" id="L85">            commentVo.setMsg(comment.getMsg());</span>
-<span class="nc" id="L86">            commentVo.setUname(comment.getUname());</span>
-<span class="nc" id="L87">            comments.add(commentVo);</span>
-<span class="nc" id="L88">        }</span>
+<span class="nc" id="L81">            Long createDate1 = comment.getCreateDate();</span>
+<span class="nc" id="L82">            String dateToString1 = getDateToString(createDate1);</span>
+<span class="nc" id="L83">            DateVo date = new DateVo();</span>
+<span class="nc" id="L84">            DateVo dateVo2 = createDateVo(dateToString1, date);</span>
+<span class="nc" id="L85">            commentVo.setCreateDate(dateVo2);</span>
+<span class="nc" id="L86">            commentVo.setMsg(comment.getMsg());</span>
+<span class="nc" id="L87">            commentVo.setUname(comment.getUname());</span>
+<span class="nc" id="L88">            comments.add(commentVo);</span>
+<span class="nc" id="L89">        }</span>
 
 
-<span class="nc" id="L91">        statusVo.setComments(comments);</span>
+<span class="nc" id="L92">        statusVo.setComments(comments);</span>
 
-<span class="nc" id="L93">        return statusVo;</span>
+<span class="nc" id="L94">        return statusVo;</span>
     }
 
     //时间戳转换为字符串
     public String getDateToString(long time) {
 
-<span class="nc" id="L99">        Date d = new Date(time);</span>
+<span class="nc" id="L100">        Date d = new Date(time);</span>
         //sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
-<span class="nc" id="L101">        SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
-<span class="nc" id="L102">        String format = sf.format(d);</span>
+<span class="nc" id="L102">        SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
+<span class="nc" id="L103">        String format = sf.format(d);</span>
 //        System.out.println(format);
-<span class="nc" id="L104">        return format;</span>
+<span class="nc" id="L105">        return format;</span>
     }
 
     public DateVo createDateVo(String dateToString, DateVo dateVo){
-<span class="nc" id="L108">        String nian = dateToString.substring(0, 4);</span>
-<span class="nc" id="L109">        int Nian = Integer.parseInt(nian);</span>
+<span class="nc" id="L109">        String nian = dateToString.substring(0, 4);</span>
+<span class="nc" id="L110">        int Nian = Integer.parseInt(nian);</span>
 //        System.out.println(Nian);
-<span class="nc" id="L111">        dateVo.setYear(Nian);</span>
+<span class="nc" id="L112">        dateVo.setYear(Nian);</span>
 
 
-<span class="nc" id="L114">        String yue = dateToString.substring(5, 7);</span>
-<span class="nc" id="L115">        int YUE = Integer.parseInt(yue);</span>
+<span class="nc" id="L115">        String yue = dateToString.substring(5, 7);</span>
+<span class="nc" id="L116">        int YUE = Integer.parseInt(yue);</span>
 //        System.out.println(YUE);
-<span class="nc" id="L117">        dateVo.setMonth(YUE);</span>
+<span class="nc" id="L118">        dateVo.setMonth(YUE);</span>
 
-<span class="nc" id="L119">        String ri = dateToString.substring(8,10);</span>
-<span class="nc" id="L120">        int RI = Integer.parseInt(ri);</span>
+<span class="nc" id="L120">        String ri = dateToString.substring(8,10);</span>
+<span class="nc" id="L121">        int RI = Integer.parseInt(ri);</span>
 //        System.out.println(RI);
-<span class="nc" id="L122">        dateVo.setDay(RI);</span>
+<span class="nc" id="L123">        dateVo.setDay(RI);</span>
 
-<span class="nc" id="L124">        String xiaoshi = dateToString.substring(11,13);</span>
-<span class="nc" id="L125">        int XIAOSHI = Integer.parseInt(xiaoshi);</span>
+<span class="nc" id="L125">        String xiaoshi = dateToString.substring(11,13);</span>
+<span class="nc" id="L126">        int XIAOSHI = Integer.parseInt(xiaoshi);</span>
 //        System.out.println(XIAOSHI);
-<span class="nc" id="L127">        dateVo.setHour(XIAOSHI);</span>
+<span class="nc" id="L128">        dateVo.setHour(XIAOSHI);</span>
 
-<span class="nc" id="L129">        String fenzhong = dateToString.substring(14);</span>
-<span class="nc" id="L130">        int Fen = Integer.parseInt(fenzhong);</span>
+<span class="nc" id="L130">        String fenzhong = dateToString.substring(14);</span>
+<span class="nc" id="L131">        int Fen = Integer.parseInt(fenzhong);</span>
 //        System.out.println(Fen);
-<span class="nc" id="L132">        dateVo.setMin(Fen);</span>
+<span class="nc" id="L133">        dateVo.setMin(Fen);</span>
 
-<span class="nc" id="L134">        return dateVo;</span>
+<span class="nc" id="L135">        return dateVo;</span>
     }
 
 }

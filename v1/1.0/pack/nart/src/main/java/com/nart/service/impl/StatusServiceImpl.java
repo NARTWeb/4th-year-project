@@ -101,6 +101,7 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public boolean delStatus(String id) {
+        commentService.delComment(id);
         int id1 = statusDao.deleteById(id);
         dataCounterService.updateStatusAmount(false);
         return id1>0;

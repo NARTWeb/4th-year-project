@@ -16,51 +16,51 @@ public class DateVo {
     //时间戳转换为字符串
     public DateVo getDateToString(long time) {
 
-<span class="nc" id="L19">        System.out.println(time);</span>
+        //System.out.println(time);
 
-<span class="nc" id="L21">        String s = String.valueOf(time);</span>
+<span class="fc" id="L21">        String s = String.valueOf(time);</span>
         String res;
-<span class="nc" id="L23">        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
-<span class="nc" id="L24">        long lt = new Long(s);</span>
+<span class="fc" id="L23">        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L24">        long lt = new Long(s);</span>
         //将时间戳转换为时间
-<span class="nc" id="L26">        Date date = new Date(lt);</span>
+<span class="fc" id="L26">        Date date = new Date(lt);</span>
         //将时间调整为yyyy-MM-dd HH:mm:ss时间样式
-<span class="nc" id="L28">        res = simpleDateFormat.format(date);</span>
-<span class="nc" id="L29">        System.out.println(res);</span>
-<span class="nc" id="L30">        DateVo dateVo = new DateVo();</span>
-<span class="nc" id="L31">        return createDateVo(res,dateVo);</span>
+<span class="fc" id="L28">        res = simpleDateFormat.format(date);</span>
+        //System.out.println(res);
+<span class="fc" id="L30">        DateVo dateVo = new DateVo();</span>
+<span class="fc" id="L31">        return createDateVo(res,dateVo);</span>
 
 
     }
 
     public DateVo createDateVo(String dateToString, DateVo dateVo){
-<span class="nc" id="L37">        String nian = dateToString.substring(0, 4);</span>
-<span class="nc" id="L38">        int Nian = Integer.parseInt(nian);</span>
+<span class="fc" id="L37">        String nian = dateToString.substring(0, 4);</span>
+<span class="fc" id="L38">        int Nian = Integer.parseInt(nian);</span>
 //        System.out.println(Nian);
-<span class="nc" id="L40">        dateVo.setYear(Nian);</span>
+<span class="fc" id="L40">        dateVo.setYear(Nian);</span>
 
 
-<span class="nc" id="L43">        String yue = dateToString.substring(5, 7);</span>
-<span class="nc" id="L44">        int YUE = Integer.parseInt(yue);</span>
+<span class="fc" id="L43">        String yue = dateToString.substring(5, 7);</span>
+<span class="fc" id="L44">        int YUE = Integer.parseInt(yue);</span>
 //        System.out.println(YUE);
-<span class="nc" id="L46">        dateVo.setMonth(YUE);</span>
+<span class="fc" id="L46">        dateVo.setMonth(YUE);</span>
 
-<span class="nc" id="L48">        String ri = dateToString.substring(8,10);</span>
-<span class="nc" id="L49">        int RI = Integer.parseInt(ri);</span>
+<span class="fc" id="L48">        String ri = dateToString.substring(8,10);</span>
+<span class="fc" id="L49">        int RI = Integer.parseInt(ri);</span>
 //        System.out.println(RI);
-<span class="nc" id="L51">        dateVo.setDay(RI);</span>
+<span class="fc" id="L51">        dateVo.setDay(RI);</span>
 
-<span class="nc" id="L53">        String xiaoshi = dateToString.substring(11,13);</span>
-<span class="nc" id="L54">        int XIAOSHI = Integer.parseInt(xiaoshi);</span>
+<span class="fc" id="L53">        String xiaoshi = dateToString.substring(11,13);</span>
+<span class="fc" id="L54">        int XIAOSHI = Integer.parseInt(xiaoshi);</span>
 //        System.out.println(XIAOSHI);
-<span class="nc" id="L56">        dateVo.setHour(XIAOSHI);</span>
+<span class="fc" id="L56">        dateVo.setHour(XIAOSHI);</span>
 
-<span class="nc" id="L58">        String fenzhong = dateToString.substring(14,16);</span>
-<span class="nc" id="L59">        int Fen = Integer.parseInt(fenzhong);</span>
+<span class="fc" id="L58">        String fenzhong = dateToString.substring(14,16);</span>
+<span class="fc" id="L59">        int Fen = Integer.parseInt(fenzhong);</span>
 //        System.out.println(Fen);
-<span class="nc" id="L61">        dateVo.setMin(Fen);</span>
+<span class="fc" id="L61">        dateVo.setMin(Fen);</span>
 
-<span class="nc" id="L63">        return dateVo;</span>
+<span class="fc" id="L63">        return dateVo;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

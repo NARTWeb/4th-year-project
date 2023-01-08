@@ -31,8 +31,6 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
  * @date: 2022/8/30 15:43
  */
 
-//补充缺失的代码
-
 @Component
 public class FakeDataGenerator {
     private final Faker faker = new Faker(Locale.CANADA);

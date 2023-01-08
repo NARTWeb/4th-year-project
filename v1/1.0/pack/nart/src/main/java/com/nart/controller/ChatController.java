@@ -85,13 +85,13 @@ public class ChatController {
     @PutMapping("leaveRoom/{roomId}/{isFriend}")
     public Result leaveRoom(@PathVariable String roomId,
                             @PathVariable Boolean isFriend) {
-        // roomId是 friendId 或 groupId
+        // roomId is friendId or groupId
         boolean b = false;
         if(isFriend) {
-            // friend更新用户离开时间
+            // friend updates user departure times
             b = chatService.leaveRoom(roomId, isFriend);
         } else {
-            // group更新用户离开时间
+            // group update user departure time
             b = chatService.leaveRoom(roomId, isFriend);
         }
         if(b) {

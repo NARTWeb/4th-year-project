@@ -51,20 +51,20 @@ public class HttpUtil {
     }
 
     /**
-     * 发送Get请求
+     * Send a Get request
      *
-     * @param url     请求地址
-     * @param params  请求参数
-     * @param headers 请求头
-     * @return 响应结果，若请求失败则返回null。
+     * @param url request address
+     * @param params request parameters
+     * @param headers request headers
+     * @return The result of the response, or null if the request failed.
      */
     public static CloseableHttpResponse get(String url, Map<String, String> params, Map<String, String> headers) throws IOException {
         CloseableHttpClient httpClient;
 
-        //通过默认配置创建一个httpClient实例
+        //Create an httpClient instance with the default configuration
         httpClient = HttpClients.createDefault();
 
-        //创建httpGet远程连接实例
+        //Create an httpGet remote connection instance
         String param = parseParams(params);
         if (param != null) {
             url = url + "?" + param;
@@ -73,75 +73,75 @@ public class HttpUtil {
 
         httpGet.setHeaders(parseHeaders(headers));
 
-        //配置请求参数
+        //Configure request parameters
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30 * 1000)
                 .setConnectionRequestTimeout(30 * 1000)
                 .setSocketTimeout(60 * 1000)
                 .build();
         httpGet.setConfig(requestConfig);
 
-        //执行get请求得到返回对象
+        //Execute a get request to get the returned object
         return httpClient.execute(httpGet);
     }
 
     /**
-     * 发送Post请求
+     * Sending a Post request
      *
-     * @param url     请求地址
-     * @param params  请求参数
-     * @param headers 请求头
-     * @param entity  请求实体
-     * @return 响应结果
+     * @param url request address
+     * @param params request parameters
+     * @param headers request headers
+     * @param entity request entity
+     * @return response result
      */
     public static CloseableHttpResponse post(String url, Map<String, String> params, Map<String, String> headers, HttpEntity entity) throws IOException {
-        //创建httpClient对象
+        //Creating the httpClient object
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
-        //创建http请求
+        //Creating an http request
         String param = parseParams(params);
         if (param != null) {
             url = url + "?" + param;
         }
         HttpPost httpPost = new HttpPost(url);
 
-        //设置请求头
+        // Set the request header
         httpPost.setHeaders(parseHeaders(headers));
 
-        //配置请求参数
+        // Configure request parameters
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30 * 1000)
                 .setConnectionRequestTimeout(30 * 1000)
                 .setSocketTimeout(60 * 1000)
                 .build();
         httpPost.setConfig(requestConfig);
 
-        //设置请求内容
+        // Set the request content
         httpPost.setEntity(entity);
 
-        //执行get请求得到返回对象
+        // Execute the get request to get the returned object
         return httpClient.execute(httpPost);
     }
 
     /**
-     * 发送Post请求
+     * Sending a Post request
      *
-     * @param url     请求地址
-     * @param params  请求参数
-     * @param headers 请求头
-     * @param data    请求数据
-     * @return 响应结果
+     * @param url request address
+     * @param params request parameters
+     * @param headers request headers
+     * @param data request data
+     * @return response result
      */
     public static CloseableHttpResponse post(String url, Map<String, String> params, Map<String, String> headers, String data) throws IOException {
         return post(url, params, headers, new StringEntity(data));
     }
 
     /**
-     * 发送Multipart请求
+     * Sending a Multipart request
      *
-     * @param url     请求地址
-     * @param params  请求参数
-     * @param headers 请求头
-     * @param data    请求数据
-     * @return 响应结果
+     * @param url request address
+     * @param params request parameters
+     * @param headers request headers
+     * @param data request data
+     * @return response result
      */
     public static CloseableHttpResponse multipart(String url, Map<String, String> params, Map<String, String> headers, Map<String, ContentBody> data) throws IOException {
         MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();

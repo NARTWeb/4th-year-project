@@ -54,11 +54,11 @@ public class LogAspect {
     public Object log(ProceedingJoinPoint point) throws Throwable {
 
         long beginTime = System.currentTimeMillis();
-        // 执行方法
+        // execute method
         Object result = point.proceed();
-        // 执行时长(毫秒)
+        // how long does it take(milli seconds)
         long time = System.currentTimeMillis() - beginTime;
-        // 保存日志
+        // save log
         //recordLog(point, time, result);
         return result;
     }
@@ -71,23 +71,23 @@ public class LogAspect {
 //        log.info("module:{}", logA.module());
 //        log.info("operation:{}", logA.operator());
 
-        // 请求的方法名
+        // request method
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = signature.getName();
         log.info("request method:{}", className + "." + methodName + "()");
 
-        // //请求的参数
+        // request parameters
         Object[] args = joinPoint.getArgs();
         if (args.length > 0) {
             String params = GsonFormatter.toJsonString(args[0]);
             log.info("params:{}", params);
         }
 
-        // 获取request 设置IP地址
+        // get request IP address
         log.info("ip:{}", IpUtils.getIpAddr());
         log.info("{}", result);
 
-        // 打印request header和body
+        // print request header和body
         // printRequest(HttpContextUtils.getHttpServletRequest(), joinPoint);
 
         log.info("execute time : {} ms", time);
@@ -99,7 +99,7 @@ public class LogAspect {
         log.info("  header: {");
         while (headerNames.hasMoreElements()) {
             String key = (String) headerNames.nextElement();
-            // 排除Cookie字段
+            // exclude Cookie variable
             if (key.equalsIgnoreCase("Cookie")) {
                 continue;
             }
@@ -113,26 +113,26 @@ public class LogAspect {
 
     public void readBody(JoinPoint joinPoint) {
         try {
-            // 接收到请求，记录请求内容
+            // catch request, record request content
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
                     .getRequestAttributes();
             String logStr = "";
             HttpServletRequest request = attributes.getRequest();
             HttpServletResponse response = attributes.getResponse();
-            // 记录下请求内容
+            // record request content
             logStr += "URL:" + request.getRequestURI().toString() + " | ";
             logStr += "CLASS_METHOD:" + joinPoint.getSignature().getDeclaringType().getSimpleName() + "."
                     + joinPoint.getSignature().getName() + " | ";
             logStr += "ARGS:";
-            // joinPoint获取参数名
+            // joinPoint get parameter name
             String[] params = ((CodeSignature) joinPoint.getStaticPart().getSignature()).getParameterNames();
-            // joinPoint获取参数值
+            // joinPoint get parameter value
             Object[] args = joinPoint.getArgs();
             Signature signature = joinPoint.getSignature();
             MethodSignature methodSignature = (MethodSignature) signature;
             Method method = methodSignature.getMethod();
             if (true) {
-                // 打印请求参数
+                // print parameter value
                 int i = 0;
                 for (Object arg : args) {
                     if (arg == request || arg == response) {
@@ -145,7 +145,7 @@ public class LogAspect {
                     } catch (Exception e) {
                     }
                     if (!Arrays.asList(types).contains(typeName)) {
-                        // 把参数转成json格式
+                        // reformat parameter to JSON
                         logStr += "&" + params[i] + "=" + GsonFormatter.toJsonString(arg);
                     } else {
                         logStr += "&" + params[i] + "=" + arg;

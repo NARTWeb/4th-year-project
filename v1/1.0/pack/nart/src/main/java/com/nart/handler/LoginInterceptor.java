@@ -37,11 +37,11 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 在执行controller方法(Handler)之前进行执行
-        /**
-         * 1. 需要判断 请求的接口路径是否为 HandlerMethod （controller方法）
-         * 2. 判断 token是否为空，如果为空，未登录 跳转登录
-         * 3. 验证token 登陆验证
-         * 4. 成功即放行
+        /** 1.
+         * 1. need to determine if the requested interface path is HandlerMethod (controller method)
+         * 2. determine if the token is empty, if empty, not logged in Jump to login
+         * 3. verify the token Login verification
+         * 4. release on success
          */
         if(!(handler instanceof HandlerMethod)) {
             // allow access to static

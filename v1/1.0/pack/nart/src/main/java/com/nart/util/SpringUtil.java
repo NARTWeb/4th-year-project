@@ -33,7 +33,7 @@ public class SpringUtil implements ApplicationContextAware {
 
         }
 
-        logger.info("ApplicationContext配置成功,applicationContext对象："+SpringUtil.applicationContext + "\n");
+        logger.info("ApplicationContext set SUCCESS,applicationContext OBJECT: "+SpringUtil.applicationContext + "\n");
 //        String[] beanNames = SpringUtil.applicationContext.getBeanDefinitionNames();
 //        logger.info("bean TOTAL NUMBER: {}", SpringUtil.applicationContext.getBeanDefinitionCount());
 //        int i = 0;

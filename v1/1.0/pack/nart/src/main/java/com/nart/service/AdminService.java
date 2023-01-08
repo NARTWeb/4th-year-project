@@ -1,11 +1,10 @@
 package com.nart.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nart.pojo.*;
+import com.nart.pojo.Comment;
+import com.nart.pojo.Status;
+import com.nart.pojo.User;
 import com.nart.util.Result;
-import com.nart.vo.MessageVo;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.List;
 
 /**
@@ -23,8 +22,7 @@ public interface AdminService {
 
     /**
      * @Description: This method displays all user information
-       @params:
-      * @return: List<User>
+     * @return: List<User>
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
      */
@@ -32,7 +30,6 @@ public interface AdminService {
 
     /**
      * @Description: This method displays the number of all users
-       @params:
       * @return: int
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
@@ -41,7 +38,6 @@ public interface AdminService {
 
     /**
      * @Description: This method displays all online users
-       @params:
       * @return: List<User>
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
@@ -50,7 +46,6 @@ public interface AdminService {
 
     /**
      * @Description: This method displays the number of all online users
-       @params:
       * @return: int
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
@@ -59,7 +54,6 @@ public interface AdminService {
 
     /**
      * @Description: This method displays all status information
-       @params:
       * @return: List<Status>
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
@@ -68,7 +62,6 @@ public interface AdminService {
 
     /**
      * @Description: This method displays the number of all statuses
-       @params:
       * @return: int
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
@@ -77,7 +70,6 @@ public interface AdminService {
 
     /**
      * @Description:  This method displays all comment information
-       @params:
       * @return: List<Comment>
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
@@ -86,7 +78,6 @@ public interface AdminService {
 
     /**
      * @Description: This method displays the number of all comments
-       @params:
       * @return: int
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
@@ -96,7 +87,7 @@ public interface AdminService {
 
     /**
      * @Description:  This method searches for specific users
-       @params: String id
+       @param id user id
       * @return: User
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
@@ -105,7 +96,7 @@ public interface AdminService {
 
     /**
      * @Description: This method changes the user state
-       @params: String id
+       @param id user id
       * @return: boolean
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
@@ -114,7 +105,7 @@ public interface AdminService {
 
     /**
      * @Description: This method deletes specific status
-       @params: String id
+       @param id status id
       * @return: boolean
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
@@ -123,7 +114,7 @@ public interface AdminService {
 
     /**
      * @Description: This method deletes a specific comment
-       @params: String id
+       @param id comment id
       * @return: boolean
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14

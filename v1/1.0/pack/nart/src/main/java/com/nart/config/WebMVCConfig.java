@@ -26,8 +26,6 @@ public class WebMVCConfig implements WebMvcConfigurer {
     public static String IPADDR = "localhost";
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        //跨域配置，不可设置为*，不安全, 前后端分离项目，可能域名不一致
-        //本地测试 端口不一致 也算跨域
         registry.addMapping("/**")
                 .allowedOrigins(
                         "http://" + IPADDR + ":8888",
@@ -42,7 +40,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 配置拦截的接口
+        // set intercept ports
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**/**")
                 .excludePathPatterns("/user/login")

@@ -20,7 +20,7 @@ public interface CommentService {
 
     /**
      * @Description: This method finds all comments for this status according to the status id entered.
-       @params: String statusId, The id of Status
+     * @param statusId, The id of Status
      * @return: List<Comment> , All comments in the tb_comment, that the status_id is same as params.
      * @Author: Yunzhou Liu
      * @Date: 2023-1-14
@@ -29,7 +29,7 @@ public interface CommentService {
 
     /**
      * @Description: This method combines the input parameters into a comment and uploads it to the database.
-       @params: String statusId ,The id of Status
+     * @param statusId ,The id of Status
                 String sid  , The id of user who send this comment
                 String msg , The message who want to send
      * @return: boolean,  If it is true, the comment is sent successfully. If it is false, the comment is sent failed.
@@ -38,5 +38,12 @@ public interface CommentService {
      */
     boolean postComment(String statusId, String msg, String sid);
 
-
+    /**
+     * @Description: delete all statusId related comments
+     * @param statusId id of status
+     * @return: boolean
+     * @Author: Yunzhou Liu
+     * @Date: 2023-01-08 4:33 p.m.
+     */
+    boolean delComment(String statusId);
 }

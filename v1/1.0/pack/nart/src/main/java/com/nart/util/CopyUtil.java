@@ -25,7 +25,7 @@ public class CopyUtil {
             BeanUtils.copyProperties(obj1, t, getNullPropertyNames(obj1));
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("copyBean Util methods failed： " + tClass);
+            System.out.println("copyBean Util methods failed: " + tClass);
         }
         return t;
     }
@@ -42,7 +42,7 @@ public class CopyUtil {
     /**
      * Returns an array of null properties of an object
      *
-     * @param source
+     * @param source the object
      * @return
      */
     public static String[] getNullPropertyNames(Object source) {

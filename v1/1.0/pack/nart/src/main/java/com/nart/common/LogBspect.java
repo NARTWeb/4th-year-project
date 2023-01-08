@@ -60,18 +60,18 @@ public class LogBspect {
         log.info("=====================log start================================");
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        // 运行方法名
+        // running method name
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = signature.getName();
         log.info("request method:{}", className + "." + methodName + "()");
 
-        // 传入参数
+        // parameter name
         Object[] args = joinPoint.getArgs();
         if (args.length > 0) {
             String params = GsonFormatter.toJsonString(args[0]);
             log.info("params:{}", params);
         }
-        // 输出结果
+        // output
         String res;
         if(result.getClass() != String.class) {
             res = GsonFormatter.toJsonString(result);

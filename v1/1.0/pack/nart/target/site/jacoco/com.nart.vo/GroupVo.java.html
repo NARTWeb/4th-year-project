@@ -3,24 +3,24 @@
 import com.nart.pojo.Group;
 import lombok.Data;
 
-<span class="nc bnc" id="L6" title="All 54 branches missed.">@Data</span>
+<span class="pc bpc" id="L6" title="39 of 54 branches missed.">@Data</span>
 public class GroupVo {
-<span class="nc" id="L8">    private String id;</span>
-<span class="nc" id="L9">    private String name;</span>
-<span class="nc" id="L10">    private String avatar;</span>
-<span class="nc" id="L11">    private String notice;</span>
-<span class="nc" id="L12">    private Integer state;</span>
-<span class="nc" id="L13">    private Boolean newMsg;</span>
+<span class="fc" id="L8">    private String id;</span>
+<span class="fc" id="L9">    private String name;</span>
+<span class="fc" id="L10">    private String avatar;</span>
+<span class="fc" id="L11">    private String notice;</span>
+<span class="fc" id="L12">    private Integer state;</span>
+<span class="fc" id="L13">    private Boolean newMsg;</span>
 
     public GroupVo transfer(Group group){
-<span class="nc" id="L16">        GroupVo groupVo = new GroupVo();</span>
-<span class="nc" id="L17">        groupVo.setId(group.getId());</span>
-<span class="nc" id="L18">        groupVo.setName(group.getGroupName());</span>
-<span class="nc" id="L19">        groupVo.setAvatar(group.getAvatar());</span>
-<span class="nc" id="L20">        groupVo.setNotice(group.getNotice());</span>
-<span class="nc" id="L21">        groupVo.setState(group.getState());</span>
-<span class="nc" id="L22">        groupVo.setNewMsg(group.getNewMessage());</span>
-<span class="nc" id="L23">        return groupVo;</span>
+<span class="fc" id="L16">        GroupVo groupVo = new GroupVo();</span>
+<span class="fc" id="L17">        groupVo.setId(group.getId());</span>
+<span class="fc" id="L18">        groupVo.setName(group.getGroupName());</span>
+<span class="fc" id="L19">        groupVo.setAvatar(group.getAvatar());</span>
+<span class="fc" id="L20">        groupVo.setNotice(group.getNotice());</span>
+<span class="fc" id="L21">        groupVo.setState(group.getState());</span>
+<span class="fc" id="L22">        groupVo.setNewMsg(group.getNewMessage());</span>
+<span class="fc" id="L23">        return groupVo;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

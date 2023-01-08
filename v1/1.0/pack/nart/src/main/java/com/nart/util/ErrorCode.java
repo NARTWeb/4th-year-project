@@ -60,9 +60,9 @@ public enum ErrorCode {
     TOKEN_ERROR(90001, "token illegal"),
 
     /**
-     * 错误码规则：
-     * 5位数，
-     * 万位和千位代表发生错误的服务类型：
+     * Error code rules.
+     * 5 digits.
+     * The 10,000 and 1,000 digits represent the type of service in which the error occurred.
      * 10: User
      * 20: Friend
      * 30: Group
@@ -74,24 +74,24 @@ public enum ErrorCode {
      * 90: Token
      * 11: Session
      * 99: Unknown
-     * 、、更多类型遇到了再补充，记下来就行
-     * 之所以不用 01，02，是因为 int 类型不能 0 开头
+     *, more types will be added as we come across them, just write them down
+     * 01 and 02 are not used because int types cannot start with 0
      *
-     * 百位代表错误类型：
-     * 0: 匹配错误（登录信息匹配错误，注册信息匹配已存在，token匹配失败。。。。）
-     * 1: 类型错误（信息 格式/类型 不对。。。）
-     * 3: 权限错误（无权限/未登录。。。）
-     * 4: http请求错误（目前只有Upload会出现）
-     * 5: 不存在（用户，动态，组等 不存在，id不存在）
+     * Hundreds of digits represent the error type.
+     * 0: Matching error (login information match error, registration information match already exists, token match failed ...)
+     * 1: Type error (message format/type is incorrect...)
+     * 3: Permission error (No permission/not logged in....)
+     * 4: http request error (currently only occurs with Upload.)
+     * 5: Not present (user, dynamic, group, etc. does not exist, id does not exist)
      * 9: Unknown
-     * 、、更多类型遇到了再补充，记下来就行
-     *
-     * 十位和个位代表错误，不同的错误换一个数字
-     * 如：10001 是用户匹配错误的 第一个错误
-     * 10002 是此类型的第二个错误，每遇到新的Error都依次向上叠加
+     * more types to be added as you encounter them, just write them down
+     *, more types are encountered, just write them down.
+     * The tens and single digits represent errors, with a different number for each error
+     * e.g. 10001 is the first error of the user match error
+     * 10002 is the second error of this type, each new error encountered is stacked upwards in turn
      * 99: Unknown
      *
-     * 此规则觉得哪里不对可以改，留下记录就好！
+     * This rule can be changed if you think something is wrong, just leave a record!
      */
     ;
 
