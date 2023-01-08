@@ -6,27 +6,27 @@ import lombok.Data;
 
 import java.util.List;
 
-<span class="nc bnc" id="L9" title="All 66 branches missed.">@Data</span>
+<span class="pc bpc" id="L9" title="47 of 66 branches missed.">@Data</span>
 @TableName(&quot;tb_group&quot;)
 public class Group {
 
-<span class="nc" id="L13">    private String id;</span>
+<span class="fc" id="L13">    private String id;</span>
     @TableField(value = &quot;gname&quot;)
-<span class="nc" id="L15">    private String groupName;</span>
-<span class="nc" id="L16">    private String notice;</span>
-<span class="nc" id="L17">    private String avatar;</span>
+<span class="fc" id="L15">    private String groupName;</span>
+<span class="fc" id="L16">    private String notice;</span>
+<span class="fc" id="L17">    private String avatar;</span>
     @TableField(value = &quot;last_level&quot;)
-<span class="nc" id="L19">    private int userLevel;</span>
+<span class="fc" id="L19">    private int userLevel;</span>
 
     @TableField(exist = false)
-<span class="nc" id="L22">    private List&lt;Friend&gt; userList;</span>
+<span class="fc" id="L22">    private List&lt;Friend&gt; userList;</span>
     @TableField(exist = false)
-<span class="nc" id="L24">    private int state;</span>
+<span class="fc" id="L24">    private int state;</span>
 
     @TableField(exist = false)
-<span class="nc" id="L27">    private List&lt;Message&gt; chatHistory;</span>
+<span class="fc" id="L27">    private List&lt;Message&gt; chatHistory;</span>
 
     @TableField(exist = false)
-<span class="nc" id="L30">    private Boolean newMessage;</span>
+<span class="fc" id="L30">    private Boolean newMessage;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

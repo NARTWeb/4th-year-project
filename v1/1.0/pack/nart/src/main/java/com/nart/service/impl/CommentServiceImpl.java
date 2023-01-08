@@ -60,4 +60,16 @@ public class CommentServiceImpl implements CommentService {
         dataCounterService.updateCommentAmount(true);
         return commentDao.insert(Comment) > 0;
     }
+
+    @Override
+    public boolean delComment(String statusId) {
+        LambdaQueryWrapper<Comment> lqw = new LambdaQueryWrapper<Comment>();
+        lqw.eq(Comment::getStatusId, statusId);
+        List<Comment> Comments = commentDao.selectList(lqw);
+        for (Comment comment : Comments) {
+            int i = commentDao.deleteById(comment.getId());
+            if(i <= 0) return false;
+        }
+        return true;
+    }
 }

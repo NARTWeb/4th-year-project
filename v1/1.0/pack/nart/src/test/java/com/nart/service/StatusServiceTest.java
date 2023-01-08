@@ -156,7 +156,7 @@ class StatusServiceTest {
 
     @Test
     void delStatus() {
-        boolean b = statusService.delStatus("1611608287344742402");
+        boolean b = statusService.delStatus("1606766924161118210");
         System.out.println(b);
         assertEquals(true,b);
     }

@@ -12,30 +12,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-<span class="pc bnc" id="L15" title="All 62 branches missed.">@Data</span>
+<span class="pc bpc" id="L15" title="45 of 62 branches missed.">@Data</span>
 public class InviteVo {
-<span class="nc" id="L17">    private String id;</span>
-<span class="nc" id="L18">    private String groupId;</span>
-<span class="nc" id="L19">    private String msg;</span>
-<span class="nc" id="L20">    private String groupName;</span>
-<span class="nc" id="L21">    private String groupAvatar;</span>
-<span class="nc" id="L22">    private String senderName;</span>
-<span class="nc" id="L23">    private String receiverId;</span>
+<span class="fc" id="L17">    private String id;</span>
+<span class="fc" id="L18">    private String groupId;</span>
+<span class="fc" id="L19">    private String msg;</span>
+<span class="fc" id="L20">    private String groupName;</span>
+<span class="fc" id="L21">    private String groupAvatar;</span>
+<span class="fc" id="L22">    private String senderName;</span>
+<span class="fc" id="L23">    private String receiverId;</span>
 //    @Autowired
 //    private GroupDao groupDao;
 //    @Autowired
 //    private UserDao userDao;
 
     public InviteVo transfer(GroupInvite groupInvite){
-<span class="nc" id="L30">        InviteVo inviteVo = new InviteVo();</span>
-<span class="nc" id="L31">        inviteVo.setId(groupInvite.getId());</span>
-<span class="nc" id="L32">        inviteVo.setGroupId(groupInvite.getGroupId());</span>
-<span class="nc" id="L33">        inviteVo.setMsg(groupInvite.getMsg());</span>
+<span class="fc" id="L30">        InviteVo inviteVo = new InviteVo();</span>
+<span class="fc" id="L31">        inviteVo.setId(groupInvite.getId());</span>
+<span class="fc" id="L32">        inviteVo.setGroupId(groupInvite.getGroupId());</span>
+<span class="fc" id="L33">        inviteVo.setMsg(groupInvite.getMsg());</span>
 
 //        User user = userDao.selectById(groupInvite.getSenderId());
 //        inviteVo.setSenderName(user.getName());
 
-<span class="nc" id="L38">        return inviteVo;</span>
+<span class="fc" id="L38">        return inviteVo;</span>
     }
 
 }

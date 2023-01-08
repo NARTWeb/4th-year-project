@@ -16,10 +16,10 @@ import java.util.Map;
  * Project: pack
  *
  * @className: EncryptUtil
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/8/30 16:26
+ * @Author ZIRUI QIAO
+ * @Date 2022/8/30 16:26
  */
 @Slf4j
 public class EncryptUtil {

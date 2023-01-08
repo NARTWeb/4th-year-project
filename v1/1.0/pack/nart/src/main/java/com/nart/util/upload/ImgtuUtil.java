@@ -29,10 +29,10 @@ import java.util.regex.Pattern;
  * Project: blog-parent
  *
  * @className: ImgtuUtil
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/7/27 15:54
+ * @Author ZIRUI QIAO
+ * @Date 2022/7/27 15:54
  */
 @Slf4j
 public class ImgtuUtil {
@@ -72,11 +72,11 @@ public class ImgtuUtil {
             return null;
         }
         synchronized (ImgtuUtil.class) {
-            // 初始化
+            // Initialisation
             sessionId = null;
             authToken = null;
 
-            // 请求登录页
+            // Request a login page
             String httpRawString;
             CloseableHttpResponse httpResponse;
             try {
@@ -84,12 +84,12 @@ public class ImgtuUtil {
                 HttpEntity httpEntity = httpResponse.getEntity();
                 httpRawString = EntityUtils.toString(httpEntity);
             } catch (IOException e) {
-                log.error("Imgtu [INITIALIZATION] Failed: Failing request page（{}）" + e.getLocalizedMessage());
+                log.error("Imgtu [INITIALIZATION] Failed: Failing request page ({})" + e.getLocalizedMessage());
                 e.printStackTrace();
                 return false;
             }
 
-            // 获取SessionId
+            // Get SessionId
             Header[] responseHeaders = httpResponse.getAllHeaders();
             for (Header header : responseHeaders) {
                 if ("Set-Cookie".equalsIgnoreCase(header.getName())) {
@@ -106,7 +106,7 @@ public class ImgtuUtil {
                 return false;
             }
 
-            // 获取AuthToken
+            // Get AuthToken
             Matcher matcher = AUTH_TOKEN_PATTERN.matcher(httpRawString);
             if (matcher.find(0)) {
                 authToken = matcher.group(1);
@@ -115,8 +115,8 @@ public class ImgtuUtil {
                 return false;
             }
 
-            log.info("Imgtu [INITIALIZATION]√ SessionId:" + sessionId);
-            log.info("Imgtu [INITIALIZATION]√ AuthToken:" + authToken);
+            log.info("Imgtu [INITIALIZATION]V SessionId:" + sessionId);
+            log.info("Imgtu [INITIALIZATION]V AuthToken:" + authToken);
 
             initTimestamp = System.currentTimeMillis();
             return true;
@@ -133,7 +133,7 @@ public class ImgtuUtil {
             return null;
         }
         synchronized (ImgtuUtil.class) {
-            // 初始化会话
+            // Initializing a session
             if (isSessionIdExpired()) {
                 Boolean b = initSession();
                 if (!(b == null || b)) {
@@ -141,7 +141,7 @@ public class ImgtuUtil {
                 }
             }
 
-            // 设置请求头
+            // Setting the request header
             Map<String, String> headers = new HashMap<>(3);
             headers.put("cookie", "PHPSESSID=" + sessionId + ";");
             headers.put("content-type", "application/x-www-form-urlencoded");
@@ -163,11 +163,11 @@ public class ImgtuUtil {
 
             if (keepLogin != null) {
                 loginTimestamp = System.currentTimeMillis();
-                log.info("Imgtu [LOGIN]：√ KeepLogin:" + keepLogin);
+                log.info("Imgtu [LOGIN]：V KeepLogin:" + keepLogin);
                 return true;
             } else {
-                log.error("Imgtu [LOGIN]：× StatusCode:" + httpResponse.getStatusLine().getStatusCode());
-                log.error("Imgtu [LOGIN]：× response:" + httpResponse);
+                log.error("Imgtu [LOGIN]：X StatusCode:" + httpResponse.getStatusLine().getStatusCode());
+                log.error("Imgtu [LOGIN]：X response:" + httpResponse);
                 return false;
             }
         }
@@ -207,7 +207,7 @@ public class ImgtuUtil {
 
             CloseableHttpResponse httpResponse = HttpUtil.multipart(IMGTU_OPERATE_URL, new HashMap<>(0), headers, params);
             String httpRawString = EntityUtils.toString(httpResponse.getEntity());
-            log.info("Imgtu [UPLOAD] Success：Upload Successfully！");
+            log.info("Imgtu [UPLOAD] Success：Upload Successfully!");
             return new Gson().fromJson(httpRawString, JsonObject.class);
         } catch (IOException e) {
             log.error("\"Imgtu [UPLOAD] Fail：{}" + e.getLocalizedMessage());
@@ -237,7 +237,7 @@ public class ImgtuUtil {
 
             CloseableHttpResponse httpResponse = HttpUtil.multipart(IMGTU_OPERATE_URL, new HashMap<>(0), headers, params);
             String httpRawString = EntityUtils.toString(httpResponse.getEntity());
-            log.info("Imgtu [DELETE] Success：Delete Successfully！");
+            log.info("Imgtu [DELETE] Success：Delete Successfully!");
             return new Gson().fromJson(httpRawString, JsonObject.class);
         } catch (IOException e) {
             log.error("Imgtu [DELETE] Fail：{}" + e.getLocalizedMessage());

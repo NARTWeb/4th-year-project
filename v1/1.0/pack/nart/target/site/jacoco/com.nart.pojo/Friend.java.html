@@ -9,30 +9,30 @@ import java.util.List;
 <span class="pc bnc" id="L9" title="All 102 branches missed.">@Data</span>
 @TableName(&quot;tb_friend&quot;)
 public class Friend {
-<span class="nc" id="L12">    private String id;</span>
-<span class="nc" id="L13">    private String uid;</span>
+<span class="fc" id="L12">    private String id;</span>
+<span class="fc" id="L13">    private String uid;</span>
 <span class="fc" id="L14">    private String fid;</span>
-<span class="nc" id="L15">    private String state;</span>
+<span class="fc" id="L15">    private Integer state;</span>
     @TableField(value = &quot;leave_time&quot;)
-<span class="nc" id="L17">    private Long leaveTime;</span>
+<span class="fc" id="L17">    private Long leaveTime;</span>
 
     @TableField(exist = false)
-<span class="nc" id="L20">    private String name;</span>
+<span class="fc" id="L20">    private String name;</span>
     @TableField(exist = false)
-<span class="nc" id="L22">    private String email;</span>
+<span class="fc" id="L22">    private String email;</span>
     @TableField(exist = false)
-<span class="nc" id="L24">    private String avatar;</span>
+<span class="fc" id="L24">    private String avatar;</span>
     @TableField(exist = false)
-<span class="nc" id="L26">    private Boolean online;</span>
+<span class="fc" id="L26">    private Boolean online;</span>
 
 //    private Chat chat;
 
     @TableField(exist = false)
-<span class="nc" id="L31">    private List&lt;Status&gt; statusList;</span>
+<span class="fc" id="L31">    private List&lt;Status&gt; statusList;</span>
     @TableField(exist = false)
-<span class="nc" id="L33">    private List&lt;FriendChat&gt; chatHistory;</span>
+<span class="fc" id="L33">    private List&lt;FriendChat&gt; chatHistory;</span>
     @TableField(exist = false)
-<span class="nc" id="L35">    private Boolean newMessage;</span>
+<span class="fc" id="L35">    private Boolean newMessage;</span>
 
 
 }

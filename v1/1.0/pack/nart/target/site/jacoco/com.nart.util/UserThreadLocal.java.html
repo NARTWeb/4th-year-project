@@ -20,8 +20,8 @@ public class UserThreadLocal {
 <span class="fc" id="L20">    private static final ThreadLocal&lt;User&gt; LOCAL = new ThreadLocal&lt;&gt;();</span>
 
     public static void put(User user) {
-<span class="nc" id="L23">        LOCAL.set(user);</span>
-<span class="nc" id="L24">    }</span>
+<span class="fc" id="L23">        LOCAL.set(user);</span>
+<span class="fc" id="L24">    }</span>
     public static User get() {
 <span class="fc" id="L26">        return LOCAL.get();</span>
     }

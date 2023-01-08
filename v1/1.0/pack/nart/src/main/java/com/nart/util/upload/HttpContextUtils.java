@@ -5,10 +5,10 @@ package com.nart.util.upload;
  * Project: blog-parent
  *
  * @className: HttpContextUtils
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/7/27 13:38
+ * @Author ZIRUI QIAO
+ * @Date 2022/7/27 13:38
  */
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

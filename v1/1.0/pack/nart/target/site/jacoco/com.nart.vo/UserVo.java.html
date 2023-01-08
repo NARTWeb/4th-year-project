@@ -3,28 +3,32 @@
 import com.nart.pojo.User;
 import lombok.Data;
 
-<span class="nc bnc" id="L6" title="All 70 branches missed.">@Data</span>
+<span class="pc bpc" id="L6" title="58 of 80 branches missed.">@Data</span>
 public class UserVo {
-<span class="nc" id="L8">    private String id;</span>
-<span class="nc" id="L9">    private String avatar;</span>
-<span class="nc" id="L10">    private String uname;</span>
-<span class="nc" id="L11">    private String pwd;</span>
-<span class="nc" id="L12">    private String email;</span>
-<span class="nc" id="L13">    private String birthday;</span>
-<span class="nc" id="L14">    private String phone;</span>
-<span class="nc" id="L15">    private String address;</span>
+<span class="fc" id="L8">    private String id;</span>
+<span class="fc" id="L9">    private String avatar;</span>
+<span class="fc" id="L10">    private String uname;</span>
+<span class="fc" id="L11">    private String pwd;</span>
+<span class="fc" id="L12">    private String email;</span>
+<span class="fc" id="L13">    private String birthday;</span>
+<span class="fc" id="L14">    private String phone;</span>
+<span class="fc" id="L15">    private String address;</span>
+<span class="fc" id="L16">    private Integer power;</span>
+<span class="fc" id="L17">    private int lock;</span>
 
     public UserVo transfer(User user){
-<span class="nc" id="L18">        UserVo userVo =  new UserVo();</span>
-<span class="nc" id="L19">        userVo.setId(user.getId());</span>
-<span class="nc" id="L20">        userVo.setAvatar(user.getAvatar());</span>
-<span class="nc" id="L21">        userVo.setUname(user.getName());</span>
-<span class="nc" id="L22">        userVo.setPwd(user.getPwd());</span>
-<span class="nc" id="L23">        userVo.setEmail(user.getEmail());</span>
-<span class="nc" id="L24">        userVo.setBirthday(user.getAge());</span>
-<span class="nc" id="L25">        userVo.setPhone(user.getTel());</span>
-<span class="nc" id="L26">        userVo.setAddress(user.getAddress());</span>
-<span class="nc" id="L27">        return userVo;</span>
+<span class="fc" id="L20">        UserVo userVo =  new UserVo();</span>
+<span class="fc" id="L21">        userVo.setId(user.getId());</span>
+<span class="fc" id="L22">        userVo.setAvatar(user.getAvatar());</span>
+<span class="fc" id="L23">        userVo.setUname(user.getName());</span>
+<span class="fc" id="L24">        userVo.setPwd(user.getPwd());</span>
+<span class="fc" id="L25">        userVo.setEmail(user.getEmail());</span>
+<span class="fc" id="L26">        userVo.setBirthday(user.getAge());</span>
+<span class="fc" id="L27">        userVo.setPhone(user.getTel());</span>
+<span class="fc" id="L28">        userVo.setAddress(user.getAddress());</span>
+<span class="fc" id="L29">        userVo.setPower(user.getPower());</span>
+        //userVo.setLock(user.getLock());
+<span class="fc" id="L31">        return userVo;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

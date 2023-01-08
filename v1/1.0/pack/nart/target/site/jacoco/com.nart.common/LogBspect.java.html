@@ -12,26 +12,16 @@
  */
 
 import com.nart.util.GsonFormatter;
-import com.nart.util.upload.IpUtils;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Enumeration;
 
 /**
  * Copyright (c) 2008-2024: Zirui Qiao
@@ -41,58 +31,58 @@ import java.util.Enumeration;
  * @Description: TODO
  * @version: v1.8.0
  * @author: ZIRUI QIAO
- * @date: 2022/7/27 13:30
+ * @date: 2022/12/28 13:30
  */
 @Component
 @Aspect
-<span class="fc" id="L48">public class LogBspect {</span>
+<span class="fc" id="L38">public class LogBspect {</span>
 
-<span class="fc" id="L50">    private final Logger log = LoggerFactory.getLogger(LogBspect.class);</span>
+<span class="fc" id="L40">    private final Logger log = LoggerFactory.getLogger(LogBspect.class);</span>
 
 
     @Pointcut(&quot;@annotation(com.nart.common.LogB)&quot;)
-<span class="nc" id="L54">    public void pt() {}</span>
+<span class="nc" id="L44">    public void pt() {}</span>
 
     @Around(&quot;pt()&quot;)
     public Object log(ProceedingJoinPoint point) throws Throwable {
 
-<span class="nc" id="L59">        long beginTime = System.currentTimeMillis();</span>
+<span class="nc" id="L49">        long beginTime = System.currentTimeMillis();</span>
         // 执行方法
-<span class="nc" id="L61">        Object result = point.proceed();</span>
+<span class="nc" id="L51">        Object result = point.proceed();</span>
         // 执行时长(毫秒)
-<span class="nc" id="L63">        long time = System.currentTimeMillis() - beginTime;</span>
+<span class="nc" id="L53">        long time = System.currentTimeMillis() - beginTime;</span>
         // 保存日志
-<span class="nc" id="L65">        recordLog(point, time, result);</span>
-<span class="nc" id="L66">        return result;</span>
+<span class="nc" id="L55">        recordLog(point, time, result);</span>
+<span class="nc" id="L56">        return result;</span>
     }
 
     private void recordLog(ProceedingJoinPoint joinPoint, long time, Object result) {
-<span class="nc" id="L70">        log.info(&quot;=====================log start================================&quot;);</span>
-<span class="nc" id="L71">        MethodSignature signature = (MethodSignature) joinPoint.getSignature();</span>
-<span class="nc" id="L72">        Method method = signature.getMethod();</span>
+<span class="nc" id="L60">        log.info(&quot;=====================log start================================&quot;);</span>
+<span class="nc" id="L61">        MethodSignature signature = (MethodSignature) joinPoint.getSignature();</span>
+<span class="nc" id="L62">        Method method = signature.getMethod();</span>
         // 运行方法名
-<span class="nc" id="L74">        String className = joinPoint.getTarget().getClass().getName();</span>
-<span class="nc" id="L75">        String methodName = signature.getName();</span>
-<span class="nc" id="L76">        log.info(&quot;request method:{}&quot;, className + &quot;.&quot; + methodName + &quot;()&quot;);</span>
+<span class="nc" id="L64">        String className = joinPoint.getTarget().getClass().getName();</span>
+<span class="nc" id="L65">        String methodName = signature.getName();</span>
+<span class="nc" id="L66">        log.info(&quot;request method:{}&quot;, className + &quot;.&quot; + methodName + &quot;()&quot;);</span>
 
         // 传入参数
-<span class="nc" id="L79">        Object[] args = joinPoint.getArgs();</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (args.length &gt; 0) {</span>
-<span class="nc" id="L81">            String params = GsonFormatter.toJsonString(args[0]);</span>
-<span class="nc" id="L82">            log.info(&quot;params:{}&quot;, params);</span>
+<span class="nc" id="L69">        Object[] args = joinPoint.getArgs();</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (args.length &gt; 0) {</span>
+<span class="nc" id="L71">            String params = GsonFormatter.toJsonString(args[0]);</span>
+<span class="nc" id="L72">            log.info(&quot;params:{}&quot;, params);</span>
         }
         // 输出结果
         String res;
-<span class="nc bnc" id="L86" title="All 2 branches missed.">        if(result.getClass() != String.class) {</span>
-<span class="nc" id="L87">            res = GsonFormatter.toJsonString(result);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if(result.getClass() != String.class) {</span>
+<span class="nc" id="L77">            res = GsonFormatter.toJsonString(result);</span>
         } else {
-<span class="nc" id="L89">            res = (String) result;</span>
+<span class="nc" id="L79">            res = (String) result;</span>
         }
-<span class="nc" id="L91">        log.info(&quot;result answer: {}&quot;, res);</span>
+<span class="nc" id="L81">        log.info(&quot;result answer: {}&quot;, res);</span>
 
-<span class="nc" id="L93">        log.info(&quot;execute time : {} ms&quot;, time);</span>
-<span class="nc" id="L94">        log.info(&quot;=====================log end================================&quot;);</span>
-<span class="nc" id="L95">    }</span>
+<span class="nc" id="L83">        log.info(&quot;execute time : {} ms&quot;, time);</span>
+<span class="nc" id="L84">        log.info(&quot;=====================log end================================&quot;);</span>
+<span class="nc" id="L85">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

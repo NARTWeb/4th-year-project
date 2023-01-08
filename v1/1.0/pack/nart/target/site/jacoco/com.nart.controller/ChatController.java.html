@@ -73,7 +73,7 @@ import java.util.List;
 <span class="nc" id="L73">            groupChat.setSenderId(UserThreadLocal.get().getId());</span>
 <span class="nc" id="L74">            groupChat.setMsg(msgInfo.getMsg());</span>
 <span class="nc" id="L75">            groupChat.setType(msgInfo.getMsgType());</span>
-<span class="nc" id="L76">            groupChat.setDate(String.valueOf(new Date().getTime()));</span>
+<span class="nc" id="L76">            groupChat.setDate(new Date().getTime());</span>
 <span class="nc" id="L77">            boolean b = chatService.sendGroupMsg(groupChat);</span>
 <span class="nc bnc" id="L78" title="All 2 branches missed.">            if(b) {</span>
 <span class="nc" id="L79">                return Result.success(null);</span>

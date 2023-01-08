@@ -20,10 +20,10 @@ import java.util.List;
  * Project: pack
  *
  * @className: ChatController
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/8/31 15:16
+ * @Author ZIRUI QIAO
+ * @Date 2022/8/31 15:16
  */
 @RestController
 @RequestMapping("chat")
@@ -85,13 +85,13 @@ public class ChatController {
     @PutMapping("leaveRoom/{roomId}/{isFriend}")
     public Result leaveRoom(@PathVariable String roomId,
                             @PathVariable Boolean isFriend) {
-        // roomId是 friendId 或 groupId
+        // roomId is friendId or groupId
         boolean b = false;
         if(isFriend) {
-            // friend更新用户离开时间
+            // friend updates user departure times
             b = chatService.leaveRoom(roomId, isFriend);
         } else {
-            // group更新用户离开时间
+            // group update user departure time
             b = chatService.leaveRoom(roomId, isFriend);
         }
         if(b) {

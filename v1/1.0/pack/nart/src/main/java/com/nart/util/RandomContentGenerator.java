@@ -11,10 +11,10 @@ import java.util.Random;
  * Project: pack
  *
  * @className: RandomContentGenerator
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/8/30 17:45
+ * @Author ZIRUI QIAO
+ * @Date 2022/8/30 17:45
  */
 public class RandomContentGenerator {
 

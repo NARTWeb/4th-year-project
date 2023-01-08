@@ -53,7 +53,6 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public boolean sendFriendMsg(FriendChat friendChat) {
 
-//        检查权限
 //        String id = UserThreadLocal.get().getId();
 //        Object o = redisUtil.get(id);
 
@@ -128,7 +127,7 @@ public class ChatServiceImpl implements ChatService {
 
         LambdaQueryWrapper<GroupChat> lqw = new LambdaQueryWrapper<GroupChat>();
         lqw.eq(GroupChat::getGroupId, gId);
-        //按照最近和level最大来输出聊天记录
+        // output chat logs by most recent and level max
         lqw.orderBy(true,false, GroupChat::getLevel, GroupChat::getDate);
 
         IPage iPage = groupChatDao.selectPage(page, lqw);

@@ -5,10 +5,10 @@ package com.nart.common;
  * Project: pack
  *
  * @className: LogBspect
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/9/1 17:46
+ * @Author ZIRUI QIAO
+ * @Date 2022/9/1 17:46
  */
 
 import com.nart.util.GsonFormatter;
@@ -28,10 +28,10 @@ import java.lang.reflect.Method;
  * Project: blog-parent
  *
  * @className: LogAspect
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/12/28 13:30
+ * @Author ZIRUI QIAO
+ * @Date 2022/12/28 13:30
  */
 @Component
 @Aspect
@@ -60,18 +60,18 @@ public class LogBspect {
         log.info("=====================log start================================");
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        // 运行方法名
+        // running method name
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = signature.getName();
         log.info("request method:{}", className + "." + methodName + "()");
 
-        // 传入参数
+        // parameter name
         Object[] args = joinPoint.getArgs();
         if (args.length > 0) {
             String params = GsonFormatter.toJsonString(args[0]);
             log.info("params:{}", params);
         }
-        // 输出结果
+        // output
         String res;
         if(result.getClass() != String.class) {
             res = GsonFormatter.toJsonString(result);

@@ -58,7 +58,7 @@ import javax.servlet.http.HttpSession;
     @LogA
     @GetMapping(&quot;info/{id}&quot;)
     public Result showUserInfo(@PathVariable(&quot;id&quot;) String id) {
-<span class="nc" id="L61">        System.out.println(id);</span>
+        //System.out.println(id);
         User user;
 <span class="nc bnc" id="L63" title="All 2 branches missed.">        if(id.equals(&quot;-1&quot;)) {</span>
 <span class="nc" id="L64">            user = userService.showUserInfo(UserThreadLocal.get().getId());</span>

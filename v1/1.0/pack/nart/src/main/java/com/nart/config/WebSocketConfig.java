@@ -15,10 +15,10 @@ import javax.websocket.server.ServerEndpointConfig;
  * Project: pack
  *
  * @className: WebSocketConfig
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2023/1/3 11:02
+ * @Author ZIRUI QIAO
+ * @Date 2023/1/3 11:02
  */
 @Configuration
 @Slf4j

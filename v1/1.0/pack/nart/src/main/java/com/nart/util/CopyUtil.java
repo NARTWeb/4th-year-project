@@ -11,10 +11,10 @@ import java.util.*;
  * Project: blog-parent
  *
  * @className: CopyUtil
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/7/25 12:21
+ * @Author ZIRUI QIAO
+ * @Date 2022/7/25 12:21
  */
 public class CopyUtil {
 
@@ -25,7 +25,7 @@ public class CopyUtil {
             BeanUtils.copyProperties(obj1, t, getNullPropertyNames(obj1));
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("copyBean Util methods failed： " + tClass);
+            System.out.println("copyBean Util methods failed: " + tClass);
         }
         return t;
     }
@@ -42,8 +42,8 @@ public class CopyUtil {
     /**
      * Returns an array of null properties of an object
      *
-     * @param source
-     * @return
+     * @param source the object
+     * @return array of null
      */
     public static String[] getNullPropertyNames(Object source) {
         final BeanWrapper src = new BeanWrapperImpl(source);
