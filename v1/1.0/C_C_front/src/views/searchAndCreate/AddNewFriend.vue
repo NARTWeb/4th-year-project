@@ -1,7 +1,7 @@
 <!--
   * @FileDescription: Add New Friend Page, 
         accept an input, return a list of user who are not your friend yet
-  * @Author: Zirui Qiao
+  * @Author: Shizhong Shang
   * @Date: 2022/12/25 12:14
   * @LastEditor: Zirui Qiao
   * @LastEditTime: 2023/01/01 12:04
