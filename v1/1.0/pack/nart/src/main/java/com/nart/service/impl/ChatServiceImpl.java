@@ -145,8 +145,6 @@ public class ChatServiceImpl implements ChatService {
                 ftransfer.setSenderName(user.getName());
                 ftransfer.setSenderAvatar(user.getAvatar());
             }
-
-
             messageVos.add(ftransfer);
         }
 

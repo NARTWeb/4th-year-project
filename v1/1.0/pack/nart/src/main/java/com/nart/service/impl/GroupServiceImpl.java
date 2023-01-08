@@ -93,7 +93,7 @@ public class GroupServiceImpl implements GroupService {
         String id = UserThreadLocal.get().getId();
 //        String id ="1574989639117316098";
         LambdaQueryWrapper<UserGroup> lqw = new LambdaQueryWrapper<UserGroup>();
-//        lqw.orderBy(true,false, UserGroup::getUserLevel);
+        lqw.orderBy(true,false, UserGroup::getUserLevelTime);
         lqw.eq(UserGroup::getUid,id);
         IPage iPage = userGroupDao.selectPage(page, lqw);
 
