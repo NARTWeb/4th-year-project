@@ -8,7 +8,7 @@
       6. User Avatar
     allow: 
       change passwords
-  * @Author: Zirui Qiao
+  * @Author: Shizhong Shang
   * @Date: 2022/12/25 12:23
   * @LastEditor: Zirui Qiao
   * @LastEditTime: 2023/01/03 14:21
