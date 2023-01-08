@@ -37,10 +37,18 @@ const props = defineProps({
   id: String,
 });
 const emit = defineEmits(["delItem", "btnFunc"]);
-
+/**
+  * @description: delete item action
+  * @param {String} id current item id
+  * @return delete current item
+*/
 function deleteItem() {
   emit("delItem", props.id);
 }
+/**
+  * @description: do press button action
+  * @param {String} id current item id
+*/
 function pressBtn() {
   emit("btnFunc", props.id);
 }

@@ -198,8 +198,10 @@ function detectHidden(state) {
   }
   return "infinite-list-item";
 }
-// test contact list with fake data
-function test() {
+/**
+  * @description: test for load with fake data
+*/
+function loadTest() {
   const testList = [
     {
       id: "3642178321",
@@ -293,12 +295,19 @@ function test() {
   loading.value = false;
 }
 // load contact list function
+/**
+  * @description: call load function
+  * @return list change
+*/ 
 function load() {
   if (!loading.value && !nodata) {
     forceLoad();
   }
 }
-// load function
+/**
+  * @description: load new contact member to list
+  * @return list change
+*/
 function forceLoad() {
   loading.value = true;
   let result;
@@ -349,7 +358,11 @@ function forceLoad() {
       loading.value = false;
     });
 }
-// hide a contact member
+/**
+ * @description: hide a contact member HTTP
+ * @param {object} member contact member object
+ * @return member is hidden / fail
+ */
 function hide(member) {
   member.state = 1;
   selectMember = {};
@@ -389,7 +402,11 @@ function hide(member) {
     })
     .finally(() => {});
 }
-// mute a contact member
+/**
+ * @description: mute a contact member HTTP
+ * @param {object} member contact member object
+ * @return member is muted / fail
+ */
 function mute(member) {
   member.state = 2;
   selectMember = {};
@@ -429,7 +446,11 @@ function mute(member) {
     })
     .finally(() => {});
 }
-// unset a contact member to primative state
+/**
+ * @description: unset a contact member HTTP
+ * @param {object} member contact member object
+ * @return member is unsetted / fail
+ */
 function unset(member) {
   member.state = 0;
   selectMember = {};
@@ -469,7 +490,11 @@ function unset(member) {
     })
     .finally(() => {});
 }
-// delete a contact member from the contact list
+/**
+ * @description: delete a contact member HTTP
+ * @param {String} id contact member id
+ * @return member is deleted / fail
+ */
 function del(id) {
   dialogVisible.value = false;
   let result;
@@ -512,7 +537,11 @@ function del(id) {
     })
     .finally(() => {});
 }
-// go to the contact member chatroom
+/**
+ * @description: jump to a contact member chat room
+ * @param {object} member contact member object
+ * @return page jumping / fail
+ */
 function toChat(member) {
   setNewMsg(member.id, false);
   if (props.isFriend) {
@@ -528,7 +557,13 @@ function toChat(member) {
     router.push({ name: "chatRoom", params: { id: "g" + member.id } });
   }
 }
-// update new message if there are
+/**
+  * @description: update new WebSocket Message
+  * @param {Boolean} isFriend current list is friend list or not
+  * @param {String} id contact member id
+  * @param {Boolean} show show the message or not
+  * @return show unread message
+*/ 
 const noticeNewMsg = (isFriend, id, show) => {
   if (isFriend) {
     if (props.isFriend) {
@@ -540,7 +575,12 @@ const noticeNewMsg = (isFriend, id, show) => {
     }
   }
 };
-// set the id with no new message
+/**
+  * @description: set the given contact member with new/no new message
+  * @param {String} id contact member id
+  * @param {Boolean} show show the message or not
+  * @return show unread message / not
+*/ 
 function setNewMsg(id, show) {
   for (let i = 0; i < list.length; i++) {
     if (list[i].id == id) {
@@ -549,7 +589,11 @@ function setNewMsg(id, show) {
     }
   }
 }
-// show contact member name
+/**
+  * @description: format contact member name
+  * @param {String} name contact member name
+  * @return formated member name
+*/ 
 function showName(name) {
   name = String(name);
   if (name.length > 5) {
@@ -557,6 +601,9 @@ function showName(name) {
   }
   return name;
 }
+/**
+  * @description: set background color when page mounted
+*/
 onMounted(() => {
   if (props.isFriend) {
     bgColor.backgroundColor = "#fef0f0";

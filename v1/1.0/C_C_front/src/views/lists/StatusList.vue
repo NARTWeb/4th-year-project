@@ -51,8 +51,10 @@ const page = reactive({
   pageSize: 5,
   pageNum: 1,
 });
-
-function tList() {
+/**
+ * @description: test for load function
+ */
+function loadTest() {
   if (counter.value > 10) {
     nodata.value = true;
     return;
@@ -120,6 +122,10 @@ function tList() {
     counter.value += 1;
   }
 }
+/**
+ * @description: load more status that you can see
+ * @return change status list
+ */
 function load() {
   if (!loading.value && !nodata.value) {
     loading.value = true;

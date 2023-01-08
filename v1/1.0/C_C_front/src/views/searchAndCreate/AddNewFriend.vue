@@ -69,7 +69,7 @@ var tempId = ref < Number > -1;
 /**
  * @description: remove the chosen user from result list
  * @param {Number} id user id
- * @return change result lsit
+ * @return change result list
  */
 function close(id) {
   newStore.delItem(id);

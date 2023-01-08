@@ -65,8 +65,10 @@ const page = reactive({
   pageSize: 5,
   pageNum: 1,
 });
-
-function tList() {
+/**
+ * @description: test for load function
+ */
+function loadTest() {
   if (counter.value > 10) {
     nodata.value = true;
     return;
@@ -116,6 +118,10 @@ function tList() {
     counter.value += 2;
   }
 }
+/**
+ * @description: load more my status 
+ * @return change my status list
+ */
 function load() {
   if (!loading.value && !nodata.value) {
     showMyStatusList(token.value, props.uid, page)
@@ -148,6 +154,11 @@ function load() {
       });
   }
 }
+/**
+  * @description: delete a status according to [id]
+  * @param {Number} id status id
+  * @return my status list change
+*/ 
 function del(id) {
   for (let i = 0; i < myStatusList.length; i++) {
     if (myStatusList[i].statusId == id) {
@@ -156,6 +167,12 @@ function del(id) {
     }
   }
 }
+/**
+  * @description: send delete my status HTTP request
+  * @param {Number} id status id
+  * @param {Number} i item index
+  * @return my status list change
+*/ 
 function delBack(id, i) {
   deleteStatus(token.value, id)
     .then((res) => {
@@ -183,6 +200,11 @@ function delBack(id, i) {
       return;
     });
 }
+/**
+  * @description: check if the status's poster is me
+  * @param {String} uname status poster name
+  * @return {Boolean} true/false
+*/
 function isMine(uname) {
   if(uname == store.name) {
     return true;

@@ -330,13 +330,13 @@ onMounted(() => {
         if (type == "f") {
           if (sid == roomId && rType == "friend") {
             fnoticeNew.value.noticeNewMsg(true, sid, false);
-            store.setNewMsg(res);
+            //store.setNewMsg(res);
             order.value.receiveMsg(res);
           }
         } else {
           if (gid == roomId && rType == "group") {
             gnoticeNew.value.noticeNewMsg(false, gid, false);
-            store.setNewMsg(res);
+            //store.setNewMsg(res);
             order.value.receiveMsg(res);
           }
         }

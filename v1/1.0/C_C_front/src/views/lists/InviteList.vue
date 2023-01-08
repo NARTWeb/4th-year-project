@@ -8,7 +8,7 @@
 <template>
   <div>
     <el-scrollbar height="75vh" id="all">
-      <ul v-infinite-scroll="searchReqList" class="infinite-list">
+      <ul v-infinite-scroll="searchInviteList" class="infinite-list">
         <li v-for="req in inviteList" :key="req.id">
           <acceptable-item
             :avatar="req.groupAvatar"
@@ -44,9 +44,11 @@ const page = reactive({
   pageNum: 1,
 });
 const { t } = useI18n();
-const inviteList = reactive([]);
+const inviteList = reactive([]); // invite list
 const counter = ref(0);
-
+/**
+  * @description: test for searchInviteList
+*/
 function testList() {
   const test = [
     {
@@ -95,23 +97,11 @@ function testList() {
     counter.value += 5;
   }
 }
-function acceptf(id) {
-  for (let i = 0; i < inviteList.length; i++) {
-    if (id == inviteList[i].id) {
-      inviteList.splice(i, 1);
-      return;
-    }
-  }
-}
-function rejectf(id) {
-  for (let i = 0; i < inviteList.length; i++) {
-    if (id == inviteList[i].id) {
-      inviteList.splice(i, 1);
-      return;
-    }
-  }
-}
-function searchReqList() {
+/**
+  * @description: load new invite result to inviteList
+  * @return invite list change
+*/ 
+function searchInviteList() {
   if (!nodata.value && !loading.value) {
     loading.value = true;
     showGroupInvitions(token.value, page)
@@ -146,6 +136,11 @@ function searchReqList() {
       });
   }
 }
+/**
+  * @description: accept a invite according to [id]
+  * @param {Number} id invite id
+  * @return invite list change
+*/ 
 function acceptFun(id) {
   for (let i = 0; i < inviteList.length; i++) {
     if (id == inviteList[i].id) {
@@ -177,6 +172,11 @@ function acceptFun(id) {
     }
   }
 }
+/**
+  * @description: reject a invite according to [id]
+  * @param {Number} id invite id
+  * @return invite list change
+*/ 
 function rejectFun(id) {
   for (let i = 0; i < inviteList.length; i++) {
     if (id == inviteList[i].id) {
@@ -208,11 +208,16 @@ function rejectFun(id) {
     }
   }
 }
+/**
+  * @description:if inviteList length <= 5, load again
+  * @param {Array} inviteList
+  * @return invite list may change
+*/
 watch(
   () => inviteList.length,
   (length) => {
     if (length <= 5) {
-      searchReqList();
+      searchInviteList();
     }
   }
 );

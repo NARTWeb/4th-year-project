@@ -40,7 +40,11 @@ const props = defineProps({
   id: String,
 });
 const emit = defineEmits(["del"]);
-
+/**
+  * @description: delete status action
+  * @param {String} id current status id
+  * @return delete current status
+*/
 function delStatus() {
   emit("del", props.id);
 }

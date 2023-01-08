@@ -130,7 +130,7 @@ var flag = false;
 
 /**
  * @description: image list exceed limit action
- * @param {byte} file the recent uploaded image
+ * @param {Array} files uploaded image list
  */
 const handleExceed: UploadProps["onExceed"] = (files) => {
   uploadRef.value!.clearFiles();

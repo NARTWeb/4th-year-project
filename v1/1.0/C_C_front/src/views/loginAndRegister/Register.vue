@@ -103,9 +103,23 @@ export default {
     };
   },
   methods: {
+    /**
+      * @description: jump to login function
+    */
     toLogin: function() {
       this.$router.push('/login');
-    },  
+    },
+    /**
+      * @description: register function, require
+      *   1. username cannot repeat
+      *   2. pwd = pwd2
+      *   3. all four fit regex
+      * @param {String} uname username
+      * @param {String} em user email
+      * @param {String} pwd user password
+      * @param {String} pwd2 user password repeat
+      * @return success or fail
+    */ 
     register: function () {
       let uname = this.uname;
       let em = this.em;
@@ -203,7 +217,9 @@ export default {
       },
     },
   },
-  // set style on body before create
+  /**
+    * @description: set style and background image on body before create
+  */ 
   beforeCreate() {
     const urlPath = "../../src/assets/img/bg1.png";
     document
@@ -214,7 +230,9 @@ export default {
       .querySelector("body")
       .setAttribute("class", "bg-cover bg-no-repeat w-full h-full");
   },
-  // remove style on body on updated
+  /**
+    * @description: remove style on body on updated
+  */ 
   Updated() {
     document.querySelector("body").removeAttribute("style");
   },

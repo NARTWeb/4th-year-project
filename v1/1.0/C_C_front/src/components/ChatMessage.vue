@@ -33,7 +33,7 @@
           </div>
         </div>
         <div>
-          <div>{{ time }}</div>
+          <div class="sender">{{ time }}</div>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@
           </div>
         </div>
         <div>
-          <div>{{ time }}</div>
+          <div class="sender">{{ time }}</div>
         </div>
       </div>
     </div>
@@ -83,7 +83,10 @@ const props = defineProps({
   id: String,
   uid: String,
 });
-
+/**
+  * @description: jump to friend information page
+  * @param {Boolean} isGroup if the chat room is a Group Chat room
+*/
 function popInfo() {
   if (props.isGroup) {
     return;

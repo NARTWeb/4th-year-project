@@ -200,7 +200,7 @@ const handlePictureCardPreview: UploadProps["onPreview"] = (uploadFile) => {
 };
 /**
  * @description: image list exceed limit action
- * @param {byte} uploadFile the recent uploaded image
+ * @param {Array} uploadFile uploaded image list
  */
 const handleExceed: UploadProps["onExceed"] = (uploadFile) => {
   console.log(uploadFile);

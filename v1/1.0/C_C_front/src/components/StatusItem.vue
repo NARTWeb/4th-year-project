@@ -73,7 +73,7 @@ const props = defineProps({
   comments: Array,
   heart: Boolean,
   heartNum: Number,
-  date: String,
+  date: Object,
   uid: String,
 });
 const store = useUserStore();
@@ -90,6 +90,10 @@ const input = computed({
     comment.value = newValue;
   },
 });
+/**
+  * @description: front-end like status action
+  * @return websocket message is sent
+*/ 
 function likeS() {
   like.value = like.value ? false : true;
   if (like.value) {
@@ -98,7 +102,9 @@ function likeS() {
     iconClass.value = "iconfont icon-aixin";
   }
 }
-
+/**
+  * @description: front-end start writing comment action
+*/ 
 function startCom() {
   if (commentDisplay.value == "none") {
     commentDisplay.value = "";
@@ -106,7 +112,9 @@ function startCom() {
     commentDisplay.value = "none";
   }
 }
-
+/**
+  * @description: test sendComment with fake data
+*/ 
 function makeCom() {
   let comment = {
     id: "738291",
@@ -117,7 +125,10 @@ function makeCom() {
   commentList.unshift(comment);
   input.value = "";
 }
-
+/**
+  * @description: send wroten comment as HTTP
+  * @return success / fail
+*/ 
 function sendComment() {
   postComment(token.value, props.statusId, input.value)
     .then((res) => {
@@ -155,7 +166,10 @@ function sendComment() {
       console.log(err);
     });
 }
-
+/**
+  * @description: send like status as HTTP
+  * @return success / fail
+*/ 
 function sendLike() {
   let tempLike = like.value;
   tempLike = tempLike ? false : true;
@@ -203,14 +217,15 @@ function sendLike() {
     });
   like.value = tempLike;
 }
-
+/**
+  * @description: set heart style when mounted
+*/ 
 onMounted(() => {
   if (props.heart) {
     iconClass.value = "iconfont icon-aixin_shixin like";
   }
 });
 </script>
-
 <style scoped>
 @import url("@/assets/css/iconfont.css");
 .like {

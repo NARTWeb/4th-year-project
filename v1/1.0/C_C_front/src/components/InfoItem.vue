@@ -101,6 +101,7 @@ const props = defineProps({
   canChange: Boolean,
   // matchFormat: String,
 });
+// info value
 var v = ref(props.value);
 const input = computed({
   get() {
@@ -110,6 +111,7 @@ const input = computed({
     v.value = newValue.trim();
   },
 });
+// old password
 var oldP = ref("");
 const oldPwd = computed({
   get() {
@@ -119,6 +121,7 @@ const oldPwd = computed({
     oldP.value = newValue.trim();
   },
 });
+// new password
 var newP = ref("");
 const newPwd = computed({
   get() {
@@ -128,6 +131,7 @@ const newPwd = computed({
     newP.value = newValue.trim();
   },
 });
+// new password input twice
 var newP2 = ref("");
 const newPwd2 = computed({
   get() {
@@ -137,13 +141,20 @@ const newPwd2 = computed({
     newP2.value = newValue.trim();
   },
 });
-
+/**
+  * @description: clear all input function
+*/
 function clearBtn() {
   dialogVisible.value = false;
   oldP.value = "";
   newP.value = "";
   newP2.value = "";
 }
+/**
+  * @description: check if input format fit the given regex
+  * @param {String} changeValue input value
+  * @return fail / send change value request
+*/
 function checkInput() {
   changeValue.value = false;
   let errorClass = "";
@@ -165,6 +176,12 @@ function checkInput() {
     change();
   }
 }
+/**
+  * @description: check if password format fit the given regex
+  * @param {String} newP password 1
+  * @param {String} newP2 password 2
+  * @return change button unlock / lock
+*/
 function checkPwd() {
   if (newP.value == newP2.value) {
     error3Display.value = "none";
@@ -184,6 +201,12 @@ function checkPwd() {
     confirm.value = false;
   }
 }
+/**
+  * @description: change button action, front-end
+  * @param {String} newP password 1
+  * @param {String} newP2 password 2
+  * @return change button unlock / lock
+*/
 function changeBtn() {
   if (props.isPwd) {
     dialogVisible.value = dialogVisible.value == true ? false : true;
@@ -192,6 +215,10 @@ function changeBtn() {
   }
   change();
 }
+/**
+  * @description: call change info value function
+  * @param {Boolean} isPwd is current info is password or not
+*/
 function change() {
   if (!props.isPwd) {
     emit("changeFun", props.lb, input.value);

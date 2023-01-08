@@ -59,10 +59,19 @@ const props = defineProps({
   id: String,
 });
 const emit = defineEmits(["accept", "reject"]);
-
+/**
+  * @description: accept item action
+  * @param {String} id current item id
+  * @return accept current item
+*/
 function acceptBtn() {
   emit("accept", props.id);
 }
+/**
+  * @description: reject item action
+  * @param {String} id current item id
+  * @return reject current item
+*/
 function rejectBtn() {
   emit("reject", props.id);
 }

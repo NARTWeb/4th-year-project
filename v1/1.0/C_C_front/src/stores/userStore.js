@@ -101,9 +101,8 @@ const useUserStore = defineStore("user", {
       });
     },
     /**
-      * @description: log the user in
-      * @param {Object} user user information (username and password)
-      * @return accept or reject
+      * @description: get user information
+      * @return user information updated
     */
     getUserInfo() {
         showUserInfo(this.token, "-1")

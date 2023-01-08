@@ -84,6 +84,10 @@ const friendName = ref("FriendName");
 const friendEmail = ref("FriendEmail@gmail.com");
 const friendAvatar = ref("test.jpg");
 
+/**
+  * @description: get friend information
+  * @return friend information updated
+*/
 function getFriendInfo() {
   showUserInfo(token.value, route.params.id)
   .then((res) => {
@@ -108,8 +112,10 @@ function getFriendInfo() {
         console.log(err);
       });
 }
-
-function tList() {
+/**
+ * @description: test for load function
+ */
+function loadTest() {
   if (counter.value > 10) {
     nodata.value = true;
     return;
@@ -139,6 +145,10 @@ function tList() {
     counter.value += 1;
   }
 }
+/**
+ * @description: load more friend status
+ * @return change my Status List
+ */
 function load() {
   if (!loading.value && !nodata.value) {
     showMyStatusList(token.value, "-1", page)
