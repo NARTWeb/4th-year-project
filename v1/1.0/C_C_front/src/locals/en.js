@@ -111,6 +111,13 @@ export default{
         address: "Address",
         notMatch: "New Password not match!",
     },
+    admin: {
+        statusNumErr: "fail to load status number",
+        commentNumErr: "fail to load comment number",
+        userNumErr: "fail to load user number",
+        onlineUserNumErr: "fail to load online user number",
+        msgNumErr: "fail to load message number",
+    },
     newFriendList: {
         loadError: "fail to load new friend search result",
         addSuccess: "send a request successfully",

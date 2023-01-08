@@ -70,9 +70,6 @@
             {{ $t("welcome.loginAD") }}
           </div>
         </button>
-        <!-- <div @click="toRegister" class="text-center hover:text-green-400">
-          {{$t('welcome.toRegister')}}
-        </div> -->
       </div>
     </div>
   </div>
@@ -94,9 +91,6 @@ export default {
     };
   },
   methods: {
-    toRegister: function() {
-      this.$router.push('/register');
-    },
     login: function () {
       let uname = this.uname;
       let pwd = this.pwd;

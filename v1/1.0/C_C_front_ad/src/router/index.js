@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-const ADMainPage = () => import('@/views/ADMainPage.vue')
-const ADLogin = () => import('@/views/loginAndRegister/Login.vue')
+const ADMainPage = () => import('@/views/admin/adminMain.vue')
+const ADLogin = () => import('@/views/admin/adminLogin.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,18 +19,18 @@ const router = createRouter({
   ]
 });
 
-router.beforeEach((to, from, next) => {
-  console.log(localStorage.getItem('token'));
-  if (!localStorage.getItem('token')) {
-    if (to.name == "login" || to.name == "register") {
-      next();
-    } else {
-      router.push('login');
-    }
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   console.log(localStorage.getItem('token'));
+//   if (!localStorage.getItem('token')) {
+//     if (to.name == "login" || to.name == "register") {
+//       next();
+//     } else {
+//       router.push('login');
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 
 export default router
