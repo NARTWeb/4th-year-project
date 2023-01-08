@@ -1,6 +1,6 @@
 <!--
   * @FileDescription: Invite List Page, show all Group Invites
-  * @Author: Zirui Qiao
+  * @Author: Shizhong Shang
   * @Date: 2022/12/25 12:20
   * @LastEditor: Zirui Qiao
   * @LastEditTime: 2023/01/02 14:21
