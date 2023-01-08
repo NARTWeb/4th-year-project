@@ -1,3 +1,14 @@
+<!--
+  * @FileDescription: Result Item Component, include:
+      1. user avatar
+      2. user name
+      3. action button
+      4. close button
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:18
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/29 12:03
+-->
 <template>
   <div>
     <div class="all">
@@ -18,7 +29,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup="props">
 const props = defineProps({
   avatar: String,
   username: String,
@@ -26,10 +37,18 @@ const props = defineProps({
   id: String,
 });
 const emit = defineEmits(["delItem", "btnFunc"]);
-
+/**
+  * @description: delete item action
+  * @param {String} id current item id
+  * @return delete current item
+*/
 function deleteItem() {
   emit("delItem", props.id);
 }
+/**
+  * @description: do press button action
+  * @param {String} id current item id
+*/
 function pressBtn() {
   emit("btnFunc", props.id);
 }

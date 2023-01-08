@@ -1,3 +1,19 @@
+<!--
+  * @FileDescription: Group Setting Page, show:
+      1. Group Name
+      2. Group Avatar
+      3. Group Notice
+      4. ALL Group Members
+    allows:
+      1. Change Group Name
+      2. Change Group Avatar
+      3. Change Group Notice
+      4. Invite Friends to join the Groups
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:22
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/03 13:04
+-->
 <template>
   <div class="all flex">
     <div class="avatar-and-members flex">
@@ -53,7 +69,7 @@
             </div>
             <div>
               <el-avatar
-                :size="60"
+                :size="100"
                 :icon="Plus"
                 @click="toPopWin"
                 class="scroll-item oper"
@@ -61,7 +77,7 @@
             </div>
             <div>
               <el-avatar
-                :size="60"
+                :size="100"
                 :icon="Minus"
                 @click="delMember"
                 class="scroll-item oper"
@@ -141,7 +157,12 @@ const gNotice = ref(store.getNotice);
 const gAvatar = ref(store.getGroupAvatar);
 const { t } = useI18n();
 const counter = ref(0);
-const memberList = reactive([] as []);
+interface member {
+  id: String,
+  avatar: String,
+  uname: String
+}
+const memberList = reactive<member[]>([]);
 const inviteList = reactive([]);
 var imgParent = ref("circle");
 const dialogFormVisible = ref(false); 
@@ -243,14 +264,21 @@ function test() {
     memberList.push(...testList);
   }
 }
-// picture list length exceed 1 logic
+/**
+ * @description: image list exceed limit 1 action
+ * @param {byte} uploadFile the recent uploaded image
+ */
 const handleExceed: UploadProps["onExceed"] = (files) => {
   uploadRef.value!.clearFiles();
   const file = files[0] as UploadRawFile;
   file.uid = genFileId();
   uploadRef.value!.handleStart(file);
 }
-// picture list change logic
+/**
+ * @description: images list length change action
+ * @param {byte} f the new loaded image
+ * @param {Array} fileList the image list
+ */
 function handleChange(f, fileList) {
   let reader = new FileReader();
   reader.readAsDataURL(f.raw);
@@ -261,7 +289,10 @@ function handleChange(f, fileList) {
   fileList = file;
   uploadFun();
 }
-// delete original picture from cloud
+/**
+ * @description: delete the status from server if exists
+ * @param {String} url Status Text
+ */
 function del(url: String) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -311,7 +342,10 @@ function del(url: String) {
     }, 500);
   });
 }
-// upload new picture to cloud
+/**
+ * @description: upload new image to server
+ * @return: get the image url from server
+ */
 function submitUpload() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -347,7 +381,9 @@ function submitUpload() {
     }, 500);
   });
 }
-// overall upload picture logic
+/**
+ * @description: overall upload image function
+ */
 async function uploadFun() {
   await del(gAvatar.value);
   await submitUpload();
@@ -356,7 +392,10 @@ async function uploadFun() {
   store.groupAvatar = gAvatar.value;
   changeGAvatar();
 }
-// get group members HTTP
+/**
+ * @description: load all group members by HTTP request
+ * @return change member List
+ */
 function getMember() {
   showMemberList(token.value, gId.value)
     .then((res) => {
@@ -383,25 +422,39 @@ function getMember() {
       });
     });
 }
-// change group name
+/**
+  * @description: change group name
+  * @return group information change
+*/
 function changeGName() {
   changeInfo(t("groupSetting.changeName"), t("groupSetting.changeNameError"));
 }
-// change group notice
+/**
+  * @description: change group notice
+  * @return group information change
+*/
 function changeGNotice() {
   changeInfo(
     t("groupSetting.changeNotice"),
     t("groupSetting.changeNoticeError")
   );
 }
-// change group avatar
+/**
+  * @description: change group avatar
+  * @return group information change
+*/
 function changeGAvatar() {
   changeInfo(
     t("groupSetting.changeAvatar"),
     t("groupSetting.changeAvatarError")
   );
 }
-// change group info: common code in change functions
+/**
+  * @description: overall function which send HTTP changeGroupInfo
+  * @param {String} successMsg Success message
+  * @param {String} ErrorMsg Error message
+  * @return group information change
+*/
 function changeInfo(successMsg, ErrorMsg) {
   const gInfo = {
     id: gId.value,
@@ -437,18 +490,26 @@ function changeInfo(successMsg, ErrorMsg) {
       console.log(err);
     });
 }
-// kickout group members [not used]
+/**
+  * @description: kickout group members [not used]
+*/
 function delMember() {
   imgParent.value =
     imgParent.value == "circle" ? "del-circle circle" : "circle";
 }
-// on delete member mode
-function onDel() {
+/**
+  * @description: to member kickout mode [not used]
+*/
+function onDel(id: String) {
   if (imgParent.value == "circle") {
     return;
   }
 }
-// invite new group members
+/**
+  * @description: send a friend group invite list
+  * @param {Object} obj friend information
+  * @return success / fail
+*/
 function addToList(obj) {
   inviteList.push(obj);
   let inviteInfo = {
@@ -477,10 +538,15 @@ function addToList(obj) {
       console.log(err);
     });
 }
-// show hover is working
+/**
+  * @description: test hover function
+*/
 function showHover() {
   alert("hover");
 }
+/**
+  * @description: get all group member when page mounted
+*/
 onMounted(() => {
   getMember();
 });
@@ -581,8 +647,8 @@ img {
   width: 100%;
 }
 .circle {
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   overflow: hidden;
   text-align: center;

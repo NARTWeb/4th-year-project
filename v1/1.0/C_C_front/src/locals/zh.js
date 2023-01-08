@@ -1,3 +1,10 @@
+/*
+  * @FileDescription: Chinese language
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:16
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/07 15:26
+*/
 export default{
     changeLang: "English",
     main: {

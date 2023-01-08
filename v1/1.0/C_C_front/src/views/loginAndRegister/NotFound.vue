@@ -1,7 +1,7 @@
 <template>
     <div>
         {{ $t("welcome.err") }}
-        页面找不到！
+        Page Not Found!
     </div>
 </template>
 <script>

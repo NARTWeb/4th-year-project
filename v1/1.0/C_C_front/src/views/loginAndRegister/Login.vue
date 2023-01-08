@@ -1,3 +1,12 @@
+<!--
+  * @FileDescription: Login Page, accept:
+      1. username
+      2. password
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:16
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/02 12:21
+-->
 <template>
   <div class="h-full flex flex-col flex-nowrap justify-center items-center">
     <div
@@ -86,9 +95,20 @@ export default {
     };
   },
   methods: {
+    /**
+      * @description: jump to login function
+    */
     toRegister: function() {
       this.$router.push('/register');
-    },  
+    },
+    /**
+      * @description: login function, require
+      *   1. username password set fit
+      *   2. both fit regex
+      * @param {String} uname username
+      * @param {String} pwd user password
+      * @return success or fail
+    */ 
     login: function () {
       let uname = this.uname;
       let pwd = this.pwd;
@@ -145,7 +165,9 @@ export default {
       },
     },
   },
-  // set style on body before create
+  /**
+    * @description: set style and background image on body before create
+  */
   beforeCreate() {
     const urlPath = "../../src/assets/img/bg1.png";
     document
@@ -156,7 +178,9 @@ export default {
       .querySelector("body")
       .setAttribute("class", "bg-cover bg-no-repeat w-full h-full");
   },
-  // remove style on body on updated
+  /**
+    * @description: remove style on body on updated
+  */ 
   Updated() {
     document.querySelector("body").removeAttribute("style");
   },

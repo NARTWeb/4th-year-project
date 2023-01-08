@@ -1,3 +1,12 @@
+<!--
+  * @FileDescription: Status List Page, show all statuses include:
+      1. The current user's statuses
+      2. The current user's friends' statuses
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:18
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/02 15:38
+-->
 <template>
   <div id="larger-all">
     <el-scrollbar height="75vh" id="all">
@@ -42,8 +51,10 @@ const page = reactive({
   pageSize: 5,
   pageNum: 1,
 });
-
-function tList() {
+/**
+ * @description: test for load function
+ */
+function loadTest() {
   if (counter.value > 10) {
     nodata.value = true;
     return;
@@ -111,6 +122,10 @@ function tList() {
     counter.value += 1;
   }
 }
+/**
+ * @description: load more status that you can see
+ * @return change status list
+ */
 function load() {
   if (!loading.value && !nodata.value) {
     loading.value = true;

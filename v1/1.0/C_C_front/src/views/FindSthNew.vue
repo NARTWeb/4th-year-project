@@ -1,3 +1,12 @@
+<!--
+  * @FileDescription: Find something page, include:
+      1. search New Friends Page
+      2. create New Group Page
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:08
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/01 20:32
+-->
 <template>
   <div class="common-layout">
     <el-container>
@@ -41,6 +50,11 @@ const page = {
   pageNum: 1,
 };
 var input = ref("");
+/**
+ * @description: Search Users who are not your friends, 
+ *     and jump to Add New Friend Page
+ * @param {String} input searching input
+ */
 function searchNew() {
   let temp = input.value;
   if (store.searchHistory != temp) {
@@ -51,6 +65,9 @@ function searchNew() {
     name: "addNewFriend"
   });
 }
+/**
+ * @description: Jump to Create New Group Page
+ */
 function createGroup() {
   router.push({ path: "/findSthNew/createGroup" });
 }

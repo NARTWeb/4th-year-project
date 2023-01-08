@@ -1,3 +1,10 @@
+<!--
+  * @FileDescription: Request List Page, show all friend requests
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:19
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/02 13:02
+-->
 <template>
   <div>
     <el-scrollbar height="75vh" id="all">
@@ -37,9 +44,12 @@ const page = reactive({
   pageNum: 1,
 });
 const { t } = useI18n();
-const reqList = reactive([]);
+const reqList = reactive([]); // request list
 const counter = ref(0);
 
+/**
+  * @description: test for searchReqList
+*/ 
 function testList() {
   const test = [
     {
@@ -83,7 +93,12 @@ function testList() {
     counter.value += 5;
   }
 }
-function acceptf(id) {
+/**
+  * @description: remove a request according to [id]
+  * @param {Number} id request id
+  * @return request list change
+*/ 
+function removef(id) {
   for (let i = 0; i < reqList.length; i++) {
     if (id == reqList[i].id) {
       reqList.splice(i, 1);
@@ -91,14 +106,10 @@ function acceptf(id) {
     }
   }
 }
-function rejectf(id) {
-  for (let i = 0; i < reqList.length; i++) {
-    if (id == reqList[i].id) {
-      reqList.splice(i, 1);
-      return;
-    }
-  }
-}
+/**
+  * @description: load new request result to reqList
+  * @return request list change
+*/ 
 function searchReqList() {
   if (!nodata.value && !loading.value) {
     loading.value = true;
@@ -134,11 +145,16 @@ function searchReqList() {
       });
   }
 }
+/**
+  * @description: accept a request according to [id]
+  * @param {Number} id request id
+  * @return request list change
+*/ 
 function acceptFun(id) {
   responseFriendReq(token.value, id, true)
     .then((res) => {
       if (res.data.success) {
-        acceptf(id);
+        removef(id);
       } else {
         ElMessage({
           type: "error",
@@ -161,11 +177,16 @@ function acceptFun(id) {
       return;
     });
 }
+/**
+  * @description: reject a request according to [id]
+  * @param {Number} id request id
+  * @return request list change
+*/ 
 function rejectFun(id) {
   responseFriendReq(token.value, id, false)
     .then((res) => {
       if (res.data.success) {
-        acceptf(id);
+        removef(id);
       } else {
         ElMessage({
           type: "error",
@@ -188,6 +209,11 @@ function rejectFun(id) {
       return;
     });
 }
+/**
+  * @description:if reqList length <= 5, load again
+  * @param {Array} reqList
+  * @return request list may change
+*/
 watch(
   () => reqList.length,
   (length) => {

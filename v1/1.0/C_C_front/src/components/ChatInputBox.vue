@@ -1,3 +1,13 @@
+<!--
+  * @FileDescription: Chat Input Box Component, include:
+      1. type area
+      2. send button
+      3. add image button
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:26
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/07 23:33
+-->
 <template>
   <div class="all">
     <div id="left">
@@ -52,8 +62,12 @@ const img = ref(
 );
 const file = reactive([]);
 
-let picSet: String;
-
+let picSet: String; // url sets
+/**
+ * @description: images list length change action
+ * @param {byte} f the new loaded image
+ * @param {Array} fileList the image list
+ */
 async function handleChange(f, fileList) {
   let reader = new FileReader();
   reader.readAsDataURL(f.raw);
@@ -63,10 +77,17 @@ async function handleChange(f, fileList) {
   file.push(f.raw);
   submitUpload();
 }
+/**
+ * @description: clear input
+ * @param {String} input input text
+ */
 function clearText() {
   input.value = "";
 }
-function saveToSession(msg) {}
+/**
+ * @description: call send message function, and clear input
+ * @param {String} input input text
+ */
 function sendMsg() {
   input.value = input.value.trim();
   if (input.value.length == 0) {
@@ -75,11 +96,19 @@ function sendMsg() {
   emit("sendMsg", input.value, "text");
   clearText();
 }
+/**
+ * @description: if [ctrl] + [Enter], then send the message
+ * @param e pressed key
+ */
 function keyDown(e) {
   if (e.ctrlKey && e.keyCode == 13) {
     sendMsg();
   }
 }
+/**
+ * @description: upload new image to server
+ * @return: get the image url from server
+ */
 function submitUpload() {
     let formData = new FormData();
     let f = file;

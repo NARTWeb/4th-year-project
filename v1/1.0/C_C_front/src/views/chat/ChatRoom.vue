@@ -1,3 +1,11 @@
+<!--
+  * @FileDescription: Chat Room Page, show sent messages
+      allow sending text and images
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:25
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/07 22:43
+-->
 <template>
   <div class="all flex">
     <div class="inner-all">
@@ -58,7 +66,7 @@ const store = useUserStore();
 const { token, avatar, name, getNewMsg } = storeToRefs(store);
 const counter = ref(0);
 const mins = 30;
-const msgList = reactive([]);
+const msgList = reactive([]); // message list
 const isGroup = ref(false);
 const roomId = ref("");
 const loading = ref(false);
@@ -72,7 +80,11 @@ const page = reactive({
 var title = ref("");
 const emit = defineEmits(["fathre"]);
 
-// receive message
+/**
+  * @description:receive WebSocket Message
+  * @param {Object} msgInfo message information
+  * @return message is add to message list
+*/ 
 function receiveMsg(msgInfo) {
   let date = new Date();
   let tempMsg = {
@@ -93,8 +105,10 @@ function receiveMsg(msgInfo) {
   };
   msgList.push(tempMsg);
 }
-// test loading chat history with fake data
-function tList() {
+/**
+ * @description: test for load function
+ */
+function loadTest() {
   if (msgList.length > 30) {
     return;
   }
@@ -138,7 +152,10 @@ function tList() {
     counter.value += 2;
   }
 }
-// load chat history function
+/**
+ * @description: load chat history function
+ * @return message status list
+ */
 function load() {
   if (!nodata.value && !loading.value) {
     loading.value = true;
@@ -187,7 +204,12 @@ function load() {
       });
   }
 }
-// websocket send message function
+/**
+  * @description: websocket send message function
+  * @param {String} input input
+  * @param {String} type text/url
+  * @return websocket message is sent
+*/ 
 function wsSend(input, type) {
   let roomType = isGroup.value ? "group" : "friend";
   let json = {
@@ -201,7 +223,12 @@ function wsSend(input, type) {
   };
   emit("fathre", json);
 }
-// prepare sending message
+/**
+  * @description: overall send message function
+  * @param {String} input input
+  * @param {String} type text/url
+  * @return message is sent and add to message list
+*/ 
 function sendMsg(input, type) {
   let date = new Date();
   let tempMsg = {
@@ -224,7 +251,12 @@ function sendMsg(input, type) {
   wsSend(input, type);
   sendToBack(input, type);
 }
-// HTTP send message function
+/**
+  * @description: send message HTTP request
+  * @param {String} input input
+  * @param {String} type text/url
+  * @return message is sent as HTTP request
+*/
 function sendToBack(input, type) {
   let msgInfo = {
     chatId: roomId.value,
@@ -260,11 +292,17 @@ function sendToBack(input, type) {
     })
     .finally(() => {});
 }
-// send picture message
+/**
+  * @description: add picture action
+  * @param {String} img image url
+  * @return call mainPage to add new image
+*/
 function addPic(img) {
   sendMsg(img, "img");
 }
-// set page parameters
+/**
+  * @description: set inital page parameters
+*/
 function setParam() {
   let str = route.params.id;
   let temp = "";
@@ -293,7 +331,11 @@ function setParam() {
   page.pageNum = 1;
   page.pageSize = 10;
 }
-// check if uname is the current user
+/**
+  * @description: check if uname is the current user
+  * @param {String} uname
+  * @return {Boolean}
+*/
 function isMe(uname) {
   if (store.name == uname) {
     return true;
@@ -301,7 +343,9 @@ function isMe(uname) {
     return false;
   }
 }
-// leave room and update leave time
+/**
+  * @description: leave room and update leave time HTTP
+*/
 function leave() {
   //console.log("leave Time!!!!!!!!!!!!!!!!!!!");
   leaveRoom(token.value, roomId.value, !isGroup.value)
@@ -326,10 +370,20 @@ function leave() {
       console.log(err);
     });
 }
+/**
+  * @description: set initial page parameters when page mounted
+*/
 onMounted(() => {
   //console.log("mount");
   setParam();
 });
+/**
+  * @description: when page updated, do:
+  *   1. leave room and update leave time
+  *   2. set initial page parameters
+  *   3. clear message list
+  *   4. load message history
+*/
 onUpdated(() => {
   //console.log("update");
   leave();
@@ -337,13 +391,19 @@ onUpdated(() => {
   msgList.splice(0, msgList.length);
   load();
 });
+/**
+  * @description: leave the room and update leave time before Unmounted
+*/
 onBeforeUnmount(() => {
   leave();
 });
+/**
+  * @description: when receive new message, add the message to message list
+*/
 watch(getNewMsg, (value) => {
   if (value != "") {
     receiveMsg(value);
-    store.setNewMsg("");
+    //store.setNewMsg("");
   }
 });
 defineExpose({

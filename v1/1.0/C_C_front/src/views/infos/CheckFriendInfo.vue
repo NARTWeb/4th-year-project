@@ -1,3 +1,14 @@
+<!--
+  * @FileDescription: Friend Information Page, show friend's:
+      1. Avatar
+      2. Name
+      3. Email
+      4. post Statuses
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:24
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/03 15:59
+-->
 <template>
   <div class="all">
     <div class="top">
@@ -73,6 +84,10 @@ const friendName = ref("FriendName");
 const friendEmail = ref("FriendEmail@gmail.com");
 const friendAvatar = ref("test.jpg");
 
+/**
+  * @description: get friend information
+  * @return friend information updated
+*/
 function getFriendInfo() {
   showUserInfo(token.value, route.params.id)
   .then((res) => {
@@ -97,8 +112,10 @@ function getFriendInfo() {
         console.log(err);
       });
 }
-
-function tList() {
+/**
+ * @description: test for load function
+ */
+function loadTest() {
   if (counter.value > 10) {
     nodata.value = true;
     return;
@@ -128,6 +145,10 @@ function tList() {
     counter.value += 1;
   }
 }
+/**
+ * @description: load more friend status
+ * @return change my Status List
+ */
 function load() {
   if (!loading.value && !nodata.value) {
     showMyStatusList(token.value, "-1", page)
