@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Project: blog-parent
  *
  * @className: AllExceptionHander
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/7/25 14:22
+ * @Author ZIRUI QIAO
+ * @Date 2022/7/25 14:22
  */
 @ControllerAdvice
 public class AllExceptionHander {

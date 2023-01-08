@@ -7,10 +7,10 @@ import com.google.gson.Gson;
  * Project: pack
  *
  * @className: GsonFormatter
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/9/1 13:22
+ * @Author ZIRUI QIAO
+ * @Date 2022/9/1 13:22
  */
 public class GsonFormatter {
     private static final Gson gson = new Gson();

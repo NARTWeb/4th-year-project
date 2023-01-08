@@ -23,10 +23,10 @@ import java.util.Map;
  * Project: blog-parent
  *
  * @className: HttpUtil
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/7/27 15:55
+ * @Author ZIRUI QIAO
+ * @Date 2022/7/27 15:55
  */
 public class HttpUtil {
     private static Header[] parseHeaders(Map<String, String> headers) {

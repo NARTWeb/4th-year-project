@@ -7,10 +7,10 @@ import org.apache.http.entity.ContentType;
  * Project: blog-parent
  *
  * @className: TypeDict
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/7/27 17:40
+ * @Author ZIRUI QIAO
+ * @Date 2022/7/27 17:40
  */
 public class TypeDict {
     /**

@@ -5,10 +5,10 @@ package com.nart.common;
  * Project: pack
  *
  * @className: LogBspect
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/9/1 17:46
+ * @Author ZIRUI QIAO
+ * @Date 2022/9/1 17:46
  */
 
 import com.nart.util.GsonFormatter;
@@ -28,10 +28,10 @@ import java.lang.reflect.Method;
  * Project: blog-parent
  *
  * @className: LogAspect
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/12/28 13:30
+ * @Author ZIRUI QIAO
+ * @Date 2022/12/28 13:30
  */
 @Component
 @Aspect

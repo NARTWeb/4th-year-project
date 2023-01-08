@@ -25,10 +25,10 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
  * Project: pack
  *
  * @className: FakeDataGenerator
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/8/30 15:43
+ * @Author ZIRUI QIAO
+ * @Date 2022/8/30 15:43
  */
 
 @Component
@@ -60,11 +60,11 @@ public class FakeDataGenerator {
     private UserLikeDao userLikeDao;
 
     /**
-     * @Description: generate users
+     *  generate users
      * @param num number of users
-     * @return: java.util.List<com.nart.pojo.User>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:11
+     * @return List of User
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:11
      */
     public List<User> generateUsers(int num) {
         List<User> list = new ArrayList<>();
@@ -87,11 +87,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate friends requests
+     *  generate friends requests
      * @param num number of requests
-     * @return: java.util.List<com.nart.pojo.FriendReq>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:12
+     * @return List of FriendReq
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:12
      */
     public List<FriendReq> generateReqs(int num) {
         List<FriendReq> list = new ArrayList<>();
@@ -111,11 +111,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate Status with random User as author
+     *  generate Status with random User as author
      * @param num number of Status
-     * @return: java.util.List<com.nart.pojo.Status>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:12
+     * @return List of Status
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:12
      */
     public List<Status> generateStatus(int num) {
         List<Status> list = new ArrayList<>();
@@ -135,11 +135,12 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate comments with random statuses and users
+     *  generate comments with random statuses and users
      * @param num max number of comments
-     * @return: java.util.List<com.nart.pojo.Comment>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:13
+     * @param statusId Status Id
+     * @return List of Comment
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:13
      */
     public List<Comment> generateComment(String statusId, int num) {
         List<Comment> list = new ArrayList<>();
@@ -169,12 +170,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate like relationship between Status and random User
+     *  generate like relationship between Status and random User
      * @param statusId Status id
      * @param num max number of likes for each Status
-     * @return: void
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:19
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:19
      */
     public void generateLikes(String statusId, int num) {
         String authorId = "";
@@ -214,11 +214,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate empty groups
+     *  generate empty groups
      * @param num Group number
-     * @return: java.util.List<com.nart.pojo.Group>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:20
+     * @return List of Group
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:20
      */
     public List<Group> generateGroup(int num) {
         List<Group> list = new ArrayList<>();
@@ -234,11 +234,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate Group invitations with random User and Group
+     *  generate Group invitations with random User and Group
      * @param num total number of invitations
-     * @return: java.util.List<com.nart.pojo.GroupInvite>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:21
+     * @return List of GroupInvite
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:21
      */
     public List<GroupInvite> generateInvites(int num) {
         List<GroupInvite> list = new ArrayList<>();
@@ -268,12 +268,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate Group relationships between Group and random User
+     *  generate Group relationships between Group and random User
      * @param gid Group id
      * @param num max number of Group member
-     * @return: void
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:22
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:22
      */
     public void generateGroupRelationships(String gid, int num) {
         List<String> groupMemberIds = getGroupMemberIds(gid);
@@ -308,12 +307,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate Friend relationships between User and a random User
+     *  generate Friend relationships between User and a random User
      * @param uid User id
      * @param num max number of Friend
-     * @return: void
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:23
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:23
      */
     public void generateFriendRelationships(String uid, int num) {
         List<String> userFriendIds = getUserFriendIds(uid);
@@ -337,12 +335,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate Friend chat Message
+     *  generate Friend chat Message
      * @param uid User id
      * @param num max number of chat msg the User may send to each Friend
-     * @return: void
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 19:50
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 19:50
      */
     public void generateFriendsChats(String uid, int num) {
         List<String> userFriendIds = getUserFriendIds(uid);
@@ -386,12 +383,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: generate Group chat Message
+     *  generate Group chat Message
      * @param uid User id
      * @param num max number of chat msg the User may send to each Group
-     * @return: void
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 19:50
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 19:50
      */
     public void generateGroupsChats(String uid, int num) {
         List<String> userGroupIds = getUserGroupIds(uid);
@@ -439,10 +435,10 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: find all users' id
-     * @return: java.util.List<java.lang.String>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:27
+     *  find all users' id
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:27
      */
     public List<String> getUserIds() {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
@@ -456,10 +452,10 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: find all statuses' ids
-     * @return: java.util.List<java.lang.String>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:28
+     *  find all statuses' ids
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:28
      */
     public List<String> getStatusIds() {
         LambdaQueryWrapper<Status> queryWrapper = new LambdaQueryWrapper<>();
@@ -473,10 +469,10 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: find all groups' ids
-     * @return: java.util.List<java.lang.String>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:28
+     *  find all groups' ids
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:28
      */
     public List<String> getGroupIds() {
         LambdaQueryWrapper<Group> queryWrapper = new LambdaQueryWrapper<>();
@@ -490,11 +486,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: find all members' ids in the Group
+     *  find all members' ids in the Group
      * @param groupId Group id
-     * @return: java.util.List<java.lang.String>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:28
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:28
      */
 
     public List<String> getGroupMemberIds(String groupId) {
@@ -513,11 +509,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: find all friends' ids of the User
+     *  find all friends' ids of the User
      * @param uid User id
-     * @return: java.util.List<java.lang.String>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:29
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:29
      */
     public List<String> getUserFriendIds(String uid) {
 //        List<User> objList= this.UserDao.selectFriends(uid);
@@ -535,11 +531,11 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: find all groups' id the User joined
+     *  find all groups' id the User joined
      * @param uid User id
-     * @return: java.util.List<java.lang.String>
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:29
+     * @return List of String
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:29
      */
     public List<String> getUserGroupIds(String uid) {
 //        List<Group> objList= this.GroupDao.selectGroups(uid);
@@ -560,11 +556,10 @@ public class FakeDataGenerator {
     }
 
     /**
-     * @Description: use this to generate fake data and load to database
+     *  use this to generate fake data and load to database
      * @param num a base number (1/10 of User number)
-     * @return: void
-     * @Author: Zirui Qiao
-     * @Date: 2022/8/30 20:30
+     * @Author Zirui Qiao
+     * @Date 2022/8/30 20:30
      */
 
     //

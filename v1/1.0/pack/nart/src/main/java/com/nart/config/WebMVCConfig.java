@@ -12,10 +12,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * Project: pack
  *
  * @className: WebMVCConfig
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/12/25 13:05
+ * @Author ZIRUI QIAO
+ * @Date 2022/12/25 13:05
  */
 @Configuration
 public class WebMVCConfig implements WebMvcConfigurer {

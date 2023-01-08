@@ -7,10 +7,10 @@ import lombok.AllArgsConstructor;
  * Project: pack
  *
  * @className: ErrorCode
- * @Description: show what error it is
+ *  show what error it is
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/8/31 13:29
+ * @Author ZIRUI QIAO
+ * @Date 2022/8/31 13:29
  */
 @AllArgsConstructor
 public enum ErrorCode {

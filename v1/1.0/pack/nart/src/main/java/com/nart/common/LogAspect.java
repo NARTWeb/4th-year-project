@@ -27,10 +27,10 @@ import java.util.Enumeration;
  * Project: blog-parent
  *
  * @className: LogAspect
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/12/28 13:30
+ * @Author ZIRUI QIAO
+ * @Date 2022/12/28 13:30
  */
 @Component
 @Aspect

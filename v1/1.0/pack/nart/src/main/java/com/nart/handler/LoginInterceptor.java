@@ -22,10 +22,10 @@ import java.io.IOException;
  * Project: blog-parent
  *
  * @className: LoginInterceptor
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/7/25 22:22
+ * @Author ZIRUI QIAO
+ * @Date 2022/7/25 22:22
  */
 @Component
 @Slf4j

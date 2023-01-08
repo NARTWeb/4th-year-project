@@ -19,10 +19,10 @@ import java.util.concurrent.TimeUnit;
  * Project: pack
  *
  * @className: RedisUtil
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/9/2 14:26
+ * @Author ZIRUI QIAO
+ * @Date 2022/9/2 14:26
  */
 @Component
 public class RedisUtil {
@@ -107,12 +107,13 @@ public class RedisUtil {
 
     /**
      * Access to data
-     *
      * @param key
      * @param clazz
-     * @return
+     * @param <T> pojo class
+     * @return: T
+     * @Author: Zirui Qiao
+     * @Date: 2023-01-08 5:59 p.m.
      */
-
     public <T> T get(String key, Class<T> clazz) {
         return get(key, clazz, NOT_EXPIRE);
     }
@@ -141,7 +142,6 @@ public class RedisUtil {
      * Match Delete test* Delete all keys starting with test
      *
      * @param pattern
-     * @return
      */
     public void deleteByPattern(String pattern) {
         redisTemplate.delete(keys(pattern));

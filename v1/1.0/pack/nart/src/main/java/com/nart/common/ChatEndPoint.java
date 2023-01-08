@@ -24,10 +24,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Project: pack
  *
  * @className: ChatEndPoint
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/12/29 11:05
+ * @Author ZIRUI QIAO
+ * @Date 2022/12/29 11:05
  */
 @ServerEndpoint(value="/chat",configurator = WebSocketConfig.class)
 @Component

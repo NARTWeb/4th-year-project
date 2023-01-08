@@ -29,10 +29,10 @@ import java.util.regex.Pattern;
  * Project: blog-parent
  *
  * @className: ImgtuUtil
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/7/27 15:54
+ * @Author ZIRUI QIAO
+ * @Date 2022/7/27 15:54
  */
 @Slf4j
 public class ImgtuUtil {
