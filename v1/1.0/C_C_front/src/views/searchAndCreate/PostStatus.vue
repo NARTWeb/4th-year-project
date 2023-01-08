@@ -2,7 +2,7 @@
   * @FileDescription: Post Status page, accept
       1. text
       2. images
-  * @Author: Zirui Qiao
+  * @Author: Shizhong Shang
   * @Date: 2022/12/25 12:10
   * @LastEditor: Zirui Qiao
   * @LastEditTime: 2023/01/01 15:43
