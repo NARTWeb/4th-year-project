@@ -1,7 +1,7 @@
 <!--
   * @FileDescription: Searching Friends I Have Page
         show all possible friends related to the searching result
-  * @Author: Zirui Qiao
+  * @Author: Shizhong Shang
   * @Date: 2022/12/25 12:09
   * @LastEditor: Zirui Qiao
   * @LastEditTime: 2023/01/01 14:32
