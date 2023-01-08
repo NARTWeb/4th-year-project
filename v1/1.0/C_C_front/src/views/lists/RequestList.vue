@@ -1,3 +1,10 @@
+<!--
+  * @FileDescription: Request List Page, show all friend requests
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:19
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/02 13:02
+-->
 <template>
   <div>
     <el-scrollbar height="75vh" id="all">

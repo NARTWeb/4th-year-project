@@ -1,3 +1,12 @@
+<!--
+  * @FileDescription: Status List Page, show all statuses include:
+      1. The current user's statuses
+      2. The current user's friends' statuses
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:18
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/02 15:38
+-->
 <template>
   <div id="larger-all">
     <el-scrollbar height="75vh" id="all">

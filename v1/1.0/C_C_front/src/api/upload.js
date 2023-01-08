@@ -1,3 +1,10 @@
+/*
+  * @FileDescription: user related API
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 16:21
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/07 22:34
+*/
 import req from "@/request";
 
 export function uploadPic(pic, album) {

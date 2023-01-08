@@ -1,3 +1,11 @@
+<!--
+  * @FileDescription: Chat Room Page, show sent messages
+      allow sending text and images
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:25
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/07 22:43
+-->
 <template>
   <div class="all flex">
     <div class="inner-all">

@@ -1,3 +1,14 @@
+<!--
+  * @FileDescription: Chat Message Component, include:
+      1. sender avatar
+      2. sender name
+      3. sent date
+      4. sent text / image
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:25
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/30 10:24
+-->
 <template>
   <div id="all">
     <div v-if="isMe" class="bubble right">

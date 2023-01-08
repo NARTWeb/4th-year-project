@@ -1,3 +1,18 @@
+<!--
+  * @FileDescription: My Information Page, show and allow:
+      1. User Name
+      2. User Email
+      3. User Birthday
+      4. User Phone Number
+      5. User Address
+      6. User Avatar
+    allow: 
+      change passwords
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:23
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/03 14:21
+-->
 <template>
   <div class="all flex">
     <div class="big center">
@@ -132,7 +147,6 @@ const userInfo = reactive({
 });
 const uploadRef = ref<UploadInstance>();
 const file = reactive([]);
-
 const tt = {
   reg1: /^[a-z0-9_-]{3,16}$/,
   reg2: /^\d{4}-\d{2}-\d{2}$/,

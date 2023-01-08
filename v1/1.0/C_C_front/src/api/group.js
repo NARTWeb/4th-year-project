@@ -1,3 +1,10 @@
+/*
+  * @FileDescription: user related API
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 16:23
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/25 20:33
+*/
 import req from "@/request";
 
 export function showGroupList(token, page) {

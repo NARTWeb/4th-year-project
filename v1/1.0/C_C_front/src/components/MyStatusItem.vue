@@ -1,3 +1,13 @@
+<!--
+  * @FileDescription: My Status Item Component, include:
+      1. text
+      2. images
+      3. delete button
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:19
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/29 13:53
+-->
 <template>
   <div class="mall">
     <div id="left">
@@ -22,7 +32,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup="props">
 const props = defineProps({
   isMine: Boolean,
   message: String,

@@ -1,3 +1,13 @@
+<!--
+  * @FileDescription: Chat Input Box Component, include:
+      1. type area
+      2. send button
+      3. add image button
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:26
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/07 23:33
+-->
 <template>
   <div class="all">
     <div id="left">
@@ -66,7 +76,6 @@ async function handleChange(f, fileList) {
 function clearText() {
   input.value = "";
 }
-function saveToSession(msg) {}
 function sendMsg() {
   input.value = input.value.trim();
   if (input.value.length == 0) {

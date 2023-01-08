@@ -1,3 +1,13 @@
+<!--
+  * @FileDescription: Information Item Component, include:
+      1. info title
+      2. info value
+      3. change button
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:21
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/29 14:57
+-->
 <template>
   <div class="all flex">
     <el-dialog
@@ -7,8 +17,16 @@
       :before-close="clearBtn"
     >
       <div style="width: 40%">
-        <el-input :placeholder="t('infoItem.oldPwd')" v-model="oldPwd" type="password"/>
-        <el-input :placeholder="t('infoItem.newPwd')" v-model="newPwd" type="password"/>
+        <el-input
+          :placeholder="t('infoItem.oldPwd')"
+          v-model="oldPwd"
+          type="password"
+        />
+        <el-input
+          :placeholder="t('infoItem.newPwd')"
+          v-model="newPwd"
+          type="password"
+        />
         <el-input
           :placeholder="t('infoItem.newPwd2')"
           v-model="newPwd2"
@@ -20,7 +38,9 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="clearBtn">{{ $t("buttons.cancel") }}</el-button>
-          <el-button type="primary" @click="changeBtn" :disabled="confirm">{{ $t("buttons.confirm") }}</el-button>
+          <el-button type="primary" @click="changeBtn" :disabled="confirm">{{
+            $t("buttons.confirm")
+          }}</el-button>
         </span>
       </template>
     </el-dialog>
@@ -31,9 +51,9 @@
     <div class="bottom fullW">
       <div v-if="props.isPwd" class="pwde flex fullW">
         <div>
-          <el-button round type="primary" @click="dialogVisible = true"
-            >{{ $t("buttons.change") }}</el-button
-          >
+          <el-button round type="primary" @click="dialogVisible = true">{{
+            $t("buttons.change")
+          }}</el-button>
         </div>
       </div>
       <div v-else class="elements flex fullW">
@@ -47,7 +67,13 @@
           <span v-else class="text cb">{{ v }}</span>
         </div>
         <div class="el-right">
-          <el-button round type="primary" v-show="canChange" @click="changeBtn">{{ $t("buttons.change") }}</el-button>
+          <el-button
+            round
+            type="primary"
+            v-show="canChange"
+            @click="changeBtn"
+            >{{ $t("buttons.change") }}</el-button
+          >
         </div>
       </div>
     </div>
@@ -82,7 +108,7 @@ const input = computed({
   },
   set(newValue) {
     v.value = newValue.trim();
-  }
+  },
 });
 var oldP = ref("");
 const oldPwd = computed({
@@ -91,7 +117,7 @@ const oldPwd = computed({
   },
   set(newValue) {
     oldP.value = newValue.trim();
-  }
+  },
 });
 var newP = ref("");
 const newPwd = computed({
@@ -100,8 +126,8 @@ const newPwd = computed({
   },
   set(newValue) {
     newP.value = newValue.trim();
-  }
-});;
+  },
+});
 var newP2 = ref("");
 const newPwd2 = computed({
   get() {
@@ -109,8 +135,8 @@ const newPwd2 = computed({
   },
   set(newValue) {
     newP2.value = newValue.trim();
-  }
-});;
+  },
+});
 
 function clearBtn() {
   dialogVisible.value = false;
@@ -120,20 +146,20 @@ function clearBtn() {
 }
 function checkInput() {
   changeValue.value = false;
-  let errorClass = '';
-  if(props.lb == '1') {
+  let errorClass = "";
+  if (props.lb == "1") {
     errorClass = "uname";
   } else {
     errorClass = props.label.toLowerCase();
   }
   let regexp = new RegExp(props.reg);
-  if(!regexp.test(v.value)) {
+  if (!regexp.test(v.value)) {
     ElMessage({
-          type: "error",
-          message: t('welcome.' + errorClass + 'Error'),
-          showClose: true,
-          grouping: true,
-        });
+      type: "error",
+      message: t("welcome." + errorClass + "Error"),
+      showClose: true,
+      grouping: true,
+    });
     v.value = props.value;
   } else {
     change();
@@ -160,9 +186,9 @@ function checkPwd() {
 }
 function changeBtn() {
   if (props.isPwd) {
-    dialogVisible.value = dialogVisible.value == true ? false:true;
+    dialogVisible.value = dialogVisible.value == true ? false : true;
   } else {
-    changeValue.value = changeValue.value == true ? false:true;
+    changeValue.value = changeValue.value == true ? false : true;
   }
   change();
 }
@@ -173,11 +199,15 @@ function change() {
     emit("changePwd", oldP.value, newP.value);
   }
 }
-watch(()=>props.value, (newValue)=>{
-  v.value = newValue;
-}, {
-  deep:true
-})
+watch(
+  () => props.value,
+  (newValue) => {
+    v.value = newValue;
+  },
+  {
+    deep: true,
+  }
+);
 </script>
 <style scoped>
 .error3 {

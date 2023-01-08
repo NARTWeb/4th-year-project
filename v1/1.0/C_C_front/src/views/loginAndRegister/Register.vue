@@ -1,3 +1,13 @@
+<!--
+  * @FileDescription: register page, accept
+      1. email
+      2. username
+      3. password
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:15
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/02 10:53
+-->
 <template>
   <div class="h-full flex flex-col flex-nowrap justify-center items-center">
     <div

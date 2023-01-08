@@ -1,3 +1,19 @@
+<!--
+  * @FileDescription: Contact List Component, include:
+      1. item list
+      each item include:
+        1. avatar
+        2. popout menu:
+          a. name as a jump button to chat room
+          b. delete friend button
+          c. hide item button
+          d. mute item button
+          e. unset item button
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:23
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/29 16:58
+-->
 <template>
   <div class="all">
     <el-dialog

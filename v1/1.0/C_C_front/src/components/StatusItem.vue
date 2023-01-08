@@ -1,3 +1,15 @@
+<!--
+  * @FileDescription: Status Item Component, include:
+      1. sender avatar and name
+      2. status text
+      3. status image
+      4. like and write comment button
+      5. comments list
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:17
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/29 10:24
+-->
 <template>
   <div id="all">
     <div id="top">

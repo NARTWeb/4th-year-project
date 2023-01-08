@@ -1,3 +1,10 @@
+/*
+  * @FileDescription: Structure Router
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:50
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/01 22:10
+*/
 import { createRouter, createWebHistory } from 'vue-router'
 
 const MainPage = () => import('@/views/MainPage.vue')

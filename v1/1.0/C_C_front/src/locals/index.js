@@ -1,3 +1,10 @@
+/*
+  * @FileDescription: Changing Language Plugin
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:14
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/07 13:44
+*/
 import { createI18n } from 'vue-i18n'
 import zh from './zh'
 import en from './en'
@@ -7,11 +14,11 @@ const message = {
   zh,
 }
 const language = (navigator.language || 'en').toLocaleLowerCase()
- // 这是获取浏览器的语言
+ // get explorer's language
 const i18n = createI18n({
   locale: localStorage.getItem('lang') || language.split('-')[0] || 'en', // 设置语言类型
-  legacy: false, // 如果要支持compositionAPI，此项必须设置为false;
-  globalInjection: true, // 全局注册$t方法
+  legacy: false, // if want to support compositionAPI，have to be false;
+  globalInjection: true, // global register $t method
   messages: message,
 })
 

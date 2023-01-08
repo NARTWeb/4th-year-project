@@ -1,3 +1,10 @@
+/*
+  * @FileDescription: user related API
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 16:20
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/25 20:10
+*/
 import req from "@/request";
 
 export function signin(uname, pwd) {

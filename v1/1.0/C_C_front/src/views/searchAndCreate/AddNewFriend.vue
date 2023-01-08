@@ -1,3 +1,11 @@
+<!--
+  * @FileDescription: Add New Friend Page, 
+        accept an input, return a list of user who are not your friend yet
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:14
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/01 12:04
+-->
 <template>
   <div id="all">
     <el-dialog
@@ -58,17 +66,36 @@ const dialogVisible = ref(false);
 const message = ref("");
 var tempId = ref < Number > -1;
 
+/**
+ * @description: remove the chosen user from result list
+ * @param {Number} id user id
+ * @return change result lsit
+ */
 function close(id) {
   newStore.delItem(id);
 }
+/**
+ * @description: close the popup window, and clear input
+ * @return change result list
+ */
 function clear() {
   dialogVisible.value = false;
   message.value = "";
 }
+/**
+ * @description: pop a window, write request message to the chosen user
+ * @param {Number} id user id
+ */
 function addBtn(id) {
   dialogVisible.value = true;
   tempId = id;
 }
+/**
+ * @description: Send friend request HTTP to chosen user
+ * @param {String} message request message
+ * @param {Number} tempId the chosen user id
+ * @return close popWindow, remove chosen user from result list
+ */
 function add() {
   dialogVisible.value = false;
   sendFriendRequest(token.value, tempId, message.value)
@@ -99,6 +126,10 @@ function add() {
       console.log(err);
     });
 }
+/**
+ * @description: load new results
+ * @return change result list
+ */
 function load() {
   newStore.loadNewFriends();
 }

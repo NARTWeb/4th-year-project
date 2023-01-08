@@ -1,3 +1,19 @@
+<!--
+  * @FileDescription: Group Setting Page, show:
+      1. Group Name
+      2. Group Avatar
+      3. Group Notice
+      4. ALL Group Members
+    allows:
+      1. Change Group Name
+      2. Change Group Avatar
+      3. Change Group Notice
+      4. Invite Friends to join the Groups
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:22
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/03 13:04
+-->
 <template>
   <div class="all flex">
     <div class="avatar-and-members flex">
@@ -53,7 +69,7 @@
             </div>
             <div>
               <el-avatar
-                :size="60"
+                :size="100"
                 :icon="Plus"
                 @click="toPopWin"
                 class="scroll-item oper"
@@ -61,7 +77,7 @@
             </div>
             <div>
               <el-avatar
-                :size="60"
+                :size="100"
                 :icon="Minus"
                 @click="delMember"
                 class="scroll-item oper"
@@ -581,8 +597,8 @@ img {
   width: 100%;
 }
 .circle {
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   overflow: hidden;
   text-align: center;

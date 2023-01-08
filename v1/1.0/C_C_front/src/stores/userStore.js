@@ -1,3 +1,11 @@
+/*
+  * @FileDescription: User Store, 
+      Store Current User related information
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 13:59
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/04 10:30
+*/
 import { defineStore } from "pinia";
 import { getToken, setToken, removeToken } from "@/request/token";
 import { signin, signout, register, showUserInfo, showAvatarUname, changeUserInfo} from "@/api/user.js";
@@ -9,16 +17,16 @@ const useUserStore = defineStore("user", {
     return {
       token: "",
       name: "",
-      avatar: "",
+      avatar: "", // head image
       email: "",
-      tel: "",
+      tel: "",    // user phone number
       address: "",
       birthday: "",
-      groupId: "",
-      notice: "",
-      groupName: "",
-      groupAvatar: "",
-      newMsg: "",
+      // group info
+      groupId: "",     // the latest access group id
+      notice: "",      // the latest access group notice
+      groupName: "",   // the latest access group name
+      groupAvatar: "", // the latest access group head image
     };
   },
   getters :{
@@ -36,9 +44,11 @@ const useUserStore = defineStore("user", {
     },
   },
   actions: {
-    setNewMsg(newVal){
-      this.newMsg = newVal;
-    },
+    /**
+      * @description: update current group information
+      * @param {Object} gInfo new group information
+      * @return group information change
+    */
     updategroupInfo(gInfo){
       if (gInfo != null && gInfo != {}) {
         if(gInfo.gid != null && gInfo.gid != ""){
@@ -55,6 +65,11 @@ const useUserStore = defineStore("user", {
         }
       }
     },
+    /**
+      * @description: log the user in
+      * @param {Object} user user information (username and password)
+      * @return accept or reject
+    */
     login(user) {
       return new Promise((resolve, reject) => {
         signin(user.username, user.password)
@@ -85,35 +100,11 @@ const useUserStore = defineStore("user", {
           });
       });
     },
-    async getAvatarUname() {
-      return new Promise((resolve, reject) => {
-        showAvatarUname(this.token)
-          .then((res) => {
-            if (res.data.success) {
-              this.name = res.data.data.uname;
-              this.avatar = res.data.data.avatar;
-              resolve();
-            } else {
-              ElMessage({
-                type: "error",
-                message: res.data.msg,
-                showClose: true,
-                grouping: true,
-              });
-              reject(res.data.msg);
-            }
-          })
-          .catch((error) => {
-            ElMessage({
-              type: "error",
-              message: i18n.global.t('user.mainError'),
-              showClose: true,
-              grouping: true,
-            });
-            reject(error);
-          });
-      });
-    },
+    /**
+      * @description: log the user in
+      * @param {Object} user user information (username and password)
+      * @return accept or reject
+    */
     getUserInfo() {
         showUserInfo(this.token, "-1")
           .then((res) => {
@@ -145,6 +136,11 @@ const useUserStore = defineStore("user", {
           console.log(err);
         });
     },
+    /**
+      * @description: change current user information
+      * @param {Object} userInfo user information
+      * @return user information change
+    */
     async changeUserInfo(userInfo) {
       return new Promise((resolve, reject) => {
         changeUserInfo(this.token, userInfo)
@@ -178,6 +174,10 @@ const useUserStore = defineStore("user", {
           });
       });
     },
+    /**
+      * @description: log user out
+      * @return user logout, all stored data deleted
+    */
     logout() {
       return new Promise((resolve, reject) => {
         removeToken();
@@ -208,6 +208,10 @@ const useUserStore = defineStore("user", {
       });
     },
     // front-end logout
+    /**
+      * @description: front end logout function
+      * @return front-end user data deleted
+    */
     fedLogOut() {
       return new Promise((resolve) => {
         this.name = "";
@@ -222,6 +226,11 @@ const useUserStore = defineStore("user", {
         reject(error);
       });
     },
+    /**
+      * @description: register a user
+      * @param {Object} user user information (username, password, email)
+      * @return accept or reject
+    */
     register(user) {
       return new Promise((resolve, reject) => {
         register(user.uname, user.pwd, user.email)

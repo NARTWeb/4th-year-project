@@ -1,3 +1,10 @@
+/*
+  * @FileDescription: user related API
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 16:25
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/25 21:09
+*/
 import req from "@/request";
 
 export function showCommentList(token, statusId) {

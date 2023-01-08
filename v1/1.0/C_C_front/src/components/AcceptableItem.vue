@@ -1,3 +1,16 @@
+<!--
+  * @FileDescription: Acceptable Item Component, include:
+      1. sender avatar
+      2. sender name
+      3. optional name
+      4. optional text
+      5. accept button
+      6. reject button
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:27
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/29 19:10
+-->
 <template>
   <div>
     <div class="all">

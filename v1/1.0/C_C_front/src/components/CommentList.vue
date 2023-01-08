@@ -1,3 +1,11 @@
+<!--
+  * @FileDescription: Comment List Component, include:
+        comment list
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:24
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/29 17:57
+-->
 <template>
     <div id="all">
         <div v-for="comment in props.commentList" :key="comment.id" class="each">

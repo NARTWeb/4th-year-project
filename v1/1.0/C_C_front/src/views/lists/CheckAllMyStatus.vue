@@ -1,3 +1,11 @@
+<!--
+  * @FileDescription: My Status List, show all My statuses:
+      can be deleted! and show post date!
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:21
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/02 18:30
+-->
 <template>
   <div id="larger-all">
     <el-scrollbar height="75vh" id="all">
