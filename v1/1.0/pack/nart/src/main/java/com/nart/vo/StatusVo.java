@@ -43,9 +43,7 @@ public class StatusVo {
 //        statusVo.setUname(user.getName());
 //        statusVo.setAvatar(user.getAvatar());
 
-        //获取时间戳
         Long createDate = status.getCreateDate();
-//        将时间戳转换为字符串
         String dateToString = getDateToString(createDate);
         DateVo dateVo = new DateVo();
 
@@ -94,7 +92,6 @@ public class StatusVo {
         return statusVo;
     }
 
-    //时间戳转换为字符串
     public String getDateToString(long time) {
 
         Date d = new Date(time);

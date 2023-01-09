@@ -1,3 +1,13 @@
+<!--
+  * @FileDescription: Create New Group Page, accept:
+      1. Group Name
+      2. Group Avatar
+      3. Friends who are invited to the group
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:13
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/01 10:24
+-->
 <template>
   <div>
     <el-container>
@@ -54,7 +64,7 @@
                 class="scroll-item"
               >
                 <el-avatar
-                  :size="60"
+                  :size="100"
                   src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
                 />
                 <div class="memberName">{{ member.name }}</div>
@@ -101,30 +111,38 @@ const { t } = useI18n();
 const img = ref(
   "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
 );
-const inviteList = reactive([]);
+interface member {
+  id: String,
+  name: String,
+  avatar: String,
+  state: Number
+}
+const inviteList = reactive<member[]>([]);
 const groupId = ref("");
 const groupName = ref("");
 const pholder = computed<String>({
-  get() {
-    return t("createGroup.groupNameHolder");
-  },
-  set(val) {
-    return;
-  },
+  get() {return t("createGroup.groupNameHolder")},
+  set(val) {return},
 });
-
 const uploadRef = ref<UploadInstance>();
 const file = reactive([]);
 var flag = false;
 
-// picture list length exceed 1 logic
+/**
+ * @description: image list exceed limit action
+ * @param {Array} files uploaded image list
+ */
 const handleExceed: UploadProps["onExceed"] = (files) => {
   uploadRef.value!.clearFiles();
   const file = files[0] as UploadRawFile;
   file.uid = genFileId();
   uploadRef.value!.handleStart(file);
 };
-// picture list change logic
+/**
+ * @description: images list length change action
+ * @param {byte} f the new loaded image
+ * @param {Array} fileList the image list
+ */
 function handleChange(f, fileList) {
   let reader = new FileReader();
   reader.readAsDataURL(f.raw);
@@ -135,7 +153,10 @@ function handleChange(f, fileList) {
   fileList = file;
   uploadFun();
 }
-// delete original picture from cloud
+/**
+ * @description: delete the status from server if exists
+ * @param {String} url Status Text
+ */
 function del(url: String) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -185,7 +206,10 @@ function del(url: String) {
     }, 500);
   });
 }
-// upload new picture to cloud
+/**
+ * @description: upload new image to server
+ * @return: get the image url from server
+ */
 function submitUpload() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -222,14 +246,19 @@ function submitUpload() {
     }, 500);
   });
 }
-// overall upload picture logic
+/**
+ * @description: overall upload image function
+ */
 async function uploadFun() {
   await del(img.value);
   await submitUpload();
   file.length = 0;
   uploadRef.value!.clearFiles();
 }
-// send creat Group HTTP request
+/**
+ * @description: send creat Group HTTP request
+ * @param {String} groupName Group Name
+ */
 function createGroup() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -263,7 +292,10 @@ function createGroup() {
     }, 500);
   });
 }
-// send each member HTTP invite
+/**
+ * @description: send a member HTTP invite
+ * @param {Array} inviteInfo the member's invitation information
+ */
 function sendInvite(inviteInfo) {
   sendGroupInvite(token.value, inviteInfo)
     .then((res) => {
@@ -286,8 +318,12 @@ function sendInvite(inviteInfo) {
       console.log(err);
     });
 }
-// change group avatar HTTP
-function changeInfo(successMsg, ErrorMsg) {
+/**
+ * @description: change group avatar HTTP
+ * @param {String} successMsg request success message
+ * @param {String} errorMsg request fail message
+ */
+function changeInfo(successMsg, errorMsg) {
   const gInfo = {
     id: groupId.value,
     name: groupName.value.trim(),
@@ -315,14 +351,16 @@ function changeInfo(successMsg, ErrorMsg) {
     .catch((err) => {
       ElMessage({
         type: "error",
-        message: ErrorMsg,
+        message: errorMsg,
         showClose: true,
         grouping: true,
       });
       console.log(err);
     });
 }
-// overall create group logic
+/**
+ * @description: overall create group function
+ */
 async function create() {
   await createGroup();
   console.log(groupId.value);
@@ -350,12 +388,23 @@ async function create() {
     router.push({ name: "chatRoom", params: { id: "g" + groupId.value } });
   }
 }
+/**
+ * @description: Add friend to invite list
+ * @param {object} obj friend object
+ * @return invite list change
+ */
 function addToList(obj) {
   inviteList.push(obj);
 }
+/**
+ * @description: open popWindow
+ */
 function toPopWin() {
   dialogFormVisible.value = true;
 }
+/**
+ * @description: close popWindow
+ */
 function closePop() {
   dialogFormVisible.value = false;
 }

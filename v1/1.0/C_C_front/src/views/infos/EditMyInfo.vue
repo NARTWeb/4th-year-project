@@ -1,3 +1,18 @@
+<!--
+  * @FileDescription: My Information Page, show and allow:
+      1. User Name
+      2. User Email
+      3. User Birthday
+      4. User Phone Number
+      5. User Address
+      6. User Avatar
+    allow: 
+      change passwords
+  * @Author: Shizhong Shang
+  * @Date: 2022/12/25 12:23
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/03 14:21
+-->
 <template>
   <div class="all flex">
     <div class="big center">
@@ -132,25 +147,33 @@ const userInfo = reactive({
 });
 const uploadRef = ref<UploadInstance>();
 const file = reactive([]);
-
 const tt = {
   reg1: /^[a-z0-9_-]{3,16}$/,
   reg2: /^\d{4}-\d{2}-\d{2}$/,
   reg4: /^[1-9]\d{2}-\d{3}-\d{4}/,
   reg6: /^[#.0-9a-zA-Z\s,-]+$/,
   reg5: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
-  label1: "1",
-  label2: "2",
-  label4: "4",
-  label5: "5",
-  label6: "6",
+  label1: "1", // username
+  label2: "2", // birthday
+  label4: "4", // phone number
+  label5: "5", // email
+  label6: "6", // address
 };
+/**
+ * @description: image list exceed limit action
+ * @param {Array} files uploaded image list
+ */
 const handleExceed: UploadProps['onExceed'] = (files) => {
   uploadRef.value!.clearFiles()
   const file = files[0] as UploadRawFile
   file.uid = genFileId()
   uploadRef.value!.handleStart(file)
 }
+/**
+ * @description: images list length change action
+ * @param {byte} f the new loaded image
+ * @param {Array} fileList the image list
+ */
 function handleChange(f, fileList) {
   let reader = new FileReader();
   reader.readAsDataURL(f.raw);
@@ -161,6 +184,10 @@ function handleChange(f, fileList) {
   fileList = file;
   uploadFun();
 }
+/**
+ * @description: delete the status from server if exists
+ * @param {String} url Status Text
+ */
 function del(url: String) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -212,6 +239,10 @@ function del(url: String) {
     }, 500);
   });
 }
+/**
+ * @description: upload new image to server
+ * @return: get the image url from server
+ */
 function submitUpload() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -251,6 +282,9 @@ function submitUpload() {
     }, 500);
   });
 }
+/**
+ * @description: overall upload image function
+ */
 async function uploadFun() {
   await del(realAvatar.value);
   await submitUpload();
@@ -259,7 +293,12 @@ async function uploadFun() {
   userInfo.avatar = realAvatar;
   store.changeUserInfo(userInfo);
 }
-
+/**
+  * @description: change current user information
+  * @param {String} label info item index
+  * @param {String} input info item new value
+  * @return user information change
+*/
 async function changef(label, input) {
   switch (label) {
     case tt.label1:
@@ -280,11 +319,16 @@ async function changef(label, input) {
   }
   store.changeUserInfo(userInfo);
 }
-
+/**
+  * @description: change password
+  * @param {String} oldPwd old password
+  * @param {String} newPwd new password
+  * @return user information change
+*/
 async function changep(oldPwd, newPwd) {
   userInfo.oldPwd = oldPwd;
   userInfo.pwd = newPwd;
-  console.log(userInfo);
+  //console.log(userInfo);
   store.changeUserInfo(userInfo);
 }
 </script>

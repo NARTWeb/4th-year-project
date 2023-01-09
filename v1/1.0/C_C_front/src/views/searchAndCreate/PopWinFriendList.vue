@@ -1,3 +1,11 @@
+<!--
+  * @FileDescription: Popup window Page, which show all possible friends 
+        related to the searching result
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:11
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/01 17:35
+-->
 <template>
   <el-dialog
     v-model="dialogVisible"
@@ -73,7 +81,6 @@ const Fstore = useFriendStore();
 const { name, avatar, token } = storeToRefs(store);
 const { gList } = storeToRefs(Fstore);
 const router = useRouter();
-const friendList = reactive([]);
 const loading = ref(false);
 const nodata = ref(false);
 const page = reactive({
@@ -86,17 +93,22 @@ const props = defineProps({
   list: Array,
 });
 const emit = defineEmits(["closeWin", "addFun"]);
+const close = ((id) => {let obj = Fstore.delGItem(id)});
+const pop = (() => {dialogVisible.value = true});
 
-function close(id) {
-  let obj = Fstore.delGItem(id);
-}
+/**
+ * @description: Add the user, and take add action
+ * @param {String} id user id
+ */
 function addBtn(id) {
   let obj = Fstore.delGItem(id);
   emit("addFun", obj);
 }
-function pop() {
-  dialogVisible.value = true;
-}
+/**
+ * @description: Search Result Function
+ * @param {String} input searchInput
+ * @return result list change
+ */
 function searchFr() {
   let temp = input.value;
   //console.log("temp " + temp);
@@ -106,8 +118,6 @@ function searchFr() {
   searchFriend(token.value, temp, page)
     .then((res) => {
       if (res.data.success) {
-        friendList.splice(0, friendList.length);
-        friendList.push(...res.data.data);
         Fstore.gList = getDiff(friendList, props.list);
       } else {
         ElMessage({
@@ -127,13 +137,23 @@ function searchFr() {
       });
     });
 }
+/**
+ * @description: Load new results to the popWindow
+ * @return result list change
+ */
 function tLoad() {
   //console.log("tLoad");
   return Fstore.loadNewGFriends();
 }
+/**
+ * @description: Close the popWindow
+ */
 function closeWin() {
   emit("closeWin");
 }
+/**
+ * @description: Open the popWindow action
+ */
 function openWin() {
   //console.log(props.list);
   Fstore.loadFirstGList(props.list);

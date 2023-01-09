@@ -130,10 +130,14 @@ import java.util.List;
     @PostMapping(&quot;create/{groupName}&quot;)
     public Result createGroup(@PathVariable(&quot;groupName&quot;) String groupName) {
 <span class="nc" id="L132">        boolean b = groupService.createGroup(groupName, UserThreadLocal.get().getId());</span>
-<span class="nc bnc" id="L133" title="All 2 branches missed.">        if(b) {</span>
-<span class="nc" id="L134">            return Result.success(null);</span>
+
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if(b) {</span>
+<span class="nc" id="L135">            Group group = groupService.findGroup(groupName);</span>
+<span class="nc" id="L136">            String id = group.getId();</span>
+
+<span class="nc" id="L138">            return Result.success(id); // return gid</span>
         }
-<span class="nc" id="L136">        return Result.fail(ErrorCode.CREATE_GROUP_ERROR);</span>
+<span class="nc" id="L140">        return Result.fail(ErrorCode.CREATE_GROUP_ERROR);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

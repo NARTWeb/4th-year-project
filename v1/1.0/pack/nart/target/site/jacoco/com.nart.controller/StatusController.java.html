@@ -88,7 +88,7 @@ import java.util.List;
         } else {
 <span class="nc" id="L89">            uid = UserThreadLocal.get().getId();</span>
             List&lt;Status&gt; statuses;
-<span class="nc" id="L91">            statuses = statusService.showAllStatusList(uid);</span>
+<span class="nc" id="L91">            statuses = statusService.showAllStatusList(uid, page);</span>
             //List&lt;Status&gt; statuses = statusService.showAllStatusList(uid);
 //            List&lt;Status&gt; statuses = statusService.showStatusList(uid, page);
 //            return Result.success(statuses);
@@ -124,34 +124,35 @@ import java.util.List;
     public Result postStatus(@RequestBody StatusVo statusInfo) {
 <span class="nc" id="L125">        System.out.println(statusInfo);</span>
 <span class="nc" id="L126">        Status status = new Status();</span>
-<span class="nc" id="L127">        status.setSenderId(statusInfo.getUid());</span>
+<span class="nc" id="L127">        status.setSenderId(UserThreadLocal.get().getId());</span>
 <span class="nc" id="L128">        status.setText(statusInfo.getMsg());</span>
 
 
 <span class="nc" id="L131">        List&lt;String&gt; pics = statusInfo.getPics();</span>
-<span class="nc" id="L132">        String join = StringUtils.join(pics.toArray(), &quot;;&quot;);</span>
-<span class="nc" id="L133">        System.out.println(join);</span>
-<span class="nc" id="L134">        status.setPics(join);</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if(pics != null) {</span>
+<span class="nc" id="L133">            String join = StringUtils.join(pics.toArray(), &quot;;&quot;);</span>
+<span class="nc" id="L134">            System.out.println(join);</span>
+<span class="nc" id="L135">            status.setPics(join);</span>
 //       status.setPics(GsonFormatter.toJsonString(statusInfo.getPics()));
-
-<span class="nc" id="L137">        status.setLikes(0);</span>
-<span class="nc" id="L138">        status.setCreateDate(new Date().getTime());</span>
-<span class="nc" id="L139">        boolean b = statusService.postStatus(status);</span>
-<span class="nc bnc" id="L140" title="All 2 branches missed.">        if(b) {</span>
-<span class="nc" id="L141">            return Result.success(null);</span>
+        }
+<span class="nc" id="L138">        status.setLikes(0);</span>
+<span class="nc" id="L139">        status.setCreateDate(new Date().getTime());</span>
+<span class="nc" id="L140">        boolean b = statusService.postStatus(status);</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if(b) {</span>
+<span class="nc" id="L142">            return Result.success(null);</span>
         } else {
-<span class="nc" id="L143">            return Result.fail(ErrorCode.POST_STATUS_ERROR);</span>
+<span class="nc" id="L144">            return Result.fail(ErrorCode.POST_STATUS_ERROR);</span>
         }
     }
 
     @LogA
     @DeleteMapping(&quot;del/{statusId}&quot;)
     public Result delStatus(@PathVariable(&quot;statusId&quot;) String statusId) {
-<span class="nc" id="L150">        boolean b = statusService.delStatus(statusId);</span>
-<span class="nc bnc" id="L151" title="All 2 branches missed.">        if(b) {</span>
-<span class="nc" id="L152">            return Result.success(null);</span>
+<span class="nc" id="L151">        boolean b = statusService.delStatus(statusId);</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        if(b) {</span>
+<span class="nc" id="L153">            return Result.success(null);</span>
         } else {
-<span class="nc" id="L154">            return Result.fail(ErrorCode.DEL_STATUS_ERROR);</span>
+<span class="nc" id="L155">            return Result.fail(ErrorCode.DEL_STATUS_ERROR);</span>
         }
     }
 }

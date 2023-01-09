@@ -8,10 +8,10 @@ import lombok.Data;
  * Project: pack
  *
  * @className: Result
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/8/31 13:27
+ * @Author ZIRUI QIAO
+ * @Date 2022/8/31 13:27
  */
 @Data
 @AllArgsConstructor

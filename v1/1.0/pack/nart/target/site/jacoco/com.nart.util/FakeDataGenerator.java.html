@@ -6,12 +6,10 @@ import com.nart.dao.*;
 import com.nart.pojo.*;
 import com.nart.service.impl.LoadDataInDataBaseImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import com.nart.pojo.User;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -36,9 +34,9 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
 //补充缺失的代码
 
 @Component
-<span class="fc" id="L39">public class FakeDataGenerator {</span>
-<span class="fc" id="L40">    private final Faker faker = new Faker(Locale.CANADA);</span>
-<span class="fc" id="L41">    private final Random r = new Random();</span>
+<span class="fc" id="L37">public class FakeDataGenerator {</span>
+<span class="fc" id="L38">    private final Faker faker = new Faker(Locale.CANADA);</span>
+<span class="fc" id="L39">    private final Random r = new Random();</span>
 
     @Autowired
     private UserDao userDao;
@@ -71,23 +69,23 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:11
      */
     public List&lt;User&gt; generateUsers(int num) {
-<span class="nc" id="L74">        List&lt;User&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L75">        DateFormat df = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+<span class="nc" id="L72">        List&lt;User&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L73">        DateFormat df = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
 
-<span class="nc bnc" id="L77" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
-<span class="nc" id="L78">            User u = new User();</span>
-<span class="nc" id="L79">            String password = faker.internet().password(6, 18, true);</span>
-<span class="nc" id="L80">            u.setTpwd(password);</span>
-<span class="nc" id="L81">            u.setPwd(encryptPwd(password));</span>
-<span class="nc" id="L82">            u.setAddress(faker.address().fullAddress());</span>
-<span class="nc" id="L83">            u.setAge(df.format(faker.date().birthday()));</span>
-<span class="nc" id="L84">            u.setAvatar(faker.avatar().image());</span>
-<span class="nc" id="L85">            u.setEmail(faker.internet().emailAddress());</span>
-<span class="nc" id="L86">            u.setName(faker.name().username());</span>
-<span class="nc" id="L87">            u.setTel(faker.phoneNumber().cellPhone());</span>
-<span class="nc" id="L88">            list.add(u);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc" id="L76">            User u = new User();</span>
+<span class="nc" id="L77">            String password = faker.internet().password(6, 18, true);</span>
+<span class="nc" id="L78">            u.setTpwd(password);</span>
+<span class="nc" id="L79">            u.setPwd(encryptPwd(password));</span>
+<span class="nc" id="L80">            u.setAddress(faker.address().fullAddress());</span>
+<span class="nc" id="L81">            u.setAge(df.format(faker.date().birthday()));</span>
+<span class="nc" id="L82">            u.setAvatar(faker.avatar().image());</span>
+<span class="nc" id="L83">            u.setEmail(faker.internet().emailAddress());</span>
+<span class="nc" id="L84">            u.setName(faker.name().username());</span>
+<span class="nc" id="L85">            u.setTel(faker.phoneNumber().cellPhone());</span>
+<span class="nc" id="L86">            list.add(u);</span>
         }
-<span class="nc" id="L90">        return list;</span>
+<span class="nc" id="L88">        return list;</span>
     }
 
     /**
@@ -98,20 +96,20 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:12
      */
     public List&lt;FriendReq&gt; generateReqs(int num) {
-<span class="nc" id="L101">        List&lt;FriendReq&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L102">        List&lt;String&gt; users = getUserIds();</span>
+<span class="nc" id="L99">        List&lt;FriendReq&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L100">        List&lt;String&gt; users = getUserIds();</span>
 
-<span class="nc bnc" id="L104" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
-<span class="nc" id="L105">            String sender = getRandomId(users);</span>
-<span class="nc" id="L106">            String receiver = getRandomId(users, sender);</span>
-<span class="nc" id="L107">            FriendReq frq = new FriendReq();</span>
-<span class="nc" id="L108">            frq.setSenderId(sender);</span>
-<span class="nc" id="L109">            frq.setReceiverId(receiver);</span>
-<span class="nc" id="L110">            frq.setMsg(faker.regexify(&quot;\\w{0,20}&quot;));</span>
-<span class="nc" id="L111">            frq.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
-<span class="nc" id="L112">            list.add(frq);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc" id="L103">            String sender = getRandomId(users);</span>
+<span class="nc" id="L104">            String receiver = getRandomId(users, sender);</span>
+<span class="nc" id="L105">            FriendReq frq = new FriendReq();</span>
+<span class="nc" id="L106">            frq.setSenderId(sender);</span>
+<span class="nc" id="L107">            frq.setReceiverId(receiver);</span>
+<span class="nc" id="L108">            frq.setMsg(faker.regexify(&quot;\\w{0,20}&quot;));</span>
+<span class="nc" id="L109">            frq.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
+<span class="nc" id="L110">            list.add(frq);</span>
         }
-<span class="nc" id="L114">        return list;</span>
+<span class="nc" id="L112">        return list;</span>
     }
 
     /**
@@ -122,20 +120,20 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:12
      */
     public List&lt;Status&gt; generateStatus(int num) {
-<span class="nc" id="L125">        List&lt;Status&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L123">        List&lt;Status&gt; list = new ArrayList&lt;&gt;();</span>
 
-<span class="nc" id="L127">        List&lt;String&gt; users = getUserIds();</span>
-<span class="nc" id="L128">        DateFormat df = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
-<span class="nc bnc" id="L129" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
-<span class="nc" id="L130">            Status s = new Status();</span>
-<span class="nc" id="L131">            s.setSenderId(getRandomId(users));</span>
-<span class="nc" id="L132">            s.setLikes(0);</span>
-<span class="nc" id="L133">            s.setText(faker.shakespeare().asYouLikeItQuote());</span>
-<span class="nc" id="L134">            s.setPics(getRandomPics());</span>
-<span class="nc" id="L135">            s.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
-<span class="nc" id="L136">            list.add(s);</span>
+<span class="nc" id="L125">        List&lt;String&gt; users = getUserIds();</span>
+<span class="nc" id="L126">        DateFormat df = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc" id="L128">            Status s = new Status();</span>
+<span class="nc" id="L129">            s.setSenderId(getRandomId(users));</span>
+<span class="nc" id="L130">            s.setLikes(0);</span>
+<span class="nc" id="L131">            s.setText(faker.shakespeare().asYouLikeItQuote());</span>
+<span class="nc" id="L132">            s.setPics(getRandomPics());</span>
+<span class="nc" id="L133">            s.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
+<span class="nc" id="L134">            list.add(s);</span>
         }
-<span class="nc" id="L138">        return list;</span>
+<span class="nc" id="L136">        return list;</span>
     }
 
     /**
@@ -146,30 +144,30 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:13
      */
     public List&lt;Comment&gt; generateComment(String statusId, int num) {
-<span class="nc" id="L149">        List&lt;Comment&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L147">        List&lt;Comment&gt; list = new ArrayList&lt;&gt;();</span>
 
-<span class="nc bnc" id="L151" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
-<span class="nc bnc" id="L152" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
-<span class="nc" id="L153">                String authorId = &quot;&quot;;</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
+<span class="nc" id="L151">                String authorId = &quot;&quot;;</span>
                 /**
                  * select sid as authorId from tb_status where id = statusId
                  */
-<span class="nc" id="L157">                Status status = statusDao.selectById(statusId);</span>
-<span class="nc" id="L158">                authorId = status.getSenderId();</span>
+<span class="nc" id="L155">                Status status = statusDao.selectById(statusId);</span>
+<span class="nc" id="L156">                authorId = status.getSenderId();</span>
 
-<span class="nc" id="L160">                List&lt;String&gt; userFriendIds = getUserFriendIds(authorId);</span>
-<span class="nc" id="L161">                String uid = getRandomId(userFriendIds);</span>
-<span class="nc" id="L162">                Comment comment = new Comment();</span>
-<span class="nc" id="L163">                comment.setUserId(uid);</span>
-<span class="nc" id="L164">                comment.setStatusId(statusId);</span>
-<span class="nc" id="L165">                comment.setMsg(faker.shakespeare().romeoAndJulietQuote());</span>
-<span class="nc" id="L166">                comment.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
-<span class="nc" id="L167">                list.add(comment);</span>
+<span class="nc" id="L158">                List&lt;String&gt; userFriendIds = getUserFriendIds(authorId);</span>
+<span class="nc" id="L159">                String uid = getRandomId(userFriendIds);</span>
+<span class="nc" id="L160">                Comment comment = new Comment();</span>
+<span class="nc" id="L161">                comment.setUserId(uid);</span>
+<span class="nc" id="L162">                comment.setStatusId(statusId);</span>
+<span class="nc" id="L163">                comment.setMsg(faker.shakespeare().romeoAndJulietQuote());</span>
+<span class="nc" id="L164">                comment.setCreateDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
+<span class="nc" id="L165">                list.add(comment);</span>
             }
         }
 
 
-<span class="nc" id="L172">        return list;</span>
+<span class="nc" id="L170">        return list;</span>
     }
 
     /**
@@ -181,41 +179,41 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:19
      */
     public void generateLikes(String statusId, int num) {
-<span class="nc" id="L184">        String authorId = &quot;&quot;;</span>
+<span class="nc" id="L182">        String authorId = &quot;&quot;;</span>
         /**
          * select sid as authorId from tb_status where id = statusId
          */
 //        LambdaQueryWrapper&lt;Status&gt; lqw = new LambdaQueryWrapper&lt;Status&gt;();
 //        lqw.eq(Status::getId, statusId);
-<span class="nc" id="L190">        Status status = statusDao.selectById(statusId);</span>
-<span class="nc" id="L191">        System.out.println(status);</span>
+<span class="nc" id="L188">        Status status = statusDao.selectById(statusId);</span>
+<span class="nc" id="L189">        System.out.println(status);</span>
 
-<span class="nc" id="L193">        authorId = status.getSenderId();</span>
+<span class="nc" id="L191">        authorId = status.getSenderId();</span>
 
-<span class="nc" id="L195">        System.out.println(&quot;id&quot;+ authorId);</span>
+<span class="nc" id="L193">        System.out.println(&quot;id&quot;+ authorId);</span>
 
-<span class="nc" id="L197">        List&lt;String&gt; userFriendIds = getUserFriendIds(authorId);</span>
+<span class="nc" id="L195">        List&lt;String&gt; userFriendIds = getUserFriendIds(authorId);</span>
 
-<span class="nc" id="L199">        System.out.println(userFriendIds);</span>
-<span class="nc" id="L200">        List&lt;String&gt; likedUserId = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L201" title="All 2 branches missed.">        for(int i=0; i&lt;num; i++) {</span>
-<span class="nc" id="L202">            String uid = getRandomId(userFriendIds, likedUserId);</span>
-<span class="nc bnc" id="L203" title="All 2 branches missed.">            if ((uid==null)){</span>
-<span class="nc" id="L204">                continue;</span>
+<span class="nc" id="L197">        System.out.println(userFriendIds);</span>
+<span class="nc" id="L198">        List&lt;String&gt; likedUserId = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">        for(int i=0; i&lt;num; i++) {</span>
+<span class="nc" id="L200">            String uid = getRandomId(userFriendIds, likedUserId);</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">            if ((uid==null)){</span>
+<span class="nc" id="L202">                continue;</span>
             }
-<span class="nc bnc" id="L206" title="All 2 branches missed.">            if (uid.isEmpty()) return;</span>
-<span class="nc bnc" id="L207" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">            if (uid.isEmpty()) return;</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
                 /**
                  *  insert into tb_users_likes values (uid = uid, status_id = statusId);
                  */
-<span class="nc" id="L211">                UserLike userLike = new UserLike();</span>
-<span class="nc" id="L212">                userLike.setUid(uid);</span>
-<span class="nc" id="L213">                userLike.setStatusId(statusId);</span>
-<span class="nc" id="L214">                userLikeDao.insert(userLike);</span>
-<span class="nc" id="L215">                likedUserId.add(uid);</span>
+<span class="nc" id="L209">                UserLike userLike = new UserLike();</span>
+<span class="nc" id="L210">                userLike.setUid(uid);</span>
+<span class="nc" id="L211">                userLike.setStatusId(statusId);</span>
+<span class="nc" id="L212">                userLikeDao.insert(userLike);</span>
+<span class="nc" id="L213">                likedUserId.add(uid);</span>
             }
         }
-<span class="nc" id="L218">    }</span>
+<span class="nc" id="L216">    }</span>
 
     /**
      * @Description: generate empty groups
@@ -225,16 +223,16 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:20
      */
     public List&lt;Group&gt; generateGroup(int num) {
-<span class="nc" id="L228">        List&lt;Group&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L229" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
-<span class="nc" id="L230">            Group g = new Group();</span>
-<span class="nc" id="L231">            g.setAvatar(faker.avatar().image());</span>
-<span class="nc" id="L232">            g.setNotice(faker.regexify(&quot;\\w{20,200}&quot;));</span>
-<span class="nc" id="L233">            g.setGroupName(faker.company().name());</span>
-<span class="nc" id="L234">            g.setUserLevel(0);</span>
-<span class="nc" id="L235">            list.add(g);</span>
+<span class="nc" id="L226">        List&lt;Group&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc" id="L228">            Group g = new Group();</span>
+<span class="nc" id="L229">            g.setAvatar(faker.avatar().image());</span>
+<span class="nc" id="L230">            g.setNotice(faker.regexify(&quot;\\w{20,200}&quot;));</span>
+<span class="nc" id="L231">            g.setGroupName(faker.company().name());</span>
+<span class="nc" id="L232">            g.setUserLevel(0);</span>
+<span class="nc" id="L233">            list.add(g);</span>
         }
-<span class="nc" id="L237">        return list;</span>
+<span class="nc" id="L235">        return list;</span>
     }
 
     /**
@@ -245,13 +243,13 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:21
      */
     public List&lt;GroupInvite&gt; generateInvites(int num) {
-<span class="nc" id="L248">        List&lt;GroupInvite&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L249">        List&lt;String&gt; users = getUserIds();</span>
-<span class="nc" id="L250">        List&lt;String&gt; groupIds = getGroupIds();</span>
+<span class="nc" id="L246">        List&lt;GroupInvite&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L247">        List&lt;String&gt; users = getUserIds();</span>
+<span class="nc" id="L248">        List&lt;String&gt; groupIds = getGroupIds();</span>
 
-<span class="nc bnc" id="L252" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
-<span class="nc" id="L253">            String sid = getRandomId(users);</span>
-<span class="nc" id="L254">            String gid = getRandomId(groupIds);</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc" id="L251">            String sid = getRandomId(users);</span>
+<span class="nc" id="L252">            String gid = getRandomId(groupIds);</span>
             /**
              * TODO
              * select id from tb_user_group where uid = sid and gid = gid;
@@ -260,15 +258,15 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
              * tempLevel = select last_level from tb_group where id = gid;
              * insert into tb_user_group values (sid, gid, 0, tempLevel, 0L);
              */
-<span class="nc" id="L263">            GroupInvite gi = new GroupInvite();</span>
-<span class="nc" id="L264">            gi.setSenderId(sid);</span>
-<span class="nc" id="L265">            gi.setGroupId(gid);</span>
-<span class="nc" id="L266">            gi.setReceiverId(getRandomId(users, sid));</span>
-<span class="nc" id="L267">            gi.setMsg(faker.regexify(&quot;\\w{0,20}&quot;));</span>
-<span class="nc" id="L268">            gi.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
-<span class="nc" id="L269">            list.add(gi);</span>
+<span class="nc" id="L261">            GroupInvite gi = new GroupInvite();</span>
+<span class="nc" id="L262">            gi.setSenderId(sid);</span>
+<span class="nc" id="L263">            gi.setGroupId(gid);</span>
+<span class="nc" id="L264">            gi.setReceiverId(getRandomId(users, sid));</span>
+<span class="nc" id="L265">            gi.setMsg(faker.regexify(&quot;\\w{0,20}&quot;));</span>
+<span class="nc" id="L266">            gi.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
+<span class="nc" id="L267">            list.add(gi);</span>
         }
-<span class="nc" id="L271">        return list;</span>
+<span class="nc" id="L269">        return list;</span>
     }
 
     /**
@@ -280,36 +278,36 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:22
      */
     public void generateGroupRelationships(String gid, int num) {
-<span class="nc" id="L283">        List&lt;String&gt; groupMemberIds = getGroupMemberIds(gid);</span>
-<span class="nc" id="L284">        List&lt;String&gt; userIds = getUserIds();</span>
-<span class="nc bnc" id="L285" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
-<span class="nc bnc" id="L286" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
-<span class="nc" id="L287">                String sid = getRandomId(userIds, groupMemberIds);</span>
+<span class="nc" id="L281">        List&lt;String&gt; groupMemberIds = getGroupMemberIds(gid);</span>
+<span class="nc" id="L282">        List&lt;String&gt; userIds = getUserIds();</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
+<span class="nc" id="L285">                String sid = getRandomId(userIds, groupMemberIds);</span>
                 /**
                  * update tb_group set last_level=last_level+1 where id = gid;
                  * tempLevel = select last_level from tb_group where id = gid;
                  * insert into tb_user_group values (sid, gid, 0, tempLevel, 0L);
                  */
-<span class="nc" id="L293">                Group group = new Group();</span>
-<span class="nc" id="L294">                group.setId(gid);</span>
-<span class="nc" id="L295">                group.setUserLevel(group.getUserLevel()+1);</span>
-<span class="nc" id="L296">                groupDao.updateById(group);</span>
+<span class="nc" id="L291">                Group group = new Group();</span>
+<span class="nc" id="L292">                group.setId(gid);</span>
+<span class="nc" id="L293">                group.setUserLevel(group.getUserLevel()+1);</span>
+<span class="nc" id="L294">                groupDao.updateById(group);</span>
 
-<span class="nc" id="L298">                Group group1 = groupDao.selectById(gid);</span>
-<span class="nc" id="L299">                int tempLevel = group1.getUserLevel();</span>
+<span class="nc" id="L296">                Group group1 = groupDao.selectById(gid);</span>
+<span class="nc" id="L297">                int tempLevel = group1.getUserLevel();</span>
 
-<span class="nc" id="L301">                UserGroup userGroup = new UserGroup();</span>
-<span class="nc" id="L302">                userGroup.setUid(sid);</span>
-<span class="nc" id="L303">                userGroup.setGid(gid);</span>
-<span class="nc" id="L304">                userGroup.setState(0);</span>
-<span class="nc" id="L305">                userGroup.setJoinLevel(tempLevel);</span>
-<span class="nc" id="L306">                userGroup.setUserLevelTime(&quot;0&quot;);</span>
-<span class="nc" id="L307">                userGroupDao.insert(userGroup);</span>
+<span class="nc" id="L299">                UserGroup userGroup = new UserGroup();</span>
+<span class="nc" id="L300">                userGroup.setUid(sid);</span>
+<span class="nc" id="L301">                userGroup.setGid(gid);</span>
+<span class="nc" id="L302">                userGroup.setState(0);</span>
+<span class="nc" id="L303">                userGroup.setJoinLevel(tempLevel);</span>
+<span class="nc" id="L304">                userGroup.setUserLevelTime(0L);</span>
+<span class="nc" id="L305">                userGroupDao.insert(userGroup);</span>
 
-<span class="nc" id="L309">                groupMemberIds.add(sid);</span>
+<span class="nc" id="L307">                groupMemberIds.add(sid);</span>
             }
         }
-<span class="nc" id="L312">    }</span>
+<span class="nc" id="L310">    }</span>
 
     /**
      * @Description: generate Friend relationships between User and a random User
@@ -320,25 +318,25 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:23
      */
     public void generateFriendRelationships(String uid, int num) {
-<span class="nc" id="L323">        List&lt;String&gt; userFriendIds = getUserFriendIds(uid);</span>
+<span class="nc" id="L321">        List&lt;String&gt; userFriendIds = getUserFriendIds(uid);</span>
 //        System.out.println(&quot;pengy&quot;+userFriendIds);
-<span class="nc" id="L325">        List&lt;String&gt; userIds = getUserIds();</span>
-<span class="nc bnc" id="L326" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
-<span class="nc bnc" id="L327" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
-<span class="nc" id="L328">                String fid = getRandomId(userIds, uid, userFriendIds);</span>
+<span class="nc" id="L323">        List&lt;String&gt; userIds = getUserIds();</span>
+<span class="nc bnc" id="L324" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc bnc" id="L325" title="All 2 branches missed.">            if(r.nextBoolean()) {</span>
+<span class="nc" id="L326">                String fid = getRandomId(userIds, uid, userFriendIds);</span>
                 /**
                  * insert into tb_friends values (uid, gid, 0, 0L);
                  */
-<span class="nc" id="L332">                Friend friend = new Friend();</span>
-<span class="nc" id="L333">                friend.setUid(uid);</span>
-<span class="nc" id="L334">                friend.setFid(fid);</span>
-<span class="nc" id="L335">                friend.setState(&quot;0&quot;);</span>
-<span class="nc" id="L336">                friend.setLeaveTime(0L);</span>
-<span class="nc" id="L337">                friendDao.insert(friend);</span>
-<span class="nc" id="L338">                userFriendIds.add(fid);</span>
+<span class="nc" id="L330">                Friend friend = new Friend();</span>
+<span class="nc" id="L331">                friend.setUid(uid);</span>
+<span class="nc" id="L332">                friend.setFid(fid);</span>
+<span class="nc" id="L333">                friend.setState(0);</span>
+<span class="nc" id="L334">                friend.setLeaveTime(0L);</span>
+<span class="nc" id="L335">                friendDao.insert(friend);</span>
+<span class="nc" id="L336">                userFriendIds.add(fid);</span>
             }
         }
-<span class="nc" id="L341">    }</span>
+<span class="nc" id="L339">    }</span>
 
     /**
      * @Description: generate Friend chat Message
@@ -349,45 +347,45 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 19:50
      */
     public void generateFriendsChats(String uid, int num) {
-<span class="fc" id="L352">        List&lt;String&gt; userFriendIds = getUserFriendIds(uid);</span>
+<span class="nc" id="L350">        List&lt;String&gt; userFriendIds = getUserFriendIds(uid);</span>
 //        System.out.println(&quot;朋友&quot;+userFriendIds);
-<span class="fc bfc" id="L354" title="All 2 branches covered.">        for(String fid: userFriendIds) {</span>
-<span class="fc bfc" id="L355" title="All 2 branches covered.">            for(int i=0; i&lt;num; i++) {</span>
-<span class="fc bfc" id="L356" title="All 2 branches covered.">                if(r.nextBoolean()) {</span>
+<span class="nc bnc" id="L352" title="All 2 branches missed.">        for(String fid: userFriendIds) {</span>
+<span class="nc bnc" id="L353" title="All 2 branches missed.">            for(int i=0; i&lt;num; i++) {</span>
+<span class="nc bnc" id="L354" title="All 2 branches missed.">                if(r.nextBoolean()) {</span>
 //                    Message msg = new Message();
-<span class="fc" id="L358">                    FriendChat friendChat = new FriendChat();</span>
+<span class="nc" id="L356">                    FriendChat friendChat = new FriendChat();</span>
 
 //                    msg.setSenderId(uid);
 
-<span class="fc" id="L362">                    friendChat.setSenderId(uid);</span>
+<span class="nc" id="L360">                    friendChat.setSenderId(uid);</span>
 
 //                    msg.setReceiverId(fid);
 
-<span class="fc" id="L366">                    friendChat.setReceiverId(fid);</span>
+<span class="nc" id="L364">                    friendChat.setReceiverId(fid);</span>
 
-<span class="fc bfc" id="L368" title="All 2 branches covered.">                    if(r.nextBoolean()) {</span>
+<span class="nc bnc" id="L366" title="All 2 branches missed.">                    if(r.nextBoolean()) {</span>
 //                        msg.setType(&quot;text&quot;);
-<span class="fc" id="L370">                        friendChat.setType(&quot;text&quot;);</span>
+<span class="nc" id="L368">                        friendChat.setType(&quot;text&quot;);</span>
 //                        msg.setMsg(faker.regexify(&quot;\\w{5,200}&quot;));
 
-<span class="fc" id="L373">                        friendChat.setMsg(faker.harryPotter().quote());</span>
+<span class="nc" id="L371">                        friendChat.setMsg(faker.harryPotter().quote());</span>
                     } else {
 //                        msg.setType(&quot;picture&quot;);
-<span class="fc" id="L376">                        friendChat.setType(&quot;picture&quot;);</span>
+<span class="nc" id="L374">                        friendChat.setType(&quot;picture&quot;);</span>
 
 //                        msg.setMsg(faker.internet().image());
-<span class="fc" id="L379">                        friendChat.setMsg(faker.internet().image());</span>
+<span class="nc" id="L377">                        friendChat.setMsg(faker.internet().image());</span>
                     }
 //                    msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
-<span class="fc" id="L382">                    friendChat.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
-<span class="fc" id="L383">                    int insert = friendChatDao.insert(friendChat);</span>
-<span class="pc bpc" id="L384" title="1 of 2 branches missed.">                    if (insert&lt;0){</span>
-<span class="nc" id="L385">                        break;</span>
+<span class="nc" id="L380">                    friendChat.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
+<span class="nc" id="L381">                    int insert = friendChatDao.insert(friendChat);</span>
+<span class="nc bnc" id="L382" title="All 2 branches missed.">                    if (insert&lt;0){</span>
+<span class="nc" id="L383">                        break;</span>
                     }
                 }
             }
-<span class="fc" id="L389">        }</span>
-<span class="fc" id="L390">    }</span>
+<span class="nc" id="L387">        }</span>
+<span class="nc" id="L388">    }</span>
 
     /**
      * @Description: generate Group chat Message
@@ -398,49 +396,49 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 19:50
      */
     public void generateGroupsChats(String uid, int num) {
-<span class="nc" id="L401">        List&lt;String&gt; userGroupIds = getUserGroupIds(uid);</span>
+<span class="nc" id="L399">        List&lt;String&gt; userGroupIds = getUserGroupIds(uid);</span>
 
-<span class="nc bnc" id="L403" title="All 2 branches missed.">        for(String gid: userGroupIds) {</span>
-<span class="nc bnc" id="L404" title="All 2 branches missed.">            for(int i=0; i&lt;num+5; i++) {</span>
-<span class="nc bnc" id="L405" title="All 2 branches missed.">                if(r.nextBoolean()) {</span>
+<span class="nc bnc" id="L401" title="All 2 branches missed.">        for(String gid: userGroupIds) {</span>
+<span class="nc bnc" id="L402" title="All 2 branches missed.">            for(int i=0; i&lt;num+5; i++) {</span>
+<span class="nc bnc" id="L403" title="All 2 branches missed.">                if(r.nextBoolean()) {</span>
 //                    Message msg = new Message();
-<span class="nc" id="L407">                    GroupChat groupChat = new GroupChat();</span>
-<span class="nc" id="L408">                    groupChat.setGroupId(gid);</span>
-<span class="nc" id="L409">                    System.out.println(uid);</span>
-<span class="nc" id="L410">                    groupChat.setSenderId(uid);</span>
+<span class="nc" id="L405">                    GroupChat groupChat = new GroupChat();</span>
+<span class="nc" id="L406">                    groupChat.setGroupId(gid);</span>
+<span class="nc" id="L407">                    System.out.println(uid);</span>
+<span class="nc" id="L408">                    groupChat.setSenderId(uid);</span>
 //                    msg.setSenderId(uid);
 //                    msg.setReceiverId(gid);
-<span class="nc bnc" id="L413" title="All 2 branches missed.">                    if(r.nextBoolean()) {</span>
-<span class="nc" id="L414">                        groupChat.setType(&quot;text&quot;);</span>
-<span class="nc" id="L415">                        groupChat.setMsg(faker.shakespeare().hamletQuote());</span>
+<span class="nc bnc" id="L411" title="All 2 branches missed.">                    if(r.nextBoolean()) {</span>
+<span class="nc" id="L412">                        groupChat.setType(&quot;text&quot;);</span>
+<span class="nc" id="L413">                        groupChat.setMsg(faker.shakespeare().hamletQuote());</span>
 //                        msg.setType(&quot;text&quot;);
 //                        msg.setMsg(faker.regexify(&quot;[\\w]{5,200}&quot;));
 
                     } else {
-<span class="nc" id="L420">                        groupChat.setType(&quot;picture&quot;);</span>
-<span class="nc" id="L421">                        groupChat.setMsg(&quot;picture&quot;);</span>
+<span class="nc" id="L418">                        groupChat.setType(&quot;picture&quot;);</span>
+<span class="nc" id="L419">                        groupChat.setMsg(&quot;picture&quot;);</span>
 //                        msg.setType(&quot;picture&quot;);
 //                        msg.setMsg(faker.internet().image());
                     }
-<span class="nc" id="L425">                    groupChat.setDate(String.valueOf(faker.date().past(94608000, TimeUnit.SECONDS).getTime()));</span>
+<span class="nc" id="L423">                    groupChat.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());</span>
 //                    msg.setDate(faker.date().past(94608000, TimeUnit.SECONDS).getTime());
 
 
-<span class="nc" id="L429">                    Group group = groupDao.selectById(gid);</span>
+<span class="nc" id="L427">                    Group group = groupDao.selectById(gid);</span>
 
-<span class="nc" id="L431">                    int maxLevel = group.getUserLevel();</span>
+<span class="nc" id="L429">                    int maxLevel = group.getUserLevel();</span>
                     /**
                      * maxLevel = select last_level from tb_group where id = gid
                      */
-<span class="nc" id="L435">                    groupChat.setLevel(r.nextInt(maxLevel));</span>
-<span class="nc" id="L436">                    int insert = groupChatDao.insert(groupChat);</span>
-<span class="nc bnc" id="L437" title="All 2 branches missed.">                    if (insert&lt;0){</span>
-<span class="nc" id="L438">                        break;</span>
+<span class="nc" id="L433">                    groupChat.setLevel(r.nextInt(maxLevel));</span>
+<span class="nc" id="L434">                    int insert = groupChatDao.insert(groupChat);</span>
+<span class="nc bnc" id="L435" title="All 2 branches missed.">                    if (insert&lt;0){</span>
+<span class="nc" id="L436">                        break;</span>
                     }
                 }
             }
-<span class="nc" id="L442">        }</span>
-<span class="nc" id="L443">    }</span>
+<span class="nc" id="L440">        }</span>
+<span class="nc" id="L441">    }</span>
 
     /**
      * @Description: find all users' id
@@ -449,14 +447,14 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:27
      */
     public List&lt;String&gt; getUserIds() {
-<span class="fc" id="L452">        LambdaQueryWrapper&lt;User&gt; queryWrapper = new LambdaQueryWrapper&lt;&gt;();</span>
-<span class="fc" id="L453">        queryWrapper.select(User::getId);</span>
-<span class="fc" id="L454">        List&lt;User&gt; objList = this.userDao.selectList(queryWrapper);</span>
-<span class="fc" id="L455">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L456">        objList.forEach((obj -&gt; {</span>
-<span class="fc" id="L457">            result.add(obj.getId());</span>
-<span class="fc" id="L458">        }));</span>
-<span class="fc" id="L459">        return result;</span>
+<span class="nc" id="L450">        LambdaQueryWrapper&lt;User&gt; queryWrapper = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="nc" id="L451">        queryWrapper.select(User::getId);</span>
+<span class="nc" id="L452">        List&lt;User&gt; objList = this.userDao.selectList(queryWrapper);</span>
+<span class="nc" id="L453">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L454">        objList.forEach((obj -&gt; {</span>
+<span class="nc" id="L455">            result.add(obj.getId());</span>
+<span class="nc" id="L456">        }));</span>
+<span class="nc" id="L457">        return result;</span>
     }
 
     /**
@@ -466,14 +464,14 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:28
      */
     public List&lt;String&gt; getStatusIds() {
-<span class="nc" id="L469">        LambdaQueryWrapper&lt;Status&gt; queryWrapper = new LambdaQueryWrapper&lt;&gt;();</span>
-<span class="nc" id="L470">        queryWrapper.select(Status::getId);</span>
-<span class="nc" id="L471">        List&lt;Status&gt; objList = statusDao.selectList(null);</span>
-<span class="nc" id="L472">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L473">        objList.forEach((obj -&gt; {</span>
-<span class="nc" id="L474">            result.add(obj.getId());</span>
-<span class="nc" id="L475">        }));</span>
-<span class="nc" id="L476">        return result;</span>
+<span class="nc" id="L467">        LambdaQueryWrapper&lt;Status&gt; queryWrapper = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="nc" id="L468">        queryWrapper.select(Status::getId);</span>
+<span class="nc" id="L469">        List&lt;Status&gt; objList = statusDao.selectList(null);</span>
+<span class="nc" id="L470">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L471">        objList.forEach((obj -&gt; {</span>
+<span class="nc" id="L472">            result.add(obj.getId());</span>
+<span class="nc" id="L473">        }));</span>
+<span class="nc" id="L474">        return result;</span>
     }
 
     /**
@@ -483,14 +481,14 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      * @Date: 2022/8/30 20:28
      */
     public List&lt;String&gt; getGroupIds() {
-<span class="nc" id="L486">        LambdaQueryWrapper&lt;Group&gt; queryWrapper = new LambdaQueryWrapper&lt;&gt;();</span>
-<span class="nc" id="L487">        queryWrapper.select(Group::getId);</span>
-<span class="nc" id="L488">        List&lt;Group&gt; objList = this.groupDao.selectList(queryWrapper);</span>
-<span class="nc" id="L489">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L490">        objList.forEach((obj -&gt; {</span>
-<span class="nc" id="L491">            result.add(obj.getId());</span>
-<span class="nc" id="L492">        }));</span>
-<span class="nc" id="L493">        return result;</span>
+<span class="nc" id="L484">        LambdaQueryWrapper&lt;Group&gt; queryWrapper = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="nc" id="L485">        queryWrapper.select(Group::getId);</span>
+<span class="nc" id="L486">        List&lt;Group&gt; objList = this.groupDao.selectList(queryWrapper);</span>
+<span class="nc" id="L487">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L488">        objList.forEach((obj -&gt; {</span>
+<span class="nc" id="L489">            result.add(obj.getId());</span>
+<span class="nc" id="L490">        }));</span>
+<span class="nc" id="L491">        return result;</span>
     }
 
     /**
@@ -503,17 +501,17 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
 
     public List&lt;String&gt; getGroupMemberIds(String groupId) {
 //        List&lt;Group&gt; objList= this.GroupDao.selectAllMember(groupId);
-<span class="nc" id="L506">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
-<span class="nc" id="L507">        lqw.eq(UserGroup::getGid, groupId);</span>
-<span class="nc" id="L508">        List&lt;UserGroup&gt; userGroups = userGroupDao.selectList(lqw);</span>
-<span class="nc" id="L509">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L510" title="All 2 branches missed.">        for (UserGroup userGroup : userGroups) {</span>
-<span class="nc" id="L511">            result.add(userGroup.getUid());</span>
-<span class="nc" id="L512">        }</span>
+<span class="nc" id="L504">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
+<span class="nc" id="L505">        lqw.eq(UserGroup::getGid, groupId);</span>
+<span class="nc" id="L506">        List&lt;UserGroup&gt; userGroups = userGroupDao.selectList(lqw);</span>
+<span class="nc" id="L507">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L508" title="All 2 branches missed.">        for (UserGroup userGroup : userGroups) {</span>
+<span class="nc" id="L509">            result.add(userGroup.getUid());</span>
+<span class="nc" id="L510">        }</span>
 //        objList.forEach((obj -&gt; {
 //            result.add(obj.getId());
 //        }));
-<span class="nc" id="L516">        return result;</span>
+<span class="nc" id="L514">        return result;</span>
     }
 
     /**
@@ -525,17 +523,17 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
      */
     public List&lt;String&gt; getUserFriendIds(String uid) {
 //        List&lt;User&gt; objList= this.UserDao.selectFriends(uid);
-<span class="fc" id="L528">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
-<span class="fc" id="L529">        lqw.eq(Friend::getUid, uid);</span>
-<span class="fc" id="L530">        List&lt;Friend&gt; friends = friendDao.selectList(lqw);</span>
-<span class="fc" id="L531">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L532" title="All 2 branches covered.">        for (Friend friend : friends) {</span>
-<span class="fc" id="L533">            result.add(friend.getFid());</span>
-<span class="fc" id="L534">        }</span>
+<span class="nc" id="L526">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
+<span class="nc" id="L527">        lqw.eq(Friend::getUid, uid);</span>
+<span class="nc" id="L528">        List&lt;Friend&gt; friends = friendDao.selectList(lqw);</span>
+<span class="nc" id="L529">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L530" title="All 2 branches missed.">        for (Friend friend : friends) {</span>
+<span class="nc" id="L531">            result.add(friend.getFid());</span>
+<span class="nc" id="L532">        }</span>
 //        objList.forEach((obj -&gt; {
 //            result.add(obj.getId());
 //        }));
-<span class="fc" id="L538">        return result;</span>
+<span class="nc" id="L536">        return result;</span>
     }
 
     /**
@@ -548,19 +546,19 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
     public List&lt;String&gt; getUserGroupIds(String uid) {
 //        List&lt;Group&gt; objList= this.GroupDao.selectGroups(uid);
 
-<span class="nc" id="L551">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
-<span class="nc" id="L552">        lqw.eq(UserGroup::getUid, uid);</span>
-<span class="nc" id="L553">        List&lt;UserGroup&gt; userGroups = userGroupDao.selectList(lqw);</span>
+<span class="nc" id="L549">        LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
+<span class="nc" id="L550">        lqw.eq(UserGroup::getUid, uid);</span>
+<span class="nc" id="L551">        List&lt;UserGroup&gt; userGroups = userGroupDao.selectList(lqw);</span>
 
-<span class="nc" id="L555">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L556" title="All 2 branches missed.">        for (UserGroup userGroup : userGroups) {</span>
-<span class="nc" id="L557">            result.add(userGroup.getGid());</span>
-<span class="nc" id="L558">        }</span>
+<span class="nc" id="L553">        List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L554" title="All 2 branches missed.">        for (UserGroup userGroup : userGroups) {</span>
+<span class="nc" id="L555">            result.add(userGroup.getGid());</span>
+<span class="nc" id="L556">        }</span>
 
 //        objList.forEach((obj -&gt; {
 //            result.add(obj.getId());
 //        }));
-<span class="nc" id="L563">        return result;</span>
+<span class="nc" id="L561">        return result;</span>
     }
 
     /**
@@ -616,10 +614,10 @@ import static com.nart.util.RandomContentGenerator.getRandomPics;
 //        for (String gid : getGroupIds()) {
 //            generateGroupRelationships(gid, num*3);
 //        }
-<span class="fc bfc" id="L619" title="All 2 branches covered.">        for(String uid : getUserIds()) {</span>
-<span class="fc" id="L620">            generateFriendsChats(uid, num);</span>
+<span class="nc bnc" id="L617" title="All 2 branches missed.">        for(String uid : getUserIds()) {</span>
+<span class="nc" id="L618">            generateFriendsChats(uid, num);</span>
 //            generateGroupsChats(uid, num);
-<span class="fc" id="L622">        }</span>
-<span class="fc" id="L623">    }</span>
+<span class="nc" id="L620">        }</span>
+<span class="nc" id="L621">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

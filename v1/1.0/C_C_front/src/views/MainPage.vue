@@ -1,3 +1,10 @@
+<!--
+  * @FileDescription: The main frame of C&C
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 12:07
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/07 20:26
+-->
 <template>
   <div id="overall">
     <el-container>
@@ -70,10 +77,9 @@
                   <el-dropdown-item @click="logout">{{
                     $t("main.menu.item6")
                   }}</el-dropdown-item>
-                  <el-dropdown-item @click="router.push({ name: 'testVue' })">
-                    <!-- myStatus -->
+                  <!-- <el-dropdown-item @click="router.push({ name: 'testVue' })">
                     test websocket</el-dropdown-item
-                  >
+                  > -->
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -205,46 +211,39 @@ const fnoticeNew = ref();
 const gnoticeNew = ref();
 const order = ref();
 
-function searchF() {
-  searchFriend(token.value, searchInput.value, friendParam.page)
-    .then((res) => {
-      if (res.data.success) {
-      } else {
-        ElMessage({
-          type: "error",
-          message: res.data.msg,
-          showClose: true,
-          grouping: true,
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage({
-        type: "error",
-        message: t("contactList.friend.ListError"),
-        showClose: true,
-        grouping: true,
-      });
-      console.log(err);
-    })
-    .finally(() => {});
-}
+/**
+ * @description: change Website Language
+ */
 function changeLang() {
   locale.value = lang;
   localStorage.setItem("lang", lang);
   lang = lang == "en" ? "zh" : "en";
 }
+/**
+ * @description: Show all hiden friends
+ */
 function showAllFriends() {
   friendShowAll.value = friendShowAll.value == true ? false : true;
 }
+/**
+ * @description: Show all hiden groups
+ */
 function showAllGroups() {
   groupShowAll.value = groupShowAll.value == true ? false : true;
 }
+/**
+ * @description: logout from the website
+ */
 function logout() {
   store.logout();
   ws = "";
   router.push({ name: "login" });
 }
+/**
+ * @description: Search from My friends according to searchInput
+ * @param {String} searchInput
+ * @return To SearchFriendIHave Page
+ */
 function toSearch() {
   let temp = searchInput.value;
 
@@ -259,11 +258,19 @@ function toSearch() {
     name: "searchFriend",
   });
 }
+/**
+ * @description: General Page Jumping function
+ * @param {String} index page name
+ */
 function menuClick(index) {
   router.push({
     name: index,
   });
 }
+/**
+ * @description: FriendList or GroupList Page + 1
+ * @param {Boolean} isFriend 
+ */
 function PagePlus(isFriend) {
   if (isFriend) {
     friendParam.page.pageNum += 1;
@@ -271,14 +278,26 @@ function PagePlus(isFriend) {
     groupParam.page.pageNum += 1;
   }
 }
+/**
+ * @description: Jump to Editing My friends
+ */
 function editPInfo() {
   //store.getUserInfo();
   router.push({ name: "editMyInfo" });
 }
+/**
+ * @description: Websocket send function
+ * @param {String} input
+ */
 function wSend(input) {
-  console.log(input);
+  //console.log(input);
   ws.send(JSON.stringify(input));
 }
+/**
+ * @description: actions when pages mounted
+ *    1. setup websocket object
+ *    2. mount logout function on window closing action
+ */
 onMounted(() => {
   if (ws == "") {
     ws = new WebSocket("ws://" + url + "/chat");
@@ -308,33 +327,17 @@ onMounted(() => {
         let type = str[0];
         let roomId = str.slice(1);
 
-        // let matchedComponents = router.currentRoute.value.matched;
-        // let child = router.currentRoute.value.matched[1];
-        // let setup = child.components.default.va
-        // console.log(setup.params);
-        // console.log(child.components.default.setup.__props);
-        // let child = matchedComponents.find(
-        //   (c) => c.components.default == ChatRoom
-        // );
-        //console.log();
-
         if (type == "f") {
           if (sid == roomId && rType == "friend") {
             fnoticeNew.value.noticeNewMsg(true, sid, false);
-            store.setNewMsg(res);
+            //store.setNewMsg(res);
             order.value.receiveMsg(res);
-            // if (setup[receiveMsg] && typeof setup[receiveMsg] == 'function') {
-            //   setup[receiveMsg](res);
-            // }
           }
         } else {
           if (gid == roomId && rType == "group") {
             gnoticeNew.value.noticeNewMsg(false, gid, false);
-            store.setNewMsg(res);
+            //store.setNewMsg(res);
             order.value.receiveMsg(res);
-            // if (setup[receiveMsg] && setup[receiveMsg] == 'function') {
-            //   setup[receiveMsg](res);
-            // }
           }
         }
       }

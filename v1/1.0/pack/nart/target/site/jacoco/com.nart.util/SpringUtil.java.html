@@ -33,31 +33,36 @@ import org.springframework.stereotype.Component;
 
         }
 
-<span class="fc" id="L36">        logger.info(&quot;ApplicationContext配置成功,applicationContext对象：&quot;+SpringUtil.applicationContext);</span>
-
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L36">        logger.info(&quot;ApplicationContext配置成功,applicationContext对象：&quot;+SpringUtil.applicationContext + &quot;\n&quot;);</span>
+//        String[] beanNames = SpringUtil.applicationContext.getBeanDefinitionNames();
+//        logger.info(&quot;bean TOTAL NUMBER: {}&quot;, SpringUtil.applicationContext.getBeanDefinitionCount());
+//        int i = 0;
+//        for (String str: beanNames) {
+//            logger.info(&quot;{}, beanNames: {}&quot;, ++i, str);
+//        }
+<span class="fc" id="L43">    }</span>
 
     public static ApplicationContext getApplicationContext() {
 
-<span class="nc" id="L42">        return applicationContext;</span>
+<span class="nc" id="L47">        return applicationContext;</span>
 
     }
 
     public static Object getBean(String name) {
 
-<span class="nc" id="L48">        return getApplicationContext().getBean(name);</span>
+<span class="nc" id="L53">        return getApplicationContext().getBean(name);</span>
 
     }
 
     public static &lt;T&gt; T getBean(Class&lt;T&gt; clazz) {
 
-<span class="nc" id="L54">        return getApplicationContext().getBean(clazz);</span>
+<span class="nc" id="L59">        return getApplicationContext().getBean(clazz);</span>
 
     }
 
     public static &lt;T&gt; T getBean(String name,Class&lt;T&gt; clazz) {
 
-<span class="nc" id="L60">        return getApplicationContext().getBean(name,clazz);</span>
+<span class="nc" id="L65">        return getApplicationContext().getBean(name,clazz);</span>
 
     }
 

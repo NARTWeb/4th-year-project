@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
  * Project: pack
  *
  * @className: SpringUtil
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022-09-29 11:07 a.m.
+ * @Author ZIRUI QIAO
+ * @Date 2022-09-29 11:07 a.m.
  */
 @Component
 public class SpringUtil implements ApplicationContextAware {
@@ -33,7 +33,7 @@ public class SpringUtil implements ApplicationContextAware {
 
         }
 
-        logger.info("ApplicationContext配置成功,applicationContext对象："+SpringUtil.applicationContext + "\n");
+        logger.info("ApplicationContext set SUCCESS,applicationContext OBJECT: "+SpringUtil.applicationContext + "\n");
 //        String[] beanNames = SpringUtil.applicationContext.getBeanDefinitionNames();
 //        logger.info("bean TOTAL NUMBER: {}", SpringUtil.applicationContext.getBeanDefinitionCount());
 //        int i = 0;

@@ -1,3 +1,13 @@
+<!--
+  * @FileDescription: Information Item Component, include:
+      1. info title
+      2. info value
+      3. change button
+  * @Author: Zirui Qiao
+  * @Date: 2022/12/25 14:21
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2022/12/29 14:57
+-->
 <template>
   <div class="all flex">
     <el-dialog
@@ -7,8 +17,16 @@
       :before-close="clearBtn"
     >
       <div style="width: 40%">
-        <el-input :placeholder="t('infoItem.oldPwd')" v-model="oldPwd" type="password"/>
-        <el-input :placeholder="t('infoItem.newPwd')" v-model="newPwd" type="password"/>
+        <el-input
+          :placeholder="t('infoItem.oldPwd')"
+          v-model="oldPwd"
+          type="password"
+        />
+        <el-input
+          :placeholder="t('infoItem.newPwd')"
+          v-model="newPwd"
+          type="password"
+        />
         <el-input
           :placeholder="t('infoItem.newPwd2')"
           v-model="newPwd2"
@@ -20,7 +38,9 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="clearBtn">{{ $t("buttons.cancel") }}</el-button>
-          <el-button type="primary" @click="changeBtn" :disabled="confirm">{{ $t("buttons.confirm") }}</el-button>
+          <el-button type="primary" @click="changeBtn" :disabled="confirm">{{
+            $t("buttons.confirm")
+          }}</el-button>
         </span>
       </template>
     </el-dialog>
@@ -31,9 +51,9 @@
     <div class="bottom fullW">
       <div v-if="props.isPwd" class="pwde flex fullW">
         <div>
-          <el-button round type="primary" @click="dialogVisible = true"
-            >{{ $t("buttons.change") }}</el-button
-          >
+          <el-button round type="primary" @click="dialogVisible = true">{{
+            $t("buttons.change")
+          }}</el-button>
         </div>
       </div>
       <div v-else class="elements flex fullW">
@@ -47,7 +67,13 @@
           <span v-else class="text cb">{{ v }}</span>
         </div>
         <div class="el-right">
-          <el-button round type="primary" v-show="canChange" @click="changeBtn">{{ $t("buttons.change") }}</el-button>
+          <el-button
+            round
+            type="primary"
+            v-show="canChange"
+            @click="changeBtn"
+            >{{ $t("buttons.change") }}</el-button
+          >
         </div>
       </div>
     </div>
@@ -75,6 +101,7 @@ const props = defineProps({
   canChange: Boolean,
   // matchFormat: String,
 });
+// info value
 var v = ref(props.value);
 const input = computed({
   get() {
@@ -82,8 +109,9 @@ const input = computed({
   },
   set(newValue) {
     v.value = newValue.trim();
-  }
+  },
 });
+// old password
 var oldP = ref("");
 const oldPwd = computed({
   get() {
@@ -91,8 +119,9 @@ const oldPwd = computed({
   },
   set(newValue) {
     oldP.value = newValue.trim();
-  }
+  },
 });
+// new password
 var newP = ref("");
 const newPwd = computed({
   get() {
@@ -100,8 +129,9 @@ const newPwd = computed({
   },
   set(newValue) {
     newP.value = newValue.trim();
-  }
-});;
+  },
+});
+// new password input twice
 var newP2 = ref("");
 const newPwd2 = computed({
   get() {
@@ -109,36 +139,49 @@ const newPwd2 = computed({
   },
   set(newValue) {
     newP2.value = newValue.trim();
-  }
-});;
-
+  },
+});
+/**
+  * @description: clear all input function
+*/
 function clearBtn() {
   dialogVisible.value = false;
   oldP.value = "";
   newP.value = "";
   newP2.value = "";
 }
+/**
+  * @description: check if input format fit the given regex
+  * @param {String} changeValue input value
+  * @return fail / send change value request
+*/
 function checkInput() {
   changeValue.value = false;
-  let errorClass = '';
-  if(props.lb == '1') {
+  let errorClass = "";
+  if (props.lb == "1") {
     errorClass = "uname";
   } else {
     errorClass = props.label.toLowerCase();
   }
   let regexp = new RegExp(props.reg);
-  if(!regexp.test(v.value)) {
+  if (!regexp.test(v.value)) {
     ElMessage({
-          type: "error",
-          message: t('welcome.' + errorClass + 'Error'),
-          showClose: true,
-          grouping: true,
-        });
+      type: "error",
+      message: t("welcome." + errorClass + "Error"),
+      showClose: true,
+      grouping: true,
+    });
     v.value = props.value;
   } else {
     change();
   }
 }
+/**
+  * @description: check if password format fit the given regex
+  * @param {String} newP password 1
+  * @param {String} newP2 password 2
+  * @return change button unlock / lock
+*/
 function checkPwd() {
   if (newP.value == newP2.value) {
     error3Display.value = "none";
@@ -158,14 +201,24 @@ function checkPwd() {
     confirm.value = false;
   }
 }
+/**
+  * @description: change button action, front-end
+  * @param {String} newP password 1
+  * @param {String} newP2 password 2
+  * @return change button unlock / lock
+*/
 function changeBtn() {
   if (props.isPwd) {
-    dialogVisible.value = dialogVisible.value == true ? false:true;
+    dialogVisible.value = dialogVisible.value == true ? false : true;
   } else {
-    changeValue.value = changeValue.value == true ? false:true;
+    changeValue.value = changeValue.value == true ? false : true;
   }
   change();
 }
+/**
+  * @description: call change info value function
+  * @param {Boolean} isPwd is current info is password or not
+*/
 function change() {
   if (!props.isPwd) {
     emit("changeFun", props.lb, input.value);
@@ -173,11 +226,15 @@ function change() {
     emit("changePwd", oldP.value, newP.value);
   }
 }
-watch(()=>props.value, (newValue)=>{
-  v.value = newValue;
-}, {
-  deep:true
-})
+watch(
+  () => props.value,
+  (newValue) => {
+    v.value = newValue;
+  },
+  {
+    deep: true,
+  }
+);
 </script>
 <style scoped>
 .error3 {

@@ -15,31 +15,41 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Description: TODO
  * @version: v1.8.0
  * @author: ZIRUI QIAO
- * @date: 2022/9/1 13:05
+ * @date: 2022/12/25 13:05
  */
 @Configuration
 <span class="fc" id="L21">public class WebMVCConfig implements WebMvcConfigurer {</span>
 
     @Autowired
     private LoginInterceptor loginInterceptor;
+
+<span class="fc" id="L26">    public static String IPADDR = &quot;localhost&quot;;</span>
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         //跨域配置，不可设置为*，不安全, 前后端分离项目，可能域名不一致
         //本地测试 端口不一致 也算跨域
-<span class="fc" id="L29">        registry.addMapping(&quot;/**&quot;)</span>
-<span class="fc" id="L30">                .allowedOrigins(&quot;http://localhost:8888&quot;,&quot;http://localhost:5173&quot;, &quot;https://s3.amazonaws.com&quot;)</span>
-<span class="fc" id="L31">                .allowedMethods(&quot;PUT&quot;, &quot;DELETE&quot;, &quot;POST&quot;, &quot;GET&quot;);</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L31">        registry.addMapping(&quot;/**&quot;)</span>
+<span class="fc" id="L32">                .allowedOrigins(</span>
+                        &quot;http://&quot; + IPADDR + &quot;:8888&quot;,
+                        &quot;http://&quot; + IPADDR + &quot;:5173&quot;,
+                        &quot;https://imgse.com&quot;,
+                        &quot;https://s1.ax1x.com&quot;,
+                        &quot;ws://&quot; + IPADDR + &quot;:8888/chat&quot;)
+<span class="fc" id="L38">                .allowedMethods(&quot;PUT&quot;, &quot;DELETE&quot;, &quot;POST&quot;, &quot;GET&quot;)</span>
+<span class="fc" id="L39">                .allowCredentials(true)</span>
+<span class="fc" id="L40">                .maxAge(3600);</span>
+<span class="fc" id="L41">    }</span>
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 配置拦截的接口
-<span class="fc" id="L37">        registry.addInterceptor(loginInterceptor)</span>
-<span class="fc" id="L38">                .addPathPatterns(&quot;/**/**&quot;)</span>
-<span class="fc" id="L39">                .excludePathPatterns(&quot;/user/login&quot;)</span>
-<span class="fc" id="L40">                .excludePathPatterns(&quot;/user/register&quot;)</span>
-<span class="fc" id="L41">                .excludePathPatterns(&quot;/upload&quot;)</span>
-<span class="fc" id="L42">                .excludePathPatterns(&quot;/upload/test&quot;);</span>
-<span class="fc" id="L43">    }</span>
+<span class="fc" id="L46">        registry.addInterceptor(loginInterceptor)</span>
+<span class="fc" id="L47">                .addPathPatterns(&quot;/**/**&quot;)</span>
+<span class="fc" id="L48">                .excludePathPatterns(&quot;/user/login&quot;)</span>
+<span class="fc" id="L49">                .excludePathPatterns(&quot;/user/register&quot;)</span>
+<span class="fc" id="L50">                .excludePathPatterns(&quot;/upload&quot;)</span>
+<span class="fc" id="L51">                .excludePathPatterns(&quot;/upload/*&quot;)</span>
+<span class="fc" id="L52">                .excludePathPatterns(&quot;/upload/delete/*&quot;);</span>
+<span class="fc" id="L53">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

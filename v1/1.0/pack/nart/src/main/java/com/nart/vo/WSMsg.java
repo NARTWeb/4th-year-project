@@ -7,13 +7,13 @@ import lombok.Data;
  * Project: pack
  *
  * @className: WSMsg
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/9/3 11:47
+ * @Author ZIRUI QIAO
+ * @Date 2022/9/3 11:47
  */
 @Data
-public class WSMsg { //这是什么？ 是匹配FriendChat 吗？
+public class WSMsg {
     private String msg;
     private String sender;
     private String senderName;

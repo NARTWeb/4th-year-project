@@ -1,3 +1,12 @@
+<!--
+  * @FileDescription: Post Status page, accept
+      1. text
+      2. images
+  * @Author: Shizhong Shang
+  * @Date: 2022/12/25 12:10
+  * @LastEditor: Zirui Qiao
+  * @LastEditTime: 2023/01/01 15:43
+-->
 <template>
   <div class="all">
     <div class="mainpart">
@@ -60,7 +69,7 @@ import { postStatus } from "@/api/status";
 import { uploadPic } from "@/api/upload";
 import { ElMessage } from "element-plus";
 
-import type { UploadProps, UploadUserFile } from "element-plus";
+import type { UploadProps, UploadUserFile, UploadInstance } from "element-plus";
 
 const store = useUserStore();
 const { token } = storeToRefs(store);
@@ -72,6 +81,11 @@ const upload = ref<UploadInstance>();
 var pics : string[] = []
 var msg = ref("");
 
+/**
+ * @description: images list length change action
+ * @param {byte} f the new loaded image
+ * @param {Array} fileList the image list
+ */
 function handleChange(f, fileList) {
   let reader = new FileReader();
   reader.readAsDataURL(f.raw);
@@ -81,7 +95,10 @@ function handleChange(f, fileList) {
   file.push(f.raw);
   fileList = file;
 }
-
+/**
+ * @description: upload all images to server
+ * @return: get the image url from server
+ */
 function uploadPics() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -121,7 +138,11 @@ function uploadPics() {
     }, 1000);
   });
 }
-
+/**
+ * @description: post the status
+ * @param {String} msg Status Text
+ * @param {Array} pics Images url list
+ */
 function postAll() {
   console.log(pics);
 
@@ -151,7 +172,9 @@ function postAll() {
   msg.value = '';
   upload.value!.clearFiles();
 }
-
+/**
+ * @description: overall post function
+ */
 async function post() {
   await uploadPics();
   postAll();
@@ -159,15 +182,26 @@ async function post() {
 const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
 
+/**
+ * @description: remove image from list action
+ * @param {byte} uploadFile removed image
+ * @param {Array} uploadFiles image lists
+ */
 const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
   console.log(uploadFile, uploadFiles);
 };
-
+/**
+ * @description: image list preview action
+ * @param {byte} uploadFile the chosen image
+ */
 const handlePictureCardPreview: UploadProps["onPreview"] = (uploadFile) => {
   dialogImageUrl.value = uploadFile.url!;
   dialogVisible.value = true;
 };
-
+/**
+ * @description: image list exceed limit action
+ * @param {Array} uploadFile uploaded image list
+ */
 const handleExceed: UploadProps["onExceed"] = (uploadFile) => {
   console.log(uploadFile);
 };

@@ -9,10 +9,10 @@ import java.util.Date;
  * Project: blog-parent
  *
  * @className: UserThreadLocal
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/7/25 22:49
+ * @Author ZIRUI QIAO
+ * @Date 2022/7/25 22:49
  */
 public class UserThreadLocal {
     private UserThreadLocal(){}

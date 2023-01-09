@@ -19,10 +19,10 @@ import java.util.concurrent.TimeUnit;
  * Project: pack
  *
  * @className: RedisUtil
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/9/2 14:26
+ * @Author ZIRUI QIAO
+ * @Date 2022/9/2 14:26
  */
 @Component
 public class RedisUtil {
@@ -32,32 +32,32 @@ public class RedisUtil {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     /**
-     * 默认过期时长为24小时，单位：秒
+     * Default expiry time is 24 hours in seconds
      */
     public final static long DEFAULT_EXPIRE = 60 * 60 * 24L;
     /**
-     * 过期时长为1小时，单位：秒
+     * Expires in 1 hour, in seconds
      */
     public final static long HOUR_ONE_EXPIRE = 60 * 60 * 1L;
     /**
-     * 过期时长为6小时，单位：秒
+     * Expiry time is 6 hours in seconds
      */
     public final static long HOUR_SIX_EXPIRE = 60 * 60 * 6L;
     /**
-     * 过期时长为1月，单位：秒
+     * Expires in 1 month, in seconds
      */
     public final static long MONTH_ONE_EXPIRE = 60 * 60 * 24 * 30L;
     /**
-     * 不设置过期时长
+     * No expiry time set
      */
     public final static long NOT_EXPIRE = -1L;
     /**
-     * json转换
+     * json conversion
      */
     private final static Gson gson = new Gson();
 
     /**
-     * 保存数据
+     * Save data
      *
      * @param key
      * @param value
@@ -73,7 +73,7 @@ public class RedisUtil {
     }
 
     /**
-     * 保存数据 默认一天过期
+     * Save data Expires by default one day
      *
      * @param key
      * @param value
@@ -83,7 +83,7 @@ public class RedisUtil {
     }
 
     /**
-     * 获取数据 并修改过期时间
+     * Get the data and change the expiry time
      *
      * @param key
      * @param expire
@@ -106,19 +106,20 @@ public class RedisUtil {
     }
 
     /**
-     * 获取数据
-     *
+     * Access to data
      * @param key
      * @param clazz
-     * @return
+     * @param <T> pojo class
+     * @return: T
+     * @Author: Zirui Qiao
+     * @Date: 2023-01-08 5:59 p.m.
      */
-
     public <T> T get(String key, Class<T> clazz) {
         return get(key, clazz, NOT_EXPIRE);
     }
 
     /**
-     * 获取数据
+     * Access to data
      *
      * @param key
      * @return
@@ -128,7 +129,7 @@ public class RedisUtil {
     }
 
     /**
-     * 匹配查询 例如 test* 查询以test开头的全部key
+     * Matching query e.g. test* Query all keys starting with test
      *
      * @param pattern
      * @return
@@ -138,17 +139,16 @@ public class RedisUtil {
     }
 
     /**
-     * 匹配删除 test* 删除以test开头的全部key
+     * Match Delete test* Delete all keys starting with test
      *
      * @param pattern
-     * @return
      */
     public void deleteByPattern(String pattern) {
         redisTemplate.delete(keys(pattern));
     }
 
     /**
-     * 删除指定的key
+     * Delete the specified key
      *
      * @param key
      */
@@ -157,7 +157,7 @@ public class RedisUtil {
     }
 
     /**
-     * 批量删除
+     * Bulk delete
      *
      * @param keys
      */
@@ -166,7 +166,7 @@ public class RedisUtil {
     }
 
     /**
-     * 获取指定的键值对
+     * Get the specified key-value pair
      *
      * @param key
      * @param field
@@ -177,7 +177,7 @@ public class RedisUtil {
     }
 
     /**
-     * 获取全部的键值对
+     * Get all key-value pairs
      *
      * @param key
      * @return
@@ -193,7 +193,7 @@ public class RedisUtil {
     }
 
     /**
-     * 批量保存 默认一天过期
+     * Batch save Default one day expiry
      *
      * @param key
      * @param map
@@ -203,7 +203,7 @@ public class RedisUtil {
     }
 
     /**
-     * 批量保存 自定义过期时间
+     * Batch saving Customised expiry times
      *
      * @param key
      * @param map
@@ -218,7 +218,7 @@ public class RedisUtil {
     }
 
     /**
-     * 新增hashMap值 默认一天过期
+     * Add a new hashMap value Default expires in one day
      *
      * @param key
      * @param field
@@ -229,7 +229,7 @@ public class RedisUtil {
     }
 
     /**
-     * 新增hashMap值 自定义过期时间
+     * New hashMap value Custom expiry time
      *
      * @param key
      * @param field
@@ -245,7 +245,7 @@ public class RedisUtil {
     }
 
     /**
-     * 修改过期时间
+     * Modify expiry time
      *
      * @param key
      * @param expire
@@ -255,7 +255,7 @@ public class RedisUtil {
     }
 
     /**
-     * 删除变量中的键值对
+     * Deleting key-value pairs from variables
      *
      * @param key
      * @param fields
@@ -265,7 +265,7 @@ public class RedisUtil {
     }
 
     /**
-     * 在左边添加元素值 默认一天过期
+     * Add element value to the left Default day expires
      *
      * @param key
      * @param value
@@ -275,7 +275,7 @@ public class RedisUtil {
     }
 
     /**
-     * 在左边添加元素值 自定义过期时间
+     * Add element value on the left Customize expiry time
      *
      * @param key
      * @param value
@@ -290,7 +290,7 @@ public class RedisUtil {
     }
 
     /**
-     * 移除集合中右边的元素
+     * Remove the element to the right of the set
      *
      * @param key
      * @return
@@ -300,7 +300,7 @@ public class RedisUtil {
     }
 
     /**
-     * 新增 Set 中新增成员
+     * Add new member to Set
      *
      * @param key
      * @param value
@@ -314,7 +314,7 @@ public class RedisUtil {
     }
 
     /**
-     * 删除 Set 中对应的成员
+     * Delete the corresponding member of a Set
      *
      * @param key
      * @param value
@@ -324,7 +324,7 @@ public class RedisUtil {
     }
 
     /**
-     * 获取 Set 全部的成员
+     * Get all members of Set
      *
      * @param key
      * @return
@@ -335,7 +335,7 @@ public class RedisUtil {
     }
 
     /**
-     * 获取 Set 是否包含成员
+     * Gets whether a Set contains members
      *
      * @param key
      * @param value
@@ -346,7 +346,7 @@ public class RedisUtil {
     }
 
     /**
-     * 添加 到 set
+     * Add to set
      *
      * @param key
      * @param value
@@ -360,7 +360,7 @@ public class RedisUtil {
     }
 
     /**
-     * 根据 key 查询 set
+     * Query set by key
      *
      * @param key
      */
@@ -369,7 +369,7 @@ public class RedisUtil {
     }
 
     /**
-     * 删除 Set 中对应的成员
+     * Delete the corresponding member of a Set
      *
      * @param key
      * @param value
@@ -391,7 +391,7 @@ public class RedisUtil {
         return redisTemplate.opsForValue().multiGet(keys);
     }
     /**
-     * JSON数据，转成Object
+     * JSON data, converted to Object
      */
     private <T> T fromJson(String json, Class<T> clazz){
         return gson.fromJson(json, clazz);

@@ -22,10 +22,10 @@ import java.util.List;
  * Project: pack
  *
  * @className: GroupController
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/8/31 14:07
+ * @Author ZIRUI QIAO
+ * @Date 2022/8/31 14:07
  */
 @RestController
 @RequestMapping("group")

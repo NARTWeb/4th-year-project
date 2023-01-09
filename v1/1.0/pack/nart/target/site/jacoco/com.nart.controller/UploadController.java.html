@@ -32,25 +32,40 @@ import java.util.UUID;
     @Autowired
     private LoadDataInDataBase ld;
 
-    @PostMapping
-    public Result upload(@RequestParam(&quot;image&quot;) MultipartFile file) throws IOException {
+    @PostMapping(&quot;{album}&quot;)
+    public Result upload(@RequestPart(&quot;file&quot;) MultipartFile file, @PathVariable(&quot;album&quot;) Integer album) throws IOException {
 <span class="nc" id="L37">        String name = file.getOriginalFilename();</span>
 <span class="nc" id="L38">        String suffix = StringUtils.substringAfterLast(name, &quot;.&quot;);</span>
 <span class="nc" id="L39">        String fileName = UUID.randomUUID().toString() + &quot;.&quot; + suffix;</span>
-<span class="nc" id="L40">        String s = ImgtuUtil.uploadPic(file.getBytes(), fileName);</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">        if(StringUtils.isNotBlank(s)) {</span>
-<span class="nc" id="L42">            return Result.success(s);</span>
-        }
-<span class="nc" id="L44">        return Result.fail(ErrorCode.UPLOAD_ERROR);</span>
+<span class="nc" id="L40">        String s = ImgtuUtil.uploadPic(file.getBytes(), fileName, album);</span>
 
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if(StringUtils.isNotBlank(s)) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            if(s.equals(&quot;400&quot;)) {</span>
+<span class="nc" id="L44">                return Result.fail(ErrorCode.UPLOAD_REPEAT_ERROR);</span>
+            }
+<span class="nc" id="L46">            return Result.success(s);</span>
+        }
+<span class="nc" id="L48">        return Result.fail(ErrorCode.UPLOAD_ERROR);</span>
     }
 
+    @PutMapping(&quot;delete/{id}&quot;)
+    public Result delete(@PathVariable(&quot;id&quot;) String id) throws IOException {
+<span class="nc" id="L53">        String s = ImgtuUtil.deletePic(id);</span>
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if(StringUtils.isNotBlank(s)) {</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            if(s.equals(&quot;400&quot;))</span>
+<span class="nc" id="L57">                return Result.fail(ErrorCode.ALREADY_DELETE_ERROR);</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            else if (s.equals(&quot;200&quot;))</span>
+<span class="nc" id="L59">                return Result.success(s);</span>
+        }
+<span class="nc" id="L61">        return Result.fail(ErrorCode.UPLOAD_DELETE_ERROR);</span>
+    }
 
     @GetMapping(&quot;test&quot;)
     public Result test() {
-<span class="nc" id="L51">        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();</span>
-<span class="nc" id="L52">        fakeDataGenerator.generateTestData(1);</span>
-<span class="nc" id="L53">        return Result.success(&quot;yes&quot;);</span>
+<span class="nc" id="L66">        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();</span>
+<span class="nc" id="L67">        fakeDataGenerator.generateTestData(1);</span>
+<span class="nc" id="L68">        return Result.success(&quot;yes&quot;);</span>
     }
 
 

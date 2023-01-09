@@ -48,14 +48,14 @@ import java.io.IOException;
 <span class="nc" id="L48">            return true;</span>
         }
 <span class="nc" id="L50">        String token = request.getHeader(&quot;Authorization&quot;);</span>
-<span class="nc" id="L51">        System.out.println(&quot;token: &quot; + token);</span>
+//        System.out.println(&quot;token: &quot; + token);
 
-<span class="nc" id="L53">        log.info(&quot;=================request start===========================&quot;);</span>
+//        log.info(&quot;=================request start===========================&quot;);
 <span class="nc" id="L54">        String requestURI = request.getRequestURI();</span>
-<span class="nc" id="L55">        log.info(&quot;request uri:{}&quot;,requestURI);</span>
-<span class="nc" id="L56">        log.info(&quot;request method:{}&quot;,request.getMethod());</span>
-<span class="nc" id="L57">        log.info(&quot;token:{}&quot;, token);</span>
-<span class="nc" id="L58">        log.info(&quot;=================request end===========================&quot;);</span>
+//        log.info(&quot;request uri:{}&quot;,requestURI);
+//        log.info(&quot;request method:{}&quot;,request.getMethod());
+//        log.info(&quot;token:{}&quot;, token);
+//        log.info(&quot;=================request end===========================&quot;);
 
 <span class="nc bnc" id="L60" title="All 2 branches missed.">        if(StringUtils.isBlank(token)) {</span>
 <span class="nc" id="L61">            noLogin(response);</span>
