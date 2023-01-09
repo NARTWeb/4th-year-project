@@ -9,7 +9,7 @@
       2. Change Group Avatar
       3. Change Group Notice
       4. Invite Friends to join the Groups
-  * @Author: Zirui Qiao
+  * @Author: Shizhong Shang
   * @Date: 2022/12/25 12:22
   * @LastEditor: Zirui Qiao
   * @LastEditTime: 2023/01/03 13:04

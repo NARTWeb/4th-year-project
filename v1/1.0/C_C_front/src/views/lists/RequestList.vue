@@ -1,6 +1,6 @@
 <!--
   * @FileDescription: Request List Page, show all friend requests
-  * @Author: Zirui Qiao
+  * @Author: Shizhong Shang
   * @Date: 2022/12/25 12:19
   * @LastEditor: Zirui Qiao
   * @LastEditTime: 2023/01/02 13:02
