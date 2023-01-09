@@ -151,6 +151,7 @@ function loadTest() {
  */
 function load() {
   if (!loading.value && !nodata.value) {
+    loading.value = true;
     showMyStatusList(token.value, "-1", page)
       .then((res) => {
         if (res.data.success) {
