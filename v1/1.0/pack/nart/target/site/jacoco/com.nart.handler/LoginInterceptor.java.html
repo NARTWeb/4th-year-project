@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginInterceptor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.handler</a> &gt; <span class="el_source">LoginInterceptor.java</span></div><h1>LoginInterceptor.java</h1><pre class="source lang-java linenums">package com.nart.handler;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginInterceptor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nart</a> &gt; <a href="index.source.html" class="el_package">com.nart.handler</a> &gt; <span class="el_source">LoginInterceptor.java</span></div><h1>LoginInterceptor.java</h1><pre class="source lang-java linenums">package com.nart.handler;
 
 import com.nart.pojo.User;
 import com.nart.service.LoginService;
@@ -22,10 +22,10 @@ import java.io.IOException;
  * Project: blog-parent
  *
  * @className: LoginInterceptor
- * @Description: TODO
+ *  TODO
  * @version: v1.8.0
- * @author: ZIRUI QIAO
- * @date: 2022/7/25 22:22
+ * @Author ZIRUI QIAO
+ * @Date 2022/7/25 22:22
  */
 @Component
 <span class="fc" id="L31">@Slf4j</span>
@@ -37,11 +37,11 @@ import java.io.IOException;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 在执行controller方法(Handler)之前进行执行
-        /**
-         * 1. 需要判断 请求的接口路径是否为 HandlerMethod （controller方法）
-         * 2. 判断 token是否为空，如果为空，未登录 跳转登录
-         * 3. 验证token 登陆验证
-         * 4. 成功即放行
+        /** 1.
+         * 1. need to determine if the requested interface path is HandlerMethod (controller method)
+         * 2. determine if the token is empty, if empty, not logged in Jump to login
+         * 3. verify the token Login verification
+         * 4. release on success
          */
 <span class="nc bnc" id="L46" title="All 2 branches missed.">        if(!(handler instanceof HandlerMethod)) {</span>
             // allow access to static

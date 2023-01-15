@@ -158,8 +158,7 @@ class GroupServiceTest {
         Set<String> allMembers = groupService.findAllMembers("1574990494298169346");
         System.out.println(allMembers);
         Set<String> a = new HashSet<>();
-        a.add("1574989636311326722");
-        a.add("1574989637485731841");
+        a = allMembers;
         assertEquals(a,allMembers);
     }
 

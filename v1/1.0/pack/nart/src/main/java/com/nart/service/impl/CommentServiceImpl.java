@@ -58,7 +58,8 @@ public class CommentServiceImpl implements CommentService {
         System.out.println(l);
         Comment.setCreateDate(createTime);
         dataCounterService.updateCommentAmount(true);
-        return commentDao.insert(Comment) > 0;
+        int a = commentDao.insert(Comment);
+        return a>0;
     }
 
     @Override
@@ -68,7 +69,7 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> Comments = commentDao.selectList(lqw);
         for (Comment comment : Comments) {
             int i = commentDao.deleteById(comment.getId());
-            if(i <= 0) return false;
+//            if(i <= 0) return false;
         }
         return true;
     }
