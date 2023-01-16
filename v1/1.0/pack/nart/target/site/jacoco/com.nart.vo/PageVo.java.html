@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 
-<span class="pc bnc" id="L7" title="All 10 branches missed.">@Data</span>
+<span class="nc bnc" id="L7" title="All 10 branches missed.">@Data</span>
 public class PageVo {
-<span class="fc" id="L9">    private int pageSize;</span>
-<span class="fc" id="L10">    private int pageNum;</span>
+<span class="nc" id="L9">    private int pageSize;</span>
+<span class="nc" id="L10">    private int pageNum;</span>
 
     public &lt;T&gt; IPage&lt;T&gt; toIPage(Class&lt;T&gt; type) {
 <span class="nc" id="L13">        return new Page&lt;T&gt;(this.pageNum, this.pageSize);</span>

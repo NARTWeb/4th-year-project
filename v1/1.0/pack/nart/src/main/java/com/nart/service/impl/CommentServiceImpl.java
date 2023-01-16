@@ -59,7 +59,12 @@ public class CommentServiceImpl implements CommentService {
         Comment.setCreateDate(createTime);
         dataCounterService.updateCommentAmount(true);
         int a = commentDao.insert(Comment);
-        return a>0;
+//        System.out.println(a);
+        boolean r = false;
+        if (a == 1){
+            r = true;
+        }
+        return r;
     }
 
     @Override
