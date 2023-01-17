@@ -64,13 +64,13 @@ import java.util.concurrent.TimeUnit;
      * @param expire
      */
     public void set(String key, Object value, long expire) {
-<span class="nc bnc" id="L67" title="All 4 branches missed.">        if (!StringUtils.isBlank(key) &amp;&amp; value != null) {</span>
-<span class="nc" id="L68">            redisTemplate.opsForValue().set(key, value);</span>
+<span class="pc bpc" id="L67" title="2 of 4 branches missed.">        if (!StringUtils.isBlank(key) &amp;&amp; value != null) {</span>
+<span class="fc" id="L68">            redisTemplate.opsForValue().set(key, value);</span>
         }
-<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
-<span class="nc" id="L71">            expire(key, expire);</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
+<span class="fc" id="L71">            expire(key, expire);</span>
         }
-<span class="nc" id="L73">    }</span>
+<span class="fc" id="L73">    }</span>
 
     /**
      * Save data Expires by default one day
@@ -98,11 +98,11 @@ import java.util.concurrent.TimeUnit;
     }
 
     public &lt;T&gt; T get(String key, Class&lt;T&gt; clazz, long expire) {
-<span class="nc" id="L101">        String value = stringRedisTemplate.opsForValue().get(key);</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
+<span class="fc" id="L101">        String value = stringRedisTemplate.opsForValue().get(key);</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (expire != NOT_EXPIRE) {</span>
 <span class="nc" id="L103">            redisTemplate.expire(key, expire, TimeUnit.SECONDS);</span>
         }
-<span class="nc bnc" id="L105" title="All 2 branches missed.">        return value == null ? null : fromJson(value, clazz);</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        return value == null ? null : fromJson(value, clazz);</span>
     }
 
     /**
@@ -115,7 +115,7 @@ import java.util.concurrent.TimeUnit;
      * @Date: 2023-01-08 5:59 p.m.
      */
     public &lt;T&gt; T get(String key, Class&lt;T&gt; clazz) {
-<span class="nc" id="L118">        return get(key, clazz, NOT_EXPIRE);</span>
+<span class="fc" id="L118">        return get(key, clazz, NOT_EXPIRE);</span>
     }
 
     /**
@@ -153,8 +153,8 @@ import java.util.concurrent.TimeUnit;
      * @param key
      */
     public void delete(String key) {
-<span class="nc" id="L156">        redisTemplate.delete(key);</span>
-<span class="nc" id="L157">    }</span>
+<span class="fc" id="L156">        redisTemplate.delete(key);</span>
+<span class="fc" id="L157">    }</span>
 
     /**
      * Bulk delete
@@ -251,8 +251,8 @@ import java.util.concurrent.TimeUnit;
      * @param expire
      */
     public void expire(String key, long expire) {
-<span class="nc" id="L254">        redisTemplate.expire(key, expire, TimeUnit.SECONDS);</span>
-<span class="nc" id="L255">    }</span>
+<span class="fc" id="L254">        redisTemplate.expire(key, expire, TimeUnit.SECONDS);</span>
+<span class="fc" id="L255">    }</span>
 
     /**
      * Deleting key-value pairs from variables
@@ -394,7 +394,7 @@ import java.util.concurrent.TimeUnit;
      * JSON data, converted to Object
      */
     private &lt;T&gt; T fromJson(String json, Class&lt;T&gt; clazz){
-<span class="nc" id="L397">        return gson.fromJson(json, clazz);</span>
+<span class="fc" id="L397">        return gson.fromJson(json, clazz);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

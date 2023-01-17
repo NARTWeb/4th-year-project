@@ -44,82 +44,99 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public List&lt;Status&gt; showStatusList(String sid, IPage page) {
-<span class="nc" id="L47">        LambdaQueryWrapper&lt;Status&gt; lqw = new LambdaQueryWrapper&lt;Status&gt;();</span>
-<span class="nc" id="L48">        lqw.eq(Status::getSenderId, sid);</span>
-<span class="nc" id="L49">        lqw.orderBy(true,false, Status::getCreateDate);</span>
-<span class="nc" id="L50">        IPage iPage = statusDao.selectPage(page, lqw);</span>
-<span class="nc" id="L51">        List&lt;Status&gt; records = iPage.getRecords();</span>
-<span class="nc bnc" id="L52" title="All 2 branches missed.">        for (Status record : records) {</span>
-<span class="nc bnc" id="L53" title="All 2 branches missed.">            if(record.getLikes()!=0){</span>
-<span class="nc" id="L54">                record.setUserLike(true);</span>
+<span class="fc" id="L47">        LambdaQueryWrapper&lt;Status&gt; lqw = new LambdaQueryWrapper&lt;Status&gt;();</span>
+<span class="fc" id="L48">        lqw.eq(Status::getSenderId, sid);</span>
+<span class="fc" id="L49">        lqw.orderBy(true,false, Status::getCreateDate);</span>
+<span class="fc" id="L50">        IPage iPage = statusDao.selectPage(page, lqw);</span>
+<span class="fc" id="L51">        List&lt;Status&gt; records = iPage.getRecords();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        for (Status record : records) {</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">            if(record.getLikes()!=0){</span>
+<span class="fc" id="L54">                record.setUserLike(true);</span>
             }
-<span class="nc" id="L56">            String id = record.getId();</span>
-<span class="nc" id="L57">            List&lt;Comment&gt; Comments = commentService.showCommentList(id);</span>
-<span class="nc" id="L58">            record.setCommentList(Comments);</span>
+<span class="fc" id="L56">            String id = record.getId();</span>
+<span class="fc" id="L57">            List&lt;Comment&gt; Comments = commentService.showCommentList(id);</span>
+<span class="fc" id="L58">            record.setCommentList(Comments);</span>
 
-<span class="nc" id="L60">        }</span>
-<span class="nc" id="L61">        return records;</span>
+<span class="fc" id="L60">        }</span>
+<span class="fc" id="L61">        return records;</span>
     }
 
     @Override
     public List&lt;Status&gt; showAllStatusList(String uid, IPage page) {
 //        User user = userDao.selectById(uid);
-<span class="nc" id="L67">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
-<span class="nc" id="L68">        lqw.eq(Friend::getUid, uid);</span>
-<span class="nc" id="L69">        List&lt;Friend&gt; friends = friendDao.selectList(lqw);</span>
-<span class="nc" id="L70">        List&lt;String&gt; friendIds = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">        for (Friend friend : friends) {</span>
-<span class="nc" id="L72">            friendIds.add(friend.getFid());</span>
-<span class="nc" id="L73">        }</span>
-<span class="nc" id="L74">        friendIds.add(uid);</span>
-<span class="nc" id="L75">        LambdaQueryWrapper&lt;Status&gt; lqw1 = new LambdaQueryWrapper&lt;Status&gt;();</span>
-<span class="nc" id="L76">        lqw1.in(Status::getSenderId, friendIds);</span>
-<span class="nc" id="L77">        lqw1.orderBy(true,false, Status::getCreateDate);</span>
-<span class="nc" id="L78">        IPage&lt;Status&gt; statusPages = statusDao.selectPage(page, lqw1);</span>
-<span class="nc" id="L79">        List&lt;Status&gt; statuses = statusPages.getRecords();</span>
-<span class="nc" id="L80">        List&lt;Status&gt; Allstatuses = new ArrayList&lt;Status&gt;(statuses);</span>
-<span class="nc" id="L81">        Allstatuses.sort((a, b) -&gt; b.getCreateDate().compareTo(a.getCreateDate()));</span>
+<span class="fc" id="L67">        LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
+<span class="fc" id="L68">        lqw.eq(Friend::getUid, uid);</span>
+<span class="fc" id="L69">        List&lt;Friend&gt; friends = friendDao.selectList(lqw);</span>
+<span class="fc" id="L70">        List&lt;String&gt; friendIds = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        for (Friend friend : friends) {</span>
+<span class="fc" id="L72">            friendIds.add(friend.getFid());</span>
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">        friendIds.add(uid);</span>
+<span class="fc" id="L75">        LambdaQueryWrapper&lt;Status&gt; lqw1 = new LambdaQueryWrapper&lt;Status&gt;();</span>
+<span class="fc" id="L76">        lqw1.in(Status::getSenderId, friendIds);</span>
+<span class="fc" id="L77">        lqw1.orderBy(true,false, Status::getCreateDate);</span>
+<span class="fc" id="L78">        IPage&lt;Status&gt; statusPages = statusDao.selectPage(page, lqw1);</span>
+<span class="fc" id="L79">        List&lt;Status&gt; statuses = statusPages.getRecords();</span>
+<span class="fc" id="L80">        List&lt;Status&gt; Allstatuses = new ArrayList&lt;Status&gt;(statuses);</span>
+<span class="pc" id="L81">        Allstatuses.sort((a, b) -&gt; b.getCreateDate().compareTo(a.getCreateDate()));</span>
 
-<span class="nc bnc" id="L83" title="All 2 branches missed.">        for (Status record : Allstatuses) {</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">            if(record.getLikes()!=0){</span>
-<span class="nc" id="L85">                record.setUserLike(true);</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        for (Status record : Allstatuses) {</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">            if(record.getLikes()!=0){</span>
+<span class="fc" id="L85">                record.setUserLike(true);</span>
             }
-<span class="nc" id="L87">            String id = record.getId();</span>
-<span class="nc" id="L88">            List&lt;Comment&gt; Comments = commentService.showCommentList(id);</span>
-<span class="nc" id="L89">            record.setCommentList(Comments);</span>
+<span class="fc" id="L87">            String id = record.getId();</span>
+<span class="fc" id="L88">            List&lt;Comment&gt; Comments = commentService.showCommentList(id);</span>
+<span class="fc" id="L89">            record.setCommentList(Comments);</span>
 
-<span class="nc" id="L91">        }</span>
-<span class="nc" id="L92">        return Allstatuses;</span>
+<span class="fc" id="L91">        }</span>
+<span class="fc" id="L92">        return Allstatuses;</span>
     }
 
     @Override
     public boolean postStatus(Status status) {
-<span class="nc" id="L97">        int insert = statusDao.insert(status);</span>
-<span class="nc" id="L98">        dataCounterService.updateStatusAmount(true);</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">        return insert&gt;0;</span>
+<span class="fc" id="L97">        int insert = statusDao.insert(status);</span>
+<span class="fc" id="L98">        dataCounterService.updateStatusAmount(true);</span>
+<span class="fc" id="L99">        boolean a = false;</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        if (insert == 1){</span>
+<span class="fc" id="L101">            a = true;</span>
+        }
+<span class="fc" id="L103">        return a;</span>
     }
 
     @Override
     public boolean delStatus(String id) {
-<span class="nc" id="L104">        commentService.delComment(id);</span>
-<span class="nc" id="L105">        int id1 = statusDao.deleteById(id);</span>
-<span class="nc" id="L106">        dataCounterService.updateStatusAmount(false);</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">        return id1&gt;0;</span>
+<span class="fc" id="L108">        commentService.delComment(id);</span>
+<span class="fc" id="L109">        int id1 = statusDao.deleteById(id);</span>
+<span class="fc" id="L110">        dataCounterService.updateStatusAmount(false);</span>
+<span class="fc" id="L111">        boolean a = false;</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">        if (id1 == 1){</span>
+<span class="fc" id="L113">            a = true;</span>
+        }
+<span class="fc" id="L115">        return a;</span>
+
     }
 
     @Override
     public boolean likeStatus(String id, boolean like) {
         int i;
-<span class="nc bnc" id="L113" title="All 2 branches missed.">        if(like){</span>
-<span class="nc" id="L114">            Status status = statusDao.selectById(id);</span>
-<span class="nc" id="L115">            status.setLikes(status.getLikes()+1);</span>
-<span class="nc" id="L116">            i = statusDao.updateById(status);</span>
-<span class="nc bnc" id="L117" title="All 2 branches missed.">            return i&gt;0;</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        if(like){</span>
+<span class="fc" id="L123">            Status status = statusDao.selectById(id);</span>
+<span class="fc" id="L124">            status.setLikes(status.getLikes()+1);</span>
+<span class="fc" id="L125">            i = statusDao.updateById(status);</span>
+<span class="fc" id="L126">            boolean a = false;</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">            if (i == 1){</span>
+<span class="fc" id="L128">                a = true;</span>
+            }
+<span class="fc" id="L130">            return a;</span>
         }else{
-<span class="nc" id="L119">            Status status = statusDao.selectById(id);</span>
-<span class="nc" id="L120">            status.setLikes(status.getLikes()-1);</span>
-<span class="nc" id="L121">            i = statusDao.updateById(status);</span>
-<span class="nc bnc" id="L122" title="All 2 branches missed.">            return i&gt;0;</span>
+<span class="fc" id="L132">            Status status = statusDao.selectById(id);</span>
+<span class="fc" id="L133">            status.setLikes(status.getLikes()-1);</span>
+<span class="fc" id="L134">            i = statusDao.updateById(status);</span>
+<span class="fc" id="L135">            boolean a = false;</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">            if (i == 1){</span>
+<span class="fc" id="L137">                a = true;</span>
+            }
+<span class="fc" id="L139">            return a;</span>
         }
 
     }

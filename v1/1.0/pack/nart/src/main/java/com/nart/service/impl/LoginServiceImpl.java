@@ -45,7 +45,7 @@ public class LoginServiceImpl implements LoginService {
         }
         String password = EncryptUtil.encryptPwd(pwd);
         User user = userService.findUser(uname, password);
-
+        System.out.println(user);
         if (user == null) {
             return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_MATCH);
         }

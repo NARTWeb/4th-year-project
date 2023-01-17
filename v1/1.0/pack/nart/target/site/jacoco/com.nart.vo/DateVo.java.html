@@ -5,60 +5,60 @@ import lombok.Data;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-<span class="nc bnc" id="L8" title="All 16 branches missed.">@Data</span>
+<span class="pc bnc" id="L8" title="All 16 branches missed.">@Data</span>
 public class DateVo {
-<span class="nc" id="L10">    private int year;</span>
-<span class="nc" id="L11">    private int month;</span>
-<span class="nc" id="L12">    private int day;</span>
-<span class="nc" id="L13">    private int hour;</span>
-<span class="nc" id="L14">    private int min;</span>
+<span class="fc" id="L10">    private int year;</span>
+<span class="fc" id="L11">    private int month;</span>
+<span class="fc" id="L12">    private int day;</span>
+<span class="fc" id="L13">    private int hour;</span>
+<span class="fc" id="L14">    private int min;</span>
 
     public DateVo getDateToString(long time) {
 
         //System.out.println(time);
 
-<span class="nc" id="L20">        String s = String.valueOf(time);</span>
+<span class="fc" id="L20">        String s = String.valueOf(time);</span>
         String res;
-<span class="nc" id="L22">        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
-<span class="nc" id="L23">        long lt = new Long(s);</span>
-<span class="nc" id="L24">        Date date = new Date(lt);</span>
+<span class="fc" id="L22">        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L23">        long lt = new Long(s);</span>
+<span class="fc" id="L24">        Date date = new Date(lt);</span>
         //yyyy-MM-dd HH:mm:ss
-<span class="nc" id="L26">        res = simpleDateFormat.format(date);</span>
+<span class="fc" id="L26">        res = simpleDateFormat.format(date);</span>
         //System.out.println(res);
-<span class="nc" id="L28">        DateVo dateVo = new DateVo();</span>
-<span class="nc" id="L29">        return createDateVo(res,dateVo);</span>
+<span class="fc" id="L28">        DateVo dateVo = new DateVo();</span>
+<span class="fc" id="L29">        return createDateVo(res,dateVo);</span>
 
 
     }
 
     public DateVo createDateVo(String dateToString, DateVo dateVo){
-<span class="nc" id="L35">        String nian = dateToString.substring(0, 4);</span>
-<span class="nc" id="L36">        int Nian = Integer.parseInt(nian);</span>
+<span class="fc" id="L35">        String nian = dateToString.substring(0, 4);</span>
+<span class="fc" id="L36">        int Nian = Integer.parseInt(nian);</span>
 //        System.out.println(Nian);
-<span class="nc" id="L38">        dateVo.setYear(Nian);</span>
+<span class="fc" id="L38">        dateVo.setYear(Nian);</span>
 
 
-<span class="nc" id="L41">        String yue = dateToString.substring(5, 7);</span>
-<span class="nc" id="L42">        int YUE = Integer.parseInt(yue);</span>
+<span class="fc" id="L41">        String yue = dateToString.substring(5, 7);</span>
+<span class="fc" id="L42">        int YUE = Integer.parseInt(yue);</span>
 //        System.out.println(YUE);
-<span class="nc" id="L44">        dateVo.setMonth(YUE);</span>
+<span class="fc" id="L44">        dateVo.setMonth(YUE);</span>
 
-<span class="nc" id="L46">        String ri = dateToString.substring(8,10);</span>
-<span class="nc" id="L47">        int RI = Integer.parseInt(ri);</span>
+<span class="fc" id="L46">        String ri = dateToString.substring(8,10);</span>
+<span class="fc" id="L47">        int RI = Integer.parseInt(ri);</span>
 //        System.out.println(RI);
-<span class="nc" id="L49">        dateVo.setDay(RI);</span>
+<span class="fc" id="L49">        dateVo.setDay(RI);</span>
 
-<span class="nc" id="L51">        String xiaoshi = dateToString.substring(11,13);</span>
-<span class="nc" id="L52">        int XIAOSHI = Integer.parseInt(xiaoshi);</span>
+<span class="fc" id="L51">        String xiaoshi = dateToString.substring(11,13);</span>
+<span class="fc" id="L52">        int XIAOSHI = Integer.parseInt(xiaoshi);</span>
 //        System.out.println(XIAOSHI);
-<span class="nc" id="L54">        dateVo.setHour(XIAOSHI);</span>
+<span class="fc" id="L54">        dateVo.setHour(XIAOSHI);</span>
 
-<span class="nc" id="L56">        String fenzhong = dateToString.substring(14,16);</span>
-<span class="nc" id="L57">        int Fen = Integer.parseInt(fenzhong);</span>
+<span class="fc" id="L56">        String fenzhong = dateToString.substring(14,16);</span>
+<span class="fc" id="L57">        int Fen = Integer.parseInt(fenzhong);</span>
 //        System.out.println(Fen);
-<span class="nc" id="L59">        dateVo.setMin(Fen);</span>
+<span class="fc" id="L59">        dateVo.setMin(Fen);</span>
 
-<span class="nc" id="L61">        return dateVo;</span>
+<span class="fc" id="L61">        return dateVo;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

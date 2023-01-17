@@ -56,176 +56,187 @@ public class ChatServiceImpl implements ChatService {
 //        String id = UserThreadLocal.get().getId();
 //        Object o = redisUtil.get(id);
 
-<span class="nc" id="L59">        int insert = friendChatDao.insert(friendChat);</span>
-<span class="nc" id="L60">        dataCounterService.updateMessageAmount(true);</span>
-<span class="nc bnc" id="L61" title="All 2 branches missed.">        return insert&gt;0;</span>
+<span class="fc" id="L59">        int insert = friendChatDao.insert(friendChat);</span>
+<span class="fc" id="L60">        dataCounterService.updateMessageAmount(true);</span>
+<span class="fc" id="L61">        boolean a = false;</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        if (insert == 1){</span>
+<span class="fc" id="L63">            a = true;</span>
+        }
+<span class="fc" id="L65">        return a;</span>
     }
 
 
 
     @Override
     public boolean sendGroupMsg(GroupChat groupChat) {
-<span class="nc" id="L68">        String groupId = groupChat.getGroupId();</span>
+<span class="fc" id="L72">        String groupId = groupChat.getGroupId();</span>
 
-<span class="nc" id="L70">        Group group = groupDao.selectById(groupId);</span>
-<span class="nc" id="L71">        int userLevel = group.getUserLevel();</span>
-<span class="nc" id="L72">        groupChat.setLevel(userLevel);</span>
-<span class="nc" id="L73">        int insert = groupChatDao.insert(groupChat);</span>
-<span class="nc" id="L74">        dataCounterService.updateMessageAmount(true);</span>
-<span class="nc bnc" id="L75" title="All 2 branches missed.">        return insert&gt;0;</span>
+<span class="fc" id="L74">        Group group = groupDao.selectById(groupId);</span>
+<span class="fc" id="L75">        int userLevel = group.getUserLevel();</span>
+<span class="fc" id="L76">        groupChat.setLevel(userLevel);</span>
+<span class="fc" id="L77">        int insert = groupChatDao.insert(groupChat);</span>
+<span class="fc" id="L78">        dataCounterService.updateMessageAmount(true);</span>
+<span class="fc" id="L79">        boolean a = false;</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (insert == 1){</span>
+<span class="fc" id="L81">            a = true;</span>
+        }
+<span class="fc" id="L83">        return a;</span>
     }
 
     @Override
     public List&lt;FriendChat&gt; receiveFriendMsg(String receiveId, IPage page) {
 
-<span class="nc" id="L81">        LambdaQueryWrapper&lt;FriendChat&gt; lqw = new LambdaQueryWrapper&lt;FriendChat&gt;();</span>
-<span class="nc" id="L82">        lqw.eq(FriendChat::getReceiverId, receiveId);</span>
-<span class="nc" id="L83">        IPage iPage = friendChatDao.selectPage(page, lqw);</span>
-<span class="nc" id="L84">        List&lt;FriendChat&gt; records = iPage.getRecords();</span>
-<span class="nc" id="L85">        return records;</span>
+<span class="fc" id="L89">        LambdaQueryWrapper&lt;FriendChat&gt; lqw = new LambdaQueryWrapper&lt;FriendChat&gt;();</span>
+<span class="fc" id="L90">        lqw.eq(FriendChat::getReceiverId, receiveId);</span>
+<span class="fc" id="L91">        IPage iPage = friendChatDao.selectPage(page, lqw);</span>
+<span class="fc" id="L92">        List&lt;FriendChat&gt; records = iPage.getRecords();</span>
+<span class="fc" id="L93">        return records;</span>
     }
 
     @Override
     public List&lt;GroupChat&gt; receiveGroupMsg(String receiveId, IPage page) {
-<span class="nc" id="L90">        LambdaQueryWrapper&lt;GroupChat&gt; lqw = new LambdaQueryWrapper&lt;GroupChat&gt;();</span>
-<span class="nc" id="L91">        lqw.eq(GroupChat::getGroupId, receiveId);</span>
-<span class="nc" id="L92">        IPage iPage = groupChatDao.selectPage(page, lqw);</span>
-<span class="nc" id="L93">        List&lt;GroupChat&gt; records = iPage.getRecords();</span>
-<span class="nc" id="L94">        return records;</span>
+<span class="fc" id="L98">        LambdaQueryWrapper&lt;GroupChat&gt; lqw = new LambdaQueryWrapper&lt;GroupChat&gt;();</span>
+<span class="fc" id="L99">        lqw.eq(GroupChat::getGroupId, receiveId);</span>
+<span class="fc" id="L100">        IPage iPage = groupChatDao.selectPage(page, lqw);</span>
+<span class="fc" id="L101">        List&lt;GroupChat&gt; records = iPage.getRecords();</span>
+<span class="fc" id="L102">        return records;</span>
     }
 
     @Override
     public List&lt;MessageVo&gt; showFriendHistory(String Id, IPage page) {
-<span class="nc" id="L99">        LambdaQueryWrapper&lt;FriendChat&gt; lqw = new LambdaQueryWrapper&lt;FriendChat&gt;();</span>
-<span class="nc" id="L100">        lqw.eq(FriendChat::getSenderId, Id).eq(FriendChat::getReceiverId,UserThreadLocal.get().getId()).or();</span>
-<span class="nc" id="L101">        lqw.eq(FriendChat::getSenderId, UserThreadLocal.get().getId()).eq(FriendChat::getReceiverId,Id);</span>
-<span class="nc" id="L102">        lqw.orderBy(true,false, FriendChat::getDate);</span>
+<span class="fc" id="L107">        LambdaQueryWrapper&lt;FriendChat&gt; lqw = new LambdaQueryWrapper&lt;FriendChat&gt;();</span>
+<span class="fc" id="L108">        lqw.eq(FriendChat::getSenderId, Id).eq(FriendChat::getReceiverId,UserThreadLocal.get().getId()).or();</span>
+<span class="fc" id="L109">        lqw.eq(FriendChat::getSenderId, UserThreadLocal.get().getId()).eq(FriendChat::getReceiverId,Id);</span>
+<span class="fc" id="L110">        lqw.orderBy(true,false, FriendChat::getDate);</span>
 
-<span class="nc" id="L104">        IPage iPage = friendChatDao.selectPage(page, lqw);</span>
-<span class="nc" id="L105">        List&lt;FriendChat&gt; records = iPage.getRecords();</span>
+<span class="fc" id="L112">        IPage iPage = friendChatDao.selectPage(page, lqw);</span>
+<span class="fc" id="L113">        List&lt;FriendChat&gt; records = iPage.getRecords();</span>
         //System.out.println(records);
-<span class="nc" id="L107">        MessageVo messageVo = new MessageVo();</span>
-<span class="nc" id="L108">        List&lt;MessageVo&gt; messageVos = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L115">        MessageVo messageVo = new MessageVo();</span>
+<span class="fc" id="L116">        List&lt;MessageVo&gt; messageVos = new ArrayList&lt;&gt;();</span>
 
-<span class="nc bnc" id="L110" title="All 2 branches missed.">        for (FriendChat record : records) {</span>
-<span class="nc" id="L111">            MessageVo ftransfer = messageVo.Ftransfer(record);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        for (FriendChat record : records) {</span>
+<span class="fc" id="L119">            MessageVo ftransfer = messageVo.Ftransfer(record);</span>
 
-<span class="nc" id="L113">            User user = userDao.selectById(record.getSenderId());</span>
+<span class="fc" id="L121">            User user = userDao.selectById(record.getSenderId());</span>
 //            System.out.println(user);
-<span class="nc bnc" id="L115" title="All 2 branches missed.">            if(user!=null){</span>
-<span class="nc" id="L116">                ftransfer.setSenderName(user.getName());</span>
-<span class="nc" id="L117">                ftransfer.setSenderAvatar(user.getAvatar());</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">            if(user!=null){</span>
+<span class="fc" id="L124">                ftransfer.setSenderName(user.getName());</span>
+<span class="fc" id="L125">                ftransfer.setSenderAvatar(user.getAvatar());</span>
             }
 
-<span class="nc" id="L120">            messageVos.add(ftransfer);</span>
-<span class="nc" id="L121">        }</span>
-<span class="nc" id="L122">        return messageVos;</span>
+<span class="fc" id="L128">            messageVos.add(ftransfer);</span>
+<span class="fc" id="L129">        }</span>
+<span class="fc" id="L130">        return messageVos;</span>
     }
 
     @Override
     public List&lt;MessageVo&gt; showGroupHistory(String gId, IPage page) {
 
-<span class="nc" id="L128">        LambdaQueryWrapper&lt;GroupChat&gt; lqw = new LambdaQueryWrapper&lt;GroupChat&gt;();</span>
-<span class="nc" id="L129">        lqw.eq(GroupChat::getGroupId, gId);</span>
+<span class="fc" id="L136">        LambdaQueryWrapper&lt;GroupChat&gt; lqw = new LambdaQueryWrapper&lt;GroupChat&gt;();</span>
+<span class="fc" id="L137">        lqw.eq(GroupChat::getGroupId, gId);</span>
         // output chat logs by most recent and level max
-<span class="nc" id="L131">        lqw.orderBy(true,false, GroupChat::getLevel, GroupChat::getDate);</span>
+<span class="fc" id="L139">        lqw.orderBy(true,false, GroupChat::getLevel, GroupChat::getDate);</span>
 
-<span class="nc" id="L133">        IPage iPage = groupChatDao.selectPage(page, lqw);</span>
-<span class="nc" id="L134">        List&lt;GroupChat&gt; records = iPage.getRecords();</span>
+<span class="fc" id="L141">        IPage iPage = groupChatDao.selectPage(page, lqw);</span>
+<span class="fc" id="L142">        List&lt;GroupChat&gt; records = iPage.getRecords();</span>
 
-<span class="nc" id="L136">        MessageVo messageVo = new MessageVo();</span>
-<span class="nc" id="L137">        List&lt;MessageVo&gt; messageVos = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L144">        MessageVo messageVo = new MessageVo();</span>
+<span class="fc" id="L145">        List&lt;MessageVo&gt; messageVos = new ArrayList&lt;&gt;();</span>
 
-<span class="nc bnc" id="L139" title="All 2 branches missed.">        for (GroupChat record : records) {</span>
-<span class="nc" id="L140">            MessageVo ftransfer = messageVo.Gtransfer(record);</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        for (GroupChat record : records) {</span>
+<span class="fc" id="L148">            MessageVo ftransfer = messageVo.Gtransfer(record);</span>
 
-<span class="nc" id="L142">            User user = userDao.selectById(record.getSenderId());</span>
-<span class="nc bnc" id="L143" title="All 2 branches missed.">            if (user != null) {</span>
-<span class="nc" id="L144">                ftransfer.setSenderName(user.getName());</span>
-<span class="nc" id="L145">                ftransfer.setSenderAvatar(user.getAvatar());</span>
+<span class="fc" id="L150">            User user = userDao.selectById(record.getSenderId());</span>
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">            if (user != null) {</span>
+<span class="fc" id="L152">                ftransfer.setSenderName(user.getName());</span>
+<span class="fc" id="L153">                ftransfer.setSenderAvatar(user.getAvatar());</span>
             }
-<span class="nc" id="L147">            messageVos.add(ftransfer);</span>
-<span class="nc" id="L148">        }</span>
+<span class="fc" id="L155">            messageVos.add(ftransfer);</span>
+<span class="fc" id="L156">        }</span>
 
-<span class="nc" id="L150">        return messageVos;</span>
+<span class="fc" id="L158">        return messageVos;</span>
 
     }
 
     @Override
     public boolean leaveRoom(String roomId, Boolean isF) {
-<span class="nc bnc" id="L156" title="All 2 branches missed.">        if (isF){</span>
-<span class="nc" id="L157">            LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
-<span class="nc" id="L158">            lqw.eq(Friend::getFid, roomId);</span>
-<span class="nc" id="L159">            lqw.eq(Friend::getUid, UserThreadLocal.get().getId());</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        if (isF){</span>
+<span class="fc" id="L165">            LambdaQueryWrapper&lt;Friend&gt; lqw = new LambdaQueryWrapper&lt;Friend&gt;();</span>
+<span class="fc" id="L166">            lqw.eq(Friend::getFid, roomId);</span>
+<span class="fc" id="L167">            lqw.eq(Friend::getUid, UserThreadLocal.get().getId());</span>
 
-<span class="nc" id="L161">            Friend friend = friendDao.selectOne(lqw);</span>
-<span class="nc" id="L162">            long timeStamp = getTimeStamp();</span>
-<span class="nc" id="L163">            friend.setLeaveTime(timeStamp);</span>
-<span class="nc" id="L164">            int i = friendDao.updateById(friend);</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">            return i&gt;0;</span>
+<span class="fc" id="L169">            Friend friend = friendDao.selectOne(lqw);</span>
+<span class="fc" id="L170">            long timeStamp = getTimeStamp();</span>
+<span class="fc" id="L171">            friend.setLeaveTime(timeStamp);</span>
+<span class="fc" id="L172">            int i = friendDao.updateById(friend);</span>
+<span class="fc" id="L173">            boolean e = false;</span>
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">            if (i == 1){</span>
+<span class="fc" id="L175">                e = true;</span>
+            }
+<span class="fc" id="L177">            return e;</span>
         }else {
-<span class="nc" id="L167">            LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
-<span class="nc" id="L168">            lqw.eq(UserGroup::getGid, roomId);</span>
-<span class="nc" id="L169">            lqw.eq(UserGroup::getUid, UserThreadLocal.get().getId());</span>
-<span class="nc" id="L170">            UserGroup userGroup = userGroupDao.selectOne(lqw);</span>
+<span class="fc" id="L179">            LambdaQueryWrapper&lt;UserGroup&gt; lqw = new LambdaQueryWrapper&lt;UserGroup&gt;();</span>
+<span class="fc" id="L180">            lqw.eq(UserGroup::getGid, roomId);</span>
+<span class="fc" id="L181">            lqw.eq(UserGroup::getUid, UserThreadLocal.get().getId());</span>
+<span class="fc" id="L182">            UserGroup userGroup = userGroupDao.selectOne(lqw);</span>
 
-<span class="nc" id="L172">            long t = getTimeStamp();</span>
+<span class="fc" id="L184">            long t = getTimeStamp();</span>
 
-//            System.out.println(t);
-//            int statusid1 = Math.toIntExact(t);
-//            System.out.println(&quot;int&quot;+statusid1);
-//
-//            String timeStamp = String.valueOf(statusid1);
-//            String wei = &quot;000&quot;;
-//            String he = timeStamp+wei;
-//            System.out.println(he);
-
-<span class="nc" id="L183">            userGroup.setUserLevelTime(t);</span>
-<span class="nc" id="L184">            int i = userGroupDao.updateById(userGroup);</span>
-<span class="nc bnc" id="L185" title="All 2 branches missed.">            return i&gt;0;</span>
+<span class="fc" id="L186">            userGroup.setUserLevelTime(t);</span>
+<span class="fc" id="L187">            int i = userGroupDao.updateById(userGroup);</span>
+<span class="fc" id="L188">            boolean a = false;</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">            if (i == 1){</span>
+<span class="fc" id="L190">                a = true;</span>
+            }
+<span class="fc" id="L192">            return a;</span>
         }
 
     }
 
     @Override
     public boolean existNewMsg(String id, Boolean isF, Long leaveTime) {
-<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        if (isF){</span>
-<span class="nc" id="L193">            LambdaQueryWrapper&lt;FriendChat&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
-<span class="nc" id="L194">            lqw.eq(FriendChat::getSenderId, id)</span>
-<span class="nc" id="L195">                    .eq(FriendChat::getReceiverId, UserThreadLocal.get().getId())</span>
-<span class="nc" id="L196">                    .ge(FriendChat::getDate, leaveTime);</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">        if (isF){</span>
+<span class="fc" id="L200">            LambdaQueryWrapper&lt;FriendChat&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L201">            lqw.eq(FriendChat::getSenderId, id)</span>
+<span class="fc" id="L202">                    .eq(FriendChat::getReceiverId, UserThreadLocal.get().getId())</span>
+<span class="fc" id="L203">                    .ge(FriendChat::getDate, leaveTime);</span>
 
-<span class="nc" id="L198">            FriendChat friendChat = friendChatDao.selectOne(lqw);</span>
-<span class="nc bnc" id="L199" title="All 2 branches missed.">            if (friendChat != null) return true;</span>
-<span class="nc" id="L200">            else return false;</span>
+<span class="fc" id="L205">            FriendChat friendChat = friendChatDao.selectOne(lqw);</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">            if (friendChat != null) return true;</span>
+<span class="fc" id="L207">            else return false;</span>
         }else {
-<span class="fc" id="L202">            LambdaQueryWrapper&lt;GroupChat&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
-<span class="fc" id="L203">            lqw.eq(GroupChat::getGroupId, id)</span>
-<span class="fc" id="L204">                    .ge(GroupChat::getDate, leaveTime);</span>
+<span class="fc" id="L209">            LambdaQueryWrapper&lt;GroupChat&gt; lqw = new LambdaQueryWrapper&lt;&gt;();</span>
+<span class="fc" id="L210">            lqw.eq(GroupChat::getGroupId, id)</span>
+<span class="fc" id="L211">                    .ge(GroupChat::getDate, leaveTime);</span>
 
-<span class="fc" id="L206">            GroupChat groupChat = groupChatDao.selectOne(lqw);</span>
-<span class="pc bpc" id="L207" title="1 of 2 branches missed.">            if (groupChat != null) return true;</span>
-<span class="fc" id="L208">            else return false;</span>
+<span class="fc" id="L213">            List&lt;GroupChat&gt; groupChats = groupChatDao.selectList(lqw);</span>
+//            System.out.println(groupChats);
+<span class="fc" id="L215">            int size = groupChats.size();</span>
+//            System.out.println(size);
+<span class="fc bfc" id="L217" title="All 2 branches covered.">            if (size != 0) return true;</span>
+<span class="fc" id="L218">            else return false;</span>
         }
     }
 
     private long getTimeStamp() {
-<span class="nc" id="L213">        String currentDate = getCurrentDate();</span>
-<span class="nc" id="L214">        SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
-<span class="nc" id="L215">        Date date = new Date();</span>
+<span class="fc" id="L223">        String currentDate = getCurrentDate();</span>
+<span class="fc" id="L224">        SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
+<span class="fc" id="L225">        Date date = new Date();</span>
         try {
-<span class="nc" id="L217">            date = sf.parse(currentDate);</span>
-<span class="nc" id="L218">        } catch (ParseException e) {</span>
-<span class="nc" id="L219">            e.printStackTrace();</span>
-<span class="nc" id="L220">        }</span>
-<span class="nc" id="L221">        long s = Long.parseLong(String.valueOf(date.getTime()));</span>
-<span class="nc" id="L222">        return s;</span>
+<span class="fc" id="L227">            date = sf.parse(currentDate);</span>
+<span class="nc" id="L228">        } catch (ParseException e) {</span>
+<span class="nc" id="L229">            e.printStackTrace();</span>
+<span class="fc" id="L230">        }</span>
+
+<span class="fc" id="L232">        long s = Long.parseLong(String.valueOf(date.getTime()));</span>
+<span class="fc" id="L233">        return s;</span>
     }
 
     private static String getCurrentDate() {
-<span class="nc" id="L226">        Date d = new Date();</span>
-<span class="nc" id="L227">        SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
-<span class="nc" id="L228">        return sf.format(d);</span>
+<span class="fc" id="L237">        Date d = new Date();</span>
+<span class="fc" id="L238">        SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
+<span class="fc" id="L239">        return sf.format(d);</span>
     }
 
 

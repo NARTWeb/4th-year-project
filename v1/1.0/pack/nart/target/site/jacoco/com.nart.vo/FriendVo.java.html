@@ -5,29 +5,29 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 @Service
-<span class="pc bnc" id="L8" title="All 46 branches missed.">@Data</span>
+<span class="pc bpc" id="L8" title="33 of 46 branches missed.">@Data</span>
 public class FriendVo {
-<span class="nc" id="L10">    private String id;</span>
-<span class="nc" id="L11">    private String name;</span>
-<span class="nc" id="L12">    private String avatar;</span>
-<span class="nc" id="L13">    private Integer state;</span>
-<span class="nc" id="L14">    private Boolean newMsg;</span>
+<span class="fc" id="L10">    private String id;</span>
+<span class="fc" id="L11">    private String name;</span>
+<span class="fc" id="L12">    private String avatar;</span>
+<span class="fc" id="L13">    private Integer state;</span>
+<span class="fc" id="L14">    private Boolean newMsg;</span>
 
 //    @Autowired
 //    private UserDao userDao;
 
     public FriendVo transfer(Friend friend){
-<span class="nc" id="L20">        FriendVo friendVo = new FriendVo();</span>
-<span class="nc" id="L21">        friendVo.setId(friend.getFid());</span>
-<span class="nc" id="L22">        friendVo.setAvatar(friend.getAvatar());</span>
-<span class="nc" id="L23">        friendVo.setName(friend.getName());</span>
-<span class="nc" id="L24">        friendVo.setState(Integer.valueOf(friend.getState()));</span>
-<span class="nc" id="L25">        friendVo.setNewMsg(friend.getNewMessage());</span>
+<span class="fc" id="L20">        FriendVo friendVo = new FriendVo();</span>
+<span class="fc" id="L21">        friendVo.setId(friend.getFid());</span>
+<span class="fc" id="L22">        friendVo.setAvatar(friend.getAvatar());</span>
+<span class="fc" id="L23">        friendVo.setName(friend.getName());</span>
+<span class="fc" id="L24">        friendVo.setState(Integer.valueOf(friend.getState()));</span>
+<span class="fc" id="L25">        friendVo.setNewMsg(friend.getNewMessage());</span>
 
 
 //        User user = userDao.selectById(friend.getUid());
 //        friendVo.setUname(user.getName());
-<span class="nc" id="L30">        return friendVo;</span>
+<span class="fc" id="L30">        return friendVo;</span>
 
     }
 }

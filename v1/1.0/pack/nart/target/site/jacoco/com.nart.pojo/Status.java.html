@@ -8,25 +8,25 @@ import lombok.Data;
 
 import java.util.List;
 
-<span class="nc bnc" id="L11" title="All 64 branches missed.">@Data</span>
+<span class="pc bnc" id="L11" title="All 64 branches missed.">@Data</span>
 @TableName(&quot;tb_status&quot;)
 public class Status {
     @TableId(type = IdType.ASSIGN_ID)
-<span class="nc" id="L15">    private String id;</span>
+<span class="fc" id="L15">    private String id;</span>
     @TableField(value = &quot;sid&quot;)
-<span class="nc" id="L17">    private String senderId;</span>
-<span class="nc" id="L18">    private String text;</span>
-<span class="nc" id="L19">    private String pics;</span>
-<span class="nc" id="L20">    private int likes;</span>
+<span class="fc" id="L17">    private String senderId;</span>
+<span class="fc" id="L18">    private String text;</span>
+<span class="fc" id="L19">    private String pics;</span>
+<span class="fc" id="L20">    private int likes;</span>
     @TableField(value = &quot;date&quot;)
-<span class="nc" id="L22">    private Long createDate;</span>
+<span class="fc" id="L22">    private Long createDate;</span>
 
 
     @TableField(exist = false)
-<span class="nc" id="L26">    private Boolean userLike;</span>
+<span class="fc" id="L26">    private Boolean userLike;</span>
 
     @TableField(exist = false)
-<span class="nc" id="L29">    private List&lt;Comment&gt; commentList;</span>
+<span class="fc" id="L29">    private List&lt;Comment&gt; commentList;</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

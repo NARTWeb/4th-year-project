@@ -10,19 +10,19 @@ import org.springframework.stereotype.Service;
 @Service
 <span class="pc bnc" id="L11" title="All 54 branches missed.">@Data</span>
 public class RequestVo {
-<span class="nc" id="L13">    private String id;</span>
-<span class="nc" id="L14">    private String friendId;</span>
-<span class="nc" id="L15">    private String msg;</span>
-<span class="nc" id="L16">    private String friendName;</span>
-<span class="nc" id="L17">    private String friendAvatar;</span>
-<span class="nc" id="L18">    private String senderName;</span>
+<span class="fc" id="L13">    private String id;</span>
+<span class="fc" id="L14">    private String friendId;</span>
+<span class="fc" id="L15">    private String msg;</span>
+<span class="fc" id="L16">    private String friendName;</span>
+<span class="fc" id="L17">    private String friendAvatar;</span>
+<span class="fc" id="L18">    private String senderName;</span>
 
 
     public RequestVo transfer(FriendReq friendReq){
-<span class="nc" id="L22">        RequestVo requestVo = new RequestVo();</span>
-<span class="nc" id="L23">        requestVo.setId(friendReq.getId());</span>
-<span class="nc" id="L24">        requestVo.setFriendId(friendReq.getSenderId());</span>
-<span class="nc" id="L25">        requestVo.setMsg(friendReq.getMsg());</span>
+<span class="fc" id="L22">        RequestVo requestVo = new RequestVo();</span>
+<span class="fc" id="L23">        requestVo.setId(friendReq.getId());</span>
+<span class="fc" id="L24">        requestVo.setFriendId(friendReq.getSenderId());</span>
+<span class="fc" id="L25">        requestVo.setMsg(friendReq.getMsg());</span>
 
 
 
@@ -30,7 +30,7 @@ public class RequestVo {
         ;
 
 
-<span class="nc" id="L33">        return requestVo;</span>
+<span class="fc" id="L33">        return requestVo;</span>
     }
 
 }
