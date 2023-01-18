@@ -64,10 +64,10 @@ public class FriendServiceImpl implements FriendService {
 <span class="fc" id="L64">            record.setAvatar(user.getAvatar());</span>
 <span class="fc" id="L65">            int userOnline = user.getUserOnline();</span>
 <span class="fc" id="L66">            System.out.println(userOnline);</span>
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">            if(userOnline==1){</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            if(userOnline==1){</span>
 <span class="fc" id="L68">                record.setOnline(true);</span>
             }else {
-<span class="nc" id="L70">                record.setOnline(false);</span>
+<span class="fc" id="L70">                record.setOnline(false);</span>
             }
 <span class="fc" id="L72">            boolean hasNewMsg = chatService.existNewMsg(fid, true, record.getLeaveTime());</span>
 <span class="fc" id="L73">            record.setNewMessage(hasNewMsg);</span>
@@ -131,12 +131,12 @@ public class FriendServiceImpl implements FriendService {
 <span class="fc" id="L131">        int end  = size + start;</span>
 <span class="fc" id="L132">        System.out.println(userVos);</span>
         List&lt;UserVo&gt; userVos1;
-<span class="pc bpc" id="L134" title="1 of 2 branches missed.">        if(start &gt; userVos.size()) {</span>
-<span class="nc" id="L135">            userVos1 = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L136">            return userVos1;</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        if(start &gt; userVos.size()) {</span>
+<span class="fc" id="L135">            userVos1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L136">            return userVos1;</span>
         }
-<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if(end &gt; userVos.size()) {</span>
-<span class="nc" id="L139">            end = userVos.size();</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        if(end &gt; userVos.size()) {</span>
+<span class="fc" id="L139">            end = userVos.size();</span>
         }
 <span class="fc" id="L141">        userVos1 = userVos.subList(start,end);</span>
 

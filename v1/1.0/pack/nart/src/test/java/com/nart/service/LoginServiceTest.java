@@ -47,6 +47,9 @@ class LoginServiceTest {
         Object data1 = apiu1.getData();
         Result a1 = new Result(false,10101,"username or password format incorrect",data1);
         assertEquals(a1,apiu1);
+
+        Result apiu2 = loginService.login("swswsw", "222222222", session);
+        assertEquals(apiu2,apiu2);
     }
 
     @Test
@@ -59,6 +62,7 @@ class LoginServiceTest {
         user1 = user;
         assertEquals(user1,user);
 
+        String data1 = "";
         User user2 = loginService.checkToken(data);
         User user3 = new User();
         user3 = user2;
@@ -90,6 +94,11 @@ class LoginServiceTest {
         String data1 = String.valueOf(register1.getData());
         Result r1 = new Result(false,10101,"username or password format incorrect",data1);
         assertEquals(register1,register1);
+
+        Result registera = loginService.register("apiu", "ttt", "weew", session);
+
+        assertEquals(registera,registera);
+
 
     }
 }

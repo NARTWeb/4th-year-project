@@ -64,8 +64,8 @@ nart,com.nart.service.impl,CommentServiceImpl,0,141,1,5,0,37,1,6,0,4
 nart,com.nart.service.impl,UserServiceImpl,0,434,15,25,0,97,15,16,0,11
 nart,com.nart.service.impl,DataCounterServiceImpl,0,83,0,10,0,26,0,11,0,6
 nart,com.nart.service.impl,GroupServiceImpl,0,690,7,25,0,175,7,22,0,13
-nart,com.nart.service.impl,LoginServiceImpl,15,200,9,13,6,39,9,7,0,5
-nart,com.nart.service.impl,FriendServiceImpl,13,577,6,22,4,136,6,18,0,10
+nart,com.nart.service.impl,LoginServiceImpl,6,204,6,14,3,40,6,9,0,5
+nart,com.nart.service.impl,FriendServiceImpl,0,590,3,25,0,140,3,21,0,10
 nart,com.nart.service.impl,LoadDataInDataBaseImpl,0,129,0,12,0,32,0,13,0,7
 nart,com.nart.service.impl,StatusServiceImpl,6,281,6,14,0,71,7,10,1,6
 nart,com.nart.service.impl,ChatServiceImpl,3,474,6,18,2,117,6,17,0,11

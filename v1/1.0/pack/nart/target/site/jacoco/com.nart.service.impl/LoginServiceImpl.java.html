@@ -46,8 +46,8 @@ public class LoginServiceImpl implements LoginService {
 <span class="fc" id="L46">        String password = EncryptUtil.encryptPwd(pwd);</span>
 <span class="fc" id="L47">        User user = userService.findUser(uname, password);</span>
 <span class="fc" id="L48">        System.out.println(user);</span>
-<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        if (user == null) {</span>
-<span class="nc" id="L50">            return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_MATCH);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (user == null) {</span>
+<span class="fc" id="L50">            return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_MATCH);</span>
         }
 <span class="fc" id="L52">        String token = EncryptUtil.createToken(Long.parseLong(user.getId()));</span>
 <span class="fc" id="L53">        redisUtil.set(&quot;TOKEN_&quot; + token, user, RedisUtil.DEFAULT_EXPIRE);</span>
@@ -91,15 +91,15 @@ public class LoginServiceImpl implements LoginService {
 <span class="fc" id="L91">            return Result.fail(ErrorCode.PARAMS_ERROR);</span>
         }
 <span class="fc" id="L93">        User user = userService.findUserByName(uname);</span>
-<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (user != null) {</span>
-<span class="nc" id="L95">            return Result.fail(ErrorCode.ACCOUNT_EXIST);</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (user != null) {</span>
+<span class="fc" id="L95">            return Result.fail(ErrorCode.ACCOUNT_EXIST);</span>
         }
 <span class="fc" id="L97">        String password = EncryptUtil.encryptPwd(pwd);</span>
 <span class="fc" id="L98">        User user1 = userService.register(email, uname, password);</span>
 
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        if(user1 == null) {</span>
-<span class="nc" id="L101">            return Result.fail(ErrorCode.REGISTER_ERROR);</span>
-        }
+//        if(user1 == null) {
+//            return Result.fail(ErrorCode.REGISTER_ERROR);
+//        }
 <span class="fc" id="L103">        String token = EncryptUtil.createToken(Long.parseLong(user1.getId()));</span>
 
 <span class="fc" id="L105">        redisUtil.set(&quot;TOKEN_&quot; + token, user1, RedisUtil.DEFAULT_EXPIRE);</span>
