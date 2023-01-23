@@ -14,7 +14,7 @@
           <el-timeline-item
             v-for="status in myStatusList"
             :key="status.statusId"
-            :timestamp="status.createDate"
+            :timestamp= "format(status.createDate)"
             size="large"
             color="#D9F2E3"
             hollow
@@ -46,6 +46,7 @@ import { storeToRefs } from "pinia";
 import MyStatusItem from "@/components/MyStatusItem.vue";
 import { showMyStatusList, deleteStatus } from "@/api/status";
 import { ElMessage } from "element-plus";
+import {format} from "@/utils/time.js";
 
 const props = defineProps({
   uid:{
@@ -124,6 +125,7 @@ function loadTest() {
  */
 function load() {
   if (!loading.value && !nodata.value) {
+    loading.value = true;
     showMyStatusList(token.value, props.uid, page)
       .then((res) => {
         if (res.data.success) {

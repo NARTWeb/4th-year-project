@@ -347,9 +347,9 @@ onMounted(() => {
   }
   window.onbeforeunload= (e) => {
     e = e || window.event;
-    if(e) {
-      e.returnValue = 'Close Notice';
-    }
+//    if(e) {
+//      e.returnValue = 'Close Notice';
+//    }
     ws = "";
     store.logout().then(() => {
       return 'Close Notice';

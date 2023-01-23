@@ -151,8 +151,9 @@ public class FriendServiceImpl implements FriendService {
         lqw.eq(Friend::getFid, uid);
         lqw.eq(Friend::getUid, fid);
         int delete = friendDao.delete(lqw);
+//        System.out.println(delete);
         boolean a = false;
-        if (delete == 1){
+        if (delete >= 1){
             a = true;
         }
         return a;
